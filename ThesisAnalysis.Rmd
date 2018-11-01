@@ -1,5 +1,5 @@
 ---
-title: "Thesis Analysis"
+title: "ThesisAnalysis"
 author: "Kassia Orychock"
 date: '2018-09-17'
 output:
