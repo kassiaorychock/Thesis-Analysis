@@ -2,10 +2,51 @@
 title: "Thesis Analysis"
 author: "Kassia Orychock"
 date: '2018-09-17'
-output: 
+output:
   html_document:
-    keep_md: true
+    keep_md: yes
+  pdf_document: default
 ---
 
 This Rmd file will be used as the file for my Thesis Analysis on causal mediation.
 
+# Selecting data
+```{r}
+setwd("/Users/kassiaorychock/Documents/Thesis/Analysis/Thesis-Analysis")
+getwd()
+```
+
+
+# Reading of Raw Survey Data
+```{r}
+read.csv("Database_recoded_2012-2014_weights_Walkscore_RTA.csv",
+         nrows=5)
+```
+
+# Filtering Out USA Data
+```{r}
+Boston <- filter(Database_recoded_2012_2014_weights_Walkscore_RTA, ville == "Boston")
+
+Chicago <- filter(Database_recoded_2012_2014_weights_Walkscore_RTA, ville == "Chicago")
+
+Detroit <- filter(Database_recoded_2012_2014_weights_Walkscore_RTA, ville == "Détroit")
+
+NewYork <- filter(Database_recoded_2012_2014_weights_Walkscore_RTA, ville == "New-York")
+
+Philadelphie <- filter(Database_recoded_2012_2014_weights_Walkscore_RTA, ville == "Philadelphie")
+```
+
+# Filtering Out Variables in USA Data
+```{r}
+Boston1 <- select(Boston, X1, quest, lang, q54, ville, q1us, q1aut, q46b7, q46b9, q2, q3b, q3c, q3d, q3e, q3f, q3g, q3h, q3i, q13, q14, q15, q16, q17, q18, q19, q20, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q24, q25, q26, q27, q28, q40, q41, q42, q44, q45, q46a, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53)
+```
+
+
+# Descriptive Stats for Boston
+```{r}
+library(Hmisc)
+Hmisc::describe(Boston)
+```
+
+
+  
