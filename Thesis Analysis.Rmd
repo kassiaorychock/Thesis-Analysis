@@ -38,14 +38,14 @@ Philadelphie <- filter(Database_recoded_2012_2014_weights_Walkscore_RTA, ville =
 
 # Filtering Out Variables in USA Data
 ```{r}
-Boston1 <- select(Boston, X1, quest, lang, q54, ville, q1us, q1aut, q46b7, q46b9, q2, q3b, q3c, q3d, q3e, q3f, q3g, q3h, q3i, q13, q14, q15, q16, q17, q18, q19, q20, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q24, q25, q26, q27, q28, q40, q41, q42, q44, q45, q46a, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53)
+Boston1 <- select(Boston, X1, quest, lang, q54, ville, q1us, q1aut, q46b7, q46b9, q2, q13, q14, q15, q16, q17, q18, q19, q20, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q24, q25, q26, q27, q28, q40, q41, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
 ```
 
 
 # Descriptive Stats for Boston
 ```{r}
 library(Hmisc)
-Hmisc::describe(Boston)
+Hmisc::describe(Boston1)
 ```
 
 
