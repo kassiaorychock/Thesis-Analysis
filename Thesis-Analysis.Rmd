@@ -1,0 +1,9 @@
+---
+title: "ThesisAnalysis"
+author: "Kassia Orychock"
+date: '2019-01-14'
+output:
+  html_document:
+    keep_md: yes
+  pdf_document: default
+---
