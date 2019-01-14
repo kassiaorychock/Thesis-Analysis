@@ -1,1 +1,1 @@
-# Thesis-Analysis
+# ThesisAnalysis
