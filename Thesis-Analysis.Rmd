@@ -16,19 +16,12 @@ opts_chunk$set(warning = FALSE)
 
 This Rmd file will be used as the file for my Thesis Analysis on causal mediation.
 
-
-
 # Libraries
 ```{r, warning = FALSE, message = FALSE}
 library(tidyverse)
 library(car)
 library(foreign)
 library(Hmisc)
-```
-
-# Selecting data
-```{r}
-
 ```
 
 # Reading of Raw Survey Data
@@ -149,3 +142,4 @@ lm2 <- lm(bmi ~ WalkScore + DiningandDrinkingScore + + TransitScore + GrocerySco
 summary(lm2)
 confint(lm2)
 ```
+

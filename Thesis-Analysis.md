@@ -12,8 +12,6 @@ output:
 
 This Rmd file will be used as the file for my Thesis Analysis on causal mediation.
 
-
-
 # Libraries
 
 ```r
@@ -22,9 +20,6 @@ library(car)
 library(foreign)
 library(Hmisc)
 ```
-
-# Selecting data
-
 
 # Reading of Raw Survey Data
 
@@ -3782,7 +3777,7 @@ plot(hist_bmi)
 ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 ```
 
-![](Thesis-Analysis_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
+![](Thesis-Analysis_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
 
 
 ### JUNK CODE
@@ -3829,3 +3824,4 @@ lm2 <- lm(bmi ~ WalkScore + DiningandDrinkingScore + + TransitScore + GrocerySco
 summary(lm2)
 confint(lm2)
 ```
+
