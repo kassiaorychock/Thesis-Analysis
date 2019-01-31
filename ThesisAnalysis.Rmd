@@ -68,5 +68,3 @@ Hmisc::describe(Detroit1)
 Hmisc::describe(NewYork1)
 Hmisc::describe(Philadelphie1)
 ```
-
-  

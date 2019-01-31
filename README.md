@@ -1,5 +1,3 @@
 # Thesis-Analysis
 
-Thesis Analysis in RStudio
-
-Commit
+"A line from R"

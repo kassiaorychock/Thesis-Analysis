@@ -1,0 +1,151 @@
+---
+title: "ThesisAnalysis"
+author: "Kassia Orychock"
+date: '2019-01-31'
+output:
+  html_document:
+    keep_md: yes
+  pdf_document: default
+---
+
+```{r, echo = FALSE, warning = FALSE}
+options(scipen = 2, digits = 4)
+library(knitr)
+opts_chunk$set(warning = FALSE)
+```
+
+This Rmd file will be used as the file for my Thesis Analysis on causal mediation.
+
+
+
+# Libraries
+```{r, warning = FALSE, message = FALSE}
+library(tidyverse)
+library(car)
+library(foreign)
+library(Hmisc)
+```
+
+# Selecting data
+```{r}
+
+```
+
+# Reading of Raw Survey Data
+```{r}
+ibiccs_readin <- read.csv("Database_recoded_2012-2014_weights_Walkscore_RTA.csv")
+```
+
+# Filtering Out USA Data
+```{r}
+Boston <- filter(ibiccs_readin, ville == "Boston")
+
+Chicago <- filter(ibiccs_readin, ville == "Chicago")
+
+Detroit <- filter(ibiccs_readin, ville == "Détroit")
+
+NewYork <- filter(ibiccs_readin, ville == "New-York")
+
+Philadelphia <- filter(ibiccs_readin, ville == "Philadelphie")
+
+Montreal <- filter(ibiccs_readin, ville == "Montréal")
+
+Toronto <- filter(ibiccs_readin, ville == "Toronto")
+
+Vancouver <- filter(ibiccs_readin, ville == "Vancouver")
+```
+
+# Filtering Out Variables in USA Data
+```{r}
+ibiccs <- select(ibiccs_readin, RTA_zip, X, quest, lang, q54, ville, q1us, q1aut, q46b7, q46b9, q2, q13, q14, q15, q16, q17, q18, q19, q20, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q24, q25, q26, q27, q28, q40, q41, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
+
+Boston1 <- select(Boston, RTA_zip, X, quest, lang, q54, ville, q1us, q1aut, q46b7, q46b9, q2, q13, q14, q15, q16, q17, q18, q19, q20, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q24, q25, q26, q27, q28, q40, q41, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
+
+Chicago1 <- select(Chicago, RTA_zip, X, quest, lang, q54, ville, q1us, q1aut, q46b7, q46b9, q2, q13, q14, q15, q16, q17, q18, q19, q20, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q24, q25, q26, q27, q28, q40, q41, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
+
+Detroit1 <- select(Detroit, RTA_zip, X, quest, lang, q54, ville, q1us, q1aut, q46b7, q46b9, q2, q13, q14, q15, q16, q17, q18, q19, q20, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q24, q25, q26, q27, q28, q40, q41, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
+
+NewYork1 <- select(NewYork, RTA_zip, X, quest, lang, q54, ville, q1us, q1aut, q46b7, q46b9, q2, q13, q14, q15, q16, q17, q18, q19, q20, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q24, q25, q26, q27, q28, q40, q41, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
+
+Philadelphia1 <- select(Philadelphia, RTA_zip, X, quest, lang, q54, ville, q1us, q1aut, q46b7, q46b9, q2, q13, q14, q15, q16, q17, q18, q19, q20, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q24, q25, q26, q27, q28, q40, q41, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
+
+Montreal1 <- select(Montreal, RTA_zip, X, quest, lang, q54, ville, q1us, q1aut, q46b7, q46b9, q2, q13, q14, q15, q16, q17, q18, q19, q20, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q24, q25, q26, q27, q28, q40, q41, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
+
+Toronto1 <- select(Toronto, RTA_zip, X, quest, lang, q54, ville, q1us, q1aut, q46b7, q46b9, q2, q13, q14, q15, q16, q17, q18, q19, q20, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q24, q25, q26, q27, q28, q40, q41, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
+
+Vancouver1 <- select(Vancouver, RTA_zip, X, quest, lang, q54, ville, q1us, q1aut, q46b7, q46b9, q2, q13, q14, q15, q16, q17, q18, q19, q20, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q24, q25, q26, q27, q28, q40, q41, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
+
+city <- rbind(Philadelphia1, NewYork1, Detroit1, Chicago1, Boston1)
+```
+
+
+# Descriptive Stats for Each City
+```{r}
+Hmisc::describe(Boston1)
+Hmisc::describe(Chicago1)
+Hmisc::describe(Detroit1)
+Hmisc::describe(NewYork1)
+Hmisc::describe(Philadelphia1)
+describe(Montreal1)
+describe(Toronto1)
+describe(Vancouver1)
+```
+
+
+# Descriptive Stats for Merged Cities
+```{r}
+Hmisc::describe(city)
+```
+
+# Histogram of BMI
+```{r}
+hist_bmi <- ggplot(city, aes(bmi)) + 
+  geom_histogram()
+plot(hist_bmi)
+```
+
+
+### JUNK CODE
+## Join Data
+```
+usda_zip <- dplyr::full_join(USDA, USA_ZIP, by = "CensusTract")
+
+usda_zip_food <- usda_zip %>%
+                    group_by(zip) %>%
+                        summarize(
+                          food = mean(foodvariable)
+                        )
+```
+
+## Rename Variables
+```
+library(plyr)
+city$zip <- as.numeric(city$RTA_zip)
+USA_ZIP$CensusTract <- as.numeric(USA_ZIP$tract)
+```
+
+```
+library(plyr)
+city$CensusTract <- as.numeric(city$zip)
+```
+
+
+```
+city_zip <- dplyr::left_join(city, usda_zip, by = "zip")
+table(city_zip$ville)
+
+summary(city$WalkScore)
+summary(city$DiningandDrinkingScore)
+summary(city$GroceryScore)
+summary(city$TransitScore)
+
+ibiccs$TransitScore <- as.numeric(ibiccs$TransitScore)
+
+lm1 <- lm(bmi ~ WalkScore + DiningandDrinkingScore + TransitScore + GroceryScore + factor(ville), data = ibiccs)
+summary(lm1)
+confint(lm1)
+
+lm2 <- lm(bmi ~ WalkScore + DiningandDrinkingScore + + TransitScore + GroceryScore + factor(ville) + lang + q44 + q47 + q51 + Q52_occupational_status_category + q54, data = ibiccs)
+summary(lm2)
+confint(lm2)
+```
