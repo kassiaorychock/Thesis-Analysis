@@ -33,9 +33,23 @@ ibiccs_readin$TransitScore <- as.numeric(ibiccs_readin$TransitScore)
 ibiccs_readin$BikeScore <- as.numeric(ibiccs_readin$BikeScore)
 ```
 
+# Recode Variables
+```{r}
+## BMI
+ibiccs_clean <- ibiccs_readin %>%
+	mutate(bmi_category = case_when(
+		bmi < 18.5 ~ "underweight",
+		bmi >=30 & bmi <999 ~ "obese",
+		bmi >=25 & bmi <30 ~ "overweight",
+		bmi >=18.5 & bmi <25 ~ "normal weight",
+		TRUE ~ "other"
+	))
+
+```
+
 # Filtering Out Cities
 ```{r}
-Boston <- filter(ibiccs_readin, ville == "Boston")
+Boston <- filter(ibiccs_clean, ville == "Boston")
 
 Chicago <- filter(ibiccs_readin, ville == "Chicago")
 
@@ -54,23 +68,23 @@ Vancouver <- filter(ibiccs_readin, ville == "Vancouver")
 
 # Filtering Out Variables in USA Data
 ```{r}
-ibiccs <- select(ibiccs_readin, lang, q54, ville, q1us, q46b7, q2, q13, q14, q15, q16, q17, q18, q19, q20, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q24, q25, q26, q27, q28, q40, q41, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
+ibiccs <- select(ibiccs_clean, lang, q54, ville, q1us, q46b7, q2, q13, q14, q15, q18, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q25, q27, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
 
-Boston1 <- select(Boston, lang, q54, ville, q1us, q46b7, q2, q13, q14, q15, q16, q17, q18, q19, q20, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q24, q25, q26, q27, q28, q40, q41, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
+Boston1 <- select(Boston, lang, q54, ville, q1us, q46b7, q2, q13, q14, q15, q18, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q25, q27, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
 
-Chicago1 <- select(Chicago, lang, q54, ville, q1us, q46b7, q2, q13, q14, q15, q16, q17, q18, q19, q20, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q24, q25, q26, q27, q28, q40, q41, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
+Chicago1 <- select(Chicago, lang, q54, ville, q1us, q46b7, q2, q13, q14, q15, q18, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q25, q27, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
 
-Detroit1 <- select(Detroit, lang, q54, ville, q1us, q46b7, q2, q13, q14, q15, q16, q17, q18, q19, q20, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q24, q25, q26, q27, q28, q40, q41, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
+Detroit1 <- select(Detroit, lang, q54, ville, q1us, q46b7, q2, q13, q14, q15, q18, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q25, q27, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
 
-NewYork1 <- select(NewYork, lang, q54, ville, q1us, q46b7, q2, q13, q14, q15, q16, q17, q18, q19, q20, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q24, q25, q26, q27, q28, q40, q41, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
+NewYork1 <- select(NewYork, lang, q54, ville, q1us, q46b7, q2, q13, q14, q15, q18, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q25, q27, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
 
-Philadelphia1 <- select(Philadelphia, lang, q54, ville, q1us, q46b7, q2, q13, q14, q15, q16, q17, q18, q19, q20, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q24, q25, q26, q27, q28, q40, q41, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
+Philadelphia1 <- select(Philadelphia, lang, q54, ville, q1us, q46b7, q2, q13, q14, q15, q18, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q25, q27, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
 
-Montreal1 <- select(Montreal, lang, q54, ville, q1us, q46b7, q2, q13, q14, q15, q16, q17, q18, q19, q20, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q24, q25, q26, q27, q28, q40, q41, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
+Montreal1 <- select(Montreal, lang, q54, ville, q1us, q46b7, q2, q13, q14, q15, q18, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q25, q27, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
 
-Toronto1 <- select(Toronto, lang, q54, ville, q1us, q46b7, q2, q13, q14, q15, q16, q17, q18, q19, q20, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q24, q25, q26, q27, q28, q40, q41, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
+Toronto1 <- select(Toronto, lang, q54, ville, q1us, q46b7, q2, q13, q14, q15, q18, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q25, q27, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
 
-Vancouver1 <- select(Vancouver, lang, q54, ville, q1us, q46b7, q2, q13, q14, q15, q16, q17, q18, q19, q20, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q24, q25, q26, q27, q28, q40, q41, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
+Vancouver1 <- select(Vancouver, lang, q54, ville, q1us, q46b7, q2, q13, q14, q15, q18, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q25, q27, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
 
 city <- rbind(Philadelphia1, NewYork1, Detroit1, Chicago1, Boston1, Montreal1, Toronto1, Vancouver1)
 ```
@@ -103,7 +117,7 @@ Hmisc::describe(city)
 
 #Tables for Each City and Combined
 ```{r}
-vars <- c('lang', 'q54', 'ville', 'q1us', 'q46b7', 'q2', 'q13', 'q14', 'q15', 'q16', 'q17', 'q18', 'q19', 'q20', 'q21', 'q22b', 'q22c', 'q22d', 'q22e', 'q22f_m1', 'q23', 'q24', 'q25', 'q26', 'q27', 'q28', 'q40', 'q41', 'q42', 'q44', 'q45', 'q46b', 'q47', 'q48', 'q49', 'q50', 'q51', 'Q52_occupational_status_category', 'q53', 'bmi', 'bmi_category', 'WalkScore', 'WalkScoreLabel', 'TransitScore', 'TransitScoreLabel', 'BikeScore', 'BikeScoreLabel', 'DiningandDrinkingScore', 'GroceryScore')
+vars <- c('lang', 'q54', 'ville', 'q1us', 'q2', 'q13', 'q14', 'q15', 'q18', 'q21', 'q22b', 'q22c', 'q22d', 'q22e', 'q22f_m1', 'q23', 'q25', 'q27', 'q42', 'q44', 'q45', 'q46b', 'q47', 'q48', 'q49', 'q50', 'q51', 'Q52_occupational_status_category', 'q53', 'bmi', 'bmi_category', 'WalkScore', 'WalkScoreLabel', 'TransitScore', 'TransitScoreLabel', 'BikeScore', 'BikeScoreLabel', 'DiningandDrinkingScore', 'GroceryScore')
 CreateTableOne(vars = vars, data = Boston1)
 CreateTableOne(vars = vars, data = Chicago1)
 CreateTableOne(vars = vars, data = Detroit1)
@@ -112,10 +126,7 @@ CreateTableOne(vars = vars, data = Philadelphia1)
 CreateTableOne(vars = vars, data = Montreal1)
 CreateTableOne(vars = vars, data = Toronto1)
 CreateTableOne(vars = vars, data = Vancouver1)
-CreateTableOne(vars = vars, data = city)
-
-tab1 <- ibiccs %>%
-          group_by(ville)
+CreateTableOne(vars = vars, data = city, includeNA = TRUE)
 ```
 
 # Fix this Code - Breaks Session
@@ -133,10 +144,19 @@ hist_bmi <- ggplot(city, aes(bmi)) +
   geom_histogram()
 plot(hist_bmi)
 
-hist_bmi_Boston <- ggplot(Boston1, aes(bmi)) + 
-  geom_histogram()
-plot(hist_bmi)
+hist_bmi_city <- ggplot(city, aes(bmi)) + 
+  geom_density(aes(group = ville, colour = ville)) +
+  theme_minimal()
+plot(hist_bmi_city)
+
 ```
+To do:
+1. Fix variable reponses by mutate (see INTERACT)
+2. Linear Regressions (loop)
+
+### Linear regression
+
+
 
 
 ## Junk Code
