@@ -68,23 +68,23 @@ Vancouver <- filter(ibiccs_readin, ville == "Vancouver")
 # Filtering Out Variables in USA Data
 
 ```r
-ibiccs <- select(ibiccs_clean, lang, q54, ville, q1us, q46b7, q2, q13, q14, q15, q18, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q25, q27, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
+ibiccs <- select(ibiccs_clean, lang, q54, ville, q1us, q2, q13, q14, q15, q18, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q25, q27, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
 
-Boston1 <- select(Boston, lang, q54, ville, q1us, q46b7, q2, q13, q14, q15, q18, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q25, q27, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
+Boston1 <- select(Boston, lang, q54, ville, q1us, q2, q13, q14, q15, q18, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q25, q27, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
 
-Chicago1 <- select(Chicago, lang, q54, ville, q1us, q46b7, q2, q13, q14, q15, q18, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q25, q27, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
+Chicago1 <- select(Chicago, lang, q54, ville, q1us, q2, q13, q14, q15, q18, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q25, q27, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
 
-Detroit1 <- select(Detroit, lang, q54, ville, q1us, q46b7, q2, q13, q14, q15, q18, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q25, q27, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
+Detroit1 <- select(Detroit, lang, q54, ville, q1us, q2, q13, q14, q15, q18, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q25, q27, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
 
-NewYork1 <- select(NewYork, lang, q54, ville, q1us, q46b7, q2, q13, q14, q15, q18, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q25, q27, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
+NewYork1 <- select(NewYork, lang, q54, ville, q1us, q2, q13, q14, q15, q18, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q25, q27, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
 
-Philadelphia1 <- select(Philadelphia, lang, q54, ville, q1us, q46b7, q2, q13, q14, q15, q18, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q25, q27, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
+Philadelphia1 <- select(Philadelphia, lang, q54, ville, q1us, q2, q13, q14, q15, q18, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q25, q27, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
 
-Montreal1 <- select(Montreal, lang, q54, ville, q1us, q46b7, q2, q13, q14, q15, q18, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q25, q27, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
+Montreal1 <- select(Montreal, lang, q54, ville, q1us, q2, q13, q14, q15, q18, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q25, q27, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
 
-Toronto1 <- select(Toronto, lang, q54, ville, q1us, q46b7, q2, q13, q14, q15, q18, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q25, q27, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
+Toronto1 <- select(Toronto, lang, q54, ville, q1us, q2, q13, q14, q15, q18, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q25, q27, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
 
-Vancouver1 <- select(Vancouver, lang, q54, ville, q1us, q46b7, q2, q13, q14, q15, q18, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q25, q27, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
+Vancouver1 <- select(Vancouver, lang, q54, ville, q1us, q2, q13, q14, q15, q18, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q25, q27, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
 
 city <- rbind(Philadelphia1, NewYork1, Detroit1, Chicago1, Boston1, Montreal1, Toronto1, Vancouver1)
 ```
@@ -102,7 +102,7 @@ city_CAN <- rbind(Montreal1, Toronto1, Vancouver1)
 ```
 ## Boston1 
 ## 
-##  40  Variables      1977  Observations
+##  39  Variables      1977  Observations
 ## ---------------------------------------------------------------------------
 ## lang 
 ##        n  missing distinct 
@@ -141,13 +141,6 @@ city_CAN <- rbind(Montreal1, Toronto1, Vancouver1)
 ## Value      20200
 ## Frequency      1
 ## Proportion 0.001
-## ---------------------------------------------------------------------------
-## q46b7 
-##        n  missing distinct 
-##     1969        8       17 
-## 
-## lowest : Allston-Brighton              Autre                         Back Bay/Beacon Hill/West End Cambridgeport                 Charlestown                  
-## highest: Roxbury                       South Boston                  South Dorchester              South End/Chinatown           Wellington-Harrington        
 ## ---------------------------------------------------------------------------
 ## q2 
 ##        n  missing distinct 
@@ -488,7 +481,7 @@ city_CAN <- rbind(Montreal1, Toronto1, Vancouver1)
 ```
 ## Chicago1 
 ## 
-##  40  Variables      4085  Observations
+##  39  Variables      4085  Observations
 ## ---------------------------------------------------------------------------
 ## lang 
 ##        n  missing distinct 
@@ -842,16 +835,12 @@ city_CAN <- rbind(Montreal1, Toronto1, Vancouver1)
 ## lowest :   0.0000   0.3909   1.1221   1.4329   3.0518
 ## highest:  99.5302  99.6693  99.8932  99.9785 100.0000
 ## ---------------------------------------------------------------------------
-## 
-## Variables with all observations missing:
-## 
-## [1] q46b7
 ```
 
 ```
 ## Detroit1 
 ## 
-##  40  Variables      3077  Observations
+##  39  Variables      3077  Observations
 ## ---------------------------------------------------------------------------
 ## lang 
 ##        n  missing distinct 
@@ -1213,16 +1202,12 @@ city_CAN <- rbind(Montreal1, Toronto1, Vancouver1)
 ## lowest :   0.0000   0.3909   0.7756   1.1221   1.7101
 ## highest:  96.7031  97.9939  98.7357  99.7117 100.0000
 ## ---------------------------------------------------------------------------
-## 
-## Variables with all observations missing:
-## 
-## [1] q46b7
 ```
 
 ```
 ## NewYork1 
 ## 
-##  40  Variables      3824  Observations
+##  39  Variables      3824  Observations
 ## ---------------------------------------------------------------------------
 ## lang 
 ##        n  missing distinct 
@@ -1576,16 +1561,12 @@ city_CAN <- rbind(Montreal1, Toronto1, Vancouver1)
 ## lowest :   0.000   1.122   2.981   3.234   3.547
 ## highest:  99.893  99.924  99.952  99.979 100.000
 ## ---------------------------------------------------------------------------
-## 
-## Variables with all observations missing:
-## 
-## [1] q46b7
 ```
 
 ```
 ## Philadelphia1 
 ## 
-##  40  Variables      1478  Observations
+##  39  Variables      1478  Observations
 ## ---------------------------------------------------------------------------
 ## lang 
 ##        n  missing distinct 
@@ -1946,16 +1927,12 @@ city_CAN <- rbind(Montreal1, Toronto1, Vancouver1)
 ## lowest :   0.000   2.173   3.392   3.545   3.702
 ## highest:  99.790  99.861  99.924  99.952 100.000
 ## ---------------------------------------------------------------------------
-## 
-## Variables with all observations missing:
-## 
-## [1] q46b7
 ```
 
 ```
 ## Montreal1 
 ## 
-##  40  Variables      2678  Observations
+##  39  Variables      2678  Observations
 ## ---------------------------------------------------------------------------
 ## lang 
 ##        n  missing distinct 
@@ -2308,13 +2285,13 @@ city_CAN <- rbind(Montreal1, Toronto1, Vancouver1)
 ## 
 ## Variables with all observations missing:
 ## 
-## [1] q1us  q46b7
+## [1] q1us
 ```
 
 ```
 ## Toronto1 
 ## 
-##  40  Variables      4264  Observations
+##  39  Variables      4264  Observations
 ## ---------------------------------------------------------------------------
 ## lang 
 ##        n  missing distinct 
@@ -2662,13 +2639,13 @@ city_CAN <- rbind(Montreal1, Toronto1, Vancouver1)
 ## 
 ## Variables with all observations missing:
 ## 
-## [1] q1us  q46b7
+## [1] q1us
 ```
 
 ```
 ## Vancouver1 
 ## 
-##  40  Variables      2518  Observations
+##  39  Variables      2518  Observations
 ## ---------------------------------------------------------------------------
 ## lang 
 ##        n  missing distinct    value 
@@ -3021,7 +2998,7 @@ city_CAN <- rbind(Montreal1, Toronto1, Vancouver1)
 ## 
 ## Variables with all observations missing:
 ## 
-## [1] q1us  q46b7
+## [1] q1us
 ```
 
 
@@ -3030,7 +3007,7 @@ city_CAN <- rbind(Montreal1, Toronto1, Vancouver1)
 ```
 ## city 
 ## 
-##  40  Variables      23901  Observations
+##  39  Variables      23901  Observations
 ## ---------------------------------------------------------------------------
 ## lang 
 ##        n  missing distinct 
@@ -3067,13 +3044,6 @@ city_CAN <- rbind(Montreal1, Toronto1, Vancouver1)
 ##    10024    19147    60605    60638    60654 
 ## 
 ## lowest :  1420  1440  1453  1462  1463, highest: 61614 67558 89123 90023 92620
-## ---------------------------------------------------------------------------
-## q46b7 
-##        n  missing distinct 
-##     1969    21932       17 
-## 
-## lowest : Allston-Brighton              Autre                         Back Bay/Beacon Hill/West End Cambridgeport                 Charlestown                  
-## highest: Roxbury                       South Boston                  South Dorchester              South End/Chinatown           Wellington-Harrington        
 ## ---------------------------------------------------------------------------
 ## q2 
 ##        n  missing distinct 
@@ -4848,7 +4818,6 @@ usda_zip_food <- usda_zip %>%
                         )
 ```
 
-## Rename Variables
 ```
 library(plyr)
 city$zip <- as.numeric(city$RTA_zip)
