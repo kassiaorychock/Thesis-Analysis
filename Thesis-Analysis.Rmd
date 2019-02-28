@@ -45,6 +45,14 @@ ibiccs_clean <- ibiccs_readin %>%
 		TRUE ~ "other"
 	))
 
+## Language
+ibiccis_clean <- ibiccs_clean
+  mutate(lang = case_when(
+    q43 ==  2 ~ "other",
+    q43 == 3 ~ "other",
+    q43 == 4 ~ "other"
+  ))
+
 ```
 
 # Filtering Out Cities
@@ -200,7 +208,6 @@ usda_zip_food <- usda_zip %>%
                         )
 ```
 
-## Rename Variables
 ```
 library(plyr)
 city$zip <- as.numeric(city$RTA_zip)
