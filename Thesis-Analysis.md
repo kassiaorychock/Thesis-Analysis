@@ -27,12 +27,28 @@ library(tableone)
 
 ```r
 ibiccs_readin <- read.csv("Database_recoded_2012-2014_weights_Walkscore_RTA.csv")
+ibiccs_readin$TransitScore <- as.numeric(ibiccs_readin$TransitScore)
+ibiccs_readin$BikeScore <- as.numeric(ibiccs_readin$BikeScore)
+```
+
+# Recode Variables
+
+```r
+## BMI
+ibiccs_clean <- ibiccs_readin %>%
+	mutate(bmi_category = case_when(
+		bmi < 18.5 ~ "underweight",
+		bmi >=30 & bmi <999 ~ "obese",
+		bmi >=25 & bmi <30 ~ "overweight",
+		bmi >=18.5 & bmi <25 ~ "normal weight",
+		TRUE ~ "other"
+	))
 ```
 
 # Filtering Out Cities
 
 ```r
-Boston <- filter(ibiccs_readin, ville == "Boston")
+Boston <- filter(ibiccs_clean, ville == "Boston")
 
 Chicago <- filter(ibiccs_readin, ville == "Chicago")
 
@@ -52,25 +68,32 @@ Vancouver <- filter(ibiccs_readin, ville == "Vancouver")
 # Filtering Out Variables in USA Data
 
 ```r
-ibiccs <- select(ibiccs_readin, X, quest, lang, q54, ville, q1us, q1aut, q46b7, q46b9, q2, q13, q14, q15, q16, q17, q18, q19, q20, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q24, q25, q26, q27, q28, q40, q41, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
+ibiccs <- select(ibiccs_clean, lang, q54, ville, q1us, q46b7, q2, q13, q14, q15, q18, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q25, q27, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
 
-Boston1 <- select(Boston, X, quest, lang, q54, ville, q1us, q1aut, q46b7, q46b9, q2, q13, q14, q15, q16, q17, q18, q19, q20, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q24, q25, q26, q27, q28, q40, q41, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
+Boston1 <- select(Boston, lang, q54, ville, q1us, q46b7, q2, q13, q14, q15, q18, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q25, q27, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
 
-Chicago1 <- select(Chicago, X, quest, lang, q54, ville, q1us, q1aut, q46b7, q46b9, q2, q13, q14, q15, q16, q17, q18, q19, q20, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q24, q25, q26, q27, q28, q40, q41, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
+Chicago1 <- select(Chicago, lang, q54, ville, q1us, q46b7, q2, q13, q14, q15, q18, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q25, q27, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
 
-Detroit1 <- select(Detroit, X, quest, lang, q54, ville, q1us, q1aut, q46b7, q46b9, q2, q13, q14, q15, q16, q17, q18, q19, q20, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q24, q25, q26, q27, q28, q40, q41, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
+Detroit1 <- select(Detroit, lang, q54, ville, q1us, q46b7, q2, q13, q14, q15, q18, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q25, q27, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
 
-NewYork1 <- select(NewYork, X, quest, lang, q54, ville, q1us, q1aut, q46b7, q46b9, q2, q13, q14, q15, q16, q17, q18, q19, q20, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q24, q25, q26, q27, q28, q40, q41, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
+NewYork1 <- select(NewYork, lang, q54, ville, q1us, q46b7, q2, q13, q14, q15, q18, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q25, q27, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
 
-Philadelphia1 <- select(Philadelphia, X, quest, lang, q54, ville, q1us, q1aut, q46b7, q46b9, q2, q13, q14, q15, q16, q17, q18, q19, q20, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q24, q25, q26, q27, q28, q40, q41, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
+Philadelphia1 <- select(Philadelphia, lang, q54, ville, q1us, q46b7, q2, q13, q14, q15, q18, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q25, q27, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
 
-Montreal1 <- select(Montreal, X, quest, lang, q54, ville, q1us, q1aut, q46b7, q46b9, q2, q13, q14, q15, q16, q17, q18, q19, q20, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q24, q25, q26, q27, q28, q40, q41, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
+Montreal1 <- select(Montreal, lang, q54, ville, q1us, q46b7, q2, q13, q14, q15, q18, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q25, q27, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
 
-Toronto1 <- select(Toronto, X, quest, lang, q54, ville, q1us, q1aut, q46b7, q46b9, q2, q13, q14, q15, q16, q17, q18, q19, q20, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q24, q25, q26, q27, q28, q40, q41, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
+Toronto1 <- select(Toronto, lang, q54, ville, q1us, q46b7, q2, q13, q14, q15, q18, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q25, q27, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
 
-Vancouver1 <- select(Vancouver, X, quest, lang, q54, ville, q1us, q1aut, q46b7, q46b9, q2, q13, q14, q15, q16, q17, q18, q19, q20, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q24, q25, q26, q27, q28, q40, q41, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
+Vancouver1 <- select(Vancouver, lang, q54, ville, q1us, q46b7, q2, q13, q14, q15, q18, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q25, q27, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
 
-city <- rbind(Philadelphia1, NewYork1, Detroit1, Chicago1, Boston1)
+city <- rbind(Philadelphia1, NewYork1, Detroit1, Chicago1, Boston1, Montreal1, Toronto1, Vancouver1)
+```
+
+# Binding by Country
+
+```r
+city_USA <- rbind(Philadelphia1, NewYork1, Detroit1, Chicago1, Boston1)
+city_CAN <- rbind(Montreal1, Toronto1, Vancouver1)
 ```
 
 
@@ -79,29 +102,7 @@ city <- rbind(Philadelphia1, NewYork1, Detroit1, Chicago1, Boston1)
 ```
 ## Boston1 
 ## 
-##  53  Variables      1977  Observations
-## ---------------------------------------------------------------------------
-## X 
-##        n  missing distinct     Info     Mean      Gmd      .05      .10 
-##     1977        0     1977        1     1011    703.9     99.8    198.6 
-##      .25      .50      .75      .90      .95 
-##    495.0    989.0   1483.0   1779.4   1878.2 
-##                                                                       
-## Value          0   200   400   600   800  1000  1200  1400  1600  1800
-## Frequency    100   199   201   199   201   199   201   199   201   199
-## Proportion 0.051 0.101 0.102 0.101 0.102 0.101 0.102 0.101 0.102 0.101
-##                             
-## Value       2000  7200 21400
-## Frequency     75     1     2
-## Proportion 0.038 0.001 0.001
-## ---------------------------------------------------------------------------
-## quest 
-##        n  missing distinct     Info     Mean      Gmd      .05      .10 
-##     1977        0     1975        1    20811    16141    610.8    962.6 
-##      .25      .50      .75      .90      .95 
-##   7057.0  20211.0  30188.0  33256.4  34680.0 
-## 
-## lowest :    10    11    13    32    38, highest: 73667 73668 73670 73675 73677
+##  40  Variables      1977  Observations
 ## ---------------------------------------------------------------------------
 ## lang 
 ##        n  missing distinct 
@@ -141,26 +142,12 @@ city <- rbind(Philadelphia1, NewYork1, Detroit1, Chicago1, Boston1)
 ## Frequency      1
 ## Proportion 0.001
 ## ---------------------------------------------------------------------------
-## q1aut 
-##        n  missing distinct 
-##     1977        0        9 
-##                                                                          
-## Value              01570  01581  01826  02138  02139  02446 N3C1G3 N3C3K9
-## Frequency    1969      1      1      1      1      1      1      1      1
-## Proportion  0.996  0.001  0.001  0.001  0.001  0.001  0.001  0.001  0.001
-## ---------------------------------------------------------------------------
 ## q46b7 
 ##        n  missing distinct 
 ##     1969        8       17 
 ## 
 ## lowest : Allston-Brighton              Autre                         Back Bay/Beacon Hill/West End Cambridgeport                 Charlestown                  
 ## highest: Roxbury                       South Boston                  South Dorchester              South End/Chinatown           Wellington-Harrington        
-## ---------------------------------------------------------------------------
-## q46b9 
-##        n  missing distinct 
-##     1977        0       32 
-## 
-## lowest :    00 1A 1F 1M, highest: R1 R2 R3 S2 T7
 ## ---------------------------------------------------------------------------
 ## q2 
 ##        n  missing distinct 
@@ -408,11 +395,15 @@ city <- rbind(Philadelphia1, NewYork1, Detroit1, Chicago1, Boston1)
 ## ---------------------------------------------------------------------------
 ## bmi_category 
 ##        n  missing distinct 
-##     1785      192        4 
-##                                                           
-## Value       embonpoint insuffisant      normal     obesite
-## Frequency          511          44         982         248
-## Proportion       0.286       0.025       0.550       0.139
+##     1977        0        5 
+##                                                                   
+## Value      normal weight         obese         other    overweight
+## Frequency            982           248           192           511
+## Proportion         0.497         0.125         0.097         0.258
+##                         
+## Value        underweight
+## Frequency             44
+## Proportion         0.022
 ## ---------------------------------------------------------------------------
 ## WalkScore 
 ##        n  missing distinct     Info     Mean      Gmd      .05      .10 
@@ -435,16 +426,12 @@ city <- rbind(Philadelphia1, NewYork1, Detroit1, Chicago1, Boston1)
 ## Proportion             0.302             0.587
 ## ---------------------------------------------------------------------------
 ## TransitScore 
-##        n  missing distinct 
-##     1977        0        7 
-##                                                                       
-## Value                          100          40          50          71
-## Frequency           38          16           2          64         106
-## Proportion       0.019       0.008       0.001       0.032       0.054
-##                                   
-## Value               79 Unavailable
-## Frequency           95        1656
-## Proportion       0.048       0.838
+##        n  missing distinct     Info     Mean      Gmd 
+##     1977        0        7    0.412    73.62    11.26 
+##                                                     
+## Value          1     3    20    30    51    59    80
+## Frequency     38    16     2    64   106    95  1656
+## Proportion 0.019 0.008 0.001 0.032 0.054 0.048 0.838
 ## ---------------------------------------------------------------------------
 ## TransitScoreLabel 
 ##        n  missing distinct 
@@ -459,11 +446,12 @@ city <- rbind(Philadelphia1, NewYork1, Detroit1, Chicago1, Boston1)
 ## Proportion             0.008             0.001
 ## ---------------------------------------------------------------------------
 ## BikeScore 
-##        n  missing distinct 
-##     1977        0       31 
+##        n  missing distinct     Info     Mean      Gmd      .05      .10 
+##     1977        0       31    0.976    106.5    34.68       55       66 
+##      .25      .50      .75      .90      .95 
+##       80      111      138      138      138 
 ## 
-## lowest :                        46                     54                     55                     58                    
-## highest: 94                     97.741638389225798     98.650123169158107     99.406202578305795     Unavailable           
+## lowest :   1  36  52  55  60, highest: 121 129 134 137 138
 ## ---------------------------------------------------------------------------
 ## BikeScoreLabel 
 ##        n  missing distinct 
@@ -495,32 +483,12 @@ city <- rbind(Philadelphia1, NewYork1, Detroit1, Chicago1, Boston1)
 ## lowest :   0.000   1.710   1.956   2.363   2.793
 ## highest:  99.456  99.625  99.752  99.924 100.000
 ## ---------------------------------------------------------------------------
-## 
-## Variables with all observations missing:
-## 
-## [1] q16 q17 q19 q20 q24 q26 q28 q40 q41
 ```
 
 ```
 ## Chicago1 
 ## 
-##  53  Variables      4085  Observations
-## ---------------------------------------------------------------------------
-## X 
-##        n  missing distinct     Info     Mean      Gmd      .05      .10 
-##     4085        0     4085        1    12382     1386    10552    10756 
-##      .25      .50      .75      .90      .95 
-##    11369    12390    13412    14025    14229 
-## 
-## lowest :  1971  1994  2001  7279  7280, highest: 14430 14431 14432 14433 21384
-## ---------------------------------------------------------------------------
-## quest 
-##        n  missing distinct     Info     Mean      Gmd      .05      .10 
-##     4085        0     4073        1    19771    14090    706.2   5265.4 
-##      .25      .50      .75      .90      .95 
-##   7368.0  19994.0  30120.0  32824.2  33815.0 
-## 
-## lowest :    95   104   105   106   107, highest: 69561 69571 69578 69587 71678
+##  40  Variables      4085  Observations
 ## ---------------------------------------------------------------------------
 ## lang 
 ##        n  missing distinct 
@@ -555,18 +523,6 @@ city <- rbind(Philadelphia1, NewYork1, Detroit1, Chicago1, Boston1)
 ## Value      46400 60000 60200 60400 60600 60800 61600
 ## Frequency      3    63    80   201  3614   104     1
 ## Proportion 0.001 0.015 0.020 0.049 0.889 0.026 0.000
-## ---------------------------------------------------------------------------
-## q1aut 
-##        n  missing distinct 
-##     4085        0       26 
-## 
-## lowest :        03276  07470  08075  46310 , highest: 60564  60706  60805  62895  N7L 4T
-## ---------------------------------------------------------------------------
-## q46b9 
-##        n  missing distinct 
-##     4085        0       55 
-## 
-## lowest :    00 10 1E 1M, highest: N7 N9 Q1 S3 SS
 ## ---------------------------------------------------------------------------
 ## q2 
 ##        n  missing distinct 
@@ -830,16 +786,12 @@ city <- rbind(Philadelphia1, NewYork1, Detroit1, Chicago1, Boston1)
 ## Proportion             0.411             0.384
 ## ---------------------------------------------------------------------------
 ## TransitScore 
-##        n  missing distinct 
-##     4085        0        6 
-##                                                                       
-## Value                          100          63          66          85
-## Frequency           51          13          26          56         277
-## Proportion       0.012       0.003       0.006       0.014       0.068
-##                       
-## Value      Unavailable
-## Frequency         3662
-## Proportion       0.896
+##        n  missing distinct     Info     Mean      Gmd 
+##     4085        0        6    0.279    77.05    5.508 
+##                                               
+## Value          1     3    43    46    65    80
+## Frequency     51    13    26    56   277  3662
+## Proportion 0.012 0.003 0.006 0.014 0.068 0.896
 ## ---------------------------------------------------------------------------
 ## TransitScoreLabel 
 ##        n  missing distinct 
@@ -854,11 +806,12 @@ city <- rbind(Philadelphia1, NewYork1, Detroit1, Chicago1, Boston1)
 ## Proportion             0.003
 ## ---------------------------------------------------------------------------
 ## BikeScore 
-##        n  missing distinct 
-##     4085        0       36 
+##        n  missing distinct     Info     Mean      Gmd      .05      .10 
+##     4085        0       36    0.996    87.29    33.57       36       44 
+##      .25      .50      .75      .90      .95 
+##       71       88      107      138      138 
 ## 
-## lowest :                        43                     45                     46                     47                    
-## highest: 84                     86                     87                     88                     Unavailable           
+## lowest :   1  33  35  36  38, highest: 108 111 112 113 138
 ## ---------------------------------------------------------------------------
 ## BikeScoreLabel 
 ##        n  missing distinct 
@@ -892,29 +845,13 @@ city <- rbind(Philadelphia1, NewYork1, Detroit1, Chicago1, Boston1)
 ## 
 ## Variables with all observations missing:
 ## 
-##  [1] q46b7 q16   q17   q19   q20   q24   q26   q28   q40   q41
+## [1] q46b7
 ```
 
 ```
 ## Detroit1 
 ## 
-##  53  Variables      3077  Observations
-## ---------------------------------------------------------------------------
-## X 
-##        n  missing distinct     Info     Mean      Gmd      .05      .10 
-##     3077        0     3077        1     8817     1035     7432     7586 
-##      .25      .50      .75      .90      .95 
-##     8047     8817     9586    10047    10201 
-## 
-## lowest :  1979  7272  7273  7274  7275, highest: 10354 10355 10356 14428 14435
-## ---------------------------------------------------------------------------
-## quest 
-##        n  missing distinct     Info     Mean      Gmd      .05      .10 
-##     3077        0     3073        1    17409    13115     4407     4805 
-##      .25      .50      .75      .90      .95 
-##     5709    17017    28400    32282    32929 
-## 
-## lowest :     1     2     4     5     6, highest: 71623 71668 71682 73618 73632
+##  40  Variables      3077  Observations
 ## ---------------------------------------------------------------------------
 ## lang 
 ##        n  missing distinct 
@@ -949,18 +886,6 @@ city <- rbind(Philadelphia1, NewYork1, Detroit1, Chicago1, Boston1)
 ## Value      24000 24500 25500 43500 48000 48500 49000 49500 61000 89000
 ## Frequency      1     1     1     1  2047   642    31     5     1     1
 ## Proportion 0.000 0.000 0.000 0.000 0.750 0.235 0.011 0.002 0.000 0.000
-## ---------------------------------------------------------------------------
-## q1aut 
-##        n  missing distinct 
-##     3077        0      136 
-## 
-## lowest :        07003  28211  47065  48009 , highest: 48462  48836  48843  49228  49229 
-## ---------------------------------------------------------------------------
-## q46b9 
-##        n  missing distinct 
-##     3077        0      115 
-## 
-## lowest :    00 05 15 1M, highest: O6 O7 O8 S5 T4
 ## ---------------------------------------------------------------------------
 ## q2 
 ##        n  missing distinct 
@@ -1235,12 +1160,12 @@ city <- rbind(Philadelphia1, NewYork1, Detroit1, Chicago1, Boston1)
 ## Proportion             0.057             0.016
 ## ---------------------------------------------------------------------------
 ## TransitScore 
-##        n  missing distinct 
-##     3077        0        2 
-##                                   
-## Value                  Unavailable
-## Frequency           27        3050
-## Proportion       0.009       0.991
+##        n  missing distinct     Info     Mean      Gmd 
+##     3077        0        2    0.026    79.31    1.375 
+##                       
+## Value          1    80
+## Frequency     27  3050
+## Proportion 0.009 0.991
 ## ---------------------------------------------------------------------------
 ## TransitScoreLabel 
 ##                 n           missing          distinct             value 
@@ -1251,12 +1176,12 @@ city <- rbind(Philadelphia1, NewYork1, Detroit1, Chicago1, Boston1)
 ## Proportion    1
 ## ---------------------------------------------------------------------------
 ## BikeScore 
-##        n  missing distinct 
-##     3077        0        8 
-## 
-## (27, 0.009), 42.875717667172403 (1, 0.000), 58 (59, 0.019), 65 (31,
-## 0.010), 71 (6, 0.002), 82 (42, 0.014), 90 (40, 0.013), Unavailable (2871,
-## 0.933)
+##        n  missing distinct     Info     Mean      Gmd 
+##     3077        0        8    0.188    133.7    8.119 
+##                                                           
+## Value          1    32    60    73    83   104   115   138
+## Frequency     27     1    59    31     6    42    40  2871
+## Proportion 0.009 0.000 0.019 0.010 0.002 0.014 0.013 0.933
 ## ---------------------------------------------------------------------------
 ## BikeScoreLabel 
 ##        n  missing distinct 
@@ -1291,29 +1216,13 @@ city <- rbind(Philadelphia1, NewYork1, Detroit1, Chicago1, Boston1)
 ## 
 ## Variables with all observations missing:
 ## 
-##  [1] q46b7 q16   q17   q19   q20   q24   q26   q28   q40   q41
+## [1] q46b7
 ```
 
 ```
 ## NewYork1 
 ## 
-##  53  Variables      3824  Observations
-## ---------------------------------------------------------------------------
-## X 
-##        n  missing distinct     Info     Mean      Gmd      .05      .10 
-##     3824        0     3824        1     3910     1305     2175     2366 
-##      .25      .50      .75      .90      .95 
-##     2940     3896     4851     5425     5616 
-## 
-## lowest :  1976  1977  1978  1980  1981, highest: 10319 14434 14436 14437 21378
-## ---------------------------------------------------------------------------
-## quest 
-##        n  missing distinct     Info     Mean      Gmd      .05      .10 
-##     3824        0     3818        1    20539    14752    738.2   4585.3 
-##      .25      .50      .75      .90      .95 
-##   7848.8  20421.0  29449.0  32576.2  33834.6 
-## 
-## lowest :    12    14    18    21    25, highest: 73642 73644 73645 73646 73655
+##  40  Variables      3824  Observations
 ## ---------------------------------------------------------------------------
 ## lang 
 ##        n  missing distinct 
@@ -1348,18 +1257,6 @@ city <- rbind(Philadelphia1, NewYork1, Detroit1, Chicago1, Boston1)
 ## Value       7000 10000 11000 12000 14000 20000 49000 68000 90000 93000
 ## Frequency      4  2352  1340    89     1     1     1     1     1     1
 ## Proportion 0.001 0.620 0.353 0.023 0.000 0.000 0.000 0.000 0.000 0.000
-## ---------------------------------------------------------------------------
-## q1aut 
-##        n  missing distinct 
-##     3824        0       28 
-## 
-## lowest :        07002  07020  07023  07055 , highest: 11772  11778  11798  48843  N0N1K0
-## ---------------------------------------------------------------------------
-## q46b9 
-##        n  missing distinct 
-##     3824        0       51 
-## 
-## lowest :    01 02 03 04, highest: O5 Q2 Q7 SS T8
 ## ---------------------------------------------------------------------------
 ## q2 
 ##        n  missing distinct 
@@ -1622,16 +1519,12 @@ city <- rbind(Philadelphia1, NewYork1, Detroit1, Chicago1, Boston1)
 ## Proportion             0.044             0.914
 ## ---------------------------------------------------------------------------
 ## TransitScore 
-##        n  missing distinct 
-##     3824        0        8 
-##                                                                       
-## Value                          100          56          78          80
-## Frequency           65         354           7           6          28
-## Proportion       0.017       0.093       0.002       0.002       0.007
-##                                               
-## Value               91          94 Unavailable
-## Frequency           32           3        3329
-## Proportion       0.008       0.001       0.871
+##        n  missing distinct     Info     Mean      Gmd 
+##     3824        0        8    0.339    71.19    15.62 
+##                                                           
+## Value          1     3    36    58    60    71    74    80
+## Frequency     65   354     7     6    28    32     3  3329
+## Proportion 0.017 0.093 0.002 0.002 0.007 0.008 0.001 0.871
 ## ---------------------------------------------------------------------------
 ## TransitScoreLabel 
 ##        n  missing distinct 
@@ -1646,11 +1539,12 @@ city <- rbind(Philadelphia1, NewYork1, Detroit1, Chicago1, Boston1)
 ## Proportion             0.102
 ## ---------------------------------------------------------------------------
 ## BikeScore 
-##        n  missing distinct 
-##     3824        0       50 
+##        n  missing distinct     Info     Mean      Gmd      .05      .10 
+##     3824        0       50    0.997    90.15    26.93       44       58 
+##      .25      .50      .75      .90      .95 
+##       75       95      111      114      115 
 ## 
-## lowest :                        32                     33                     38                     39                    
-## highest: 86                     87                     89                     90                     Unavailable           
+## lowest :   1  19  20  25  26, highest: 111 112 114 115 138
 ## ---------------------------------------------------------------------------
 ## BikeScoreLabel 
 ##        n  missing distinct 
@@ -1685,35 +1579,13 @@ city <- rbind(Philadelphia1, NewYork1, Detroit1, Chicago1, Boston1)
 ## 
 ## Variables with all observations missing:
 ## 
-##  [1] q46b7 q16   q17   q19   q20   q24   q26   q28   q40   q41
+## [1] q46b7
 ```
 
 ```
 ## Philadelphia1 
 ## 
-##  53  Variables      1478  Observations
-## ---------------------------------------------------------------------------
-## X 
-##        n  missing distinct     Info     Mean      Gmd      .05      .10 
-##     1478        0     1478        1     6525    526.7     5869     5943 
-##      .25      .50      .75      .90      .95 
-##     6164     6534     6903     7124     7198 
-##                                                                       
-## Value       2000  2100  5800  5900  6000  6100  6200  6300  6400  6500
-## Frequency      4     1    50   101    99   101    99   101    99   101
-## Proportion 0.003 0.001 0.034 0.068 0.067 0.068 0.067 0.068 0.067 0.068
-##                                                                 
-## Value       6600  6700  6800  6900  7000  7100  7200  7300 13300
-## Frequency     99   101    99   101    99   101    99    22     1
-## Proportion 0.067 0.068 0.067 0.068 0.067 0.068 0.067 0.015 0.001
-## ---------------------------------------------------------------------------
-## quest 
-##        n  missing distinct     Info     Mean      Gmd      .05      .10 
-##     1478        0     1478        1    20736    15994    384.9    805.7 
-##      .25      .50      .75      .90      .95 
-##   7418.8  20158.0  28717.8  32989.1  37354.4 
-## 
-## lowest :    20    31    43    44    45, highest: 73673 73674 73678 73679 73681
+##  40  Variables      1478  Observations
 ## ---------------------------------------------------------------------------
 ## lang 
 ##        n  missing distinct 
@@ -1748,18 +1620,6 @@ city <- rbind(Philadelphia1, NewYork1, Detroit1, Chicago1, Boston1)
 ## Value       8000  8500 10000 18500 19000 19500 20000 29000 34000 60500
 ## Frequency      2     1     1     1  1411    35     2     1     1     1
 ## Proportion 0.001 0.001 0.001 0.001 0.969 0.024 0.001 0.001 0.001 0.001
-## ---------------------------------------------------------------------------
-## q1aut 
-##        n  missing distinct 
-##     1478        0       23 
-## 
-## lowest :        08060  19007  19020  19038 , highest: 19605  19606  19608  19707  19711 
-## ---------------------------------------------------------------------------
-## q46b9 
-##        n  missing distinct 
-##     1478        0       36 
-## 
-## lowest :    18 1B 1C 1D, highest: T3 T4 T5 T6 T7
 ## ---------------------------------------------------------------------------
 ## q2 
 ##        n  missing distinct 
@@ -2034,12 +1894,12 @@ city <- rbind(Philadelphia1, NewYork1, Detroit1, Chicago1, Boston1)
 ## Proportion             0.165             0.699
 ## ---------------------------------------------------------------------------
 ## TransitScore 
-##        n  missing distinct 
-##     1478        0        4 
-##                                                           
-## Value                          100          67 Unavailable
-## Frequency           22         105           2        1349
-## Proportion       0.015       0.071       0.001       0.913
+##        n  missing distinct     Info     Mean      Gmd 
+##     1478        0        4    0.239    73.31    12.24 
+##                                   
+## Value          1     3    47    80
+## Frequency     22   105     2  1349
+## Proportion 0.015 0.071 0.001 0.913
 ## ---------------------------------------------------------------------------
 ## TransitScoreLabel 
 ##        n  missing distinct 
@@ -2050,11 +1910,12 @@ city <- rbind(Philadelphia1, NewYork1, Detroit1, Chicago1, Boston1)
 ## Proportion            0.928            0.001            0.071
 ## ---------------------------------------------------------------------------
 ## BikeScore 
-##        n  missing distinct 
-##     1478        0       47 
+##        n  missing distinct     Info     Mean      Gmd      .05      .10 
+##     1478        0       47    0.997    106.3    32.66       46       59 
+##      .25      .50      .75      .90      .95 
+##       92      109      131      136      138 
 ## 
-## lowest :                        41.598081780226799     42.714359147126302     46.9755810475896       47.468088261258799    
-## highest: 98.339695236844804     98.350441678537393     98.407160731660099     99.199675837444303     Unavailable           
+## lowest :   1  29  31  37  39, highest: 131 132 133 136 138
 ## ---------------------------------------------------------------------------
 ## BikeScoreLabel 
 ##        n  missing distinct 
@@ -2088,35 +1949,13 @@ city <- rbind(Philadelphia1, NewYork1, Detroit1, Chicago1, Boston1)
 ## 
 ## Variables with all observations missing:
 ## 
-##  [1] q46b7 q16   q17   q19   q20   q24   q26   q28   q40   q41
+## [1] q46b7
 ```
 
 ```
 ## Montreal1 
 ## 
-##  53  Variables      2678  Observations
-## ---------------------------------------------------------------------------
-## X 
-##        n  missing distinct     Info     Mean      Gmd      .05      .10 
-##     2678        0     2678        1    15779    893.6    14574    14708 
-##      .25      .50      .75      .90      .95 
-##    15109    15778    16448    16849    16983 
-## 
-## lowest : 14440 14441 14442 14443 14444, highest: 17113 17114 17115 17116 17978
-## ---------------------------------------------------------------------------
-## quest 
-##        n  missing distinct     Info     Mean      Gmd      .05      .10 
-##     2678        0     2634        1    10263    13397    610.1    884.7 
-##      .25      .50      .75      .90      .95 
-##   1790.5   4003.5   9136.8  16421.3  70008.1 
-##                                                                       
-## Value          0  1000  2000  3000  4000  5000  7000  9000 12000 13000
-## Frequency     99   477   199   241   554   131    94   406    12    24
-## Proportion 0.037 0.178 0.074 0.090 0.207 0.049 0.035 0.152 0.004 0.009
-##                                                                       
-## Value      14000 15000 16000 17000 18000 31000 60000 70000 80000 81000
-## Frequency     68    34    80    26    21     1    72    82    53     4
-## Proportion 0.025 0.013 0.030 0.010 0.008 0.000 0.027 0.031 0.020 0.001
+##  40  Variables      2678  Observations
 ## ---------------------------------------------------------------------------
 ## lang 
 ##        n  missing distinct 
@@ -2141,26 +1980,6 @@ city <- rbind(Philadelphia1, NewYork1, Detroit1, Chicago1, Boston1)
 ## Value      Montréal
 ## Frequency      2678
 ## Proportion        1
-## ---------------------------------------------------------------------------
-## q1aut 
-##        n  missing distinct 
-##     2678        0        7 
-##                                                            
-## Value             H1T4B6 H2H1E5    H3G H3H2P2 H3S1H3 H3X3S9
-## Frequency    2672      1      1      1      1      1      1
-## Proportion  0.998  0.000  0.000  0.000  0.000  0.000  0.000
-## ---------------------------------------------------------------------------
-## q46b9 
-##        n  missing distinct 
-##     2678        0       17 
-##                                                                       
-## Value               00    96    99    O9    P0    P1    P2    P3    P4
-## Frequency   2242     3   138     5    66     4    13     5    12     2
-## Proportion 0.837 0.001 0.052 0.002 0.025 0.001 0.005 0.002 0.004 0.001
-##                                                     
-## Value         P5    P6    P7    P8    P9    Q1    T8
-## Frequency     91    12     5    14    10    55     1
-## Proportion 0.034 0.004 0.002 0.005 0.004 0.021 0.000
 ## ---------------------------------------------------------------------------
 ## q2 
 ##        n  missing distinct 
@@ -2429,11 +2248,12 @@ city <- rbind(Philadelphia1, NewYork1, Detroit1, Chicago1, Boston1)
 ## Proportion             0.417             0.409
 ## ---------------------------------------------------------------------------
 ## TransitScore 
-##        n  missing distinct 
-##     2678        0       65 
+##        n  missing distinct     Info     Mean      Gmd      .05      .10 
+##     2678        0       65    0.656    13.38    16.34     3.00     3.00 
+##      .25      .50      .75      .90      .95 
+##     3.00     3.00    23.00    43.00    47.15 
 ## 
-## lowest :                        0                      100                    36                     37                    
-## highest: 96                     97                     98                     99                     Unavailable           
+## lowest :  1  2  3 16 17, highest: 76 77 78 79 80
 ## ---------------------------------------------------------------------------
 ## TransitScoreLabel 
 ##        n  missing distinct 
@@ -2448,11 +2268,12 @@ city <- rbind(Philadelphia1, NewYork1, Detroit1, Chicago1, Boston1)
 ## Proportion             0.016             0.714             0.046
 ## ---------------------------------------------------------------------------
 ## BikeScore 
-##        n  missing distinct 
-##     2678        0       67 
+##        n  missing distinct     Info     Mean      Gmd      .05      .10 
+##     2678        0       67    0.988    86.99     48.4      2.0      2.0 
+##      .25      .50      .75      .90      .95 
+##     60.0     91.0    129.2    138.0    138.0 
 ## 
-## lowest :                        100                    22                     26                     31                    
-## highest: 96                     97                     98                     99                     Unavailable           
+## lowest :   1   2   9  13  18, highest: 125 127 130 135 138
 ## ---------------------------------------------------------------------------
 ## BikeScoreLabel 
 ##        n  missing distinct 
@@ -2487,35 +2308,13 @@ city <- rbind(Philadelphia1, NewYork1, Detroit1, Chicago1, Boston1)
 ## 
 ## Variables with all observations missing:
 ## 
-##  [1] q1us  q46b7 q16   q17   q19   q20   q24   q26   q28   q40   q41
+## [1] q1us  q46b7
 ```
 
 ```
 ## Toronto1 
 ## 
-##  53  Variables      4264  Observations
-## ---------------------------------------------------------------------------
-## X 
-##        n  missing distinct     Info     Mean      Gmd      .05      .10 
-##     4264        0     4264        1    19248     1424    17329    17542 
-##      .25      .50      .75      .90      .95 
-##    18183    19250    20315    20955    21168 
-## 
-## lowest : 14439 17117 17118 17119 17120, highest: 21377 21379 21380 21381 21385
-## ---------------------------------------------------------------------------
-## quest 
-##        n  missing distinct     Info     Mean      Gmd      .05      .10 
-##     4264        0     3888        1    10867    13414    749.2   1160.3 
-##      .25      .50      .75      .90      .95 
-##   1938.0   3096.5  14750.2  16936.4  60176.4 
-##                                                                       
-## Value          0  1000  2000  3000  4000  7000  9000 12000 13000 14000
-## Frequency    134   559   856   864   129     2     2    28   143   365
-## Proportion 0.031 0.131 0.201 0.203 0.030 0.000 0.000 0.007 0.034 0.086
-##                                                                       
-## Value      15000 16000 17000 18000 20000 33000 37000 60000 80000 81000
-## Frequency    230   332   216   136     2     1     1   124    92    48
-## Proportion 0.054 0.078 0.051 0.032 0.000 0.000 0.000 0.029 0.022 0.011
+##  40  Variables      4264  Observations
 ## ---------------------------------------------------------------------------
 ## lang 
 ##        n  missing distinct 
@@ -2540,24 +2339,6 @@ city <- rbind(Philadelphia1, NewYork1, Detroit1, Chicago1, Boston1)
 ## Value      Toronto
 ## Frequency     4264
 ## Proportion       1
-## ---------------------------------------------------------------------------
-## q1aut 
-##        n  missing distinct 
-##     4264        0       10 
-##                                                                          
-## Value             K8N1P3 L6Y2N2 M2N2K2 M2N6Z5 M3C 3N M3M1C1 M4W3Y3 M5M4B8
-## Frequency    4255      1      1      1      1      1      1      1      1
-## Proportion  0.998  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
-##                  
-## Value      M5R3P7
-## Frequency       1
-## Proportion  0.000
-## ---------------------------------------------------------------------------
-## q46b9 
-##        n  missing distinct 
-##     4264        0       84 
-## 
-## lowest :    00 18 2M 3M, highest: VV WW XX YY ZZ
 ## ---------------------------------------------------------------------------
 ## q2 
 ##        n  missing distinct 
@@ -2821,11 +2602,12 @@ city <- rbind(Philadelphia1, NewYork1, Detroit1, Chicago1, Boston1)
 ## Proportion             0.344             0.403
 ## ---------------------------------------------------------------------------
 ## TransitScore 
-##        n  missing distinct 
-##     4264        0       69 
+##        n  missing distinct     Info     Mean      Gmd      .05      .10 
+##     4264        0       69    0.994    48.42    27.01        3        3 
+##      .25      .50      .75      .90      .95 
+##       42       54       68       75       76 
 ## 
-## lowest :                        0                      100                    21                     22                    
-## highest: 96                     97                     98                     99                     Unavailable           
+## lowest :  1  2  3  4  5, highest: 76 77 78 79 80
 ## ---------------------------------------------------------------------------
 ## TransitScoreLabel 
 ##        n  missing distinct 
@@ -2840,11 +2622,12 @@ city <- rbind(Philadelphia1, NewYork1, Detroit1, Chicago1, Boston1)
 ## Proportion             0.008             0.392             0.009
 ## ---------------------------------------------------------------------------
 ## BikeScore 
-##        n  missing distinct 
-##     4264        0       81 
+##        n  missing distinct     Info     Mean      Gmd      .05      .10 
+##     4264        0       81    0.999     70.9    34.72       25       35 
+##      .25      .50      .75      .90      .95 
+##       47       69       90      115      121 
 ## 
-## lowest :                        100                    18                     20                     24                    
-## highest: 96                     97                     98                     99                     Unavailable           
+## lowest :   1   2   5   7  11, highest: 125 127 130 135 138
 ## ---------------------------------------------------------------------------
 ## BikeScoreLabel 
 ##        n  missing distinct 
@@ -2879,35 +2662,13 @@ city <- rbind(Philadelphia1, NewYork1, Detroit1, Chicago1, Boston1)
 ## 
 ## Variables with all observations missing:
 ## 
-##  [1] q1us  q46b7 q16   q17   q19   q20   q24   q26   q28   q40   q41
+## [1] q1us  q46b7
 ```
 
 ```
 ## Vancouver1 
 ## 
-##  53  Variables      2518  Observations
-## ---------------------------------------------------------------------------
-## X 
-##        n  missing distinct     Info     Mean      Gmd      .05      .10 
-##     2518        0     2518        1    22639    847.2    21510    21636 
-##      .25      .50      .75      .90      .95 
-##    22013    22642    23272    23649    23775 
-## 
-## lowest : 14438 18896 21386 21387 21388, highest: 23897 23898 23899 23900 23901
-## ---------------------------------------------------------------------------
-## quest 
-##        n  missing distinct     Info     Mean      Gmd      .05      .10 
-##     2518        0     2380        1    10686    13446    363.1    880.8 
-##      .25      .50      .75      .90      .95 
-##   1721.5   2806.5  14713.2  16906.6  60156.9 
-##                                                                       
-## Value          0  1000  2000  3000  4000 12000 13000 14000 15000 16000
-## Frequency    154   371   555   376    46    21   105   219   121   214
-## Proportion 0.061 0.147 0.220 0.149 0.018 0.008 0.042 0.087 0.048 0.085
-##                                               
-## Value      17000 18000 60000 66000 80000 81000
-## Frequency     98    66   122     1    39    10
-## Proportion 0.039 0.026 0.048 0.000 0.015 0.004
+##  40  Variables      2518  Observations
 ## ---------------------------------------------------------------------------
 ## lang 
 ##        n  missing distinct    value 
@@ -2932,18 +2693,6 @@ city <- rbind(Philadelphia1, NewYork1, Detroit1, Chicago1, Boston1)
 ## Value      Vancouver
 ## Frequency       2518
 ## Proportion         1
-## ---------------------------------------------------------------------------
-## q1aut 
-##        n  missing distinct 
-##     2518        0       58 
-## 
-## lowest :        66     V0N3A0 V2P7M3 V2R1W2, highest: V9A6B4 V9A6K1 V9B3P6 V9C0G9 V9W2Y8
-## ---------------------------------------------------------------------------
-## q46b9 
-##        n  missing distinct 
-##     2518        0       49 
-## 
-## lowest :    00 5M 6M 73, highest: F2 F3 F4 N9 R3
 ## ---------------------------------------------------------------------------
 ## q2 
 ##        n  missing distinct 
@@ -3212,11 +2961,12 @@ city <- rbind(Philadelphia1, NewYork1, Detroit1, Chicago1, Boston1)
 ## Proportion             0.345             0.388
 ## ---------------------------------------------------------------------------
 ## TransitScore 
-##        n  missing distinct 
-##     2518        0       76 
+##        n  missing distinct     Info     Mean      Gmd      .05      .10 
+##     2518        0       76    0.999    45.29     21.9        3        3 
+##      .25      .50      .75      .90      .95 
+##       37       49       59       67       74 
 ## 
-## lowest :                        0                      100                    24                     25                    
-## highest: 96                     97                     98                     99                     Unavailable           
+## lowest :  1  2  3  6  7, highest: 76 77 78 79 80
 ## ---------------------------------------------------------------------------
 ## TransitScoreLabel 
 ##        n  missing distinct 
@@ -3231,11 +2981,12 @@ city <- rbind(Philadelphia1, NewYork1, Detroit1, Chicago1, Boston1)
 ## Proportion             0.002             0.147             0.061
 ## ---------------------------------------------------------------------------
 ## BikeScore 
-##        n  missing distinct 
-##     2518        0       81 
+##        n  missing distinct     Info     Mean      Gmd      .05      .10 
+##     2518        0       81    0.993    92.61    41.27       27       43 
+##      .25      .50      .75      .90      .95 
+##       65      100      122      138      138 
 ## 
-## lowest :                        100                    12                     13                     19                    
-## highest: 96                     97                     98                     99                     Unavailable           
+## lowest :   1   2   3   4   6, highest: 125 127 130 135 138
 ## ---------------------------------------------------------------------------
 ## BikeScoreLabel 
 ##        n  missing distinct 
@@ -3270,7 +3021,7 @@ city <- rbind(Philadelphia1, NewYork1, Detroit1, Chicago1, Boston1)
 ## 
 ## Variables with all observations missing:
 ## 
-##  [1] q1us  q46b7 q16   q17   q19   q20   q24   q26   q28   q40   q41
+## [1] q1us  q46b7
 ```
 
 
@@ -3279,1420 +3030,1751 @@ city <- rbind(Philadelphia1, NewYork1, Detroit1, Chicago1, Boston1)
 ```
 ## city 
 ## 
-##  53  Variables      14441  Observations
-## ---------------------------------------------------------------------------
-## X 
-##        n  missing distinct     Info     Mean      Gmd      .05      .10 
-##    14441        0    14441        1     7223     4818      723     1445 
-##      .25      .50      .75      .90      .95 
-##     3611     7221    10831    12997    13719 
-## 
-## lowest :     1     2     3     4     5, highest: 14437 21378 21382 21383 21384
-## ---------------------------------------------------------------------------
-## quest 
-##        n  missing distinct     Info     Mean      Gmd      .05      .10 
-##    14441        0    14347        1    19712    14645      746     4647 
-##      .25      .50      .75      .90      .95 
-##     6912    19859    29825    32662    33772 
-## 
-## lowest :     1     2     4     5     6, highest: 73675 73677 73678 73679 73681
+##  40  Variables      23901  Observations
 ## ---------------------------------------------------------------------------
 ## lang 
 ##        n  missing distinct 
-##    14441        0        3 
+##    23901        0        3 
 ##                                      
 ## Value       Anglais Espagnol Français
-## Frequency     14396       44        1
-## Proportion    0.997    0.003    0.000
+## Frequency     22236       44     1621
+## Proportion    0.930    0.002    0.068
 ## ---------------------------------------------------------------------------
 ## q54 
 ##        n  missing distinct 
-##    14441        0        2 
+##    23901        0        2 
 ##                       
 ## Value      Femme Homme
-## Frequency   8856  5585
-## Proportion 0.613 0.387
+## Frequency  14042  9859
+## Proportion 0.588 0.412
 ## ---------------------------------------------------------------------------
 ## ville 
 ##        n  missing distinct 
-##    14441        0        5 
+##    23901        0        8 
 ##                                                               
-## Value            Boston      Chicago      Détroit     New-York
-## Frequency          1977         4085         3077         3824
-## Proportion        0.137        0.283        0.213        0.265
-##                        
-## Value      Philadelphie
-## Frequency          1478
-## Proportion        0.102
+## Value            Boston      Chicago      Détroit     Montréal
+## Frequency          1977         4085         3077         2678
+## Proportion        0.083        0.171        0.129        0.112
+##                                                               
+## Value          New-York Philadelphie      Toronto    Vancouver
+## Frequency          3824         1478         4264         2518
+## Proportion        0.160        0.062        0.178        0.105
 ## ---------------------------------------------------------------------------
 ## q1us 
 ##        n  missing distinct     Info     Mean      Gmd      .05      .10 
-##    14014      427      998        1    32122    25903     2127     2141 
+##    14014     9887      998        1    32122    25903     2127     2141 
 ##      .25      .50      .75      .90      .95 
 ##    10024    19147    60605    60638    60654 
 ## 
 ## lowest :  1420  1440  1453  1462  1463, highest: 61614 67558 89123 90023 92620
 ## ---------------------------------------------------------------------------
-## q1aut 
-##        n  missing distinct 
-##    14441        0      217 
-## 
-## lowest :        01570  01581  01826  02138 , highest: 62895  N0N1K0 N3C1G3 N3C3K9 N7L 4T
-## ---------------------------------------------------------------------------
 ## q46b7 
 ##        n  missing distinct 
-##     1969    12472       17 
+##     1969    21932       17 
 ## 
 ## lowest : Allston-Brighton              Autre                         Back Bay/Beacon Hill/West End Cambridgeport                 Charlestown                  
 ## highest: Roxbury                       South Boston                  South Dorchester              South End/Chinatown           Wellington-Harrington        
 ## ---------------------------------------------------------------------------
-## q46b9 
-##        n  missing distinct 
-##    14441        0      225 
-## 
-## lowest :    00 01 02 03, highest: T4 T5 T6 T7 T8
-## ---------------------------------------------------------------------------
 ## q2 
 ##        n  missing distinct 
-##    14441        0        6 
+##    23901        0        6 
 ## 
-## Bon (3944, 0.273), Excellent (3071, 0.213), Mauvais (233, 0.016), Moyen
-## (1174, 0.081), Ne sais pas/Refuse de répondre (23, 0.002), Très bon (5996,
-## 0.415)
+## Bon (6725, 0.281), Excellent (4803, 0.201), Mauvais (489, 0.020), Moyen
+## (2104, 0.088), Ne sais pas/Refuse de répondre (39, 0.002), Très bon (9741,
+## 0.408)
 ## ---------------------------------------------------------------------------
 ## q13 
 ##        n  missing distinct 
-##    14441        0       11 
+##    23901        0       11 
 ## 
-## Autre (précisez:) (21, 0.001), Marche (2636, 0.183), Ne s'applique pas
-## (41, 0.003), Ne sais pas (22, 0.002), Scooter (8, 0.001), Taxi (146,
-## 0.010), Transport en commun (4775, 0.331), Véhicule motorisé (loué,
-## emprunté, covoiturage) (6085, 0.421), Vélo en libre-service (140, 0.010),
-## Vélo personnel (480, 0.033), Voiture personnelle (87, 0.006)
+## Autre (précisez:) (35, 0.001), Marche (4484, 0.188), Ne s'applique pas
+## (61, 0.003), Ne sais pas (36, 0.002), Scooter (21, 0.001), Taxi (205,
+## 0.009), Transport en commun (7886, 0.330), Véhicule motorisé (loué,
+## emprunté, covoiturage) (9768, 0.409), Vélo en libre-service (243, 0.010),
+## Vélo personnel (934, 0.039), Voiture personnelle (228, 0.010)
 ## ---------------------------------------------------------------------------
 ## q14 
 ##        n  missing distinct 
-##    14441        0        4 
+##    23901        0        4 
 ##                                                                       
 ## Value      Ne sais pas/Ne s'applique pas                           Non
-## Frequency                            156                          2511
-## Proportion                         0.011                         0.174
+## Frequency                            276                          4124
+## Proportion                         0.012                         0.173
 ##                                                                       
 ## Value                                Oui            Refuse de répondre
-## Frequency                          11757                            17
-## Proportion                         0.814                         0.001
+## Frequency                          19471                            30
+## Proportion                         0.815                         0.001
 ## ---------------------------------------------------------------------------
 ## q15 
 ##        n  missing distinct     Info     Mean      Gmd      .05      .10 
-##    11757     2684       72     0.96    44.01    27.09        5        7 
+##    19471     4430       73    0.951    45.11    26.85        5        7 
 ##      .25      .50      .75      .90      .95 
-##       18       58       64       66       68 
+##       20       63       64       66       68 
 ## 
 ## lowest :  1  2  3  4  5, highest: 70 71 96 98 99
 ## ---------------------------------------------------------------------------
 ## q18 
 ##        n  missing distinct     Info     Mean      Gmd      .05      .10 
-##    11757     2684       74    0.992    50.44    36.53        5        7 
+##    19471     4430       75     0.99    51.83    36.73        5        7 
 ##      .25      .50      .75      .90      .95 
-##       18       61       68       97       97 
+##       18       64       68       97       97 
 ## 
 ## lowest :  1  2  3  4  5, highest: 71 96 97 98 99
 ## ---------------------------------------------------------------------------
 ## q21 
 ##        n  missing distinct     Info     Mean      Gmd      .05      .10 
-##    14441        0       10     0.98    12.12    17.37        0        0 
+##    23901        0       10    0.983    12.33    17.84        0        0 
 ##      .25      .50      .75      .90      .95 
 ##        2        5        7        7       98 
 ##                                                                       
 ## Value          0     1     2     3     4     5     6     7    98    99
-## Frequency   1679  1500  1486  1189   935  1839  1242  3313  1178    80
-## Proportion 0.116 0.104 0.103 0.082 0.065 0.127 0.086 0.229 0.082 0.006
+## Frequency   2785  2527  2631  2070  1648  3136  2019  4925  2037   123
+## Proportion 0.117 0.106 0.110 0.087 0.069 0.131 0.084 0.206 0.085 0.005
 ## ---------------------------------------------------------------------------
 ## q22b 
 ##        n  missing distinct     Info     Mean      Gmd      .05      .10 
-##     5786     8655       16     0.88    2.046    1.443        1        1 
+##     9249    14652       16    0.863    1.971    1.383        1        1 
 ##      .25      .50      .75      .90      .95 
-##        1        2        2        4        5 
+##        1        2        2        3        5 
 ##                                                                       
 ## Value          0     1     2     3     4     5     6     7     8     9
-## Frequency    106  2534  1877   675   243   151    58    23    33     8
-## Proportion 0.018 0.438 0.324 0.117 0.042 0.026 0.010 0.004 0.006 0.001
+## Frequency    162  4348  2943   947   343   210    84    35    44     9
+## Proportion 0.018 0.470 0.318 0.102 0.037 0.023 0.009 0.004 0.005 0.001
 ##                                               
 ## Value         10    11    12    14    15    16
-## Frequency     31     4    16     4    18     5
-## Proportion 0.005 0.001 0.003 0.001 0.003 0.001
+## Frequency     46     5    22     5    34    12
+## Proportion 0.005 0.001 0.002 0.001 0.004 0.001
 ## ---------------------------------------------------------------------------
 ## q22c 
 ##        n  missing distinct     Info     Mean      Gmd      .05      .10 
-##     3127    11314       51    0.957    30.42    19.97        3       10 
+##     5412    18489       60    0.956    30.53    19.89        3       10 
 ##      .25      .50      .75      .90      .95 
-##       20       30       35       45       75 
+##       20       30       40       45       75 
 ## 
-## lowest :   0   1   2   3   4, highest: 150 180 210 300 320
+## lowest :   0   1   2   3   4, highest: 180 210 300 320 406
 ## ---------------------------------------------------------------------------
 ## q22d 
 ##        n  missing distinct     Info     Mean      Gmd      .05      .10 
-##     1684    12757       36     0.98     5.45    5.971     1.00     1.00 
+##     2832    21069       38    0.976    5.274    5.822        1        1 
 ##      .25      .50      .75      .90      .95 
-##     2.00     3.00     6.00    12.00    17.85 
+##        2        3        6       10       17 
 ## 
-## lowest :   0   1   2   3   4, highest:  60  80  90 100 112
+## lowest :   0   1   2   3   4, highest:  70  80  90 100 112
 ## ---------------------------------------------------------------------------
 ## q22e 
 ##        n  missing distinct     Info     Mean      Gmd      .05      .10 
-##      697    13744       48    0.965    44.02    49.82        0        1 
+##     1099    22802       50    0.969    43.21    46.81        0        1 
 ##      .25      .50      .75      .90      .95 
 ##       15       30       40       60      100 
 ## 
-## lowest :    0    1    2    3    5, highest:  540  600 1080 1260 2800
+## lowest :    0    1    2    3    5, highest:  600 1080 1200 1260 2800
 ## ---------------------------------------------------------------------------
 ## q22f_m1 
 ##        n  missing distinct 
-##      514    13927        2 
+##      827    23074        2 
 ##                                                   
 ## Value      Ne sais pas/Pas sûr  Refuse de répondre
-## Frequency                  482                  32
-## Proportion               0.938               0.062
+## Frequency                  779                  48
+## Proportion               0.942               0.058
 ## ---------------------------------------------------------------------------
 ## q23 
 ##        n  missing distinct     Info     Mean      Gmd      .05      .10 
-##    14441        0       10    0.972    3.397    3.303        0        0 
+##    23901        0       10    0.974    3.321    3.252        0        0 
 ##      .25      .50      .75      .90      .95 
 ##        0        3        6        8        8 
 ##                                                                       
 ## Value          0     1     2     3     4     5     6     7     8     9
-## Frequency   3887  1574  1186   925   760  2230   971  1089  1670   149
-## Proportion 0.269 0.109 0.082 0.064 0.053 0.154 0.067 0.075 0.116 0.010
+## Frequency   6169  2993  2167  1598  1339  3617  1482  1583  2726   227
+## Proportion 0.258 0.125 0.091 0.067 0.056 0.151 0.062 0.066 0.114 0.009
 ## ---------------------------------------------------------------------------
 ## q25 
 ##        n  missing distinct     Info     Mean      Gmd      .05      .10 
-##    14441        0       10    0.978    4.523     2.95        0        0 
+##    23901        0       10    0.979    4.521    2.893        0        1 
 ##      .25      .50      .75      .90      .95 
-##        2        5        7        8        8 
+##        2        5        7        7        8 
 ##                                                                       
 ## Value          0     1     2     3     4     5     6     7     8     9
-## Frequency   1471  1075  1363  1254  1054  2301  1012  3463  1315   133
-## Proportion 0.102 0.074 0.094 0.087 0.073 0.159 0.070 0.240 0.091 0.009
+## Frequency   2115  1841  2361  2245  1831  3994  1711  5436  2149   218
+## Proportion 0.088 0.077 0.099 0.094 0.077 0.167 0.072 0.227 0.090 0.009
 ## ---------------------------------------------------------------------------
 ## q27 
 ##        n  missing distinct     Info     Mean      Gmd      .05      .10 
-##    14441        0       10    0.846    26.43    38.45        0        0 
+##    23901        0       10    0.853    27.56    39.46        0        0 
 ##      .25      .50      .75      .90      .95 
 ##        0        0       98       98       98 
 ##                                                                       
 ## Value          0     1     2     3     4     5     6     7    98    99
-## Frequency   7433  1084   720   448   282   366   129   175  3691   113
-## Proportion 0.515 0.075 0.050 0.031 0.020 0.025 0.009 0.012 0.256 0.008
+## Frequency  12010  1793  1185   741   462   632   215   294  6395   174
+## Proportion 0.502 0.075 0.050 0.031 0.019 0.026 0.009 0.012 0.268 0.007
 ## ---------------------------------------------------------------------------
 ## q42 
 ##        n  missing distinct     Info     Mean      Gmd      .05      .10 
-##    14441        0       74    0.999    39.59    14.91       22       24 
+##    23901        0       75        1    42.57    16.17       23       25 
 ##      .25      .50      .75      .90      .95 
-##       29       37       49       58       65 
+##       31       41       53       63       68 
 ## 
-## lowest : 18 19 20 21 22, highest: 87 88 89 90 91
+## lowest : 18 19 20 21 22, highest: 88 89 90 91 94
 ## ---------------------------------------------------------------------------
 ## q44 
 ##        n  missing distinct 
-##    14441        0        7 
+##    23901        0        7 
 ## 
-## Célibatiare (6465, 0.448), Divorcé (e) (1012, 0.070), En couple (72,
-## 0.005), Marié(e)/Conjoint de fait (6330, 0.438), Refuse de répondre (146,
-## 0.010), Séparé (e) (218, 0.015), Veuf (ve) (198, 0.014)
+## Célibatiare (9452, 0.395), Divorcé (e) (1854, 0.078), En couple (79,
+## 0.003), Marié(e)/Conjoint de fait (11287, 0.472), Refuse de répondre (291,
+## 0.012), Séparé (e) (460, 0.019), Veuf (ve) (478, 0.020)
 ## ---------------------------------------------------------------------------
 ## q45 
 ##        n  missing distinct     Info     Mean      Gmd 
-##    14441        0        9    0.578    6.488    2.383 
+##    23901        0        9    0.557    6.565      2.3 
 ##                                                                 
 ## Value          1     2     3     4     5     6     7     8     9
-## Frequency   1835  1155   341    96    28    15     7 10810   154
-## Proportion 0.127 0.080 0.024 0.007 0.002 0.001 0.000 0.749 0.011
+## Frequency   2915  1863   471   119    40    18     9 18191   275
+## Proportion 0.122 0.078 0.020 0.005 0.002 0.001 0.000 0.761 0.012
 ## ---------------------------------------------------------------------------
 ## q46b 
 ##        n  missing distinct     Info     Mean      Gmd      .05      .10 
-##     5814     8627       32    0.987    5.039    3.567        1        1 
+##     8543    15358       39    0.987    5.114    3.588        1        2 
 ##      .25      .50      .75      .90      .95 
-##        3        4        6        9       11 
+##        3        5        6        9       11 
 ## 
-## lowest :  0  1  2  3  4, highest: 30 32 38 39 42
+## lowest :  0  1  2  3  4, highest: 42 46 64 74 81
 ## ---------------------------------------------------------------------------
 ## q47 
 ##        n  missing distinct 
-##    14441        0       11 
+##    23901        0       11 
 ## 
 ## lowest : Amérindien des États-Unis / Autochtone d'Amérique Arabe (Moyen-Orient, Afrique du Nord)             Asiatique / insulaire du Pacifique                Autre                                             Blanc(che) / Caucasien                           
 ## highest: Indien / Pakistanais                              Je préfère ne pas répondre                        Jewish                                            Mixed / Mixed race / Bi-racial                    Noir(e) / Africain(e) / Afro-Américain(e)        
 ## ---------------------------------------------------------------------------
 ## q48 
 ##        n  missing distinct     Info     Mean      Gmd      .05      .10 
-##    14441        0       79    0.276    5.805    7.244        2        2 
+##    23901        0       83    0.805    7.681    11.37        1        1 
 ##      .25      .50      .75      .90      .95 
-##        2        2        2        2       31 
+##        1        2        2       19       44 
 ## 
 ## lowest :  1  2  3  4  5, highest: 79 80 81 96 99
 ## ---------------------------------------------------------------------------
 ## q49 
 ##        n  missing distinct 
-##    14441        0        3 
+##    23901        0        3 
 ##                                                                       
 ## Value      Ne sais pas/Ne s'applique pas                           Non
-## Frequency                             85                          1522
-## Proportion                         0.006                         0.105
+## Frequency                            132                          2891
+## Proportion                         0.006                         0.121
 ##                                         
 ## Value                                Oui
-## Frequency                          12834
-## Proportion                         0.889
+## Frequency                          20878
+## Proportion                         0.874
 ## ---------------------------------------------------------------------------
 ## q50 
 ##        n  missing distinct 
-##    14441        0        3 
+##    23901        0        3 
 ##                                                                       
 ## Value      Ne sais pas/Ne s'applique pas                           Non
-## Frequency                            127                          3890
-## Proportion                         0.009                         0.269
+## Frequency                            230                          6295
+## Proportion                         0.010                         0.263
 ##                                         
 ## Value                                Oui
-## Frequency                          10424
-## Proportion                         0.722
+## Frequency                          17376
+## Proportion                         0.727
 ## ---------------------------------------------------------------------------
 ## q51 
 ##        n  missing distinct 
-##    14441        0        9 
+##    23901        0        9 
 ## 
 ## lowest : Aucun grade, certificat ou diplôme                  Autre (précisez):                                   Baccalauréat                                        Cégep                                               Certificat d'école de métier, certificat ou diplôme
 ## highest: Certificat d'école de métier, certificat ou diplôme Diplôme d'études secondaire ou l'équivalent         Diplôme universitaire supérieur au baccalauréat     École primaire                                      Refuse de répondre                                 
 ## ---------------------------------------------------------------------------
 ## Q52_occupational_status_category 
 ##        n  missing distinct 
-##    14333      108        7 
+##    23705      196        7 
 ## 
-## Disability (217, 0.015), Full time or Self-employed (9577, 0.668),
-## Homemaker or parental leave (634, 0.044), Part time (1169, 0.082), Retired
-## (886, 0.062), Student (1228, 0.086), Unemployed seeking work (622, 0.043)
+## Disability (453, 0.019), Full time or Self-employed (15373, 0.649),
+## Homemaker or parental leave (983, 0.041), Part time (1899, 0.080), Retired
+## (2434, 0.103), Student (1586, 0.067), Unemployed seeking work (977, 0.041)
 ## ---------------------------------------------------------------------------
 ## q53 
 ##        n  missing distinct 
-##    14441        0       10 
+##    23901        0       10 
 ## 
 ## lowest : Entre 10000 $ and 19999 $ par année   Entre 100000 $ and 149999 $ par année Entre 150000 $ and 199999 $ par année Entre 20000 $ and 34999 $ par année   Entre 35000 $ and 49999 $ par année  
 ## highest: Entre 50000 $ and 74999 $ par année   Entre 75000 $ and 99999 $ par année   Moins de 10000 $ par année            Plus de 200000 $ par année            Refuse de répondre                   
 ## ---------------------------------------------------------------------------
 ## bmi 
 ##        n  missing distinct     Info     Mean      Gmd      .05      .10 
-##    12758     1683     1330        1    25.74    5.365    19.37    20.25 
+##    21160     2741     1594        1    25.64    5.207    19.37    20.28 
 ##      .25      .50      .75      .90      .95 
-##    22.14    24.89    28.35    32.89    35.67 
+##    22.14    24.89    28.25    32.28    35.26 
 ## 
-## lowest : 17.50 17.51 17.54 17.56 17.57, highest: 40.37 40.39 40.41 40.42 40.45
+## lowest : 17.50 17.51 17.54 17.56 17.57, highest: 40.41 40.42 40.44 40.45 40.49
 ## ---------------------------------------------------------------------------
 ## bmi_category 
 ##        n  missing distinct 
-##    12758     1683        4 
-##                                                           
-## Value       embonpoint insuffisant      normal     obesite
-## Frequency         3889         240        6259        2370
-## Proportion       0.305       0.019       0.491       0.186
+##    21352     2549        9 
+## 
+## embonpoint (6147, 0.288), insuffisant (349, 0.016), normal (9455, 0.443),
+## obesite (3424, 0.160), overweight (511, 0.024), other (192, 0.009), normal
+## weight (982, 0.046), obese (248, 0.012), underweight (44, 0.002)
 ## ---------------------------------------------------------------------------
 ## WalkScore 
 ##        n  missing distinct     Info     Mean      Gmd      .05      .10 
-##    14238      203      101    0.997    76.36    28.75       11       27 
+##    23617      284      101    0.999    77.81    25.27       19       39 
 ##      .25      .50      .75      .90      .95 
-##       63       90       97      100      100 
+##       68       88       96       99      100 
 ## 
 ## lowest :   0   1   2   3   4, highest:  96  97  98  99 100
 ## ---------------------------------------------------------------------------
 ## WalkScoreLabel 
 ##        n  missing distinct 
-##    14441        0        5 
+##    23901        0        5 
 ##                                                                 
 ## Value                            Car-Dependent Somewhat Walkable
-## Frequency                203              2608              1457
-## Proportion             0.014             0.181             0.101
+## Frequency                284              3337              2863
+## Proportion             0.012             0.140             0.120
 ##                                               
 ## Value          Very Walkable Walker's Paradise
-## Frequency               2866              7307
-## Proportion             0.198             0.506
+## Frequency               6319             11098
+## Proportion             0.264             0.464
 ## ---------------------------------------------------------------------------
 ## TransitScore 
-##        n  missing distinct 
-##    14441        0       16 
+##        n  missing distinct     Info     Mean      Gmd      .05      .10 
+##    23901        0       80    0.831     60.3    27.78        3        3 
+##      .25      .50      .75      .90      .95 
+##       46       80       80       80       80 
 ## 
-## (203, 0.014), 100 (488, 0.034), 40 (2, 0.000), 50 (64, 0.004), 56 (7,
-## 0.000), 63 (26, 0.002), 66 (56, 0.004), 67 (2, 0.000), 71 (106, 0.007), 78
-## (6, 0.000), 79 (95, 0.007), 80 (28, 0.002), 85 (277, 0.019), 91 (32,
-## 0.002), 94 (3, 0.000), Unavailable (13046, 0.903)
+## lowest :  1  2  3  4  5, highest: 76 77 78 79 80
 ## ---------------------------------------------------------------------------
 ## TransitScoreLabel 
 ##        n  missing distinct 
-##    14441        0        5 
+##    23901        0        6 
 ##                                                                 
 ## Value                        Excellent Transit      Good Transit
-## Frequency              13249               512               155
-## Proportion             0.917             0.035             0.011
-##                                               
-## Value       Rider's Paradise      Some Transit
-## Frequency                523                 2
-## Proportion             0.036             0.000
+## Frequency              13415              3165              2444
+## Proportion             0.561             0.132             0.102
+##                                                                 
+## Value        Minimal Transit  Rider's Paradise      Some Transit
+## Frequency                 82              4476               319
+## Proportion             0.003             0.187             0.013
 ## ---------------------------------------------------------------------------
 ## BikeScore 
-##        n  missing distinct 
-##    14441        0      104 
+##        n  missing distinct     Info     Mean      Gmd      .05      .10 
+##    23901        0      138    0.989     94.1    40.48       35       44 
+##      .25      .50      .75      .90      .95 
+##       69       99      130      138      138 
 ## 
-## lowest :                        32                     33                     38                     39                    
-## highest: 98.407160731660099     98.650123169158107     99.199675837444303     99.406202578305795     Unavailable           
+## lowest :   1   2   3   4   5, highest: 134 135 136 137 138
 ## ---------------------------------------------------------------------------
 ## BikeScoreLabel 
 ##        n  missing distinct 
-##    14441        0        5 
+##    23901        0        5 
 ##                                                                 
 ## Value                                 Bikeable  Biker's Paradise
-## Frequency               4380              3051              1102
-## Proportion             0.303             0.211             0.076
+## Frequency               5636              6729              2451
+## Proportion             0.236             0.282             0.103
 ##                                               
 ## Value      Somewhat Bikeable     Very Bikeable
-## Frequency                400              5508
-## Proportion             0.028             0.381
+## Frequency               1162              7923
+## Proportion             0.049             0.331
 ## ---------------------------------------------------------------------------
 ## DiningandDrinkingScore 
 ##        n  missing distinct     Info     Mean      Gmd      .05      .10 
-##    14238      203      881        1    78.09    27.77    9.747   31.223 
+##    23617      284     6383        1    79.53    24.71    20.30    44.47 
 ##      .25      .50      .75      .90      .95 
-##   66.880   90.911   98.625   99.750   99.905 
+##    70.11    89.13    98.14    99.72    99.89 
 ## 
-## lowest :  0.0000  0.1753  0.3478  0.5031  0.7687
-## highest: 99.9719 99.9723 99.9736 99.9767 99.9859
+## lowest :   0.0000   0.1753   0.3478   0.5031   0.7687
+## highest:  99.9986  99.9989  99.9992  99.9997 100.0000
 ## ---------------------------------------------------------------------------
 ## GroceryScore 
 ##        n  missing distinct     Info     Mean      Gmd      .05      .10 
-##    14238      203      652    0.979    77.82    31.79     0.00    10.82 
+##    23617      284     4256     0.99    80.76    27.58    5.289   27.652 
 ##      .25      .50      .75      .90      .95 
-##    68.61    96.81   100.00   100.00   100.00 
+##   74.695   96.316   99.893  100.000  100.000 
 ## 
 ## lowest :   0.0000   0.3909   0.7756   1.1221   1.4329
-## highest:  99.8932  99.9236  99.9520  99.9785 100.0000
+## highest:  99.9236  99.9356  99.9520  99.9785 100.0000
 ## ---------------------------------------------------------------------------
-## 
-## Variables with all observations missing:
-## 
-## [1] q16 q17 q19 q20 q24 q26 q28 q40 q41
 ```
+
 
 #Tables for Each City and Combined
 
 ```r
-CreateTableOne(data = Boston1)
+vars <- c('lang', 'q54', 'ville', 'q1us', 'q2', 'q13', 'q14', 'q15', 'q18', 'q21', 'q22b', 'q22c', 'q22d', 'q22e', 'q22f_m1', 'q23', 'q25', 'q27', 'q42', 'q44', 'q45', 'q46b', 'q47', 'q48', 'q49', 'q50', 'q51', 'Q52_occupational_status_category', 'q53', 'bmi', 'bmi_category', 'WalkScore', 'WalkScoreLabel', 'TransitScore', 'TransitScoreLabel', 'BikeScore', 'BikeScoreLabel', 'DiningandDrinkingScore', 'GroceryScore')
+CreateTableOne(vars = vars, data = Boston1)
+```
+
+```
+##                                                         
+##                                                          Overall         
+##   n                                                         1977         
+##   lang (%)                                                               
+##      Anglais                                                1974 ( 99.8) 
+##      Espagnol                                                  3 (  0.2) 
+##      Français                                                  0 (  0.0) 
+##   q54 = Homme (%)                                            694 ( 35.1) 
+##   ville (%)                                                              
+##      Boston                                                 1977 (100.0) 
+##      Chicago                                                   0 (  0.0) 
+##      Détroit                                                   0 (  0.0) 
+##      Montréal                                                  0 (  0.0) 
+##      New-York                                                  0 (  0.0) 
+##      Philadelphie                                              0 (  0.0) 
+##      Toronto                                                   0 (  0.0) 
+##      Vancouver                                                 0 (  0.0) 
+##   q1us (mean (SD))                                       2167.15 (447.08)
+##   q2 (%)                                                                 
+##      Bon                                                     521 ( 26.4) 
+##      Excellent                                               467 ( 23.6) 
+##      Mauvais                                                  24 (  1.2) 
+##      Moyen                                                   142 (  7.2) 
+##      Ne sais pas/Refuse de répondre                            5 (  0.3) 
+##      Très bon                                                818 ( 41.4) 
+##   q13 (%)                                                                
+##      Autre (précisez:)                                         3 (  0.2) 
+##      Marche                                                  500 ( 25.3) 
+##      Ne s'applique pas                                         3 (  0.2) 
+##      Ne sais pas                                               0 (  0.0) 
+##      Scooter                                                   1 (  0.1) 
+##      Taxi                                                     12 (  0.6) 
+##      Transport en commun                                     669 ( 33.8) 
+##      Véhicule motorisé (loué, emprunté, covoiturage)         675 ( 34.1) 
+##      Vélo en libre-service                                    15 (  0.8) 
+##      Vélo personnel                                           89 (  4.5) 
+##      Voiture personnelle                                      10 (  0.5) 
+##   q14 (%)                                                                
+##      Ne sais pas/Ne s'applique pas                            18 (  0.9) 
+##      Non                                                     255 ( 12.9) 
+##      Oui                                                    1703 ( 86.1) 
+##      Refuse de répondre                                        1 (  0.1) 
+##   q15 (mean (SD))                                          44.15 (24.35) 
+##   q18 (mean (SD))                                          50.68 (31.37) 
+##   q21 (mean (SD))                                          10.46 (24.50) 
+##   q22b (mean (SD))                                          2.09 (1.98)  
+##   q22c (mean (SD))                                         30.61 (19.21) 
+##   q22d (mean (SD))                                          4.22 (5.18)  
+##   q22e (mean (SD))                                         34.57 (26.95) 
+##   q22f_m1 = Refuse de répondre (%)                             4 (  7.5) 
+##   q23 (mean (SD))                                           3.43 (2.71)  
+##   q25 (mean (SD))                                           4.85 (2.34)  
+##   q27 (mean (SD))                                          24.71 (41.85) 
+##   q42 (mean (SD))                                          37.21 (13.86) 
+##   q44 (%)                                                                
+##      Célibatiare                                            1025 ( 51.8) 
+##      Divorcé (e)                                             130 (  6.6) 
+##      En couple                                                 8 (  0.4) 
+##      Marié(e)/Conjoint de fait                               739 ( 37.4) 
+##      Refuse de répondre                                       23 (  1.2) 
+##      Séparé (e)                                               28 (  1.4) 
+##      Veuf (ve)                                                24 (  1.2) 
+##   q45 (mean (SD))                                           6.92 (2.45)  
+##   q46b (mean (SD))                                          4.83 (3.93)  
+##   q47 (%)                                                                
+##      Amérindien des États-Unis / Autochtone d'Amérique         7 (  0.4) 
+##      Arabe (Moyen-Orient, Afrique du Nord)                     5 (  0.3) 
+##      Asiatique / insulaire du Pacifique                      218 ( 11.0) 
+##      Autre                                                     5 (  0.3) 
+##      Blanc(che) / Caucasien                                 1480 ( 74.9) 
+##      Hispanique / Latino / Espagnol(e)                        67 (  3.4) 
+##      Indien / Pakistanais                                     20 (  1.0) 
+##      Je préfère ne pas répondre                               46 (  2.3) 
+##      Jewish                                                    1 (  0.1) 
+##      Mixed / Mixed race / Bi-racial                           18 (  0.9) 
+##      Noir(e) / Africain(e) / Afro-Américain(e)               110 (  5.6) 
+##   q48 (mean (SD))                                           6.22 (16.05) 
+##   q49 (%)                                                                
+##      Ne sais pas/Ne s'applique pas                             5 (  0.3) 
+##      Non                                                     166 (  8.4) 
+##      Oui                                                    1806 ( 91.4) 
+##   q50 (%)                                                                
+##      Ne sais pas/Ne s'applique pas                            16 (  0.8) 
+##      Non                                                     519 ( 26.3) 
+##      Oui                                                    1442 ( 72.9) 
+##   q51 (%)                                                                
+##      Aucun grade, certificat ou diplôme                        0 (  0.0) 
+##      Autre (précisez):                                         2 (  0.1) 
+##      Baccalauréat                                            757 ( 38.3) 
+##      Cégep                                                   231 ( 11.7) 
+##      Certificat d'école de métier, certificat ou diplôme      65 (  3.3) 
+##      Diplôme d'études secondaire ou l'équivalent             131 (  6.6) 
+##      Diplôme universitaire supérieur au baccalauréat         774 ( 39.2) 
+##      École primaire                                            1 (  0.1) 
+##      Refuse de répondre                                       16 (  0.8) 
+##   Q52_occupational_status_category (%)                                   
+##      Disability                                               17 (  0.9) 
+##      Full time or Self-employed                             1307 ( 66.6) 
+##      Homemaker or parental leave                              55 (  2.8) 
+##      Part time                                               135 (  6.9) 
+##      Retired                                                 112 (  5.7) 
+##      Student                                                 272 ( 13.9) 
+##      Unemployed seeking work                                  65 (  3.3) 
+##   q53 (%)                                                                
+##      Entre 10000 $ and 19999 $ par année                      88 (  4.5) 
+##      Entre 100000 $ and 149999 $ par année                   304 ( 15.4) 
+##      Entre 150000 $ and 199999 $ par année                   141 (  7.1) 
+##      Entre 20000 $ and 34999 $ par année                     168 (  8.5) 
+##      Entre 35000 $ and 49999 $ par année                     221 ( 11.2) 
+##      Entre 50000 $ and 74999 $ par année                     342 ( 17.3) 
+##      Entre 75000 $ and 99999 $ par année                     275 ( 13.9) 
+##      Moins de 10000 $ par année                              122 (  6.2) 
+##      Plus de 200000 $ par année                               91 (  4.6) 
+##      Refuse de répondre                                      225 ( 11.4) 
+##   bmi (mean (SD))                                          25.06 (4.59)  
+##   bmi_category (%)                                                       
+##      normal weight                                           982 ( 49.7) 
+##      obese                                                   248 ( 12.5) 
+##      other                                                   192 (  9.7) 
+##      overweight                                              511 ( 25.8) 
+##      underweight                                              44 (  2.2) 
+##   WalkScore (mean (SD))                                    86.19 (17.12) 
+##   WalkScoreLabel (%)                                                     
+##                                                               38 (  1.9) 
+##      Car-Dependent                                            96 (  4.9) 
+##      Somewhat Walkable                                        85 (  4.3) 
+##      Very Walkable                                           598 ( 30.2) 
+##      Walker's Paradise                                      1160 ( 58.7) 
+##   TransitScore (mean (SD))                                 73.62 (16.68) 
+##   TransitScoreLabel (%)                                                  
+##                                                             1694 ( 85.7) 
+##      Excellent Transit                                       201 ( 10.2) 
+##      Good Transit                                             64 (  3.2) 
+##      Minimal Transit                                           0 (  0.0) 
+##      Rider's Paradise                                         16 (  0.8) 
+##      Some Transit                                              2 (  0.1) 
+##   BikeScore (mean (SD))                                   106.50 (32.02) 
+##   BikeScoreLabel (%)                                                     
+##                                                              598 ( 30.2) 
+##      Bikeable                                                475 ( 24.0) 
+##      Biker's Paradise                                        323 ( 16.3) 
+##      Somewhat Bikeable                                        26 (  1.3) 
+##      Very Bikeable                                           555 ( 28.1) 
+##   DiningandDrinkingScore (mean (SD))                       86.12 (17.23) 
+##   GroceryScore (mean (SD))                                 88.94 (21.26)
+```
+
+```r
+CreateTableOne(vars = vars, data = Chicago1)
+```
+
+```
+##                                                         
+##                                                          Overall          
+##   n                                                          4085         
+##   lang (%)                                                                
+##      Anglais                                                 4065 ( 99.5) 
+##      Espagnol                                                  20 (  0.5) 
+##      Français                                                   0 (  0.0) 
+##   q54 = Homme (%)                                            1628 ( 39.9) 
+##   ville (%)                                                               
+##      Boston                                                     0 (  0.0) 
+##      Chicago                                                 4085 (100.0) 
+##      Détroit                                                    0 (  0.0) 
+##      Montréal                                                   0 (  0.0) 
+##      New-York                                                   0 (  0.0) 
+##      Philadelphie                                               0 (  0.0) 
+##      Toronto                                                    0 (  0.0) 
+##      Vancouver                                                  0 (  0.0) 
+##   q1us (mean (SD))                                       60589.33 (403.36)
+##   q2 (%)                                                                  
+##      Bon                                                     1105 ( 27.1) 
+##      Excellent                                                832 ( 20.4) 
+##      Mauvais                                                   67 (  1.6) 
+##      Moyen                                                    345 (  8.4) 
+##      Ne sais pas/Refuse de répondre                             9 (  0.2) 
+##      Très bon                                                1727 ( 42.3) 
+##   q13 (%)                                                                 
+##      Autre (précisez:)                                          8 (  0.2) 
+##      Marche                                                   576 ( 14.1) 
+##      Ne s'applique pas                                          9 (  0.2) 
+##      Ne sais pas                                                6 (  0.1) 
+##      Scooter                                                    1 (  0.0) 
+##      Taxi                                                      39 (  1.0) 
+##      Transport en commun                                     1473 ( 36.1) 
+##      Véhicule motorisé (loué, emprunté, covoiturage)         1780 ( 43.6) 
+##      Vélo en libre-service                                     34 (  0.8) 
+##      Vélo personnel                                           136 (  3.3) 
+##      Voiture personnelle                                       23 (  0.6) 
+##   q14 (%)                                                                 
+##      Ne sais pas/Ne s'applique pas                             35 (  0.9) 
+##      Non                                                      626 ( 15.3) 
+##      Oui                                                     3418 ( 83.7) 
+##      Refuse de répondre                                         6 (  0.1) 
+##   q15 (mean (SD))                                           44.11 (24.72) 
+##   q18 (mean (SD))                                           49.95 (32.12) 
+##   q21 (mean (SD))                                            9.99 (22.93) 
+##   q22b (mean (SD))                                           2.05 (1.67)  
+##   q22c (mean (SD))                                          30.66 (22.13) 
+##   q22d (mean (SD))                                           5.04 (7.81)  
+##   q22e (mean (SD))                                          55.33 (197.99)
+##   q22f_m1 = Refuse de répondre (%)                              9 (  6.6) 
+##   q23 (mean (SD))                                            3.34 (2.77)  
+##   q25 (mean (SD))                                            4.44 (2.47)  
+##   q27 (mean (SD))                                           25.56 (42.35) 
+##   q42 (mean (SD))                                           39.59 (12.73) 
+##   q44 (%)                                                                 
+##      Célibatiare                                             1844 ( 45.1) 
+##      Divorcé (e)                                              307 (  7.5) 
+##      En couple                                                 28 (  0.7) 
+##      Marié(e)/Conjoint de fait                               1778 ( 43.5) 
+##      Refuse de répondre                                        33 (  0.8) 
+##      Séparé (e)                                                46 (  1.1) 
+##      Veuf (ve)                                                 49 (  1.2) 
+##   q45 (mean (SD))                                            6.63 (2.64)  
+##   q46b (mean (SD))                                           5.11 (3.44)  
+##   q47 (%)                                                                 
+##      Amérindien des États-Unis / Autochtone d'Amérique          8 (  0.2) 
+##      Arabe (Moyen-Orient, Afrique du Nord)                      8 (  0.2) 
+##      Asiatique / insulaire du Pacifique                       313 (  7.7) 
+##      Autre                                                      8 (  0.2) 
+##      Blanc(che) / Caucasien                                  2863 ( 70.1) 
+##      Hispanique / Latino / Espagnol(e)                        300 (  7.3) 
+##      Indien / Pakistanais                                      32 (  0.8) 
+##      Je préfère ne pas répondre                                80 (  2.0) 
+##      Jewish                                                     0 (  0.0) 
+##      Mixed / Mixed race / Bi-racial                            24 (  0.6) 
+##      Noir(e) / Africain(e) / Afro-Américain(e)                449 ( 11.0) 
+##   q48 (mean (SD))                                            5.55 (14.90) 
+##   q49 (%)                                                                 
+##      Ne sais pas/Ne s'applique pas                             21 (  0.5) 
+##      Non                                                      356 (  8.7) 
+##      Oui                                                     3708 ( 90.8) 
+##   q50 (%)                                                                 
+##      Ne sais pas/Ne s'applique pas                             30 (  0.7) 
+##      Non                                                      789 ( 19.3) 
+##      Oui                                                     3266 ( 80.0) 
+##   q51 (%)                                                                 
+##      Aucun grade, certificat ou diplôme                         2 (  0.0) 
+##      Autre (précisez):                                         15 (  0.4) 
+##      Baccalauréat                                            1624 ( 39.8) 
+##      Cégep                                                    495 ( 12.1) 
+##      Certificat d'école de métier, certificat ou diplôme      293 (  7.2) 
+##      Diplôme d'études secondaire ou l'équivalent              306 (  7.5) 
+##      Diplôme universitaire supérieur au baccalauréat         1320 ( 32.3) 
+##      École primaire                                             9 (  0.2) 
+##      Refuse de répondre                                        21 (  0.5) 
+##   Q52_occupational_status_category (%)                                    
+##      Disability                                                62 (  1.5) 
+##      Full time or Self-employed                              2832 ( 69.9) 
+##      Homemaker or parental leave                              147 (  3.6) 
+##      Part time                                                328 (  8.1) 
+##      Retired                                                  229 (  5.7) 
+##      Student                                                  271 (  6.7) 
+##      Unemployed seeking work                                  184 (  4.5) 
+##   q53 (%)                                                                 
+##      Entre 10000 $ and 19999 $ par année                      180 (  4.4) 
+##      Entre 100000 $ and 149999 $ par année                    617 ( 15.1) 
+##      Entre 150000 $ and 199999 $ par année                    217 (  5.3) 
+##      Entre 20000 $ and 34999 $ par année                      338 (  8.3) 
+##      Entre 35000 $ and 49999 $ par année                      474 ( 11.6) 
+##      Entre 50000 $ and 74999 $ par année                      799 ( 19.6) 
+##      Entre 75000 $ and 99999 $ par année                      604 ( 14.8) 
+##      Moins de 10000 $ par année                               256 (  6.3) 
+##      Plus de 200000 $ par année                               221 (  5.4) 
+##      Refuse de répondre                                       379 (  9.3) 
+##   bmi (mean (SD))                                           25.89 (4.86)  
+##   bmi_category (%)                                                        
+##      embonpoint                                              1139 ( 31.2) 
+##      insuffisant                                               65 (  1.8) 
+##      normal                                                  1745 ( 47.8) 
+##      obesite                                                  698 ( 19.1) 
+##   WalkScore (mean (SD))                                     80.36 (17.45) 
+##   WalkScoreLabel (%)                                                      
+##                                                                51 (  1.2) 
+##      Car-Dependent                                            274 (  6.7) 
+##      Somewhat Walkable                                        510 ( 12.5) 
+##      Very Walkable                                           1680 ( 41.1) 
+##      Walker's Paradise                                       1570 ( 38.4) 
+##   TransitScore (mean (SD))                                  77.05 (11.31) 
+##   TransitScoreLabel (%)                                                   
+##                                                              3713 ( 90.9) 
+##      Excellent Transit                                        277 (  6.8) 
+##      Good Transit                                              82 (  2.0) 
+##      Minimal Transit                                            0 (  0.0) 
+##      Rider's Paradise                                          13 (  0.3) 
+##      Some Transit                                               0 (  0.0) 
+##   BikeScore (mean (SD))                                     87.29 (29.96) 
+##   BikeScoreLabel (%)                                                      
+##                                                               558 ( 13.7) 
+##      Bikeable                                                1113 ( 27.2) 
+##      Biker's Paradise                                           0 (  0.0) 
+##      Somewhat Bikeable                                        264 (  6.5) 
+##      Very Bikeable                                           2150 ( 52.6) 
+##   DiningandDrinkingScore (mean (SD))                        82.41 (18.59) 
+##   GroceryScore (mean (SD))                                  78.71 (28.21)
+```
+
+```r
+CreateTableOne(vars = vars, data = Detroit1)
+```
+
+```
+##                                                         
+##                                                          Overall           
+##   n                                                          3077          
+##   lang (%)                                                                 
+##      Anglais                                                 3074 ( 99.9)  
+##      Espagnol                                                   3 (  0.1)  
+##      Français                                                   0 (  0.0)  
+##   q54 = Homme (%)                                            1134 ( 36.9)  
+##   ville (%)                                                                
+##      Boston                                                     0 (  0.0)  
+##      Chicago                                                    0 (  0.0)  
+##      Détroit                                                 3077 (100.0)  
+##      Montréal                                                   0 (  0.0)  
+##      New-York                                                   0 (  0.0)  
+##      Philadelphie                                               0 (  0.0)  
+##      Toronto                                                    0 (  0.0)  
+##      Vancouver                                                  0 (  0.0)  
+##   q1us (mean (SD))                                       48188.25 (1145.98)
+##   q2 (%)                                                                   
+##      Bon                                                      928 ( 30.2)  
+##      Excellent                                                566 ( 18.4)  
+##      Mauvais                                                   64 (  2.1)  
+##      Moyen                                                    326 ( 10.6)  
+##      Ne sais pas/Refuse de répondre                             1 (  0.0)  
+##      Très bon                                                1192 ( 38.7)  
+##   q13 (%)                                                                  
+##      Autre (précisez:)                                          1 (  0.0)  
+##      Marche                                                   139 (  4.5)  
+##      Ne s'applique pas                                         18 (  0.6)  
+##      Ne sais pas                                               11 (  0.4)  
+##      Scooter                                                    1 (  0.0)  
+##      Taxi                                                       9 (  0.3)  
+##      Transport en commun                                      105 (  3.4)  
+##      Véhicule motorisé (loué, emprunté, covoiturage)         2681 ( 87.1)  
+##      Vélo en libre-service                                     17 (  0.6)  
+##      Vélo personnel                                            58 (  1.9)  
+##      Voiture personnelle                                       37 (  1.2)  
+##   q14 (%)                                                                  
+##      Ne sais pas/Ne s'applique pas                             38 (  1.2)  
+##      Non                                                      680 ( 22.1)  
+##      Oui                                                     2355 ( 76.5)  
+##      Refuse de répondre                                         4 (  0.1)  
+##   q15 (mean (SD))                                           43.08 (24.93)  
+##   q18 (mean (SD))                                           50.63 (32.94)  
+##   q21 (mean (SD))                                           11.43 (22.24)  
+##   q22b (mean (SD))                                           1.99 (1.64)   
+##   q22c (mean (SD))                                          32.92 (23.26)  
+##   q22d (mean (SD))                                           8.92 (11.55)  
+##   q22e (mean (SD))                                         106.25 (237.97) 
+##   q22f_m1 = Refuse de répondre (%)                              5 (  4.2)  
+##   q23 (mean (SD))                                            2.23 (3.38)   
+##   q25 (mean (SD))                                            3.24 (3.02)   
+##   q27 (mean (SD))                                           26.41 (42.98)  
+##   q42 (mean (SD))                                           41.11 (12.74)  
+##   q44 (%)                                                                  
+##      Célibatiare                                              988 ( 32.1)  
+##      Divorcé (e)                                              268 (  8.7)  
+##      En couple                                                 11 (  0.4)  
+##      Marié(e)/Conjoint de fait                               1699 ( 55.2)  
+##      Refuse de répondre                                        24 (  0.8)  
+##      Séparé (e)                                                46 (  1.5)  
+##      Veuf (ve)                                                 41 (  1.3)  
+##   q45 (mean (SD))                                            5.80 (3.05)   
+##   q46b (mean (SD))                                           4.91 (3.18)   
+##   q47 (%)                                                                  
+##      Amérindien des États-Unis / Autochtone d'Amérique         15 (  0.5)  
+##      Arabe (Moyen-Orient, Afrique du Nord)                     18 (  0.6)  
+##      Asiatique / insulaire du Pacifique                       123 (  4.0)  
+##      Autre                                                      5 (  0.2)  
+##      Blanc(che) / Caucasien                                  2422 ( 78.7)  
+##      Hispanique / Latino / Espagnol(e)                         44 (  1.4)  
+##      Indien / Pakistanais                                      20 (  0.6)  
+##      Je préfère ne pas répondre                                51 (  1.7)  
+##      Jewish                                                     0 (  0.0)  
+##      Mixed / Mixed race / Bi-racial                            18 (  0.6)  
+##      Noir(e) / Africain(e) / Afro-Américain(e)                361 ( 11.7)  
+##   q48 (mean (SD))                                            4.51 (12.93)  
+##   q49 (%)                                                                  
+##      Ne sais pas/Ne s'applique pas                             23 (  0.7)  
+##      Non                                                      149 (  4.8)  
+##      Oui                                                     2905 ( 94.4)  
+##   q50 (%)                                                                  
+##      Ne sais pas/Ne s'applique pas                             18 (  0.6)  
+##      Non                                                      123 (  4.0)  
+##      Oui                                                     2936 ( 95.4)  
+##   q51 (%)                                                                  
+##      Aucun grade, certificat ou diplôme                         1 (  0.0)  
+##      Autre (précisez):                                         12 (  0.4)  
+##      Baccalauréat                                             951 ( 30.9)  
+##      Cégep                                                    506 ( 16.4)  
+##      Certificat d'école de métier, certificat ou diplôme      444 ( 14.4)  
+##      Diplôme d'études secondaire ou l'équivalent              404 ( 13.1)  
+##      Diplôme universitaire supérieur au baccalauréat          736 ( 23.9)  
+##      École primaire                                             6 (  0.2)  
+##      Refuse de répondre                                        17 (  0.6)  
+##   Q52_occupational_status_category (%)                                     
+##      Disability                                                64 (  2.1)  
+##      Full time or Self-employed                              1842 ( 60.2)  
+##      Homemaker or parental leave                              249 (  8.1)  
+##      Part time                                                310 ( 10.1)  
+##      Retired                                                  217 (  7.1)  
+##      Student                                                  243 (  7.9)  
+##      Unemployed seeking work                                  133 (  4.3)  
+##   q53 (%)                                                                  
+##      Entre 10000 $ and 19999 $ par année                      168 (  5.5)  
+##      Entre 100000 $ and 149999 $ par année                    443 ( 14.4)  
+##      Entre 150000 $ and 199999 $ par année                    123 (  4.0)  
+##      Entre 20000 $ and 34999 $ par année                      315 ( 10.2)  
+##      Entre 35000 $ and 49999 $ par année                      351 ( 11.4)  
+##      Entre 50000 $ and 74999 $ par année                      536 ( 17.4)  
+##      Entre 75000 $ and 99999 $ par année                      461 ( 15.0)  
+##      Moins de 10000 $ par année                               244 (  7.9)  
+##      Plus de 200000 $ par année                                70 (  2.3)  
+##      Refuse de répondre                                       366 ( 11.9)  
+##   bmi (mean (SD))                                           26.75 (5.11)   
+##   bmi_category (%)                                                         
+##      embonpoint                                               864 ( 32.8)  
+##      insuffisant                                               40 (  1.5)  
+##      normal                                                  1073 ( 40.7)  
+##      obesite                                                  661 ( 25.1)  
+##   WalkScore (mean (SD))                                     36.05 (24.44)  
+##   WalkScoreLabel (%)                                                       
+##                                                                27 (  0.9)  
+##      Car-Dependent                                           2094 ( 68.1)  
+##      Somewhat Walkable                                        733 ( 23.8)  
+##      Very Walkable                                            175 (  5.7)  
+##      Walker's Paradise                                         48 (  1.6)  
+##   TransitScore (mean (SD))                                  79.31 (7.37)   
+##   TransitScoreLabel (%)                                                    
+##                                                              3077 (100.0)  
+##      Excellent Transit                                          0 (  0.0)  
+##      Good Transit                                               0 (  0.0)  
+##      Minimal Transit                                            0 (  0.0)  
+##      Rider's Paradise                                           0 (  0.0)  
+##      Some Transit                                               0 (  0.0)  
+##   BikeScore (mean (SD))                                    133.74 (18.39)  
+##   BikeScoreLabel (%)                                                       
+##                                                              2898 ( 94.2)  
+##      Bikeable                                                  90 (  2.9)  
+##      Biker's Paradise                                          40 (  1.3)  
+##      Somewhat Bikeable                                          1 (  0.0)  
+##      Very Bikeable                                             48 (  1.6)  
+##   DiningandDrinkingScore (mean (SD))                        40.56 (26.92)  
+##   GroceryScore (mean (SD))                                  38.81 (34.49)
+```
+
+```r
+CreateTableOne(vars = vars, data = NewYork1)
+```
+
+```
+##                                                         
+##                                                          Overall           
+##   n                                                          3824          
+##   lang (%)                                                                 
+##      Anglais                                                 3808 ( 99.6)  
+##      Espagnol                                                  15 (  0.4)  
+##      Français                                                   1 (  0.0)  
+##   q54 = Homme (%)                                            1593 ( 41.7)  
+##   ville (%)                                                                
+##      Boston                                                     0 (  0.0)  
+##      Chicago                                                    0 (  0.0)  
+##      Détroit                                                    0 (  0.0)  
+##      Montréal                                                   0 (  0.0)  
+##      New-York                                                3824 (100.0)  
+##      Philadelphie                                               0 (  0.0)  
+##      Toronto                                                    0 (  0.0)  
+##      Vancouver                                                  0 (  0.0)  
+##   q1us (mean (SD))                                       10565.52 (2256.07)
+##   q2 (%)                                                                   
+##      Bon                                                      986 ( 25.8)  
+##      Excellent                                                909 ( 23.8)  
+##      Mauvais                                                   47 (  1.2)  
+##      Moyen                                                    248 (  6.5)  
+##      Ne sais pas/Refuse de répondre                             6 (  0.2)  
+##      Très bon                                                1628 ( 42.6)  
+##   q13 (%)                                                                  
+##      Autre (précisez:)                                          6 (  0.2)  
+##      Marche                                                   978 ( 25.6)  
+##      Ne s'applique pas                                          8 (  0.2)  
+##      Ne sais pas                                                4 (  0.1)  
+##      Scooter                                                    3 (  0.1)  
+##      Taxi                                                      74 (  1.9)  
+##      Transport en commun                                     2207 ( 57.7)  
+##      Véhicule motorisé (loué, emprunté, covoiturage)          349 (  9.1)  
+##      Vélo en libre-service                                     67 (  1.8)  
+##      Vélo personnel                                           117 (  3.1)  
+##      Voiture personnelle                                       11 (  0.3)  
+##   q14 (%)                                                                  
+##      Ne sais pas/Ne s'applique pas                             51 (  1.3)  
+##      Non                                                      680 ( 17.8)  
+##      Oui                                                     3088 ( 80.8)  
+##      Refuse de répondre                                         5 (  0.1)  
+##   q15 (mean (SD))                                           44.68 (24.91)  
+##   q18 (mean (SD))                                           50.63 (32.11)  
+##   q21 (mean (SD))                                           16.06 (33.71)  
+##   q22b (mean (SD))                                           2.12 (1.85)   
+##   q22c (mean (SD))                                          24.99 (15.70)  
+##   q22d (mean (SD))                                           4.25 (7.34)   
+##   q22e (mean (SD))                                          27.14 (30.15)  
+##   q22f_m1 = Refuse de répondre (%)                             10 (  6.5)  
+##   q23 (mean (SD))                                            4.52 (2.36)   
+##   q25 (mean (SD))                                            5.42 (2.10)   
+##   q27 (mean (SD))                                           28.25 (43.72)  
+##   q42 (mean (SD))                                           39.74 (13.55)  
+##   q44 (%)                                                                  
+##      Célibatiare                                             1879 ( 49.1)  
+##      Divorcé (e)                                              205 (  5.4)  
+##      En couple                                                 15 (  0.4)  
+##      Marié(e)/Conjoint de fait                               1542 ( 40.3)  
+##      Refuse de répondre                                        53 (  1.4)  
+##      Séparé (e)                                                70 (  1.8)  
+##      Veuf (ve)                                                 60 (  1.6)  
+##   q45 (mean (SD))                                            6.64 (2.67)   
+##   q46b (mean (SD))                                           5.13 (3.58)   
+##   q47 (%)                                                                  
+##      Amérindien des États-Unis / Autochtone d'Amérique          9 (  0.2)  
+##      Arabe (Moyen-Orient, Afrique du Nord)                      9 (  0.2)  
+##      Asiatique / insulaire du Pacifique                       483 ( 12.6)  
+##      Autre                                                     14 (  0.4)  
+##      Blanc(che) / Caucasien                                  2493 ( 65.2)  
+##      Hispanique / Latino / Espagnol(e)                        317 (  8.3)  
+##      Indien / Pakistanais                                      30 (  0.8)  
+##      Je préfère ne pas répondre                                96 (  2.5)  
+##      Jewish                                                     1 (  0.0)  
+##      Mixed / Mixed race / Bi-racial                            36 (  0.9)  
+##      Noir(e) / Africain(e) / Afro-Américain(e)                336 (  8.8)  
+##   q48 (mean (SD))                                            7.41 (17.89)  
+##   q49 (%)                                                                  
+##      Ne sais pas/Ne s'applique pas                             27 (  0.7)  
+##      Non                                                      661 ( 17.3)  
+##      Oui                                                     3136 ( 82.0)  
+##   q50 (%)                                                                  
+##      Ne sais pas/Ne s'applique pas                             47 (  1.2)  
+##      Non                                                     2106 ( 55.1)  
+##      Oui                                                     1671 ( 43.7)  
+##   q51 (%)                                                                  
+##      Aucun grade, certificat ou diplôme                         3 (  0.1)  
+##      Autre (précisez):                                          4 (  0.1)  
+##      Baccalauréat                                            1589 ( 41.6)  
+##      Cégep                                                    466 ( 12.2)  
+##      Certificat d'école de métier, certificat ou diplôme      168 (  4.4)  
+##      Diplôme d'études secondaire ou l'équivalent              284 (  7.4)  
+##      Diplôme universitaire supérieur au baccalauréat         1284 ( 33.6)  
+##      École primaire                                             7 (  0.2)  
+##      Refuse de répondre                                        19 (  0.5)  
+##   Q52_occupational_status_category (%)                                     
+##      Disability                                                47 (  1.2)  
+##      Full time or Self-employed                              2659 ( 70.2)  
+##      Homemaker or parental leave                              125 (  3.3)  
+##      Part time                                                284 (  7.5)  
+##      Retired                                                  236 (  6.2)  
+##      Student                                                  270 (  7.1)  
+##      Unemployed seeking work                                  166 (  4.4)  
+##   q53 (%)                                                                  
+##      Entre 10000 $ and 19999 $ par année                      156 (  4.1)  
+##      Entre 100000 $ and 149999 $ par année                    631 ( 16.5)  
+##      Entre 150000 $ and 199999 $ par année                    267 (  7.0)  
+##      Entre 20000 $ and 34999 $ par année                      262 (  6.9)  
+##      Entre 35000 $ and 49999 $ par année                      343 (  9.0)  
+##      Entre 50000 $ and 74999 $ par année                      611 ( 16.0)  
+##      Entre 75000 $ and 99999 $ par année                      545 ( 14.3)  
+##      Moins de 10000 $ par année                               241 (  6.3)  
+##      Plus de 200000 $ par année                               331 (  8.7)  
+##      Refuse de répondre                                       437 ( 11.4)  
+##   bmi (mean (SD))                                           25.05 (4.52)   
+##   bmi_category (%)                                                         
+##      embonpoint                                               971 ( 28.8)  
+##      insuffisant                                               72 (  2.1)  
+##      normal                                                  1841 ( 54.6)  
+##      obesite                                                  490 ( 14.5)  
+##   WalkScore (mean (SD))                                     95.88 (11.04)  
+##   WalkScoreLabel (%)                                                       
+##                                                                65 (  1.7)  
+##      Car-Dependent                                             61 (  1.6)  
+##      Somewhat Walkable                                         33 (  0.9)  
+##      Very Walkable                                            169 (  4.4)  
+##      Walker's Paradise                                       3496 ( 91.4)  
+##   TransitScore (mean (SD))                                  71.19 (24.19)  
+##   TransitScoreLabel (%)                                                    
+##                                                              3394 ( 88.8)  
+##      Excellent Transit                                         34 (  0.9)  
+##      Good Transit                                               7 (  0.2)  
+##      Minimal Transit                                            0 (  0.0)  
+##      Rider's Paradise                                         389 ( 10.2)  
+##      Some Transit                                               0 (  0.0)  
+##   BikeScore (mean (SD))                                     90.15 (24.92)  
+##   BikeScoreLabel (%)                                                       
+##                                                               178 (  4.7)  
+##      Bikeable                                                1137 ( 29.7)  
+##      Biker's Paradise                                         145 (  3.8)  
+##      Somewhat Bikeable                                         71 (  1.9)  
+##      Very Bikeable                                           2293 ( 60.0)  
+##   DiningandDrinkingScore (mean (SD))                        96.05 (11.20)  
+##   GroceryScore (mean (SD))                                  97.91 (11.21)
+```
+
+```r
+CreateTableOne(vars = vars, data = Philadelphia1)
+```
+
+```
+##                                                         
+##                                                          Overall           
+##   n                                                          1478          
+##   lang (%)                                                                 
+##      Anglais                                                 1475 ( 99.8)  
+##      Espagnol                                                   3 (  0.2)  
+##      Français                                                   0 (  0.0)  
+##   q54 = Homme (%)                                             536 ( 36.3)  
+##   ville (%)                                                                
+##      Boston                                                     0 (  0.0)  
+##      Chicago                                                    0 (  0.0)  
+##      Détroit                                                    0 (  0.0)  
+##      Montréal                                                   0 (  0.0)  
+##      New-York                                                   0 (  0.0)  
+##      Philadelphie                                            1478 (100.0)  
+##      Toronto                                                    0 (  0.0)  
+##      Vancouver                                                  0 (  0.0)  
+##   q1us (mean (SD))                                       19147.23 (1311.01)
+##   q2 (%)                                                                   
+##      Bon                                                      404 ( 27.3)  
+##      Excellent                                                297 ( 20.1)  
+##      Mauvais                                                   31 (  2.1)  
+##      Moyen                                                    113 (  7.6)  
+##      Ne sais pas/Refuse de répondre                             2 (  0.1)  
+##      Très bon                                                 631 ( 42.7)  
+##   q13 (%)                                                                  
+##      Autre (précisez:)                                          3 (  0.2)  
+##      Marche                                                   443 ( 30.0)  
+##      Ne s'applique pas                                          3 (  0.2)  
+##      Ne sais pas                                                1 (  0.1)  
+##      Scooter                                                    2 (  0.1)  
+##      Taxi                                                      12 (  0.8)  
+##      Transport en commun                                      321 ( 21.7)  
+##      Véhicule motorisé (loué, emprunté, covoiturage)          600 ( 40.6)  
+##      Vélo en libre-service                                      7 (  0.5)  
+##      Vélo personnel                                            80 (  5.4)  
+##      Voiture personnelle                                        6 (  0.4)  
+##   q14 (%)                                                                  
+##      Ne sais pas/Ne s'applique pas                             14 (  0.9)  
+##      Non                                                      270 ( 18.3)  
+##      Oui                                                     1193 ( 80.7)  
+##      Refuse de répondre                                         1 (  0.1)  
+##   q15 (mean (SD))                                           43.58 (25.02)  
+##   q18 (mean (SD))                                           50.69 (32.63)  
+##   q21 (mean (SD))                                           11.43 (25.74)  
+##   q22b (mean (SD))                                           2.01 (1.71)   
+##   q22c (mean (SD))                                          33.36 (23.45)  
+##   q22d (mean (SD))                                           5.41 (10.09)  
+##   q22e (mean (SD))                                          36.49 (45.79)  
+##   q22f_m1 = Refuse de répondre (%)                              4 (  7.8)  
+##   q23 (mean (SD))                                            3.05 (2.82)   
+##   q25 (mean (SD))                                            4.67 (2.46)   
+##   q27 (mean (SD))                                           26.52 (42.78)  
+##   q42 (mean (SD))                                           39.19 (13.51)  
+##   q44 (%)                                                                  
+##      Célibatiare                                              729 ( 49.3)  
+##      Divorcé (e)                                              102 (  6.9)  
+##      En couple                                                 10 (  0.7)  
+##      Marié(e)/Conjoint de fait                                572 ( 38.7)  
+##      Refuse de répondre                                        13 (  0.9)  
+##      Séparé (e)                                                28 (  1.9)  
+##      Veuf (ve)                                                 24 (  1.6)  
+##   q45 (mean (SD))                                            6.55 (2.70)   
+##   q46b (mean (SD))                                           5.17 (3.51)   
+##   q47 (%)                                                                  
+##      Amérindien des États-Unis / Autochtone d'Amérique          0 (  0.0)  
+##      Arabe (Moyen-Orient, Afrique du Nord)                      4 (  0.3)  
+##      Asiatique / insulaire du Pacifique                       128 (  8.7)  
+##      Autre                                                      6 (  0.4)  
+##      Blanc(che) / Caucasien                                   999 ( 67.6)  
+##      Hispanique / Latino / Espagnol(e)                         60 (  4.1)  
+##      Indien / Pakistanais                                      13 (  0.9)  
+##      Je préfère ne pas répondre                                22 (  1.5)  
+##      Jewish                                                     0 (  0.0)  
+##      Mixed / Mixed race / Bi-racial                            15 (  1.0)  
+##      Noir(e) / Africain(e) / Afro-Américain(e)                231 ( 15.6)  
+##   q48 (mean (SD))                                            4.50 (12.55)  
+##   q49 (%)                                                                  
+##      Ne sais pas/Ne s'applique pas                              9 (  0.6)  
+##      Non                                                      190 ( 12.9)  
+##      Oui                                                     1279 ( 86.5)  
+##   q50 (%)                                                                  
+##      Ne sais pas/Ne s'applique pas                             16 (  1.1)  
+##      Non                                                      353 ( 23.9)  
+##      Oui                                                     1109 ( 75.0)  
+##   q51 (%)                                                                  
+##      Aucun grade, certificat ou diplôme                         2 (  0.1)  
+##      Autre (précisez):                                         11 (  0.7)  
+##      Baccalauréat                                             509 ( 34.4)  
+##      Cégep                                                    206 ( 13.9)  
+##      Certificat d'école de métier, certificat ou diplôme       86 (  5.8)  
+##      Diplôme d'études secondaire ou l'équivalent              209 ( 14.1)  
+##      Diplôme universitaire supérieur au baccalauréat          447 ( 30.2)  
+##      École primaire                                             1 (  0.1)  
+##      Refuse de répondre                                         7 (  0.5)  
+##   Q52_occupational_status_category (%)                                     
+##      Disability                                                27 (  1.8)  
+##      Full time or Self-employed                               937 ( 63.7)  
+##      Homemaker or parental leave                               58 (  3.9)  
+##      Part time                                                112 (  7.6)  
+##      Retired                                                   92 (  6.2)  
+##      Student                                                  172 ( 11.7)  
+##      Unemployed seeking work                                   74 (  5.0)  
+##   q53 (%)                                                                  
+##      Entre 10000 $ and 19999 $ par année                       77 (  5.2)  
+##      Entre 100000 $ and 149999 $ par année                    182 ( 12.3)  
+##      Entre 150000 $ and 199999 $ par année                     74 (  5.0)  
+##      Entre 20000 $ and 34999 $ par année                      154 ( 10.4)  
+##      Entre 35000 $ and 49999 $ par année                      181 ( 12.2)  
+##      Entre 50000 $ and 74999 $ par année                      301 ( 20.4)  
+##      Entre 75000 $ and 99999 $ par année                      182 ( 12.3)  
+##      Moins de 10000 $ par année                               150 ( 10.1)  
+##      Plus de 200000 $ par année                                50 (  3.4)  
+##      Refuse de répondre                                       127 (  8.6)  
+##   bmi (mean (SD))                                           26.02 (4.97)   
+##   bmi_category (%)                                                         
+##      embonpoint                                               404 ( 30.7)  
+##      insuffisant                                               19 (  1.4)  
+##      normal                                                   618 ( 47.0)  
+##      obesite                                                  273 ( 20.8)  
+##   WalkScore (mean (SD))                                     86.27 (17.72)  
+##   WalkScoreLabel (%)                                                       
+##                                                                22 (  1.5)  
+##      Car-Dependent                                             83 (  5.6)  
+##      Somewhat Walkable                                         96 (  6.5)  
+##      Very Walkable                                            244 ( 16.5)  
+##      Walker's Paradise                                       1033 ( 69.9)  
+##   TransitScore (mean (SD))                                  73.31 (21.71)  
+##   TransitScoreLabel (%)                                                    
+##                                                              1371 ( 92.8)  
+##      Excellent Transit                                          0 (  0.0)  
+##      Good Transit                                               2 (  0.1)  
+##      Minimal Transit                                            0 (  0.0)  
+##      Rider's Paradise                                         105 (  7.1)  
+##      Some Transit                                               0 (  0.0)  
+##   BikeScore (mean (SD))                                    106.32 (30.52)  
+##   BikeScoreLabel (%)                                                       
+##                                                               148 ( 10.0)  
+##      Bikeable                                                 236 ( 16.0)  
+##      Biker's Paradise                                         594 ( 40.2)  
+##      Somewhat Bikeable                                         38 (  2.6)  
+##      Very Bikeable                                            462 ( 31.3)  
+##   DiningandDrinkingScore (mean (SD))                        87.70 (16.44)  
+##   GroceryScore (mean (SD))                                  90.43 (22.07)
+```
+
+```r
+CreateTableOne(vars = vars, data = Montreal1)
+```
+
+```
+##                                                         
+##                                                          Overall       
+##   n                                                       2678         
+##   lang (%)                                                             
+##      Anglais                                              1061 ( 39.6) 
+##      Espagnol                                                0 (  0.0) 
+##      Français                                             1617 ( 60.4) 
+##   q54 = Homme (%)                                         1159 ( 43.3) 
+##   ville (%)                                                            
+##      Boston                                                  0 (  0.0) 
+##      Chicago                                                 0 (  0.0) 
+##      Détroit                                                 0 (  0.0) 
+##      Montréal                                             2678 (100.0) 
+##      New-York                                                0 (  0.0) 
+##      Philadelphie                                            0 (  0.0) 
+##      Toronto                                                 0 (  0.0) 
+##      Vancouver                                               0 (  0.0) 
+##   q2 (%)                                                               
+##      Bon                                                   791 ( 29.5) 
+##      Excellent                                             454 ( 17.0) 
+##      Mauvais                                                99 (  3.7) 
+##      Moyen                                                 284 ( 10.6) 
+##      Ne sais pas/Refuse de répondre                          3 (  0.1) 
+##      Très bon                                             1047 ( 39.1) 
+##   q13 (%)                                                              
+##      Autre (précisez:)                                       5 (  0.2) 
+##      Marche                                                492 ( 18.4) 
+##      Ne s'applique pas                                      11 (  0.4) 
+##      Ne sais pas                                             6 (  0.2) 
+##      Scooter                                                 4 (  0.1) 
+##      Taxi                                                   20 (  0.7) 
+##      Transport en commun                                  1019 ( 38.1) 
+##      Véhicule motorisé (loué, emprunté, covoiturage)       803 ( 30.0) 
+##      Vélo en libre-service                                  38 (  1.4) 
+##      Vélo personnel                                        169 (  6.3) 
+##      Voiture personnelle                                   111 (  4.1) 
+##   q14 (%)                                                              
+##      Ne sais pas/Ne s'applique pas                          40 (  1.5) 
+##      Non                                                   528 ( 19.7) 
+##      Oui                                                  2107 ( 78.7) 
+##      Refuse de répondre                                      3 (  0.1) 
+##   q15 (mean (SD))                                        45.08 (25.46) 
+##   q18 (mean (SD))                                        53.22 (33.53) 
+##   q21 (mean (SD))                                        13.83 (29.96) 
+##   q22b (mean (SD))                                        1.90 (1.91)  
+##   q22c (mean (SD))                                       31.14 (24.26) 
+##   q22d (mean (SD))                                        4.77 (7.69)  
+##   q22e (mean (SD))                                       51.17 (117.28)
+##   q22f_m1 = Refuse de répondre (%)                           2 (  2.1) 
+##   q23 (mean (SD))                                         3.16 (2.79)  
+##   q25 (mean (SD))                                         4.39 (2.53)  
+##   q27 (mean (SD))                                        20.19 (38.80) 
+##   q42 (mean (SD))                                        47.02 (14.17) 
+##   q44 (%)                                                              
+##      Célibatiare                                           906 ( 33.8) 
+##      Divorcé (e)                                           256 (  9.6) 
+##      En couple                                               2 (  0.1) 
+##      Marié(e)/Conjoint de fait                            1331 ( 49.7) 
+##      Refuse de répondre                                     29 (  1.1) 
+##      Séparé (e)                                             78 (  2.9) 
+##      Veuf (ve)                                              76 (  2.8) 
+##   q45 (mean (SD))                                         6.68 (2.64)  
+##   q46b (mean (SD))                                        5.38 (5.02)  
+##   q47 (%)                                                              
+##      Amérindien des États-Unis / Autochtone d'Amérique       8 (  0.3) 
+##      Arabe (Moyen-Orient, Afrique du Nord)                  36 (  1.3) 
+##      Asiatique / insulaire du Pacifique                    104 (  3.9) 
+##      Autre                                                  15 (  0.6) 
+##      Blanc(che) / Caucasien                               2301 ( 85.9) 
+##      Hispanique / Latino / Espagnol(e)                      50 (  1.9) 
+##      Indien / Pakistanais                                   30 (  1.1) 
+##      Je préfère ne pas répondre                             66 (  2.5) 
+##      Jewish                                                  2 (  0.1) 
+##      Mixed / Mixed race / Bi-racial                         14 (  0.5) 
+##      Noir(e) / Africain(e) / Afro-Américain(e)              52 (  1.9) 
+##   q48 (mean (SD))                                         8.11 (20.21) 
+##   q49 (%)                                                              
+##      Ne sais pas/Ne s'applique pas                          14 (  0.5) 
+##      Non                                                   522 ( 19.5) 
+##      Oui                                                  2142 ( 80.0) 
+##   q50 (%)                                                              
+##      Ne sais pas/Ne s'applique pas                          20 (  0.7) 
+##      Non                                                   837 ( 31.3) 
+##      Oui                                                  1821 ( 68.0) 
+##   q51 (%)                                                              
+##      Aucun grade, certificat ou diplôme                     20 (  0.7) 
+##      Autre (précisez):                                       8 (  0.3) 
+##      Baccalauréat                                          788 ( 29.4) 
+##      Cégep                                                 528 ( 19.7) 
+##      Certificat d'école de métier, certificat ou diplôme   330 ( 12.3) 
+##      Diplôme d'études secondaire ou l'équivalent           378 ( 14.1) 
+##      Diplôme universitaire supérieur au baccalauréat       581 ( 21.7) 
+##      École primaire                                         23 (  0.9) 
+##      Refuse de répondre                                     22 (  0.8) 
+##   Q52_occupational_status_category (%)                                 
+##      Disability                                             67 (  2.5) 
+##      Full time or Self-employed                           1525 ( 57.3) 
+##      Homemaker or parental leave                           113 (  4.2) 
+##      Part time                                             225 (  8.5) 
+##      Retired                                               454 ( 17.1) 
+##      Student                                               141 (  5.3) 
+##      Unemployed seeking work                               135 (  5.1) 
+##   q53 (%)                                                              
+##      Entre 10000 $ and 19999 $ par année                   163 (  6.1) 
+##      Entre 100000 $ and 149999 $ par année                 271 ( 10.1) 
+##      Entre 150000 $ and 199999 $ par année                  80 (  3.0) 
+##      Entre 20000 $ and 34999 $ par année                   312 ( 11.7) 
+##      Entre 35000 $ and 49999 $ par année                   419 ( 15.6) 
+##      Entre 50000 $ and 74999 $ par année                   523 ( 19.5) 
+##      Entre 75000 $ and 99999 $ par année                   365 ( 13.6) 
+##      Moins de 10000 $ par année                            123 (  4.6) 
+##      Plus de 200000 $ par année                             68 (  2.5) 
+##      Refuse de répondre                                    354 ( 13.2) 
+##   bmi (mean (SD))                                        25.88 (4.65)  
+##   bmi_category (%)                                                     
+##      embonpoint                                            746 ( 31.7) 
+##      insuffisant                                            35 (  1.5) 
+##      normal                                               1122 ( 47.6) 
+##      obesite                                               454 ( 19.3) 
+##   WalkScore (mean (SD))                                  81.88 (16.05) 
+##   WalkScoreLabel (%)                                                   
+##                                                             28 (  1.0) 
+##      Car-Dependent                                         135 (  5.0) 
+##      Somewhat Walkable                                     303 ( 11.3) 
+##      Very Walkable                                        1117 ( 41.7) 
+##      Walker's Paradise                                    1095 ( 40.9) 
+##   TransitScore (mean (SD))                               13.38 (18.57) 
+##   TransitScoreLabel (%)                                                
+##                                                             45 (  1.7) 
+##      Excellent Transit                                      71 (  2.7) 
+##      Good Transit                                          485 ( 18.1) 
+##      Minimal Transit                                        43 (  1.6) 
+##      Rider's Paradise                                     1911 ( 71.4) 
+##      Some Transit                                          123 (  4.6) 
+##   BikeScore (mean (SD))                                  86.99 (43.07) 
+##   BikeScoreLabel (%)                                                   
+##                                                            624 ( 23.3) 
+##      Bikeable                                              719 ( 26.8) 
+##      Biker's Paradise                                      496 ( 18.5) 
+##      Somewhat Bikeable                                      83 (  3.1) 
+##      Very Bikeable                                         756 ( 28.2) 
+##   DiningandDrinkingScore (mean (SD))                     82.34 (17.58) 
+##   GroceryScore (mean (SD))                               89.47 (17.42)
+```
+
+```r
+CreateTableOne(vars = vars, data = Toronto1)
+```
+
+```
+##                                                         
+##                                                          Overall       
+##   n                                                       4264         
+##   lang (%)                                                             
+##      Anglais                                              4261 ( 99.9) 
+##      Espagnol                                                0 (  0.0) 
+##      Français                                                3 (  0.1) 
+##   q54 = Homme (%)                                         1984 ( 46.5) 
+##   ville (%)                                                            
+##      Boston                                                  0 (  0.0) 
+##      Chicago                                                 0 (  0.0) 
+##      Détroit                                                 0 (  0.0) 
+##      Montréal                                                0 (  0.0) 
+##      New-York                                                0 (  0.0) 
+##      Philadelphie                                            0 (  0.0) 
+##      Toronto                                              4264 (100.0) 
+##      Vancouver                                               0 (  0.0) 
+##   q2 (%)                                                               
+##      Bon                                                  1220 ( 28.6) 
+##      Excellent                                             811 ( 19.0) 
+##      Mauvais                                                85 (  2.0) 
+##      Moyen                                                 379 (  8.9) 
+##      Ne sais pas/Refuse de répondre                          8 (  0.2) 
+##      Très bon                                             1761 ( 41.3) 
+##   q13 (%)                                                              
+##      Autre (précisez:)                                       6 (  0.1) 
+##      Marche                                                853 ( 20.0) 
+##      Ne s'applique pas                                       7 (  0.2) 
+##      Ne sais pas                                             7 (  0.2) 
+##      Scooter                                                 4 (  0.1) 
+##      Taxi                                                   32 (  0.8) 
+##      Transport en commun                                  1459 ( 34.2) 
+##      Véhicule motorisé (loué, emprunté, covoiturage)      1645 ( 38.6) 
+##      Vélo en libre-service                                  53 (  1.2) 
+##      Vélo personnel                                        178 (  4.2) 
+##      Voiture personnelle                                    20 (  0.5) 
+##   q14 (%)                                                              
+##      Ne sais pas/Ne s'applique pas                          52 (  1.2) 
+##      Non                                                   713 ( 16.7) 
+##      Oui                                                  3493 ( 81.9) 
+##      Refuse de répondre                                      6 (  0.1) 
+##   q15 (mean (SD))                                        47.29 (24.67) 
+##   q18 (mean (SD))                                        54.97 (32.20) 
+##   q21 (mean (SD))                                        12.82 (28.04) 
+##   q22b (mean (SD))                                        1.82 (1.48)  
+##   q22c (mean (SD))                                       30.72 (20.32) 
+##   q22d (mean (SD))                                        5.34 (8.62)  
+##   q22e (mean (SD))                                       39.05 (51.71) 
+##   q22f_m1 = Refuse de répondre (%)                           8 (  5.8) 
+##   q23 (mean (SD))                                         3.37 (2.78)  
+##   q25 (mean (SD))                                         4.57 (2.44)  
+##   q27 (mean (SD))                                        34.46 (46.18) 
+##   q42 (mean (SD))                                        46.98 (14.52) 
+##   q44 (%)                                                              
+##      Célibatiare                                          1345 ( 31.5) 
+##      Divorcé (e)                                           364 (  8.5) 
+##      En couple                                               4 (  0.1) 
+##      Marié(e)/Conjoint de fait                            2224 ( 52.2) 
+##      Refuse de répondre                                     73 (  1.7) 
+##      Séparé (e)                                            107 (  2.5) 
+##      Veuf (ve)                                             147 (  3.4) 
+##   q45 (mean (SD))                                         6.75 (2.58)  
+##   q46b (mean (SD))                                        5.24 (3.88)  
+##   q47 (%)                                                              
+##      Amérindien des États-Unis / Autochtone d'Amérique      14 (  0.3) 
+##      Arabe (Moyen-Orient, Afrique du Nord)                  44 (  1.0) 
+##      Asiatique / insulaire du Pacifique                    572 ( 13.4) 
+##      Autre                                                  63 (  1.5) 
+##      Blanc(che) / Caucasien                               3065 ( 71.9) 
+##      Hispanique / Latino / Espagnol(e)                      71 (  1.7) 
+##      Indien / Pakistanais                                  137 (  3.2) 
+##      Je préfère ne pas répondre                            167 (  3.9) 
+##      Jewish                                                 12 (  0.3) 
+##      Mixed / Mixed race / Bi-racial                         23 (  0.5) 
+##      Noir(e) / Africain(e) / Afro-Américain(e)              96 (  2.3) 
+##   q48 (mean (SD))                                        12.16 (24.93) 
+##   q49 (%)                                                              
+##      Ne sais pas/Ne s'applique pas                          20 (  0.5) 
+##      Non                                                   618 ( 14.5) 
+##      Oui                                                  3626 ( 85.0) 
+##   q50 (%)                                                              
+##      Ne sais pas/Ne s'applique pas                          60 (  1.4) 
+##      Non                                                  1147 ( 26.9) 
+##      Oui                                                  3057 ( 71.7) 
+##   q51 (%)                                                              
+##      Aucun grade, certificat ou diplôme                      3 (  0.1) 
+##      Autre (précisez):                                       9 (  0.2) 
+##      Baccalauréat                                         1543 ( 36.2) 
+##      Cégep                                                 451 ( 10.6) 
+##      Certificat d'école de métier, certificat ou diplôme   746 ( 17.5) 
+##      Diplôme d'études secondaire ou l'équivalent           449 ( 10.5) 
+##      Diplôme universitaire supérieur au baccalauréat       995 ( 23.3) 
+##      École primaire                                         29 (  0.7) 
+##      Refuse de répondre                                     39 (  0.9) 
+##   Q52_occupational_status_category (%)                                 
+##      Disability                                            103 (  2.4) 
+##      Full time or Self-employed                           2753 ( 65.2) 
+##      Homemaker or parental leave                           140 (  3.3) 
+##      Part time                                             298 (  7.1) 
+##      Retired                                               643 ( 15.2) 
+##      Student                                               134 (  3.2) 
+##      Unemployed seeking work                               154 (  3.6) 
+##   q53 (%)                                                              
+##      Entre 10000 $ and 19999 $ par année                   159 (  3.7) 
+##      Entre 100000 $ and 149999 $ par année                 673 ( 15.8) 
+##      Entre 150000 $ and 199999 $ par année                 259 (  6.1) 
+##      Entre 20000 $ and 34999 $ par année                   322 (  7.6) 
+##      Entre 35000 $ and 49999 $ par année                   446 ( 10.5) 
+##      Entre 50000 $ and 74999 $ par année                   780 ( 18.3) 
+##      Entre 75000 $ and 99999 $ par année                   619 ( 14.5) 
+##      Moins de 10000 $ par année                            142 (  3.3) 
+##      Plus de 200000 $ par année                            204 (  4.8) 
+##      Refuse de répondre                                    660 ( 15.5) 
+##   bmi (mean (SD))                                        25.60 (4.46)  
+##   bmi_category (%)                                                     
+##      embonpoint                                           1276 ( 33.9) 
+##      insuffisant                                            61 (  1.6) 
+##      normal                                               1843 ( 48.9) 
+##      obesite                                               586 ( 15.6) 
+##   WalkScore (mean (SD))                                  79.56 (18.77) 
+##   WalkScoreLabel (%)                                                   
+##                                                             26 (  0.6) 
+##      Car-Dependent                                         351 (  8.2) 
+##      Somewhat Walkable                                     700 ( 16.4) 
+##      Very Walkable                                        1467 ( 34.4) 
+##      Walker's Paradise                                    1720 ( 40.3) 
+##   TransitScore (mean (SD))                               48.42 (25.00) 
+##   TransitScoreLabel (%)                                                
+##                                                             33 (  0.8) 
+##      Excellent Transit                                    1547 ( 36.3) 
+##      Good Transit                                          939 ( 22.0) 
+##      Minimal Transit                                        34 (  0.8) 
+##      Rider's Paradise                                     1671 ( 39.2) 
+##      Some Transit                                           40 (  0.9) 
+##   BikeScore (mean (SD))                                  70.90 (30.62) 
+##   BikeScoreLabel (%)                                                   
+##                                                            120 (  2.8) 
+##      Bikeable                                             2214 ( 51.9) 
+##      Biker's Paradise                                      431 ( 10.1) 
+##      Somewhat Bikeable                                     500 ( 11.7) 
+##      Very Bikeable                                         999 ( 23.4) 
+##   DiningandDrinkingScore (mean (SD))                     81.64 (19.10) 
+##   GroceryScore (mean (SD))                               82.99 (23.65)
+```
+
+```r
+CreateTableOne(vars = vars, data = Vancouver1)
+```
+
+```
+##                                                         
+##                                                          Overall       
+##   n                                                       2518         
+##   lang (%)                                                             
+##      Anglais                                              2518 (100.0) 
+##      Espagnol                                                0 (  0.0) 
+##      Français                                                0 (  0.0) 
+##   q54 = Homme (%)                                         1131 ( 44.9) 
+##   ville (%)                                                            
+##      Boston                                                  0 (  0.0) 
+##      Chicago                                                 0 (  0.0) 
+##      Détroit                                                 0 (  0.0) 
+##      Montréal                                                0 (  0.0) 
+##      New-York                                                0 (  0.0) 
+##      Philadelphie                                            0 (  0.0) 
+##      Toronto                                                 0 (  0.0) 
+##      Vancouver                                            2518 (100.0) 
+##   q2 (%)                                                               
+##      Bon                                                   770 ( 30.6) 
+##      Excellent                                             467 ( 18.5) 
+##      Mauvais                                                72 (  2.9) 
+##      Moyen                                                 267 ( 10.6) 
+##      Ne sais pas/Refuse de répondre                          5 (  0.2) 
+##      Très bon                                              937 ( 37.2) 
+##   q13 (%)                                                              
+##      Autre (précisez:)                                       3 (  0.1) 
+##      Marche                                                503 ( 20.0) 
+##      Ne s'applique pas                                       2 (  0.1) 
+##      Ne sais pas                                             1 (  0.0) 
+##      Scooter                                                 5 (  0.2) 
+##      Taxi                                                    7 (  0.3) 
+##      Transport en commun                                   633 ( 25.1) 
+##      Véhicule motorisé (loué, emprunté, covoiturage)      1235 ( 49.0) 
+##      Vélo en libre-service                                  12 (  0.5) 
+##      Vélo personnel                                        107 (  4.2) 
+##      Voiture personnelle                                    10 (  0.4) 
+##   q14 (%)                                                              
+##      Ne sais pas/Ne s'applique pas                          28 (  1.1) 
+##      Non                                                   372 ( 14.8) 
+##      Oui                                                  2114 ( 84.0) 
+##      Refuse de répondre                                      4 (  0.2) 
+##   q15 (mean (SD))                                        47.65 (24.22) 
+##   q18 (mean (SD))                                        52.92 (32.26) 
+##   q21 (mean (SD))                                        11.11 (24.87) 
+##   q22b (mean (SD))                                        1.85 (1.89)  
+##   q22c (mean (SD))                                       30.25 (18.05) 
+##   q22d (mean (SD))                                        4.69 (9.50)  
+##   q22e (mean (SD))                                       35.78 (42.01) 
+##   q22f_m1 = Refuse de répondre (%)                           6 (  7.5) 
+##   q23 (mean (SD))                                         2.98 (2.86)  
+##   q25 (mean (SD))                                         4.57 (2.43)  
+##   q27 (mean (SD))                                        30.17 (44.68) 
+##   q42 (mean (SD))                                        47.49 (14.51) 
+##   q44 (%)                                                              
+##      Célibatiare                                           736 ( 29.2) 
+##      Divorcé (e)                                           222 (  8.8) 
+##      En couple                                               1 (  0.0) 
+##      Marié(e)/Conjoint de fait                            1402 ( 55.7) 
+##      Refuse de répondre                                     43 (  1.7) 
+##      Séparé (e)                                             57 (  2.3) 
+##      Veuf (ve)                                              57 (  2.3) 
+##   q45 (mean (SD))                                         6.57 (2.72)  
+##   q46b (mean (SD))                                        5.22 (3.33)  
+##   q47 (%)                                                              
+##      Amérindien des États-Unis / Autochtone d'Amérique      18 (  0.7) 
+##      Arabe (Moyen-Orient, Afrique du Nord)                  11 (  0.4) 
+##      Asiatique / insulaire du Pacifique                    720 ( 28.6) 
+##      Autre                                                  13 (  0.5) 
+##      Blanc(che) / Caucasien                               1531 ( 60.8) 
+##      Hispanique / Latino / Espagnol(e)                      24 (  1.0) 
+##      Indien / Pakistanais                                   48 (  1.9) 
+##      Je préfère ne pas répondre                            111 (  4.4) 
+##      Jewish                                                  0 (  0.0) 
+##      Mixed / Mixed race / Bi-racial                         23 (  0.9) 
+##      Noir(e) / Africain(e) / Afro-Américain(e)              19 (  0.8) 
+##   q48 (mean (SD))                                        10.41 (22.52) 
+##   q49 (%)                                                              
+##      Ne sais pas/Ne s'applique pas                          13 (  0.5) 
+##      Non                                                   229 (  9.1) 
+##      Oui                                                  2276 ( 90.4) 
+##   q50 (%)                                                              
+##      Ne sais pas/Ne s'applique pas                          23 (  0.9) 
+##      Non                                                   421 ( 16.7) 
+##      Oui                                                  2074 ( 82.4) 
+##   q51 (%)                                                              
+##      Aucun grade, certificat ou diplôme                      1 (  0.0) 
+##      Autre (précisez):                                      20 (  0.8) 
+##      Baccalauréat                                          877 ( 34.8) 
+##      Cégep                                                 314 ( 12.5) 
+##      Certificat d'école de métier, certificat ou diplôme   427 ( 17.0) 
+##      Diplôme d'études secondaire ou l'équivalent           310 ( 12.3) 
+##      Diplôme universitaire supérieur au baccalauréat       518 ( 20.6) 
+##      École primaire                                         12 (  0.5) 
+##      Refuse de répondre                                     39 (  1.5) 
+##   Q52_occupational_status_category (%)                                 
+##      Disability                                             66 (  2.7) 
+##      Full time or Self-employed                           1518 ( 61.0) 
+##      Homemaker or parental leave                            96 (  3.9) 
+##      Part time                                             207 (  8.3) 
+##      Retired                                               451 ( 18.1) 
+##      Student                                                83 (  3.3) 
+##      Unemployed seeking work                                66 (  2.7) 
+##   q53 (%)                                                              
+##      Entre 10000 $ and 19999 $ par année                    93 (  3.7) 
+##      Entre 100000 $ and 149999 $ par année                 369 ( 14.7) 
+##      Entre 150000 $ and 199999 $ par année                 135 (  5.4) 
+##      Entre 20000 $ and 34999 $ par année                   190 (  7.5) 
+##      Entre 35000 $ and 49999 $ par année                   265 ( 10.5) 
+##      Entre 50000 $ and 74999 $ par année                   504 ( 20.0) 
+##      Entre 75000 $ and 99999 $ par année                   374 ( 14.9) 
+##      Moins de 10000 $ par année                             88 (  3.5) 
+##      Plus de 200000 $ par année                             69 (  2.7) 
+##      Refuse de répondre                                    431 ( 17.1) 
+##   bmi (mean (SD))                                        24.87 (4.27)  
+##   bmi_category (%)                                                     
+##      embonpoint                                            747 ( 32.8) 
+##      insuffisant                                            57 (  2.5) 
+##      normal                                               1213 ( 53.2) 
+##      obesite                                               262 ( 11.5) 
+##   WalkScore (mean (SD))                                  78.79 (19.52) 
+##   WalkScoreLabel (%)                                                   
+##                                                             27 (  1.1) 
+##      Car-Dependent                                         243 (  9.7) 
+##      Somewhat Walkable                                     403 ( 16.0) 
+##      Very Walkable                                         869 ( 34.5) 
+##      Walker's Paradise                                     976 ( 38.8) 
+##   TransitScore (mean (SD))                               45.29 (19.95) 
+##   TransitScoreLabel (%)                                                
+##                                                             88 (  3.5) 
+##      Excellent Transit                                    1035 ( 41.1) 
+##      Good Transit                                          865 ( 34.4) 
+##      Minimal Transit                                         5 (  0.2) 
+##      Rider's Paradise                                      371 ( 14.7) 
+##      Some Transit                                          154 (  6.1) 
+##   BikeScore (mean (SD))                                  92.61 (36.44) 
+##   BikeScoreLabel (%)                                                   
+##                                                            512 ( 20.3) 
+##      Bikeable                                              745 ( 29.6) 
+##      Biker's Paradise                                      422 ( 16.8) 
+##      Somewhat Bikeable                                     179 (  7.1) 
+##      Very Bikeable                                         660 ( 26.2) 
+##   DiningandDrinkingScore (mean (SD))                     81.17 (19.59) 
+##   GroceryScore (mean (SD))                               84.45 (22.22)
+```
+
+```r
+CreateTableOne(vars = vars, data = city, includeNA = TRUE)
 ```
 
 ```
 ##                                                         
 ##                                                          Overall            
-##   n                                                          1977           
-##   X (mean (SD))                                           1011.31 (874.54)  
-##   quest (mean (SD))                                      20810.97 (15328.31)
+##   n                                                         23901           
 ##   lang (%)                                                                  
-##      Anglais                                                 1974 ( 99.8)   
-##      Espagnol                                                   3 (  0.2)   
-##      Français                                                   0 (  0.0)   
-##   q54 = Homme (%)                                             694 ( 35.1)   
+##      Anglais                                                22236 (93.0)    
+##      Espagnol                                                  44 ( 0.2)    
+##      Français                                                1621 ( 6.8)    
+##   q54 = Homme (%)                                            9859 (41.2)    
 ##   ville (%)                                                                 
-##      Boston                                                  1977 (100.0)   
-##      Chicago                                                    0 (  0.0)   
-##      Détroit                                                    0 (  0.0)   
-##      Montréal                                                   0 (  0.0)   
-##      New-York                                                   0 (  0.0)   
-##      Philadelphie                                               0 (  0.0)   
-##      Toronto                                                    0 (  0.0)   
-##      Vancouver                                                  0 (  0.0)   
-##   q1us (mean (SD))                                        2167.15 (447.08)  
-##   q1aut (%)                                                                 
-##                                                              1969 ( 99.6)   
-##      01570                                                      1 (  0.1)   
-##      01581                                                      1 (  0.1)   
-##      01826                                                      1 (  0.1)   
-##      02138                                                      1 (  0.1)   
-##      02139                                                      1 (  0.1)   
-##      02446                                                      1 (  0.1)   
-##      03276                                                      0 (  0.0)   
-##      07002                                                      0 (  0.0)   
-##      07003                                                      0 (  0.0)   
-##      07020                                                      0 (  0.0)   
-##      07023                                                      0 (  0.0)   
-##      07055                                                      0 (  0.0)   
-##      07072                                                      0 (  0.0)   
-##      07302                                                      0 (  0.0)   
-##      07304                                                      0 (  0.0)   
-##      07305                                                      0 (  0.0)   
-##      07307                                                      0 (  0.0)   
-##      07470                                                      0 (  0.0)   
-##      07621                                                      0 (  0.0)   
-##      07626                                                      0 (  0.0)   
-##      07731                                                      0 (  0.0)   
-##      07834                                                      0 (  0.0)   
-##      08060                                                      0 (  0.0)   
-##      08075                                                      0 (  0.0)   
-##      08807                                                      0 (  0.0)   
-##      08817                                                      0 (  0.0)   
-##      08837                                                      0 (  0.0)   
-##      10591                                                      0 (  0.0)   
-##      10598                                                      0 (  0.0)   
-##      10710                                                      0 (  0.0)   
-##      11206                                                      0 (  0.0)   
-##      11229                                                      0 (  0.0)   
-##      11767                                                      0 (  0.0)   
-##      11772                                                      0 (  0.0)   
-##      11778                                                      0 (  0.0)   
-##      11798                                                      0 (  0.0)   
-##      19007                                                      0 (  0.0)   
-##      19020                                                      0 (  0.0)   
-##      19038                                                      0 (  0.0)   
-##      19053                                                      0 (  0.0)   
-##      19130                                                      0 (  0.0)   
-##      19132                                                      0 (  0.0)   
-##      19145                                                      0 (  0.0)   
-##      19147                                                      0 (  0.0)   
-##      19382                                                      0 (  0.0)   
-##      19401                                                      0 (  0.0)   
-##      19425                                                      0 (  0.0)   
-##      19428                                                      0 (  0.0)   
-##      19551                                                      0 (  0.0)   
-##      19602                                                      0 (  0.0)   
-##      19603                                                      0 (  0.0)   
-##      19604                                                      0 (  0.0)   
-##      19605                                                      0 (  0.0)   
-##      19606                                                      0 (  0.0)   
-##      19608                                                      0 (  0.0)   
-##      19707                                                      0 (  0.0)   
-##      19711                                                      0 (  0.0)   
-##      28211                                                      0 (  0.0)   
-##      46310                                                      0 (  0.0)   
-##      46410                                                      0 (  0.0)   
-##      47065                                                      0 (  0.0)   
-##      48009                                                      0 (  0.0)   
-##      48015                                                      0 (  0.0)   
-##      48017                                                      0 (  0.0)   
-##      48025                                                      0 (  0.0)   
-##      48026                                                      0 (  0.0)   
-##      48030                                                      0 (  0.0)   
-##      48033                                                      0 (  0.0)   
-##      48035                                                      0 (  0.0)   
-##      48036                                                      0 (  0.0)   
-##      48044                                                      0 (  0.0)   
-##      48045                                                      0 (  0.0)   
-##      48047                                                      0 (  0.0)   
-##      48059                                                      0 (  0.0)   
-##      48060                                                      0 (  0.0)   
-##      48066                                                      0 (  0.0)   
-##      48067                                                      0 (  0.0)   
-##      48071                                                      0 (  0.0)   
-##      48072                                                      0 (  0.0)   
-##      48073                                                      0 (  0.0)   
-##      48075                                                      0 (  0.0)   
-##      48076                                                      0 (  0.0)   
-##      48080                                                      0 (  0.0)   
-##      48081                                                      0 (  0.0)   
-##      48082                                                      0 (  0.0)   
-##      48083                                                      0 (  0.0)   
-##      48084                                                      0 (  0.0)   
-##      48085                                                      0 (  0.0)   
-##      48088                                                      0 (  0.0)   
-##      48089                                                      0 (  0.0)   
-##      48091                                                      0 (  0.0)   
-##      48092                                                      0 (  0.0)   
-##      48093                                                      0 (  0.0)   
-##      48094                                                      0 (  0.0)   
-##      48098                                                      0 (  0.0)   
-##      48103                                                      0 (  0.0)   
-##      48104                                                      0 (  0.0)   
-##      48105                                                      0 (  0.0)   
-##      48108                                                      0 (  0.0)   
-##      48109                                                      0 (  0.0)   
-##      48111                                                      0 (  0.0)   
-##      48116                                                      0 (  0.0)   
-##      48117                                                      0 (  0.0)   
-##      48118                                                      0 (  0.0)   
-##      48124                                                      0 (  0.0)   
-##      48125                                                      0 (  0.0)   
-##      48126                                                      0 (  0.0)   
-##      48127                                                      0 (  0.0)   
-##      48130                                                      0 (  0.0)   
-##      48131                                                      0 (  0.0)   
-##      48137                                                      0 (  0.0)   
-##      48146                                                      0 (  0.0)   
-##      48150                                                      0 (  0.0)   
-##      48152                                                      0 (  0.0)   
-##      48154                                                      0 (  0.0)   
-##      48157                                                      0 (  0.0)   
-##      48160                                                      0 (  0.0)   
-##      48161                                                      0 (  0.0)   
-##      48162                                                      0 (  0.0)   
-##      48164                                                      0 (  0.0)   
-##      48165                                                      0 (  0.0)   
-##      48166                                                      0 (  0.0)   
-##      48167                                                      0 (  0.0)   
-##      48169                                                      0 (  0.0)   
-##      48170                                                      0 (  0.0)   
-##      48173                                                      0 (  0.0)   
-##      48174                                                      0 (  0.0)   
-##      48178                                                      0 (  0.0)   
-##      48180                                                      0 (  0.0)   
-##      48182                                                      0 (  0.0)   
-##      48184                                                      0 (  0.0)   
-##      48185                                                      0 (  0.0)   
-##      48186                                                      0 (  0.0)   
-##      48187                                                      0 (  0.0)   
-##      48188                                                      0 (  0.0)   
-##      48189                                                      0 (  0.0)   
-##      48192                                                      0 (  0.0)   
-##      48193                                                      0 (  0.0)   
-##      48195                                                      0 (  0.0)   
-##      48196                                                      0 (  0.0)   
-##      48197                                                      0 (  0.0)   
-##      48198                                                      0 (  0.0)   
-##      48220                                                      0 (  0.0)   
-##      48230                                                      0 (  0.0)   
-##      48236                                                      0 (  0.0)   
-##      48239                                                      0 (  0.0)   
-##      48240                                                      0 (  0.0)   
-##      48304                                                      0 (  0.0)   
-##      48307                                                      0 (  0.0)   
-##      48309                                                      0 (  0.0)   
-##      48310                                                      0 (  0.0)   
-##      48312                                                      0 (  0.0)   
-##      48313                                                      0 (  0.0)   
-##      48314                                                      0 (  0.0)   
-##      48315                                                      0 (  0.0)   
-##      48316                                                      0 (  0.0)   
-##      48323                                                      0 (  0.0)   
-##      48324                                                      0 (  0.0)   
-##      48326                                                      0 (  0.0)   
-##      48327                                                      0 (  0.0)   
-##      48328                                                      0 (  0.0)   
-##      48329                                                      0 (  0.0)   
-##      48331                                                      0 (  0.0)   
-##      48334                                                      0 (  0.0)   
-##      48335                                                      0 (  0.0)   
-##      48336                                                      0 (  0.0)   
-##      48340                                                      0 (  0.0)   
-##      48341                                                      0 (  0.0)   
-##      48342                                                      0 (  0.0)   
-##      48346                                                      0 (  0.0)   
-##      48348                                                      0 (  0.0)   
-##      48356                                                      0 (  0.0)   
-##      48360                                                      0 (  0.0)   
-##      48362                                                      0 (  0.0)   
-##      48371                                                      0 (  0.0)   
-##      48374                                                      0 (  0.0)   
-##      48375                                                      0 (  0.0)   
-##      48382                                                      0 (  0.0)   
-##      48383                                                      0 (  0.0)   
-##      48386                                                      0 (  0.0)   
-##      48390                                                      0 (  0.0)   
-##      48393                                                      0 (  0.0)   
-##      48407                                                      0 (  0.0)   
-##      48423                                                      0 (  0.0)   
-##      48430                                                      0 (  0.0)   
-##      48442                                                      0 (  0.0)   
-##      48444                                                      0 (  0.0)   
-##      48446                                                      0 (  0.0)   
-##      48461                                                      0 (  0.0)   
-##      48462                                                      0 (  0.0)   
-##      48836                                                      0 (  0.0)   
-##      48843                                                      0 (  0.0)   
-##      49228                                                      0 (  0.0)   
-##      49229                                                      0 (  0.0)   
-##      60060                                                      0 (  0.0)   
-##      60085                                                      0 (  0.0)   
-##      60110                                                      0 (  0.0)   
-##      60142                                                      0 (  0.0)   
-##      60154                                                      0 (  0.0)   
-##      60190                                                      0 (  0.0)   
-##      60302                                                      0 (  0.0)   
-##      60304                                                      0 (  0.0)   
-##      60305                                                      0 (  0.0)   
-##      60402                                                      0 (  0.0)   
-##      60411                                                      0 (  0.0)   
-##      60425                                                      0 (  0.0)   
-##      60510                                                      0 (  0.0)   
-##      60546                                                      0 (  0.0)   
-##      60564                                                      0 (  0.0)   
-##      60706                                                      0 (  0.0)   
-##      60805                                                      0 (  0.0)   
-##      62895                                                      0 (  0.0)   
-##      66                                                         0 (  0.0)   
-##      H1T4B6                                                     0 (  0.0)   
-##      H2H1E5                                                     0 (  0.0)   
-##      H3G                                                        0 (  0.0)   
-##      H3H2P2                                                     0 (  0.0)   
-##      H3S1H3                                                     0 (  0.0)   
-##      H3X3S9                                                     0 (  0.0)   
-##      K8N1P3                                                     0 (  0.0)   
-##      L6Y2N2                                                     0 (  0.0)   
-##      M2N2K2                                                     0 (  0.0)   
-##      M2N6Z5                                                     0 (  0.0)   
-##      M3C 3N                                                     0 (  0.0)   
-##      M3M1C1                                                     0 (  0.0)   
-##      M4W3Y3                                                     0 (  0.0)   
-##      M5M4B8                                                     0 (  0.0)   
-##      M5R3P7                                                     0 (  0.0)   
-##      N0N1K0                                                     0 (  0.0)   
-##      N3C1G3                                                     1 (  0.1)   
-##      N3C3K9                                                     1 (  0.1)   
-##      N7L 4T                                                     0 (  0.0)   
-##      V0N3A0                                                     0 (  0.0)   
-##      V2P7M3                                                     0 (  0.0)   
-##      V2R1W2                                                     0 (  0.0)   
-##      V2R5B1                                                     0 (  0.0)   
-##      V3B0B3                                                     0 (  0.0)   
-##      V3B7H9                                                     0 (  0.0)   
-##      V3N4K9                                                     0 (  0.0)   
-##      V5C0G8                                                     0 (  0.0)   
-##      V5C1B1                                                     0 (  0.0)   
-##      V5C1R4                                                     0 (  0.0)   
-##      V5C3R3                                                     0 (  0.0)   
-##      V5C4B1                                                     0 (  0.0)   
-##      V5C4N5                                                     0 (  0.0)   
-##      V5G 2S                                                     0 (  0.0)   
-##      V5G1P4                                                     0 (  0.0)   
-##      V5G2W6                                                     0 (  0.0)   
-##      V5G3R8                                                     0 (  0.0)   
-##      V5H1N6                                                     0 (  0.0)   
-##      V5H1V8                                                     0 (  0.0)   
-##      V5H1W3                                                     0 (  0.0)   
-##      V5H3M4                                                     0 (  0.0)   
-##      V5H4E3                                                     0 (  0.0)   
-##      V5H4W6                                                     0 (  0.0)   
-##      V5J2L4                                                     0 (  0.0)   
-##      V5L1W8                                                     0 (  0.0)   
-##      V5L2B7                                                     0 (  0.0)   
-##      V5L3S9                                                     0 (  0.0)   
-##      V5N1L9                                                     0 (  0.0)   
-##      V5P2N8                                                     0 (  0.0)   
-##      V5R5J9                                                     0 (  0.0)   
-##      V5T4V4                                                     0 (  0.0)   
-##      V5W2H5                                                     0 (  0.0)   
-##      V5X2L4                                                     0 (  0.0)   
-##      V5Y2B8                                                     0 (  0.0)   
-##      V6E1R9                                                     0 (  0.0)   
-##      V6G3H6                                                     0 (  0.0)   
-##      V6P2A7                                                     0 (  0.0)   
-##      V6P4M9                                                     0 (  0.0)   
-##      V6Z2W4                                                     0 (  0.0)   
-##      V8L4T9                                                     0 (  0.0)   
-##      V8R3Y6                                                     0 (  0.0)   
-##      V8S4G8                                                     0 (  0.0)   
-##      V8T4E1                                                     0 (  0.0)   
-##      V8V1N3                                                     0 (  0.0)   
-##      V8V1R7                                                     0 (  0.0)   
-##      V8V3V3                                                     0 (  0.0)   
-##      V8V3Y2                                                     0 (  0.0)   
-##      V8V4T1                                                     0 (  0.0)   
-##      V8W2K5                                                     0 (  0.0)   
-##      V8X2J2                                                     0 (  0.0)   
-##      V9A1X3                                                     0 (  0.0)   
-##      V9A6B4                                                     0 (  0.0)   
-##      V9A6K1                                                     0 (  0.0)   
-##      V9B3P6                                                     0 (  0.0)   
-##      V9C0G9                                                     0 (  0.0)   
-##      V9W2Y8                                                     0 (  0.0)   
-##   q46b7 (%)                                                                 
-##      Allston-Brighton                                         274 ( 13.9)   
-##      Autre                                                    640 ( 32.5)   
-##      Back Bay/Beacon Hill/West End                            156 (  7.9)   
-##      Cambridgeport                                             53 (  2.7)   
-##      Charlestown                                               54 (  2.7)   
-##      East Cambridge                                            64 (  3.3)   
-##      Fenway                                                    83 (  4.2)   
-##      Longwood                                                  40 (  2.0)   
-##      Mid-Cambridge                                            133 (  6.8)   
-##      North Dorchester                                          57 (  2.9)   
-##      North End                                                 61 (  3.1)   
-##      Riverside                                                  8 (  0.4)   
-##      Roxbury                                                   46 (  2.3)   
-##      South Boston                                             125 (  6.3)   
-##      South Dorchester                                          59 (  3.0)   
-##      South End/Chinatown                                      105 (  5.3)   
-##      Wellington-Harrington                                     11 (  0.6)   
-##   q46b9 (%)                                                                 
-##                                                              1329 ( 67.2)   
-##      00                                                         4 (  0.2)   
-##      01                                                         0 (  0.0)   
-##      02                                                         0 (  0.0)   
-##      03                                                         0 (  0.0)   
-##      04                                                         0 (  0.0)   
-##      05                                                         0 (  0.0)   
-##      06                                                         0 (  0.0)   
-##      07                                                         0 (  0.0)   
-##      08                                                         0 (  0.0)   
-##      10                                                         0 (  0.0)   
-##      11                                                         0 (  0.0)   
-##      12                                                         0 (  0.0)   
-##      13                                                         0 (  0.0)   
-##      14                                                         0 (  0.0)   
-##      15                                                         0 (  0.0)   
-##      16                                                         0 (  0.0)   
-##      17                                                         0 (  0.0)   
-##      18                                                         0 (  0.0)   
-##      19                                                         0 (  0.0)   
-##      1A                                                        18 (  0.9)   
-##      1B                                                         0 (  0.0)   
-##      1C                                                         0 (  0.0)   
-##      1D                                                         0 (  0.0)   
-##      1E                                                         0 (  0.0)   
-##      1F                                                        23 (  1.2)   
-##      1M                                                         1 (  0.1)   
-##      20                                                         0 (  0.0)   
-##      21                                                         0 (  0.0)   
-##      22                                                         0 (  0.0)   
-##      23                                                         0 (  0.0)   
-##      24                                                         0 (  0.0)   
-##      25                                                         0 (  0.0)   
-##      26                                                         0 (  0.0)   
-##      27                                                         0 (  0.0)   
-##      28                                                         0 (  0.0)   
-##      29                                                         0 (  0.0)   
-##      2M                                                         0 (  0.0)   
-##      30                                                         0 (  0.0)   
-##      31                                                         0 (  0.0)   
-##      32                                                         0 (  0.0)   
-##      33                                                         0 (  0.0)   
-##      34                                                         2 (  0.1)   
-##      35                                                         0 (  0.0)   
-##      36                                                         0 (  0.0)   
-##      37                                                         0 (  0.0)   
-##      38                                                         0 (  0.0)   
-##      39                                                         0 (  0.0)   
-##      3M                                                         0 (  0.0)   
-##      40                                                         0 (  0.0)   
-##      41                                                         0 (  0.0)   
-##      42                                                         0 (  0.0)   
-##      43                                                         0 (  0.0)   
-##      44                                                         0 (  0.0)   
-##      45                                                        12 (  0.6)   
-##      46                                                         0 (  0.0)   
-##      47                                                         0 (  0.0)   
-##      48                                                         0 (  0.0)   
-##      49                                                         0 (  0.0)   
-##      4M                                                         0 (  0.0)   
-##      50                                                         0 (  0.0)   
-##      51                                                         0 (  0.0)   
-##      52                                                         0 (  0.0)   
-##      53                                                         0 (  0.0)   
-##      54                                                         0 (  0.0)   
-##      55                                                         0 (  0.0)   
-##      56                                                         0 (  0.0)   
-##      57                                                         0 (  0.0)   
-##      58                                                         0 (  0.0)   
-##      59                                                         0 (  0.0)   
-##      5M                                                         0 (  0.0)   
-##      60                                                         0 (  0.0)   
-##      61                                                         0 (  0.0)   
-##      62                                                         0 (  0.0)   
-##      63                                                         0 (  0.0)   
-##      64                                                         0 (  0.0)   
-##      65                                                         0 (  0.0)   
-##      66                                                         0 (  0.0)   
-##      67                                                         0 (  0.0)   
-##      68                                                         0 (  0.0)   
-##      69                                                         0 (  0.0)   
-##      6M                                                         0 (  0.0)   
-##      70                                                         0 (  0.0)   
-##      71                                                         0 (  0.0)   
-##      72                                                         0 (  0.0)   
-##      73                                                         0 (  0.0)   
-##      74                                                         1 (  0.1)   
-##      75                                                         0 (  0.0)   
-##      76                                                         0 (  0.0)   
-##      77                                                         0 (  0.0)   
-##      78                                                         0 (  0.0)   
-##      79                                                         0 (  0.0)   
-##      80                                                         0 (  0.0)   
-##      81                                                         0 (  0.0)   
-##      82                                                         0 (  0.0)   
-##      83                                                         0 (  0.0)   
-##      84                                                         0 (  0.0)   
-##      85                                                         0 (  0.0)   
-##      86                                                         0 (  0.0)   
-##      87                                                         0 (  0.0)   
-##      88                                                         0 (  0.0)   
-##      89                                                         0 (  0.0)   
-##      90                                                         0 (  0.0)   
-##      91                                                         0 (  0.0)   
-##      92                                                         0 (  0.0)   
-##      93                                                         0 (  0.0)   
-##      94                                                         0 (  0.0)   
-##      95                                                         0 (  0.0)   
-##      96                                                       241 ( 12.2)   
-##      97                                                         0 (  0.0)   
-##      98                                                         1 (  0.1)   
-##      99                                                         3 (  0.2)   
-##      A0                                                         0 (  0.0)   
-##      A1                                                         0 (  0.0)   
-##      A2                                                         0 (  0.0)   
-##      A3                                                         0 (  0.0)   
-##      A4                                                         0 (  0.0)   
-##      A5                                                         0 (  0.0)   
-##      A6                                                         1 (  0.1)   
-##      A7                                                         0 (  0.0)   
-##      A8                                                         0 (  0.0)   
-##      A9                                                         0 (  0.0)   
-##      AA                                                         0 (  0.0)   
-##      B0                                                         0 (  0.0)   
-##      B1                                                         0 (  0.0)   
-##      B2                                                         0 (  0.0)   
-##      B3                                                         0 (  0.0)   
-##      B4                                                         1 (  0.1)   
-##      B5                                                         0 (  0.0)   
-##      B6                                                         0 (  0.0)   
-##      B7                                                         0 (  0.0)   
-##      B8                                                         0 (  0.0)   
-##      B9                                                         0 (  0.0)   
-##      BB                                                         0 (  0.0)   
-##      C0                                                         0 (  0.0)   
-##      C1                                                         0 (  0.0)   
-##      C2                                                         0 (  0.0)   
-##      C3                                                         0 (  0.0)   
-##      C4                                                         0 (  0.0)   
-##      C5                                                         0 (  0.0)   
-##      C6                                                         0 (  0.0)   
-##      C7                                                         0 (  0.0)   
-##      C8                                                         0 (  0.0)   
-##      C9                                                         0 (  0.0)   
-##      CC                                                         0 (  0.0)   
-##      D0                                                         0 (  0.0)   
-##      D1                                                         0 (  0.0)   
-##      D2                                                         0 (  0.0)   
-##      D3                                                         0 (  0.0)   
-##      D4                                                         0 (  0.0)   
-##      D5                                                         0 (  0.0)   
-##      D6                                                         0 (  0.0)   
-##      D7                                                         0 (  0.0)   
-##      D8                                                         0 (  0.0)   
-##      D9                                                         0 (  0.0)   
-##      DD                                                         0 (  0.0)   
-##      E0                                                         0 (  0.0)   
-##      E1                                                         0 (  0.0)   
-##      E2                                                         1 (  0.1)   
-##      E3                                                         0 (  0.0)   
-##      E4                                                         0 (  0.0)   
-##      E5                                                         0 (  0.0)   
-##      E6                                                         0 (  0.0)   
-##      E7                                                         0 (  0.0)   
-##      E8                                                         0 (  0.0)   
-##      E9                                                         0 (  0.0)   
-##      EE                                                         0 (  0.0)   
-##      F0                                                         0 (  0.0)   
-##      F1                                                         0 (  0.0)   
-##      F2                                                         0 (  0.0)   
-##      F3                                                         0 (  0.0)   
-##      F4                                                         0 (  0.0)   
-##      F5                                                         0 (  0.0)   
-##      F6                                                         0 (  0.0)   
-##      F7                                                         0 (  0.0)   
-##      F8                                                         0 (  0.0)   
-##      F9                                                         0 (  0.0)   
-##      FF                                                         0 (  0.0)   
-##      G0                                                         0 (  0.0)   
-##      G1                                                         0 (  0.0)   
-##      G2                                                         0 (  0.0)   
-##      G3                                                         0 (  0.0)   
-##      G4                                                         1 (  0.1)   
-##      G5                                                         0 (  0.0)   
-##      G6                                                         0 (  0.0)   
-##      G7                                                         0 (  0.0)   
-##      G8                                                         0 (  0.0)   
-##      G9                                                         0 (  0.0)   
-##      GG                                                         0 (  0.0)   
-##      H0                                                         0 (  0.0)   
-##      H1                                                         0 (  0.0)   
-##      H2                                                         0 (  0.0)   
-##      H3                                                         0 (  0.0)   
-##      H4                                                         0 (  0.0)   
-##      H5                                                         0 (  0.0)   
-##      H6                                                         0 (  0.0)   
-##      H7                                                         0 (  0.0)   
-##      H8                                                         0 (  0.0)   
-##      H9                                                         0 (  0.0)   
-##      HH                                                         0 (  0.0)   
-##      I0                                                         0 (  0.0)   
-##      I1                                                         0 (  0.0)   
-##      I2                                                         0 (  0.0)   
-##      I3                                                         0 (  0.0)   
-##      I4                                                         0 (  0.0)   
-##      I5                                                         0 (  0.0)   
-##      I6                                                         0 (  0.0)   
-##      I7                                                         0 (  0.0)   
-##      I8                                                         0 (  0.0)   
-##      I9                                                         0 (  0.0)   
-##      II                                                         0 (  0.0)   
-##      J0                                                         0 (  0.0)   
-##      J1                                                         0 (  0.0)   
-##      J2                                                         0 (  0.0)   
-##      J3                                                         0 (  0.0)   
-##      J4                                                         0 (  0.0)   
-##      J5                                                         0 (  0.0)   
-##      J6                                                         0 (  0.0)   
-##      J7                                                         1 (  0.1)   
-##      J8                                                         0 (  0.0)   
-##      J9                                                         0 (  0.0)   
-##      JJ                                                         0 (  0.0)   
-##      K0                                                         0 (  0.0)   
-##      K1                                                         0 (  0.0)   
-##      K2                                                         0 (  0.0)   
-##      K3                                                         0 (  0.0)   
-##      K4                                                         0 (  0.0)   
-##      K5                                                         0 (  0.0)   
-##      K6                                                         0 (  0.0)   
-##      K7                                                         0 (  0.0)   
-##      K8                                                         0 (  0.0)   
-##      K9                                                         0 (  0.0)   
-##      KK                                                         0 (  0.0)   
-##      L0                                                         0 (  0.0)   
-##      L1                                                         0 (  0.0)   
-##      L2                                                         0 (  0.0)   
-##      L3                                                         0 (  0.0)   
-##      L4                                                         0 (  0.0)   
-##      L5                                                         0 (  0.0)   
-##      L6                                                         0 (  0.0)   
-##      L7                                                         0 (  0.0)   
-##      L8                                                         0 (  0.0)   
-##      L9                                                         0 (  0.0)   
-##      LL                                                         0 (  0.0)   
-##      M0                                                         0 (  0.0)   
-##      M1                                                         0 (  0.0)   
-##      M2                                                         0 (  0.0)   
-##      M3                                                         0 (  0.0)   
-##      M4                                                         0 (  0.0)   
-##      M5                                                         0 (  0.0)   
-##      M6                                                         0 (  0.0)   
-##      M7                                                         0 (  0.0)   
-##      M8                                                         0 (  0.0)   
-##      M9                                                         0 (  0.0)   
-##      MM                                                         0 (  0.0)   
-##      N0                                                         0 (  0.0)   
-##      N1                                                         0 (  0.0)   
-##      N2                                                         0 (  0.0)   
-##      N3                                                         0 (  0.0)   
-##      N4                                                         0 (  0.0)   
-##      N5                                                         0 (  0.0)   
-##      N6                                                         2 (  0.1)   
-##      N7                                                         0 (  0.0)   
-##      N8                                                         0 (  0.0)   
-##      N9                                                         1 (  0.1)   
-##      NN                                                         0 (  0.0)   
-##      O1                                                         0 (  0.0)   
-##      O2                                                         0 (  0.0)   
-##      O3                                                         0 (  0.0)   
-##      O4                                                         0 (  0.0)   
-##      O5                                                         0 (  0.0)   
-##      O6                                                         0 (  0.0)   
-##      O7                                                         0 (  0.0)   
-##      O8                                                         0 (  0.0)   
-##      O9                                                         0 (  0.0)   
-##      OO                                                         0 (  0.0)   
-##      P0                                                         0 (  0.0)   
-##      P1                                                         0 (  0.0)   
-##      P2                                                         0 (  0.0)   
-##      P3                                                         0 (  0.0)   
-##      P4                                                         0 (  0.0)   
-##      P5                                                         0 (  0.0)   
-##      P6                                                         0 (  0.0)   
-##      P7                                                         0 (  0.0)   
-##      P8                                                         0 (  0.0)   
-##      P9                                                         0 (  0.0)   
-##      PP                                                         0 (  0.0)   
-##      Q0                                                        67 (  3.4)   
-##      Q1                                                         0 (  0.0)   
-##      Q2                                                        79 (  4.0)   
-##      Q3                                                        10 (  0.5)   
-##      Q4                                                         2 (  0.1)   
-##      Q5                                                        12 (  0.6)   
-##      Q6                                                         5 (  0.3)   
-##      Q7                                                        34 (  1.7)   
-##      Q8                                                        29 (  1.5)   
-##      Q9                                                        31 (  1.6)   
-##      QQ                                                         0 (  0.0)   
-##      R0                                                         0 (  0.0)   
-##      R1                                                         8 (  0.4)   
-##      R2                                                        51 (  2.6)   
-##      R3                                                         3 (  0.2)   
-##      R4                                                         0 (  0.0)   
-##      R5                                                         0 (  0.0)   
-##      R6                                                         0 (  0.0)   
-##      R7                                                         0 (  0.0)   
-##      R8                                                         0 (  0.0)   
-##      R9                                                         0 (  0.0)   
-##      RR                                                         0 (  0.0)   
-##      S0                                                         0 (  0.0)   
-##      S1                                                         0 (  0.0)   
-##      S2                                                         1 (  0.1)   
-##      S3                                                         0 (  0.0)   
-##      S4                                                         0 (  0.0)   
-##      S5                                                         0 (  0.0)   
-##      S6                                                         0 (  0.0)   
-##      S7                                                         0 (  0.0)   
-##      S8                                                         0 (  0.0)   
-##      S9                                                         0 (  0.0)   
-##      SS                                                         0 (  0.0)   
-##      T1                                                         0 (  0.0)   
-##      T2                                                         0 (  0.0)   
-##      T3                                                         0 (  0.0)   
-##      T4                                                         0 (  0.0)   
-##      T5                                                         0 (  0.0)   
-##      T6                                                         0 (  0.0)   
-##      T7                                                         2 (  0.1)   
-##      T8                                                         0 (  0.0)   
-##      TT                                                         0 (  0.0)   
-##      UU                                                         0 (  0.0)   
-##      VV                                                         0 (  0.0)   
-##      WW                                                         0 (  0.0)   
-##      XX                                                         0 (  0.0)   
-##      YY                                                         0 (  0.0)   
-##      ZZ                                                         0 (  0.0)   
+##      Boston                                                  1977 ( 8.3)    
+##      Chicago                                                 4085 (17.1)    
+##      Détroit                                                 3077 (12.9)    
+##      Montréal                                                2678 (11.2)    
+##      New-York                                                3824 (16.0)    
+##      Philadelphie                                            1478 ( 6.2)    
+##      Toronto                                                 4264 (17.8)    
+##      Vancouver                                               2518 (10.5)    
+##   q1us (mean (SD))                                       32122.16 (23594.13)
 ##   q2 (%)                                                                    
-##      Bon                                                      521 ( 26.4)   
-##      Excellent                                                467 ( 23.6)   
-##      Mauvais                                                   24 (  1.2)   
-##      Moyen                                                    142 (  7.2)   
-##      Ne sais pas/Refuse de répondre                             5 (  0.3)   
-##      Très bon                                                 818 ( 41.4)   
+##      Bon                                                     6725 (28.1)    
+##      Excellent                                               4803 (20.1)    
+##      Mauvais                                                  489 ( 2.0)    
+##      Moyen                                                   2104 ( 8.8)    
+##      Ne sais pas/Refuse de répondre                            39 ( 0.2)    
+##      Très bon                                                9741 (40.8)    
 ##   q13 (%)                                                                   
-##      Autre (précisez:)                                          3 (  0.2)   
-##      Marche                                                   500 ( 25.3)   
-##      Ne s'applique pas                                          3 (  0.2)   
-##      Ne sais pas                                                0 (  0.0)   
-##      Scooter                                                    1 (  0.1)   
-##      Taxi                                                      12 (  0.6)   
-##      Transport en commun                                      669 ( 33.8)   
-##      Véhicule motorisé (loué, emprunté, covoiturage)          675 ( 34.1)   
-##      Vélo en libre-service                                     15 (  0.8)   
-##      Vélo personnel                                            89 (  4.5)   
-##      Voiture personnelle                                       10 (  0.5)   
+##      Autre (précisez:)                                         35 ( 0.1)    
+##      Marche                                                  4484 (18.8)    
+##      Ne s'applique pas                                         61 ( 0.3)    
+##      Ne sais pas                                               36 ( 0.2)    
+##      Scooter                                                   21 ( 0.1)    
+##      Taxi                                                     205 ( 0.9)    
+##      Transport en commun                                     7886 (33.0)    
+##      Véhicule motorisé (loué, emprunté, covoiturage)         9768 (40.9)    
+##      Vélo en libre-service                                    243 ( 1.0)    
+##      Vélo personnel                                           934 ( 3.9)    
+##      Voiture personnelle                                      228 ( 1.0)    
 ##   q14 (%)                                                                   
-##      Ne sais pas/Ne s'applique pas                             18 (  0.9)   
-##      Non                                                      255 ( 12.9)   
-##      Oui                                                     1703 ( 86.1)   
-##      Refuse de répondre                                         1 (  0.1)   
-##   q15 (mean (SD))                                           44.15 (24.35)   
-##   q18 (mean (SD))                                           50.68 (31.37)   
-##   q21 (mean (SD))                                           10.46 (24.50)   
-##   q22b (mean (SD))                                           2.09 (1.98)    
-##   q22c (mean (SD))                                          30.61 (19.21)   
-##   q22d (mean (SD))                                           4.22 (5.18)    
-##   q22e (mean (SD))                                          34.57 (26.95)   
-##   q22f_m1 = Refuse de répondre (%)                              4 (  7.5)   
-##   q23 (mean (SD))                                            3.43 (2.71)    
-##   q25 (mean (SD))                                            4.85 (2.34)    
-##   q27 (mean (SD))                                           24.71 (41.85)   
-##   q42 (mean (SD))                                           37.21 (13.86)   
+##      Ne sais pas/Ne s'applique pas                            276 ( 1.2)    
+##      Non                                                     4124 (17.3)    
+##      Oui                                                    19471 (81.5)    
+##      Refuse de répondre                                        30 ( 0.1)    
+##   q15 (mean (SD))                                           45.11 (24.83)   
+##   q18 (mean (SD))                                           51.83 (32.41)   
+##   q21 (mean (SD))                                           12.33 (27.13)   
+##   q22b (mean (SD))                                           1.97 (1.73)    
+##   q22c (mean (SD))                                          30.53 (21.07)   
+##   q22d (mean (SD))                                           5.27 (8.62)    
+##   q22e (mean (SD))                                          43.21 (114.35)  
+##   q22f_m1 (%)                                                               
+##      Ne sais pas/Pas sûr                                      779 ( 3.3)    
+##      Refuse de répondre                                        48 ( 0.2)    
+##      NA                                                     23074 (96.5)    
+##   q23 (mean (SD))                                            3.32 (2.88)    
+##   q25 (mean (SD))                                            4.52 (2.55)    
+##   q27 (mean (SD))                                           27.56 (43.41)   
+##   q42 (mean (SD))                                           42.57 (14.20)   
 ##   q44 (%)                                                                   
-##      Célibatiare                                             1025 ( 51.8)   
-##      Divorcé (e)                                              130 (  6.6)   
-##      En couple                                                  8 (  0.4)   
-##      Marié(e)/Conjoint de fait                                739 ( 37.4)   
-##      Refuse de répondre                                        23 (  1.2)   
-##      Séparé (e)                                                28 (  1.4)   
-##      Veuf (ve)                                                 24 (  1.2)   
-##   q45 (mean (SD))                                            6.92 (2.45)    
-##   q46b (mean (SD))                                           4.83 (3.93)    
+##      Célibatiare                                             9452 (39.5)    
+##      Divorcé (e)                                             1854 ( 7.8)    
+##      En couple                                                 79 ( 0.3)    
+##      Marié(e)/Conjoint de fait                              11287 (47.2)    
+##      Refuse de répondre                                       291 ( 1.2)    
+##      Séparé (e)                                               460 ( 1.9)    
+##      Veuf (ve)                                                478 ( 2.0)    
+##   q45 (mean (SD))                                            6.56 (2.71)    
+##   q46b (mean (SD))                                           5.11 (3.72)    
 ##   q47 (%)                                                                   
-##      Amérindien des États-Unis / Autochtone d'Amérique          7 (  0.4)   
-##      Arabe (Moyen-Orient, Afrique du Nord)                      5 (  0.3)   
-##      Asiatique / insulaire du Pacifique                       218 ( 11.0)   
-##      Autre                                                      5 (  0.3)   
-##      Blanc(che) / Caucasien                                  1480 ( 74.9)   
-##      Hispanique / Latino / Espagnol(e)                         67 (  3.4)   
-##      Indien / Pakistanais                                      20 (  1.0)   
-##      Je préfère ne pas répondre                                46 (  2.3)   
-##      Jewish                                                     1 (  0.1)   
-##      Mixed / Mixed race / Bi-racial                            18 (  0.9)   
-##      Noir(e) / Africain(e) / Afro-Américain(e)                110 (  5.6)   
-##   q48 (mean (SD))                                            6.22 (16.05)   
+##      Amérindien des États-Unis / Autochtone d'Amérique         79 ( 0.3)    
+##      Arabe (Moyen-Orient, Afrique du Nord)                    135 ( 0.6)    
+##      Asiatique / insulaire du Pacifique                      2661 (11.1)    
+##      Autre                                                    129 ( 0.5)    
+##      Blanc(che) / Caucasien                                 17154 (71.8)    
+##      Hispanique / Latino / Espagnol(e)                        933 ( 3.9)    
+##      Indien / Pakistanais                                     330 ( 1.4)    
+##      Je préfère ne pas répondre                               639 ( 2.7)    
+##      Jewish                                                    16 ( 0.1)    
+##      Mixed / Mixed race / Bi-racial                           171 ( 0.7)    
+##      Noir(e) / Africain(e) / Afro-Américain(e)               1654 ( 6.9)    
+##   q48 (mean (SD))                                            7.68 (18.95)   
 ##   q49 (%)                                                                   
-##      Ne sais pas/Ne s'applique pas                              5 (  0.3)   
-##      Non                                                      166 (  8.4)   
-##      Oui                                                     1806 ( 91.4)   
+##      Ne sais pas/Ne s'applique pas                            132 ( 0.6)    
+##      Non                                                     2891 (12.1)    
+##      Oui                                                    20878 (87.4)    
 ##   q50 (%)                                                                   
-##      Ne sais pas/Ne s'applique pas                             16 (  0.8)   
-##      Non                                                      519 ( 26.3)   
-##      Oui                                                     1442 ( 72.9)   
+##      Ne sais pas/Ne s'applique pas                            230 ( 1.0)    
+##      Non                                                     6295 (26.3)    
+##      Oui                                                    17376 (72.7)    
 ##   q51 (%)                                                                   
-##      Aucun grade, certificat ou diplôme                         0 (  0.0)   
-##      Autre (précisez):                                          2 (  0.1)   
-##      Baccalauréat                                             757 ( 38.3)   
-##      Cégep                                                    231 ( 11.7)   
-##      Certificat d'école de métier, certificat ou diplôme       65 (  3.3)   
-##      Diplôme d'études secondaire ou l'équivalent              131 (  6.6)   
-##      Diplôme universitaire supérieur au baccalauréat          774 ( 39.2)   
-##      École primaire                                             1 (  0.1)   
-##      Refuse de répondre                                        16 (  0.8)   
+##      Aucun grade, certificat ou diplôme                        32 ( 0.1)    
+##      Autre (précisez):                                         81 ( 0.3)    
+##      Baccalauréat                                            8638 (36.1)    
+##      Cégep                                                   3197 (13.4)    
+##      Certificat d'école de métier, certificat ou diplôme     2559 (10.7)    
+##      Diplôme d'études secondaire ou l'équivalent             2471 (10.3)    
+##      Diplôme universitaire supérieur au baccalauréat         6655 (27.8)    
+##      École primaire                                            88 ( 0.4)    
+##      Refuse de répondre                                       180 ( 0.8)    
 ##   Q52_occupational_status_category (%)                                      
-##      Disability                                                17 (  0.9)   
-##      Full time or Self-employed                              1307 ( 66.6)   
-##      Homemaker or parental leave                               55 (  2.8)   
-##      Part time                                                135 (  6.9)   
-##      Retired                                                  112 (  5.7)   
-##      Student                                                  272 ( 13.9)   
-##      Unemployed seeking work                                   65 (  3.3)   
+##      Disability                                               453 ( 1.9)    
+##      Full time or Self-employed                             15373 (64.3)    
+##      Homemaker or parental leave                              983 ( 4.1)    
+##      Part time                                               1899 ( 7.9)    
+##      Retired                                                 2434 (10.2)    
+##      Student                                                 1586 ( 6.6)    
+##      Unemployed seeking work                                  977 ( 4.1)    
+##      NA                                                       196 ( 0.8)    
 ##   q53 (%)                                                                   
-##      Entre 10000 $ and 19999 $ par année                       88 (  4.5)   
-##      Entre 100000 $ and 149999 $ par année                    304 ( 15.4)   
-##      Entre 150000 $ and 199999 $ par année                    141 (  7.1)   
-##      Entre 20000 $ and 34999 $ par année                      168 (  8.5)   
-##      Entre 35000 $ and 49999 $ par année                      221 ( 11.2)   
-##      Entre 50000 $ and 74999 $ par année                      342 ( 17.3)   
-##      Entre 75000 $ and 99999 $ par année                      275 ( 13.9)   
-##      Moins de 10000 $ par année                               122 (  6.2)   
-##      Plus de 200000 $ par année                                91 (  4.6)   
-##      Refuse de répondre                                       225 ( 11.4)   
-##   bmi (mean (SD))                                           25.06 (4.59)    
+##      Entre 10000 $ and 19999 $ par année                     1084 ( 4.5)    
+##      Entre 100000 $ and 149999 $ par année                   3490 (14.6)    
+##      Entre 150000 $ and 199999 $ par année                   1296 ( 5.4)    
+##      Entre 20000 $ and 34999 $ par année                     2061 ( 8.6)    
+##      Entre 35000 $ and 49999 $ par année                     2700 (11.3)    
+##      Entre 50000 $ and 74999 $ par année                     4396 (18.4)    
+##      Entre 75000 $ and 99999 $ par année                     3425 (14.3)    
+##      Moins de 10000 $ par année                              1366 ( 5.7)    
+##      Plus de 200000 $ par année                              1104 ( 4.6)    
+##      Refuse de répondre                                      2979 (12.5)    
+##   bmi (mean (SD))                                           25.64 (4.70)    
 ##   bmi_category (%)                                                          
-##      embonpoint                                               511 ( 28.6)   
-##      insuffisant                                               44 (  2.5)   
-##      normal                                                   982 ( 55.0)   
-##      obesite                                                  248 ( 13.9)   
-##   WalkScore (mean (SD))                                     86.19 (17.12)   
+##      embonpoint                                              6147 (25.7)    
+##      insuffisant                                              349 ( 1.5)    
+##      normal                                                  9455 (39.6)    
+##      obesite                                                 3424 (14.3)    
+##      overweight                                               511 ( 2.1)    
+##      other                                                    192 ( 0.8)    
+##      normal weight                                            982 ( 4.1)    
+##      obese                                                    248 ( 1.0)    
+##      underweight                                               44 ( 0.2)    
+##      NA                                                      2549 (10.7)    
+##   WalkScore (mean (SD))                                     77.81 (24.80)   
 ##   WalkScoreLabel (%)                                                        
-##                                                                38 (  1.9)   
-##      Car-Dependent                                             96 (  4.9)   
-##      Somewhat Walkable                                         85 (  4.3)   
-##      Very Walkable                                            598 ( 30.2)   
-##      Walker's Paradise                                       1160 ( 58.7)   
-##   TransitScore (%)                                                          
-##                                                                38 (  1.9)   
-##      0                                                          0 (  0.0)   
-##      100                                                       16 (  0.8)   
-##      21                                                         0 (  0.0)   
-##      22                                                         0 (  0.0)   
-##      24                                                         0 (  0.0)   
-##      25                                                         0 (  0.0)   
-##      26                                                         0 (  0.0)   
-##      27                                                         0 (  0.0)   
-##      28                                                         0 (  0.0)   
-##      29                                                         0 (  0.0)   
-##      31                                                         0 (  0.0)   
-##      33                                                         0 (  0.0)   
-##      34                                                         0 (  0.0)   
-##      35                                                         0 (  0.0)   
-##      36                                                         0 (  0.0)   
-##      37                                                         0 (  0.0)   
-##      38                                                         0 (  0.0)   
-##      39                                                         0 (  0.0)   
-##      40                                                         2 (  0.1)   
-##      41                                                         0 (  0.0)   
-##      42                                                         0 (  0.0)   
-##      43                                                         0 (  0.0)   
-##      44                                                         0 (  0.0)   
-##      45                                                         0 (  0.0)   
-##      46                                                         0 (  0.0)   
-##      47                                                         0 (  0.0)   
-##      48                                                         0 (  0.0)   
-##      49                                                         0 (  0.0)   
-##      50                                                        64 (  3.2)   
-##      51                                                         0 (  0.0)   
-##      52                                                         0 (  0.0)   
-##      53                                                         0 (  0.0)   
-##      54                                                         0 (  0.0)   
-##      55                                                         0 (  0.0)   
-##      56                                                         0 (  0.0)   
-##      57                                                         0 (  0.0)   
-##      58                                                         0 (  0.0)   
-##      59                                                         0 (  0.0)   
-##      60                                                         0 (  0.0)   
-##      61                                                         0 (  0.0)   
-##      62                                                         0 (  0.0)   
-##      63                                                         0 (  0.0)   
-##      64                                                         0 (  0.0)   
-##      65                                                         0 (  0.0)   
-##      66                                                         0 (  0.0)   
-##      67                                                         0 (  0.0)   
-##      68                                                         0 (  0.0)   
-##      69                                                         0 (  0.0)   
-##      70                                                         0 (  0.0)   
-##      71                                                       106 (  5.4)   
-##      72                                                         0 (  0.0)   
-##      73                                                         0 (  0.0)   
-##      74                                                         0 (  0.0)   
-##      75                                                         0 (  0.0)   
-##      76                                                         0 (  0.0)   
-##      77                                                         0 (  0.0)   
-##      78                                                         0 (  0.0)   
-##      79                                                        95 (  4.8)   
-##      80                                                         0 (  0.0)   
-##      81                                                         0 (  0.0)   
-##      82                                                         0 (  0.0)   
-##      83                                                         0 (  0.0)   
-##      84                                                         0 (  0.0)   
-##      85                                                         0 (  0.0)   
-##      86                                                         0 (  0.0)   
-##      87                                                         0 (  0.0)   
-##      88                                                         0 (  0.0)   
-##      89                                                         0 (  0.0)   
-##      90                                                         0 (  0.0)   
-##      91                                                         0 (  0.0)   
-##      92                                                         0 (  0.0)   
-##      93                                                         0 (  0.0)   
-##      94                                                         0 (  0.0)   
-##      95                                                         0 (  0.0)   
-##      96                                                         0 (  0.0)   
-##      97                                                         0 (  0.0)   
-##      98                                                         0 (  0.0)   
-##      99                                                         0 (  0.0)   
-##      Unavailable                                             1656 ( 83.8)   
+##                                                               284 ( 1.2)    
+##      Car-Dependent                                           3337 (14.0)    
+##      Somewhat Walkable                                       2863 (12.0)    
+##      Very Walkable                                           6319 (26.4)    
+##      Walker's Paradise                                      11098 (46.4)    
+##   TransitScore (mean (SD))                                  60.30 (28.30)   
 ##   TransitScoreLabel (%)                                                     
-##                                                              1694 ( 85.7)   
-##      Excellent Transit                                        201 ( 10.2)   
-##      Good Transit                                              64 (  3.2)   
-##      Minimal Transit                                            0 (  0.0)   
-##      Rider's Paradise                                          16 (  0.8)   
-##      Some Transit                                               2 (  0.1)   
-##   BikeScore (%)                                                             
-##                                                                38 (  1.9)   
-##      100                                                        0 (  0.0)   
-##      12                                                         0 (  0.0)   
-##      13                                                         0 (  0.0)   
-##      18                                                         0 (  0.0)   
-##      19                                                         0 (  0.0)   
-##      20                                                         0 (  0.0)   
-##      21                                                         0 (  0.0)   
-##      22                                                         0 (  0.0)   
-##      23                                                         0 (  0.0)   
-##      24                                                         0 (  0.0)   
-##      25                                                         0 (  0.0)   
-##      26                                                         0 (  0.0)   
-##      27                                                         0 (  0.0)   
-##      28                                                         0 (  0.0)   
-##      29                                                         0 (  0.0)   
-##      30                                                         0 (  0.0)   
-##      31                                                         0 (  0.0)   
-##      32                                                         0 (  0.0)   
-##      33                                                         0 (  0.0)   
-##      34                                                         0 (  0.0)   
-##      35                                                         0 (  0.0)   
-##      36                                                         0 (  0.0)   
-##      37                                                         0 (  0.0)   
-##      38                                                         0 (  0.0)   
-##      39                                                         0 (  0.0)   
-##      40                                                         0 (  0.0)   
-##      41                                                         0 (  0.0)   
-##      41.598081780226799                                         0 (  0.0)   
-##      42                                                         0 (  0.0)   
-##      42.714359147126302                                         0 (  0.0)   
-##      42.875717667172403                                         0 (  0.0)   
-##      43                                                         0 (  0.0)   
-##      44                                                         0 (  0.0)   
-##      45                                                         0 (  0.0)   
-##      46                                                        26 (  1.3)   
-##      46.9755810475896                                           0 (  0.0)   
-##      47                                                         0 (  0.0)   
-##      47.468088261258799                                         0 (  0.0)   
-##      48                                                         0 (  0.0)   
-##      49                                                         0 (  0.0)   
-##      49.408973053803798                                         0 (  0.0)   
-##      50                                                         0 (  0.0)   
-##      51                                                         0 (  0.0)   
-##      51.039504919709302                                         0 (  0.0)   
-##      51.816045743450204                                         0 (  0.0)   
-##      52                                                         0 (  0.0)   
-##      52.006337694705799                                         0 (  0.0)   
-##      52.373132106671903                                         0 (  0.0)   
-##      53                                                         0 (  0.0)   
-##      53.588876890514499                                         0 (  0.0)   
-##      54                                                        11 (  0.6)   
-##      54.745371496407301                                         0 (  0.0)   
-##      54.791551168126198                                         0 (  0.0)   
-##      55                                                        27 (  1.4)   
-##      56                                                         0 (  0.0)   
-##      56.1735331635535                                           0 (  0.0)   
-##      57                                                         0 (  0.0)   
-##      57.6108945080871                                           0 (  0.0)   
-##      58                                                        32 (  1.6)   
-##      59                                                         0 (  0.0)   
-##      60                                                        49 (  2.5)   
-##      60.2971580305557                                           0 (  0.0)   
-##      60.904636914529                                            0 (  0.0)   
-##      61                                                         0 (  0.0)   
-##      62                                                       160 (  8.1)   
-##      62.508513854398402                                         0 (  0.0)   
-##      62.7704472377347                                           0 (  0.0)   
-##      63                                                         0 (  0.0)   
-##      63.382469028876798                                         0 (  0.0)   
-##      64                                                        11 (  0.6)   
-##      64.588119851410298                                         0 (  0.0)   
-##      65                                                        51 (  2.6)   
-##      65.061475820014607                                         0 (  0.0)   
-##      66                                                         0 (  0.0)   
-##      66.424801554175701                                         0 (  0.0)   
-##      66.906403402677597                                         0 (  0.0)   
-##      67                                                        88 (  4.5)   
-##      68                                                         0 (  0.0)   
-##      69                                                        46 (  2.3)   
-##      70                                                         0 (  0.0)   
-##      70.901538191855295                                         0 (  0.0)   
-##      71                                                         9 (  0.5)   
-##      71.021215168767199                                         0 (  0.0)   
-##      71.870154127772807                                         0 (  0.0)   
-##      72                                                         1 (  0.1)   
-##      72.435801791638795                                         0 (  0.0)   
-##      73                                                        21 (  1.1)   
-##      74                                                        12 (  0.6)   
-##      75                                                         0 (  0.0)   
-##      76                                                         0 (  0.0)   
-##      76.348146523658599                                         0 (  0.0)   
-##      77                                                         0 (  0.0)   
-##      77.332027940511693                                         0 (  0.0)   
-##      78                                                        60 (  3.0)   
-##      78.076006575368098                                         0 (  0.0)   
-##      78.174398580929505                                         0 (  0.0)   
-##      78.328991147571699                                         0 (  0.0)   
-##      78.377119190646397                                         0 (  0.0)   
-##      79                                                        47 (  2.4)   
-##      80                                                         0 (  0.0)   
-##      81                                                        79 (  4.0)   
-##      81.850952065114797                                        24 (  1.2)   
-##      82                                                        22 (  1.1)   
-##      82.3222056102083                                           0 (  0.0)   
-##      82.873413197070903                                         0 (  0.0)   
-##      83                                                        16 (  0.8)   
-##      84                                                         0 (  0.0)   
-##      84.300812427050204                                         0 (  0.0)   
-##      85                                                        41 (  2.1)   
-##      86                                                       149 (  7.5)   
-##      87                                                        30 (  1.5)   
-##      88                                                         0 (  0.0)   
-##      89                                                        44 (  2.2)   
-##      90                                                         0 (  0.0)   
-##      91                                                         0 (  0.0)   
-##      92                                                         0 (  0.0)   
-##      92.078048277487895                                        39 (  2.0)   
-##      92.970803053165398                                         0 (  0.0)   
-##      93                                                         0 (  0.0)   
-##      94                                                        72 (  3.6)   
-##      95                                                         0 (  0.0)   
-##      95.030471569068993                                         0 (  0.0)   
-##      95.2506936366932                                           0 (  0.0)   
-##      96                                                         0 (  0.0)   
-##      96.556332119448001                                         0 (  0.0)   
-##      97                                                         0 (  0.0)   
-##      97.196856737717596                                         0 (  0.0)   
-##      97.741638389225798                                        95 (  4.8)   
-##      98                                                         0 (  0.0)   
-##      98.339695236844804                                         0 (  0.0)   
-##      98.350441678537393                                         0 (  0.0)   
-##      98.407160731660099                                         0 (  0.0)   
-##      98.650123169158107                                        11 (  0.6)   
-##      99                                                         0 (  0.0)   
-##      99.199675837444303                                         0 (  0.0)   
-##      99.406202578305795                                       106 (  5.4)   
-##      Unavailable                                              560 ( 28.3)   
+##                                                             13415 (56.1)    
+##      Excellent Transit                                       3165 (13.2)    
+##      Good Transit                                            2444 (10.2)    
+##      Minimal Transit                                           82 ( 0.3)    
+##      Rider's Paradise                                        4476 (18.7)    
+##      Some Transit                                             319 ( 1.3)    
+##   BikeScore (mean (SD))                                     94.10 (35.92)   
 ##   BikeScoreLabel (%)                                                        
-##                                                               598 ( 30.2)   
-##      Bikeable                                                 475 ( 24.0)   
-##      Biker's Paradise                                         323 ( 16.3)   
-##      Somewhat Bikeable                                         26 (  1.3)   
-##      Very Bikeable                                            555 ( 28.1)   
-##   DiningandDrinkingScore (mean (SD))                        86.12 (17.23)   
-##   GroceryScore (mean (SD))                                  88.94 (21.26)
+##                                                              5636 (23.6)    
+##      Bikeable                                                6729 (28.2)    
+##      Biker's Paradise                                        2451 (10.3)    
+##      Somewhat Bikeable                                       1162 ( 4.9)    
+##      Very Bikeable                                           7923 (33.1)    
+##   DiningandDrinkingScore (mean (SD))                        79.53 (24.59)   
+##   GroceryScore (mean (SD))                                  80.76 (29.33)
 ```
+
+# Fix this Code - Breaks Session
+table1 <- ibiccs %>%
+            group_by(ville) %>%
+              CreateTableOne(vars = vars, data = ibiccs)
+
+
+lang_lm <- lm(bmi ~ cbind(lang, q2), Boston1)
+tidy(lang_lm)
 
 # Histogram of BMI
 
@@ -4706,11 +4788,56 @@ plot(hist_bmi)
 ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 ```
 
-![](Thesis-Analysis_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
+![](Thesis-Analysis_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
+
+```r
+hist_bmi_city <- ggplot(city, aes(bmi)) + 
+  geom_density(aes(group = ville, colour = ville)) +
+  theme_minimal()
+plot(hist_bmi_city)
+```
+
+![](Thesis-Analysis_files/figure-html/unnamed-chunk-11-2.png)<!-- -->
+To do:
+1. Fix variable reponses by mutate (see INTERACT)
+2. Linear Regressions (loop)
+
+### Linear regression
 
 
-### JUNK CODE
-## Join Data
+
+
+## Junk Code
+```
+lm1 <- lm(bmi ~ WalkScore + DiningandDrinkingScore + TransitScore + GroceryScore + factor(ville), data = ibiccs)
+summary(lm1)
+confint(lm1)
+
+lm2 <- lm(bmi ~ WalkScore + DiningandDrinkingScore + + TransitScore + GroceryScore + factor(ville) + lang + q44 + q47 + q51 + Q52_occupational_status_category + q54, data = ibiccs)
+summary(lm2)
+confint(lm2)
+```
+
+
+```
+lm3 <- lm(bmi ~ WalkScore + DiningandDrinkingScore + TransitScore + GroceryScore + factor(ville), data = city_CAN)
+summary(lm3)
+confint(lm3)
+
+lm4 <- lm(bmi ~ WalkScore + DiningandDrinkingScore + + TransitScore + GroceryScore + factor(ville) + lang + q44 + q47 + q51 + Q52_occupational_status_category + q54, data = city_CAN)
+summary(lm4)
+confint(lm4)
+
+lm5 <- lm(bmi ~ WalkScore + DiningandDrinkingScore + TransitScore + GroceryScore + factor(ville), data = city_USA)
+summary(lm1)
+confint(lm1)
+
+
+lm6 <- lm(bmi ~ WalkScore + DiningandDrinkingScore + + TransitScore + GroceryScore + factor(ville) + lang + q44 + q47 + q51 + Q52_occupational_status_category + q54, data = city_USA)
+summary(lm2)
+confint(lm2)
+```
+
 ```
 usda_zip <- dplyr::full_join(USDA, USA_ZIP, by = "CensusTract")
 
@@ -4742,15 +4869,5 @@ summary(city$WalkScore)
 summary(city$DiningandDrinkingScore)
 summary(city$GroceryScore)
 summary(city$TransitScore)
-
-ibiccs$TransitScore <- as.numeric(ibiccs$TransitScore)
-
-lm1 <- lm(bmi ~ WalkScore + DiningandDrinkingScore + TransitScore + GroceryScore + factor(ville), data = ibiccs)
-summary(lm1)
-confint(lm1)
-
-lm2 <- lm(bmi ~ WalkScore + DiningandDrinkingScore + + TransitScore + GroceryScore + factor(ville) + lang + q44 + q47 + q51 + Q52_occupational_status_category + q54, data = ibiccs)
-summary(lm2)
-confint(lm2)
 ```
 

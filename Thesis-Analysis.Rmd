@@ -3,9 +3,9 @@ title: "ThesisAnalysis"
 author: "Kassia Orychock"
 date: '2019-01-31'
 output:
-  pdf_document: default
   html_document:
     keep_md: yes
+  pdf_document: default
 ---
 
 ```{r, echo = FALSE, warning = FALSE}
