@@ -31,7 +31,7 @@ ibiccs_readin$TransitScore <- as.numeric(ibiccs_readin$TransitScore)
 ibiccs_readin$BikeScore <- as.numeric(ibiccs_readin$BikeScore)
 ```
 
-# Recode Variables
+# Recode BMI
 
 ```r
 ## BMI
@@ -45,46 +45,86 @@ ibiccs_clean <- ibiccs_readin %>%
 	))
 ```
 
+# Recode Language
+
+```r
+## Language
+ibiccs_clean <- ibiccs_clean %>%
+	mutate(Q43_lang_speak_home = case_when(
+		lang == 1 ~ "English",
+		lang == 2  ~ "Other",
+		lang == 3 ~ "Other",
+		lang == 97 ~ "Other", 
+		TRUE ~ "other"
+	))
+```
+
+# Recode Gender
+
+```r
+#Gender
+ibiccs_clean <- ibiccs_clean %>%
+  mutate(Q54_gender = case_when(
+    q54 == 1 ~ "Female",
+    q54 == 2 ~ "Male",
+    TRUE ~ "other"
+  ))
+```
+
+
+```r
+ibiccs_clean <- ibiccs_clean %>%
+  mutate(Q2_health = case_when(
+    q2 == 1 ~ "Excellent",
+    q2 == 2 ~ "Excellent",
+    q2 == 3 ~ "Good",
+    q2 == 4 ~ "Other",
+    q2 == 5 ~ "Other",
+    q2 == 9 ~ "Other",
+    TRUE ~ "other"
+  ))
+```
+
 # Filtering Out Cities
 
 ```r
 Boston <- filter(ibiccs_clean, ville == "Boston")
 
-Chicago <- filter(ibiccs_readin, ville == "Chicago")
+Chicago <- filter(ibiccs_clean, ville == "Chicago")
 
-Detroit <- filter(ibiccs_readin, ville == "Détroit")
+Detroit <- filter(ibiccs_clean, ville == "Détroit")
 
-NewYork <- filter(ibiccs_readin, ville == "New-York")
+NewYork <- filter(ibiccs_clean, ville == "New-York")
 
-Philadelphia <- filter(ibiccs_readin, ville == "Philadelphie")
+Philadelphia <- filter(ibiccs_clean, ville == "Philadelphie")
 
-Montreal <- filter(ibiccs_readin, ville == "Montréal")
+Montreal <- filter(ibiccs_clean, ville == "Montréal")
 
-Toronto <- filter(ibiccs_readin, ville == "Toronto")
+Toronto <- filter(ibiccs_clean, ville == "Toronto")
 
-Vancouver <- filter(ibiccs_readin, ville == "Vancouver")
+Vancouver <- filter(ibiccs_clean, ville == "Vancouver")
 ```
 
 # Filtering Out Variables in USA Data
 
 ```r
-ibiccs <- select(ibiccs_clean, lang, q54, ville, q1us, q2, q13, q14, q15, q18, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q25, q27, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
+ibiccs <- select(ibiccs_clean, lang, q54, ville, q2, q13, q14, q15, q18, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q25, q27, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
 
-Boston1 <- select(Boston, lang, q54, ville, q1us, q2, q13, q14, q15, q18, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q25, q27, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
+Boston1 <- select(Boston, lang, q54, ville, q2, q13, q14, q15, q18, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q25, q27, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
 
-Chicago1 <- select(Chicago, lang, q54, ville, q1us, q2, q13, q14, q15, q18, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q25, q27, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
+Chicago1 <- select(Chicago, lang, q54, ville, q2, q13, q14, q15, q18, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q25, q27, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
 
-Detroit1 <- select(Detroit, lang, q54, ville, q1us, q2, q13, q14, q15, q18, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q25, q27, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
+Detroit1 <- select(Detroit, lang, q54, ville, q2, q13, q14, q15, q18, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q25, q27, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
 
-NewYork1 <- select(NewYork, lang, q54, ville, q1us, q2, q13, q14, q15, q18, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q25, q27, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
+NewYork1 <- select(NewYork, lang, q54, ville, q2, q13, q14, q15, q18, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q25, q27, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
 
-Philadelphia1 <- select(Philadelphia, lang, q54, ville, q1us, q2, q13, q14, q15, q18, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q25, q27, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
+Philadelphia1 <- select(Philadelphia, lang, q54, ville, q2, q13, q14, q15, q18, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q25, q27, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
 
-Montreal1 <- select(Montreal, lang, q54, ville, q1us, q2, q13, q14, q15, q18, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q25, q27, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
+Montreal1 <- select(Montreal, lang, q54, ville, q2, q13, q14, q15, q18, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q25, q27, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
 
-Toronto1 <- select(Toronto, lang, q54, ville, q1us, q2, q13, q14, q15, q18, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q25, q27, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
+Toronto1 <- select(Toronto, lang, q54, ville, q2, q13, q14, q15, q18, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q25, q27, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
 
-Vancouver1 <- select(Vancouver, lang, q54, ville, q1us, q2, q13, q14, q15, q18, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q25, q27, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
+Vancouver1 <- select(Vancouver, lang, q54, ville, q2, q13, q14, q15, q18, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q25, q27, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
 
 city <- rbind(Philadelphia1, NewYork1, Detroit1, Chicago1, Boston1, Montreal1, Toronto1, Vancouver1)
 ```
@@ -102,7 +142,7 @@ city_CAN <- rbind(Montreal1, Toronto1, Vancouver1)
 ```
 ## Boston1 
 ## 
-##  39  Variables      1977  Observations
+##  38  Variables      1977  Observations
 ## ---------------------------------------------------------------------------
 ## lang 
 ##        n  missing distinct 
@@ -127,20 +167,6 @@ city_CAN <- rbind(Montreal1, Toronto1, Vancouver1)
 ## Value      Boston
 ## Frequency    1977
 ## Proportion      1
-## ---------------------------------------------------------------------------
-## q1us 
-##        n  missing distinct     Info     Mean      Gmd      .05      .10 
-##     1970        7      183    0.999     2167    161.7     1910     2113 
-##      .25      .50      .75      .90      .95 
-##     2119     2134     2144     2445     2446 
-##                                                                       
-## Value       1400  1600  1800  2000  2200  2400  2600  3000  3200  3800
-## Frequency      7    33    55    37  1600   210     2    15     6     4
-## Proportion 0.004 0.017 0.028 0.019 0.812 0.107 0.001 0.008 0.003 0.002
-##                 
-## Value      20200
-## Frequency      1
-## Proportion 0.001
 ## ---------------------------------------------------------------------------
 ## q2 
 ##        n  missing distinct 
@@ -481,7 +507,7 @@ city_CAN <- rbind(Montreal1, Toronto1, Vancouver1)
 ```
 ## Chicago1 
 ## 
-##  39  Variables      4085  Observations
+##  38  Variables      4085  Observations
 ## ---------------------------------------------------------------------------
 ## lang 
 ##        n  missing distinct 
@@ -506,16 +532,6 @@ city_CAN <- rbind(Montreal1, Toronto1, Vancouver1)
 ## Value      Chicago
 ## Frequency     4085
 ## Proportion       1
-## ---------------------------------------------------------------------------
-## q1us 
-##        n  missing distinct     Info     Mean      Gmd      .05      .10 
-##     4066       19      199    0.999    60589    103.5    60304    60546 
-##      .25      .50      .75      .90      .95 
-##    60611    60622    60645    60657    60660 
-##                                                     
-## Value      46400 60000 60200 60400 60600 60800 61600
-## Frequency      3    63    80   201  3614   104     1
-## Proportion 0.001 0.015 0.020 0.049 0.889 0.026 0.000
 ## ---------------------------------------------------------------------------
 ## q2 
 ##        n  missing distinct 
@@ -752,11 +768,15 @@ city_CAN <- rbind(Montreal1, Toronto1, Vancouver1)
 ## ---------------------------------------------------------------------------
 ## bmi_category 
 ##        n  missing distinct 
-##     3647      438        4 
-##                                                           
-## Value       embonpoint insuffisant      normal     obesite
-## Frequency         1139          65        1745         698
-## Proportion       0.312       0.018       0.478       0.191
+##     4085        0        5 
+##                                                                   
+## Value      normal weight         obese         other    overweight
+## Frequency           1745           698           438          1139
+## Proportion         0.427         0.171         0.107         0.279
+##                         
+## Value        underweight
+## Frequency             65
+## Proportion         0.016
 ## ---------------------------------------------------------------------------
 ## WalkScore 
 ##        n  missing distinct     Info     Mean      Gmd      .05      .10 
@@ -840,7 +860,7 @@ city_CAN <- rbind(Montreal1, Toronto1, Vancouver1)
 ```
 ## Detroit1 
 ## 
-##  39  Variables      3077  Observations
+##  38  Variables      3077  Observations
 ## ---------------------------------------------------------------------------
 ## lang 
 ##        n  missing distinct 
@@ -865,16 +885,6 @@ city_CAN <- rbind(Montreal1, Toronto1, Vancouver1)
 ## Value      Détroit
 ## Frequency     3077
 ## Proportion       1
-## ---------------------------------------------------------------------------
-## q1us 
-##        n  missing distinct     Info     Mean      Gmd      .05      .10 
-##     2731      346      241        1    48188    229.5    48035    48047 
-##      .25      .50      .75      .90      .95 
-##    48101    48186    48240    48336    48380 
-##                                                                       
-## Value      24000 24500 25500 43500 48000 48500 49000 49500 61000 89000
-## Frequency      1     1     1     1  2047   642    31     5     1     1
-## Proportion 0.000 0.000 0.000 0.000 0.750 0.235 0.011 0.002 0.000 0.000
 ## ---------------------------------------------------------------------------
 ## q2 
 ##        n  missing distinct 
@@ -1122,11 +1132,15 @@ city_CAN <- rbind(Montreal1, Toronto1, Vancouver1)
 ## ---------------------------------------------------------------------------
 ## bmi_category 
 ##        n  missing distinct 
-##     2638      439        4 
-##                                                           
-## Value       embonpoint insuffisant      normal     obesite
-## Frequency          864          40        1073         661
-## Proportion       0.328       0.015       0.407       0.251
+##     3077        0        5 
+##                                                                   
+## Value      normal weight         obese         other    overweight
+## Frequency           1073           661           439           864
+## Proportion         0.349         0.215         0.143         0.281
+##                         
+## Value        underweight
+## Frequency             40
+## Proportion         0.013
 ## ---------------------------------------------------------------------------
 ## WalkScore 
 ##        n  missing distinct     Info     Mean      Gmd      .05      .10 
@@ -1207,7 +1221,7 @@ city_CAN <- rbind(Montreal1, Toronto1, Vancouver1)
 ```
 ## NewYork1 
 ## 
-##  39  Variables      3824  Observations
+##  38  Variables      3824  Observations
 ## ---------------------------------------------------------------------------
 ## lang 
 ##        n  missing distinct 
@@ -1232,16 +1246,6 @@ city_CAN <- rbind(Montreal1, Toronto1, Vancouver1)
 ## Value      New-York
 ## Frequency      3824
 ## Proportion        1
-## ---------------------------------------------------------------------------
-## q1us 
-##        n  missing distinct     Info     Mean      Gmd      .05      .10 
-##     3791       33      255    0.999    10566    757.5    10002    10006 
-##      .25      .50      .75      .90      .95 
-##    10016    10029    11211    11238    11379 
-##                                                                       
-## Value       7000 10000 11000 12000 14000 20000 49000 68000 90000 93000
-## Frequency      4  2352  1340    89     1     1     1     1     1     1
-## Proportion 0.001 0.620 0.353 0.023 0.000 0.000 0.000 0.000 0.000 0.000
 ## ---------------------------------------------------------------------------
 ## q2 
 ##        n  missing distinct 
@@ -1477,11 +1481,15 @@ city_CAN <- rbind(Montreal1, Toronto1, Vancouver1)
 ## ---------------------------------------------------------------------------
 ## bmi_category 
 ##        n  missing distinct 
-##     3374      450        4 
-##                                                           
-## Value       embonpoint insuffisant      normal     obesite
-## Frequency          971          72        1841         490
-## Proportion       0.288       0.021       0.546       0.145
+##     3824        0        5 
+##                                                                   
+## Value      normal weight         obese         other    overweight
+## Frequency           1841           490           450           971
+## Proportion         0.481         0.128         0.118         0.254
+##                         
+## Value        underweight
+## Frequency             72
+## Proportion         0.019
 ## ---------------------------------------------------------------------------
 ## WalkScore 
 ##        n  missing distinct     Info     Mean      Gmd      .05      .10 
@@ -1566,7 +1574,7 @@ city_CAN <- rbind(Montreal1, Toronto1, Vancouver1)
 ```
 ## Philadelphia1 
 ## 
-##  39  Variables      1478  Observations
+##  38  Variables      1478  Observations
 ## ---------------------------------------------------------------------------
 ## lang 
 ##        n  missing distinct 
@@ -1591,16 +1599,6 @@ city_CAN <- rbind(Montreal1, Toronto1, Vancouver1)
 ## Value      Philadelphie
 ## Frequency          1478
 ## Proportion            1
-## ---------------------------------------------------------------------------
-## q1us 
-##        n  missing distinct     Info     Mean      Gmd      .05      .10 
-##     1456       22      124    0.997    19147    194.7    19066    19103 
-##      .25      .50      .75      .90      .95 
-##    19106    19130    19146    19148    19149 
-##                                                                       
-## Value       8000  8500 10000 18500 19000 19500 20000 29000 34000 60500
-## Frequency      2     1     1     1  1411    35     2     1     1     1
-## Proportion 0.001 0.001 0.001 0.001 0.969 0.024 0.001 0.001 0.001 0.001
 ## ---------------------------------------------------------------------------
 ## q2 
 ##        n  missing distinct 
@@ -1848,11 +1846,15 @@ city_CAN <- rbind(Montreal1, Toronto1, Vancouver1)
 ## ---------------------------------------------------------------------------
 ## bmi_category 
 ##        n  missing distinct 
-##     1314      164        4 
-##                                                           
-## Value       embonpoint insuffisant      normal     obesite
-## Frequency          404          19         618         273
-## Proportion       0.307       0.014       0.470       0.208
+##     1478        0        5 
+##                                                                   
+## Value      normal weight         obese         other    overweight
+## Frequency            618           273           164           404
+## Proportion         0.418         0.185         0.111         0.273
+##                         
+## Value        underweight
+## Frequency             19
+## Proportion         0.013
 ## ---------------------------------------------------------------------------
 ## WalkScore 
 ##        n  missing distinct     Info     Mean      Gmd      .05      .10 
@@ -1932,7 +1934,7 @@ city_CAN <- rbind(Montreal1, Toronto1, Vancouver1)
 ```
 ## Montreal1 
 ## 
-##  39  Variables      2678  Observations
+##  38  Variables      2678  Observations
 ## ---------------------------------------------------------------------------
 ## lang 
 ##        n  missing distinct 
@@ -2198,11 +2200,15 @@ city_CAN <- rbind(Montreal1, Toronto1, Vancouver1)
 ## ---------------------------------------------------------------------------
 ## bmi_category 
 ##        n  missing distinct 
-##     2357      321        4 
-##                                                           
-## Value       embonpoint insuffisant      normal     obesite
-## Frequency          746          35        1122         454
-## Proportion       0.317       0.015       0.476       0.193
+##     2678        0        5 
+##                                                                   
+## Value      normal weight         obese         other    overweight
+## Frequency           1122           454           321           746
+## Proportion         0.419         0.170         0.120         0.279
+##                         
+## Value        underweight
+## Frequency             35
+## Proportion         0.013
 ## ---------------------------------------------------------------------------
 ## WalkScore 
 ##        n  missing distinct     Info     Mean      Gmd      .05      .10 
@@ -2282,16 +2288,12 @@ city_CAN <- rbind(Montreal1, Toronto1, Vancouver1)
 ## lowest :   0.0000   0.3909   2.3633   3.1087   3.2338
 ## highest:  99.9236  99.9356  99.9520  99.9785 100.0000
 ## ---------------------------------------------------------------------------
-## 
-## Variables with all observations missing:
-## 
-## [1] q1us
 ```
 
 ```
 ## Toronto1 
 ## 
-##  39  Variables      4264  Observations
+##  38  Variables      4264  Observations
 ## ---------------------------------------------------------------------------
 ## lang 
 ##        n  missing distinct 
@@ -2552,11 +2554,15 @@ city_CAN <- rbind(Montreal1, Toronto1, Vancouver1)
 ## ---------------------------------------------------------------------------
 ## bmi_category 
 ##        n  missing distinct 
-##     3766      498        4 
-##                                                           
-## Value       embonpoint insuffisant      normal     obesite
-## Frequency         1276          61        1843         586
-## Proportion       0.339       0.016       0.489       0.156
+##     4264        0        5 
+##                                                                   
+## Value      normal weight         obese         other    overweight
+## Frequency           1843           586           498          1276
+## Proportion         0.432         0.137         0.117         0.299
+##                         
+## Value        underweight
+## Frequency             61
+## Proportion         0.014
 ## ---------------------------------------------------------------------------
 ## WalkScore 
 ##        n  missing distinct     Info     Mean      Gmd      .05      .10 
@@ -2636,16 +2642,12 @@ city_CAN <- rbind(Montreal1, Toronto1, Vancouver1)
 ## lowest :   0.000   1.710   2.758   2.793   2.815
 ## highest:  99.924  99.936  99.952  99.979 100.000
 ## ---------------------------------------------------------------------------
-## 
-## Variables with all observations missing:
-## 
-## [1] q1us
 ```
 
 ```
 ## Vancouver1 
 ## 
-##  39  Variables      2518  Observations
+##  38  Variables      2518  Observations
 ## ---------------------------------------------------------------------------
 ## lang 
 ##        n  missing distinct    value 
@@ -2911,11 +2913,15 @@ city_CAN <- rbind(Montreal1, Toronto1, Vancouver1)
 ## ---------------------------------------------------------------------------
 ## bmi_category 
 ##        n  missing distinct 
-##     2279      239        4 
-##                                                           
-## Value       embonpoint insuffisant      normal     obesite
-## Frequency          747          57        1213         262
-## Proportion       0.328       0.025       0.532       0.115
+##     2518        0        5 
+##                                                                   
+## Value      normal weight         obese         other    overweight
+## Frequency           1213           262           239           747
+## Proportion         0.482         0.104         0.095         0.297
+##                         
+## Value        underweight
+## Frequency             57
+## Proportion         0.023
 ## ---------------------------------------------------------------------------
 ## WalkScore 
 ##        n  missing distinct     Info     Mean      Gmd      .05      .10 
@@ -2995,10 +3001,6 @@ city_CAN <- rbind(Montreal1, Toronto1, Vancouver1)
 ## lowest :   0.000   2.975   3.224   3.233   3.277
 ## highest:  99.924  99.936  99.952  99.979 100.000
 ## ---------------------------------------------------------------------------
-## 
-## Variables with all observations missing:
-## 
-## [1] q1us
 ```
 
 
@@ -3007,7 +3009,7 @@ city_CAN <- rbind(Montreal1, Toronto1, Vancouver1)
 ```
 ## city 
 ## 
-##  39  Variables      23901  Observations
+##  38  Variables      23901  Observations
 ## ---------------------------------------------------------------------------
 ## lang 
 ##        n  missing distinct 
@@ -3036,14 +3038,6 @@ city_CAN <- rbind(Montreal1, Toronto1, Vancouver1)
 ## Value          New-York Philadelphie      Toronto    Vancouver
 ## Frequency          3824         1478         4264         2518
 ## Proportion        0.160        0.062        0.178        0.105
-## ---------------------------------------------------------------------------
-## q1us 
-##        n  missing distinct     Info     Mean      Gmd      .05      .10 
-##    14014     9887      998        1    32122    25903     2127     2141 
-##      .25      .50      .75      .90      .95 
-##    10024    19147    60605    60638    60654 
-## 
-## lowest :  1420  1440  1453  1462  1463, highest: 61614 67558 89123 90023 92620
 ## ---------------------------------------------------------------------------
 ## q2 
 ##        n  missing distinct 
@@ -3280,11 +3274,15 @@ city_CAN <- rbind(Montreal1, Toronto1, Vancouver1)
 ## ---------------------------------------------------------------------------
 ## bmi_category 
 ##        n  missing distinct 
-##    21352     2549        9 
-## 
-## embonpoint (6147, 0.288), insuffisant (349, 0.016), normal (9455, 0.443),
-## obesite (3424, 0.160), overweight (511, 0.024), other (192, 0.009), normal
-## weight (982, 0.046), obese (248, 0.012), underweight (44, 0.002)
+##    23901        0        5 
+##                                                                   
+## Value      normal weight         obese         other    overweight
+## Frequency          10437          3672          2741          6658
+## Proportion         0.437         0.154         0.115         0.279
+##                         
+## Value        underweight
+## Frequency            393
+## Proportion         0.016
 ## ---------------------------------------------------------------------------
 ## WalkScore 
 ##        n  missing distinct     Info     Mean      Gmd      .05      .10 
@@ -3370,156 +3368,155 @@ city_CAN <- rbind(Montreal1, Toronto1, Vancouver1)
 #Tables for Each City and Combined
 
 ```r
-vars <- c('lang', 'q54', 'ville', 'q1us', 'q2', 'q13', 'q14', 'q15', 'q18', 'q21', 'q22b', 'q22c', 'q22d', 'q22e', 'q22f_m1', 'q23', 'q25', 'q27', 'q42', 'q44', 'q45', 'q46b', 'q47', 'q48', 'q49', 'q50', 'q51', 'Q52_occupational_status_category', 'q53', 'bmi', 'bmi_category', 'WalkScore', 'WalkScoreLabel', 'TransitScore', 'TransitScoreLabel', 'BikeScore', 'BikeScoreLabel', 'DiningandDrinkingScore', 'GroceryScore')
+vars <- c('lang', 'q54', 'ville', 'q2', 'q13', 'q14', 'q15', 'q18', 'q21', 'q22b', 'q22c', 'q22d', 'q22e', 'q22f_m1', 'q23', 'q25', 'q27', 'q42', 'q44', 'q45', 'q46b', 'q47', 'q48', 'q49', 'q50', 'q51', 'Q52_occupational_status_category', 'q53', 'bmi', 'bmi_category', 'WalkScore', 'WalkScoreLabel', 'TransitScore', 'TransitScoreLabel', 'BikeScore', 'BikeScoreLabel', 'DiningandDrinkingScore', 'GroceryScore')
 CreateTableOne(vars = vars, data = Boston1)
 ```
 
 ```
 ##                                                         
-##                                                          Overall         
-##   n                                                         1977         
-##   lang (%)                                                               
-##      Anglais                                                1974 ( 99.8) 
-##      Espagnol                                                  3 (  0.2) 
-##      Français                                                  0 (  0.0) 
-##   q54 = Homme (%)                                            694 ( 35.1) 
-##   ville (%)                                                              
-##      Boston                                                 1977 (100.0) 
-##      Chicago                                                   0 (  0.0) 
-##      Détroit                                                   0 (  0.0) 
-##      Montréal                                                  0 (  0.0) 
-##      New-York                                                  0 (  0.0) 
-##      Philadelphie                                              0 (  0.0) 
-##      Toronto                                                   0 (  0.0) 
-##      Vancouver                                                 0 (  0.0) 
-##   q1us (mean (SD))                                       2167.15 (447.08)
-##   q2 (%)                                                                 
-##      Bon                                                     521 ( 26.4) 
-##      Excellent                                               467 ( 23.6) 
-##      Mauvais                                                  24 (  1.2) 
-##      Moyen                                                   142 (  7.2) 
-##      Ne sais pas/Refuse de répondre                            5 (  0.3) 
-##      Très bon                                                818 ( 41.4) 
-##   q13 (%)                                                                
-##      Autre (précisez:)                                         3 (  0.2) 
-##      Marche                                                  500 ( 25.3) 
-##      Ne s'applique pas                                         3 (  0.2) 
-##      Ne sais pas                                               0 (  0.0) 
-##      Scooter                                                   1 (  0.1) 
-##      Taxi                                                     12 (  0.6) 
-##      Transport en commun                                     669 ( 33.8) 
-##      Véhicule motorisé (loué, emprunté, covoiturage)         675 ( 34.1) 
-##      Vélo en libre-service                                    15 (  0.8) 
-##      Vélo personnel                                           89 (  4.5) 
-##      Voiture personnelle                                      10 (  0.5) 
-##   q14 (%)                                                                
-##      Ne sais pas/Ne s'applique pas                            18 (  0.9) 
-##      Non                                                     255 ( 12.9) 
-##      Oui                                                    1703 ( 86.1) 
-##      Refuse de répondre                                        1 (  0.1) 
-##   q15 (mean (SD))                                          44.15 (24.35) 
-##   q18 (mean (SD))                                          50.68 (31.37) 
-##   q21 (mean (SD))                                          10.46 (24.50) 
-##   q22b (mean (SD))                                          2.09 (1.98)  
-##   q22c (mean (SD))                                         30.61 (19.21) 
-##   q22d (mean (SD))                                          4.22 (5.18)  
-##   q22e (mean (SD))                                         34.57 (26.95) 
-##   q22f_m1 = Refuse de répondre (%)                             4 (  7.5) 
-##   q23 (mean (SD))                                           3.43 (2.71)  
-##   q25 (mean (SD))                                           4.85 (2.34)  
-##   q27 (mean (SD))                                          24.71 (41.85) 
-##   q42 (mean (SD))                                          37.21 (13.86) 
-##   q44 (%)                                                                
-##      Célibatiare                                            1025 ( 51.8) 
-##      Divorcé (e)                                             130 (  6.6) 
-##      En couple                                                 8 (  0.4) 
-##      Marié(e)/Conjoint de fait                               739 ( 37.4) 
-##      Refuse de répondre                                       23 (  1.2) 
-##      Séparé (e)                                               28 (  1.4) 
-##      Veuf (ve)                                                24 (  1.2) 
-##   q45 (mean (SD))                                           6.92 (2.45)  
-##   q46b (mean (SD))                                          4.83 (3.93)  
-##   q47 (%)                                                                
-##      Amérindien des États-Unis / Autochtone d'Amérique         7 (  0.4) 
-##      Arabe (Moyen-Orient, Afrique du Nord)                     5 (  0.3) 
-##      Asiatique / insulaire du Pacifique                      218 ( 11.0) 
-##      Autre                                                     5 (  0.3) 
-##      Blanc(che) / Caucasien                                 1480 ( 74.9) 
-##      Hispanique / Latino / Espagnol(e)                        67 (  3.4) 
-##      Indien / Pakistanais                                     20 (  1.0) 
-##      Je préfère ne pas répondre                               46 (  2.3) 
-##      Jewish                                                    1 (  0.1) 
-##      Mixed / Mixed race / Bi-racial                           18 (  0.9) 
-##      Noir(e) / Africain(e) / Afro-Américain(e)               110 (  5.6) 
-##   q48 (mean (SD))                                           6.22 (16.05) 
-##   q49 (%)                                                                
-##      Ne sais pas/Ne s'applique pas                             5 (  0.3) 
-##      Non                                                     166 (  8.4) 
-##      Oui                                                    1806 ( 91.4) 
-##   q50 (%)                                                                
-##      Ne sais pas/Ne s'applique pas                            16 (  0.8) 
-##      Non                                                     519 ( 26.3) 
-##      Oui                                                    1442 ( 72.9) 
-##   q51 (%)                                                                
-##      Aucun grade, certificat ou diplôme                        0 (  0.0) 
-##      Autre (précisez):                                         2 (  0.1) 
-##      Baccalauréat                                            757 ( 38.3) 
-##      Cégep                                                   231 ( 11.7) 
-##      Certificat d'école de métier, certificat ou diplôme      65 (  3.3) 
-##      Diplôme d'études secondaire ou l'équivalent             131 (  6.6) 
-##      Diplôme universitaire supérieur au baccalauréat         774 ( 39.2) 
-##      École primaire                                            1 (  0.1) 
-##      Refuse de répondre                                       16 (  0.8) 
-##   Q52_occupational_status_category (%)                                   
-##      Disability                                               17 (  0.9) 
-##      Full time or Self-employed                             1307 ( 66.6) 
-##      Homemaker or parental leave                              55 (  2.8) 
-##      Part time                                               135 (  6.9) 
-##      Retired                                                 112 (  5.7) 
-##      Student                                                 272 ( 13.9) 
-##      Unemployed seeking work                                  65 (  3.3) 
-##   q53 (%)                                                                
-##      Entre 10000 $ and 19999 $ par année                      88 (  4.5) 
-##      Entre 100000 $ and 149999 $ par année                   304 ( 15.4) 
-##      Entre 150000 $ and 199999 $ par année                   141 (  7.1) 
-##      Entre 20000 $ and 34999 $ par année                     168 (  8.5) 
-##      Entre 35000 $ and 49999 $ par année                     221 ( 11.2) 
-##      Entre 50000 $ and 74999 $ par année                     342 ( 17.3) 
-##      Entre 75000 $ and 99999 $ par année                     275 ( 13.9) 
-##      Moins de 10000 $ par année                              122 (  6.2) 
-##      Plus de 200000 $ par année                               91 (  4.6) 
-##      Refuse de répondre                                      225 ( 11.4) 
-##   bmi (mean (SD))                                          25.06 (4.59)  
-##   bmi_category (%)                                                       
-##      normal weight                                           982 ( 49.7) 
-##      obese                                                   248 ( 12.5) 
-##      other                                                   192 (  9.7) 
-##      overweight                                              511 ( 25.8) 
-##      underweight                                              44 (  2.2) 
-##   WalkScore (mean (SD))                                    86.19 (17.12) 
-##   WalkScoreLabel (%)                                                     
-##                                                               38 (  1.9) 
-##      Car-Dependent                                            96 (  4.9) 
-##      Somewhat Walkable                                        85 (  4.3) 
-##      Very Walkable                                           598 ( 30.2) 
-##      Walker's Paradise                                      1160 ( 58.7) 
-##   TransitScore (mean (SD))                                 73.62 (16.68) 
-##   TransitScoreLabel (%)                                                  
-##                                                             1694 ( 85.7) 
-##      Excellent Transit                                       201 ( 10.2) 
-##      Good Transit                                             64 (  3.2) 
-##      Minimal Transit                                           0 (  0.0) 
-##      Rider's Paradise                                         16 (  0.8) 
-##      Some Transit                                              2 (  0.1) 
-##   BikeScore (mean (SD))                                   106.50 (32.02) 
-##   BikeScoreLabel (%)                                                     
-##                                                              598 ( 30.2) 
-##      Bikeable                                                475 ( 24.0) 
-##      Biker's Paradise                                        323 ( 16.3) 
-##      Somewhat Bikeable                                        26 (  1.3) 
-##      Very Bikeable                                           555 ( 28.1) 
-##   DiningandDrinkingScore (mean (SD))                       86.12 (17.23) 
-##   GroceryScore (mean (SD))                                 88.94 (21.26)
+##                                                          Overall        
+##   n                                                        1977         
+##   lang (%)                                                              
+##      Anglais                                               1974 ( 99.8) 
+##      Espagnol                                                 3 (  0.2) 
+##      Français                                                 0 (  0.0) 
+##   q54 = Homme (%)                                           694 ( 35.1) 
+##   ville (%)                                                             
+##      Boston                                                1977 (100.0) 
+##      Chicago                                                  0 (  0.0) 
+##      Détroit                                                  0 (  0.0) 
+##      Montréal                                                 0 (  0.0) 
+##      New-York                                                 0 (  0.0) 
+##      Philadelphie                                             0 (  0.0) 
+##      Toronto                                                  0 (  0.0) 
+##      Vancouver                                                0 (  0.0) 
+##   q2 (%)                                                                
+##      Bon                                                    521 ( 26.4) 
+##      Excellent                                              467 ( 23.6) 
+##      Mauvais                                                 24 (  1.2) 
+##      Moyen                                                  142 (  7.2) 
+##      Ne sais pas/Refuse de répondre                           5 (  0.3) 
+##      Très bon                                               818 ( 41.4) 
+##   q13 (%)                                                               
+##      Autre (précisez:)                                        3 (  0.2) 
+##      Marche                                                 500 ( 25.3) 
+##      Ne s'applique pas                                        3 (  0.2) 
+##      Ne sais pas                                              0 (  0.0) 
+##      Scooter                                                  1 (  0.1) 
+##      Taxi                                                    12 (  0.6) 
+##      Transport en commun                                    669 ( 33.8) 
+##      Véhicule motorisé (loué, emprunté, covoiturage)        675 ( 34.1) 
+##      Vélo en libre-service                                   15 (  0.8) 
+##      Vélo personnel                                          89 (  4.5) 
+##      Voiture personnelle                                     10 (  0.5) 
+##   q14 (%)                                                               
+##      Ne sais pas/Ne s'applique pas                           18 (  0.9) 
+##      Non                                                    255 ( 12.9) 
+##      Oui                                                   1703 ( 86.1) 
+##      Refuse de répondre                                       1 (  0.1) 
+##   q15 (mean (SD))                                         44.15 (24.35) 
+##   q18 (mean (SD))                                         50.68 (31.37) 
+##   q21 (mean (SD))                                         10.46 (24.50) 
+##   q22b (mean (SD))                                         2.09 (1.98)  
+##   q22c (mean (SD))                                        30.61 (19.21) 
+##   q22d (mean (SD))                                         4.22 (5.18)  
+##   q22e (mean (SD))                                        34.57 (26.95) 
+##   q22f_m1 = Refuse de répondre (%)                            4 (  7.5) 
+##   q23 (mean (SD))                                          3.43 (2.71)  
+##   q25 (mean (SD))                                          4.85 (2.34)  
+##   q27 (mean (SD))                                         24.71 (41.85) 
+##   q42 (mean (SD))                                         37.21 (13.86) 
+##   q44 (%)                                                               
+##      Célibatiare                                           1025 ( 51.8) 
+##      Divorcé (e)                                            130 (  6.6) 
+##      En couple                                                8 (  0.4) 
+##      Marié(e)/Conjoint de fait                              739 ( 37.4) 
+##      Refuse de répondre                                      23 (  1.2) 
+##      Séparé (e)                                              28 (  1.4) 
+##      Veuf (ve)                                               24 (  1.2) 
+##   q45 (mean (SD))                                          6.92 (2.45)  
+##   q46b (mean (SD))                                         4.83 (3.93)  
+##   q47 (%)                                                               
+##      Amérindien des États-Unis / Autochtone d'Amérique        7 (  0.4) 
+##      Arabe (Moyen-Orient, Afrique du Nord)                    5 (  0.3) 
+##      Asiatique / insulaire du Pacifique                     218 ( 11.0) 
+##      Autre                                                    5 (  0.3) 
+##      Blanc(che) / Caucasien                                1480 ( 74.9) 
+##      Hispanique / Latino / Espagnol(e)                       67 (  3.4) 
+##      Indien / Pakistanais                                    20 (  1.0) 
+##      Je préfère ne pas répondre                              46 (  2.3) 
+##      Jewish                                                   1 (  0.1) 
+##      Mixed / Mixed race / Bi-racial                          18 (  0.9) 
+##      Noir(e) / Africain(e) / Afro-Américain(e)              110 (  5.6) 
+##   q48 (mean (SD))                                          6.22 (16.05) 
+##   q49 (%)                                                               
+##      Ne sais pas/Ne s'applique pas                            5 (  0.3) 
+##      Non                                                    166 (  8.4) 
+##      Oui                                                   1806 ( 91.4) 
+##   q50 (%)                                                               
+##      Ne sais pas/Ne s'applique pas                           16 (  0.8) 
+##      Non                                                    519 ( 26.3) 
+##      Oui                                                   1442 ( 72.9) 
+##   q51 (%)                                                               
+##      Aucun grade, certificat ou diplôme                       0 (  0.0) 
+##      Autre (précisez):                                        2 (  0.1) 
+##      Baccalauréat                                           757 ( 38.3) 
+##      Cégep                                                  231 ( 11.7) 
+##      Certificat d'école de métier, certificat ou diplôme     65 (  3.3) 
+##      Diplôme d'études secondaire ou l'équivalent            131 (  6.6) 
+##      Diplôme universitaire supérieur au baccalauréat        774 ( 39.2) 
+##      École primaire                                           1 (  0.1) 
+##      Refuse de répondre                                      16 (  0.8) 
+##   Q52_occupational_status_category (%)                                  
+##      Disability                                              17 (  0.9) 
+##      Full time or Self-employed                            1307 ( 66.6) 
+##      Homemaker or parental leave                             55 (  2.8) 
+##      Part time                                              135 (  6.9) 
+##      Retired                                                112 (  5.7) 
+##      Student                                                272 ( 13.9) 
+##      Unemployed seeking work                                 65 (  3.3) 
+##   q53 (%)                                                               
+##      Entre 10000 $ and 19999 $ par année                     88 (  4.5) 
+##      Entre 100000 $ and 149999 $ par année                  304 ( 15.4) 
+##      Entre 150000 $ and 199999 $ par année                  141 (  7.1) 
+##      Entre 20000 $ and 34999 $ par année                    168 (  8.5) 
+##      Entre 35000 $ and 49999 $ par année                    221 ( 11.2) 
+##      Entre 50000 $ and 74999 $ par année                    342 ( 17.3) 
+##      Entre 75000 $ and 99999 $ par année                    275 ( 13.9) 
+##      Moins de 10000 $ par année                             122 (  6.2) 
+##      Plus de 200000 $ par année                              91 (  4.6) 
+##      Refuse de répondre                                     225 ( 11.4) 
+##   bmi (mean (SD))                                         25.06 (4.59)  
+##   bmi_category (%)                                                      
+##      normal weight                                          982 ( 49.7) 
+##      obese                                                  248 ( 12.5) 
+##      other                                                  192 (  9.7) 
+##      overweight                                             511 ( 25.8) 
+##      underweight                                             44 (  2.2) 
+##   WalkScore (mean (SD))                                   86.19 (17.12) 
+##   WalkScoreLabel (%)                                                    
+##                                                              38 (  1.9) 
+##      Car-Dependent                                           96 (  4.9) 
+##      Somewhat Walkable                                       85 (  4.3) 
+##      Very Walkable                                          598 ( 30.2) 
+##      Walker's Paradise                                     1160 ( 58.7) 
+##   TransitScore (mean (SD))                                73.62 (16.68) 
+##   TransitScoreLabel (%)                                                 
+##                                                            1694 ( 85.7) 
+##      Excellent Transit                                      201 ( 10.2) 
+##      Good Transit                                            64 (  3.2) 
+##      Minimal Transit                                          0 (  0.0) 
+##      Rider's Paradise                                        16 (  0.8) 
+##      Some Transit                                             2 (  0.1) 
+##   BikeScore (mean (SD))                                  106.50 (32.02) 
+##   BikeScoreLabel (%)                                                    
+##                                                             598 ( 30.2) 
+##      Bikeable                                               475 ( 24.0) 
+##      Biker's Paradise                                       323 ( 16.3) 
+##      Somewhat Bikeable                                       26 (  1.3) 
+##      Very Bikeable                                          555 ( 28.1) 
+##   DiningandDrinkingScore (mean (SD))                      86.12 (17.23) 
+##   GroceryScore (mean (SD))                                88.94 (21.26)
 ```
 
 ```r
@@ -3528,149 +3525,149 @@ CreateTableOne(vars = vars, data = Chicago1)
 
 ```
 ##                                                         
-##                                                          Overall          
-##   n                                                          4085         
-##   lang (%)                                                                
-##      Anglais                                                 4065 ( 99.5) 
-##      Espagnol                                                  20 (  0.5) 
-##      Français                                                   0 (  0.0) 
-##   q54 = Homme (%)                                            1628 ( 39.9) 
-##   ville (%)                                                               
-##      Boston                                                     0 (  0.0) 
-##      Chicago                                                 4085 (100.0) 
-##      Détroit                                                    0 (  0.0) 
-##      Montréal                                                   0 (  0.0) 
-##      New-York                                                   0 (  0.0) 
-##      Philadelphie                                               0 (  0.0) 
-##      Toronto                                                    0 (  0.0) 
-##      Vancouver                                                  0 (  0.0) 
-##   q1us (mean (SD))                                       60589.33 (403.36)
-##   q2 (%)                                                                  
-##      Bon                                                     1105 ( 27.1) 
-##      Excellent                                                832 ( 20.4) 
-##      Mauvais                                                   67 (  1.6) 
-##      Moyen                                                    345 (  8.4) 
-##      Ne sais pas/Refuse de répondre                             9 (  0.2) 
-##      Très bon                                                1727 ( 42.3) 
-##   q13 (%)                                                                 
-##      Autre (précisez:)                                          8 (  0.2) 
-##      Marche                                                   576 ( 14.1) 
-##      Ne s'applique pas                                          9 (  0.2) 
-##      Ne sais pas                                                6 (  0.1) 
-##      Scooter                                                    1 (  0.0) 
-##      Taxi                                                      39 (  1.0) 
-##      Transport en commun                                     1473 ( 36.1) 
-##      Véhicule motorisé (loué, emprunté, covoiturage)         1780 ( 43.6) 
-##      Vélo en libre-service                                     34 (  0.8) 
-##      Vélo personnel                                           136 (  3.3) 
-##      Voiture personnelle                                       23 (  0.6) 
-##   q14 (%)                                                                 
-##      Ne sais pas/Ne s'applique pas                             35 (  0.9) 
-##      Non                                                      626 ( 15.3) 
-##      Oui                                                     3418 ( 83.7) 
-##      Refuse de répondre                                         6 (  0.1) 
-##   q15 (mean (SD))                                           44.11 (24.72) 
-##   q18 (mean (SD))                                           49.95 (32.12) 
-##   q21 (mean (SD))                                            9.99 (22.93) 
-##   q22b (mean (SD))                                           2.05 (1.67)  
-##   q22c (mean (SD))                                          30.66 (22.13) 
-##   q22d (mean (SD))                                           5.04 (7.81)  
-##   q22e (mean (SD))                                          55.33 (197.99)
-##   q22f_m1 = Refuse de répondre (%)                              9 (  6.6) 
-##   q23 (mean (SD))                                            3.34 (2.77)  
-##   q25 (mean (SD))                                            4.44 (2.47)  
-##   q27 (mean (SD))                                           25.56 (42.35) 
-##   q42 (mean (SD))                                           39.59 (12.73) 
-##   q44 (%)                                                                 
-##      Célibatiare                                             1844 ( 45.1) 
-##      Divorcé (e)                                              307 (  7.5) 
-##      En couple                                                 28 (  0.7) 
-##      Marié(e)/Conjoint de fait                               1778 ( 43.5) 
-##      Refuse de répondre                                        33 (  0.8) 
-##      Séparé (e)                                                46 (  1.1) 
-##      Veuf (ve)                                                 49 (  1.2) 
-##   q45 (mean (SD))                                            6.63 (2.64)  
-##   q46b (mean (SD))                                           5.11 (3.44)  
-##   q47 (%)                                                                 
-##      Amérindien des États-Unis / Autochtone d'Amérique          8 (  0.2) 
-##      Arabe (Moyen-Orient, Afrique du Nord)                      8 (  0.2) 
-##      Asiatique / insulaire du Pacifique                       313 (  7.7) 
-##      Autre                                                      8 (  0.2) 
-##      Blanc(che) / Caucasien                                  2863 ( 70.1) 
-##      Hispanique / Latino / Espagnol(e)                        300 (  7.3) 
-##      Indien / Pakistanais                                      32 (  0.8) 
-##      Je préfère ne pas répondre                                80 (  2.0) 
-##      Jewish                                                     0 (  0.0) 
-##      Mixed / Mixed race / Bi-racial                            24 (  0.6) 
-##      Noir(e) / Africain(e) / Afro-Américain(e)                449 ( 11.0) 
-##   q48 (mean (SD))                                            5.55 (14.90) 
-##   q49 (%)                                                                 
-##      Ne sais pas/Ne s'applique pas                             21 (  0.5) 
-##      Non                                                      356 (  8.7) 
-##      Oui                                                     3708 ( 90.8) 
-##   q50 (%)                                                                 
-##      Ne sais pas/Ne s'applique pas                             30 (  0.7) 
-##      Non                                                      789 ( 19.3) 
-##      Oui                                                     3266 ( 80.0) 
-##   q51 (%)                                                                 
-##      Aucun grade, certificat ou diplôme                         2 (  0.0) 
-##      Autre (précisez):                                         15 (  0.4) 
-##      Baccalauréat                                            1624 ( 39.8) 
-##      Cégep                                                    495 ( 12.1) 
-##      Certificat d'école de métier, certificat ou diplôme      293 (  7.2) 
-##      Diplôme d'études secondaire ou l'équivalent              306 (  7.5) 
-##      Diplôme universitaire supérieur au baccalauréat         1320 ( 32.3) 
-##      École primaire                                             9 (  0.2) 
-##      Refuse de répondre                                        21 (  0.5) 
-##   Q52_occupational_status_category (%)                                    
-##      Disability                                                62 (  1.5) 
-##      Full time or Self-employed                              2832 ( 69.9) 
-##      Homemaker or parental leave                              147 (  3.6) 
-##      Part time                                                328 (  8.1) 
-##      Retired                                                  229 (  5.7) 
-##      Student                                                  271 (  6.7) 
-##      Unemployed seeking work                                  184 (  4.5) 
-##   q53 (%)                                                                 
-##      Entre 10000 $ and 19999 $ par année                      180 (  4.4) 
-##      Entre 100000 $ and 149999 $ par année                    617 ( 15.1) 
-##      Entre 150000 $ and 199999 $ par année                    217 (  5.3) 
-##      Entre 20000 $ and 34999 $ par année                      338 (  8.3) 
-##      Entre 35000 $ and 49999 $ par année                      474 ( 11.6) 
-##      Entre 50000 $ and 74999 $ par année                      799 ( 19.6) 
-##      Entre 75000 $ and 99999 $ par année                      604 ( 14.8) 
-##      Moins de 10000 $ par année                               256 (  6.3) 
-##      Plus de 200000 $ par année                               221 (  5.4) 
-##      Refuse de répondre                                       379 (  9.3) 
-##   bmi (mean (SD))                                           25.89 (4.86)  
-##   bmi_category (%)                                                        
-##      embonpoint                                              1139 ( 31.2) 
-##      insuffisant                                               65 (  1.8) 
-##      normal                                                  1745 ( 47.8) 
-##      obesite                                                  698 ( 19.1) 
-##   WalkScore (mean (SD))                                     80.36 (17.45) 
-##   WalkScoreLabel (%)                                                      
-##                                                                51 (  1.2) 
-##      Car-Dependent                                            274 (  6.7) 
-##      Somewhat Walkable                                        510 ( 12.5) 
-##      Very Walkable                                           1680 ( 41.1) 
-##      Walker's Paradise                                       1570 ( 38.4) 
-##   TransitScore (mean (SD))                                  77.05 (11.31) 
-##   TransitScoreLabel (%)                                                   
-##                                                              3713 ( 90.9) 
-##      Excellent Transit                                        277 (  6.8) 
-##      Good Transit                                              82 (  2.0) 
-##      Minimal Transit                                            0 (  0.0) 
-##      Rider's Paradise                                          13 (  0.3) 
-##      Some Transit                                               0 (  0.0) 
-##   BikeScore (mean (SD))                                     87.29 (29.96) 
-##   BikeScoreLabel (%)                                                      
-##                                                               558 ( 13.7) 
-##      Bikeable                                                1113 ( 27.2) 
-##      Biker's Paradise                                           0 (  0.0) 
-##      Somewhat Bikeable                                        264 (  6.5) 
-##      Very Bikeable                                           2150 ( 52.6) 
-##   DiningandDrinkingScore (mean (SD))                        82.41 (18.59) 
-##   GroceryScore (mean (SD))                                  78.71 (28.21)
+##                                                          Overall       
+##   n                                                       4085         
+##   lang (%)                                                             
+##      Anglais                                              4065 ( 99.5) 
+##      Espagnol                                               20 (  0.5) 
+##      Français                                                0 (  0.0) 
+##   q54 = Homme (%)                                         1628 ( 39.9) 
+##   ville (%)                                                            
+##      Boston                                                  0 (  0.0) 
+##      Chicago                                              4085 (100.0) 
+##      Détroit                                                 0 (  0.0) 
+##      Montréal                                                0 (  0.0) 
+##      New-York                                                0 (  0.0) 
+##      Philadelphie                                            0 (  0.0) 
+##      Toronto                                                 0 (  0.0) 
+##      Vancouver                                               0 (  0.0) 
+##   q2 (%)                                                               
+##      Bon                                                  1105 ( 27.1) 
+##      Excellent                                             832 ( 20.4) 
+##      Mauvais                                                67 (  1.6) 
+##      Moyen                                                 345 (  8.4) 
+##      Ne sais pas/Refuse de répondre                          9 (  0.2) 
+##      Très bon                                             1727 ( 42.3) 
+##   q13 (%)                                                              
+##      Autre (précisez:)                                       8 (  0.2) 
+##      Marche                                                576 ( 14.1) 
+##      Ne s'applique pas                                       9 (  0.2) 
+##      Ne sais pas                                             6 (  0.1) 
+##      Scooter                                                 1 (  0.0) 
+##      Taxi                                                   39 (  1.0) 
+##      Transport en commun                                  1473 ( 36.1) 
+##      Véhicule motorisé (loué, emprunté, covoiturage)      1780 ( 43.6) 
+##      Vélo en libre-service                                  34 (  0.8) 
+##      Vélo personnel                                        136 (  3.3) 
+##      Voiture personnelle                                    23 (  0.6) 
+##   q14 (%)                                                              
+##      Ne sais pas/Ne s'applique pas                          35 (  0.9) 
+##      Non                                                   626 ( 15.3) 
+##      Oui                                                  3418 ( 83.7) 
+##      Refuse de répondre                                      6 (  0.1) 
+##   q15 (mean (SD))                                        44.11 (24.72) 
+##   q18 (mean (SD))                                        49.95 (32.12) 
+##   q21 (mean (SD))                                         9.99 (22.93) 
+##   q22b (mean (SD))                                        2.05 (1.67)  
+##   q22c (mean (SD))                                       30.66 (22.13) 
+##   q22d (mean (SD))                                        5.04 (7.81)  
+##   q22e (mean (SD))                                       55.33 (197.99)
+##   q22f_m1 = Refuse de répondre (%)                           9 (  6.6) 
+##   q23 (mean (SD))                                         3.34 (2.77)  
+##   q25 (mean (SD))                                         4.44 (2.47)  
+##   q27 (mean (SD))                                        25.56 (42.35) 
+##   q42 (mean (SD))                                        39.59 (12.73) 
+##   q44 (%)                                                              
+##      Célibatiare                                          1844 ( 45.1) 
+##      Divorcé (e)                                           307 (  7.5) 
+##      En couple                                              28 (  0.7) 
+##      Marié(e)/Conjoint de fait                            1778 ( 43.5) 
+##      Refuse de répondre                                     33 (  0.8) 
+##      Séparé (e)                                             46 (  1.1) 
+##      Veuf (ve)                                              49 (  1.2) 
+##   q45 (mean (SD))                                         6.63 (2.64)  
+##   q46b (mean (SD))                                        5.11 (3.44)  
+##   q47 (%)                                                              
+##      Amérindien des États-Unis / Autochtone d'Amérique       8 (  0.2) 
+##      Arabe (Moyen-Orient, Afrique du Nord)                   8 (  0.2) 
+##      Asiatique / insulaire du Pacifique                    313 (  7.7) 
+##      Autre                                                   8 (  0.2) 
+##      Blanc(che) / Caucasien                               2863 ( 70.1) 
+##      Hispanique / Latino / Espagnol(e)                     300 (  7.3) 
+##      Indien / Pakistanais                                   32 (  0.8) 
+##      Je préfère ne pas répondre                             80 (  2.0) 
+##      Jewish                                                  0 (  0.0) 
+##      Mixed / Mixed race / Bi-racial                         24 (  0.6) 
+##      Noir(e) / Africain(e) / Afro-Américain(e)             449 ( 11.0) 
+##   q48 (mean (SD))                                         5.55 (14.90) 
+##   q49 (%)                                                              
+##      Ne sais pas/Ne s'applique pas                          21 (  0.5) 
+##      Non                                                   356 (  8.7) 
+##      Oui                                                  3708 ( 90.8) 
+##   q50 (%)                                                              
+##      Ne sais pas/Ne s'applique pas                          30 (  0.7) 
+##      Non                                                   789 ( 19.3) 
+##      Oui                                                  3266 ( 80.0) 
+##   q51 (%)                                                              
+##      Aucun grade, certificat ou diplôme                      2 (  0.0) 
+##      Autre (précisez):                                      15 (  0.4) 
+##      Baccalauréat                                         1624 ( 39.8) 
+##      Cégep                                                 495 ( 12.1) 
+##      Certificat d'école de métier, certificat ou diplôme   293 (  7.2) 
+##      Diplôme d'études secondaire ou l'équivalent           306 (  7.5) 
+##      Diplôme universitaire supérieur au baccalauréat      1320 ( 32.3) 
+##      École primaire                                          9 (  0.2) 
+##      Refuse de répondre                                     21 (  0.5) 
+##   Q52_occupational_status_category (%)                                 
+##      Disability                                             62 (  1.5) 
+##      Full time or Self-employed                           2832 ( 69.9) 
+##      Homemaker or parental leave                           147 (  3.6) 
+##      Part time                                             328 (  8.1) 
+##      Retired                                               229 (  5.7) 
+##      Student                                               271 (  6.7) 
+##      Unemployed seeking work                               184 (  4.5) 
+##   q53 (%)                                                              
+##      Entre 10000 $ and 19999 $ par année                   180 (  4.4) 
+##      Entre 100000 $ and 149999 $ par année                 617 ( 15.1) 
+##      Entre 150000 $ and 199999 $ par année                 217 (  5.3) 
+##      Entre 20000 $ and 34999 $ par année                   338 (  8.3) 
+##      Entre 35000 $ and 49999 $ par année                   474 ( 11.6) 
+##      Entre 50000 $ and 74999 $ par année                   799 ( 19.6) 
+##      Entre 75000 $ and 99999 $ par année                   604 ( 14.8) 
+##      Moins de 10000 $ par année                            256 (  6.3) 
+##      Plus de 200000 $ par année                            221 (  5.4) 
+##      Refuse de répondre                                    379 (  9.3) 
+##   bmi (mean (SD))                                        25.89 (4.86)  
+##   bmi_category (%)                                                     
+##      normal weight                                        1745 ( 42.7) 
+##      obese                                                 698 ( 17.1) 
+##      other                                                 438 ( 10.7) 
+##      overweight                                           1139 ( 27.9) 
+##      underweight                                            65 (  1.6) 
+##   WalkScore (mean (SD))                                  80.36 (17.45) 
+##   WalkScoreLabel (%)                                                   
+##                                                             51 (  1.2) 
+##      Car-Dependent                                         274 (  6.7) 
+##      Somewhat Walkable                                     510 ( 12.5) 
+##      Very Walkable                                        1680 ( 41.1) 
+##      Walker's Paradise                                    1570 ( 38.4) 
+##   TransitScore (mean (SD))                               77.05 (11.31) 
+##   TransitScoreLabel (%)                                                
+##                                                           3713 ( 90.9) 
+##      Excellent Transit                                     277 (  6.8) 
+##      Good Transit                                           82 (  2.0) 
+##      Minimal Transit                                         0 (  0.0) 
+##      Rider's Paradise                                       13 (  0.3) 
+##      Some Transit                                            0 (  0.0) 
+##   BikeScore (mean (SD))                                  87.29 (29.96) 
+##   BikeScoreLabel (%)                                                   
+##                                                            558 ( 13.7) 
+##      Bikeable                                             1113 ( 27.2) 
+##      Biker's Paradise                                        0 (  0.0) 
+##      Somewhat Bikeable                                     264 (  6.5) 
+##      Very Bikeable                                        2150 ( 52.6) 
+##   DiningandDrinkingScore (mean (SD))                     82.41 (18.59) 
+##   GroceryScore (mean (SD))                               78.71 (28.21)
 ```
 
 ```r
@@ -3679,149 +3676,149 @@ CreateTableOne(vars = vars, data = Detroit1)
 
 ```
 ##                                                         
-##                                                          Overall           
-##   n                                                          3077          
-##   lang (%)                                                                 
-##      Anglais                                                 3074 ( 99.9)  
-##      Espagnol                                                   3 (  0.1)  
-##      Français                                                   0 (  0.0)  
-##   q54 = Homme (%)                                            1134 ( 36.9)  
-##   ville (%)                                                                
-##      Boston                                                     0 (  0.0)  
-##      Chicago                                                    0 (  0.0)  
-##      Détroit                                                 3077 (100.0)  
-##      Montréal                                                   0 (  0.0)  
-##      New-York                                                   0 (  0.0)  
-##      Philadelphie                                               0 (  0.0)  
-##      Toronto                                                    0 (  0.0)  
-##      Vancouver                                                  0 (  0.0)  
-##   q1us (mean (SD))                                       48188.25 (1145.98)
-##   q2 (%)                                                                   
-##      Bon                                                      928 ( 30.2)  
-##      Excellent                                                566 ( 18.4)  
-##      Mauvais                                                   64 (  2.1)  
-##      Moyen                                                    326 ( 10.6)  
-##      Ne sais pas/Refuse de répondre                             1 (  0.0)  
-##      Très bon                                                1192 ( 38.7)  
-##   q13 (%)                                                                  
-##      Autre (précisez:)                                          1 (  0.0)  
-##      Marche                                                   139 (  4.5)  
-##      Ne s'applique pas                                         18 (  0.6)  
-##      Ne sais pas                                               11 (  0.4)  
-##      Scooter                                                    1 (  0.0)  
-##      Taxi                                                       9 (  0.3)  
-##      Transport en commun                                      105 (  3.4)  
-##      Véhicule motorisé (loué, emprunté, covoiturage)         2681 ( 87.1)  
-##      Vélo en libre-service                                     17 (  0.6)  
-##      Vélo personnel                                            58 (  1.9)  
-##      Voiture personnelle                                       37 (  1.2)  
-##   q14 (%)                                                                  
-##      Ne sais pas/Ne s'applique pas                             38 (  1.2)  
-##      Non                                                      680 ( 22.1)  
-##      Oui                                                     2355 ( 76.5)  
-##      Refuse de répondre                                         4 (  0.1)  
-##   q15 (mean (SD))                                           43.08 (24.93)  
-##   q18 (mean (SD))                                           50.63 (32.94)  
-##   q21 (mean (SD))                                           11.43 (22.24)  
-##   q22b (mean (SD))                                           1.99 (1.64)   
-##   q22c (mean (SD))                                          32.92 (23.26)  
-##   q22d (mean (SD))                                           8.92 (11.55)  
-##   q22e (mean (SD))                                         106.25 (237.97) 
-##   q22f_m1 = Refuse de répondre (%)                              5 (  4.2)  
-##   q23 (mean (SD))                                            2.23 (3.38)   
-##   q25 (mean (SD))                                            3.24 (3.02)   
-##   q27 (mean (SD))                                           26.41 (42.98)  
-##   q42 (mean (SD))                                           41.11 (12.74)  
-##   q44 (%)                                                                  
-##      Célibatiare                                              988 ( 32.1)  
-##      Divorcé (e)                                              268 (  8.7)  
-##      En couple                                                 11 (  0.4)  
-##      Marié(e)/Conjoint de fait                               1699 ( 55.2)  
-##      Refuse de répondre                                        24 (  0.8)  
-##      Séparé (e)                                                46 (  1.5)  
-##      Veuf (ve)                                                 41 (  1.3)  
-##   q45 (mean (SD))                                            5.80 (3.05)   
-##   q46b (mean (SD))                                           4.91 (3.18)   
-##   q47 (%)                                                                  
-##      Amérindien des États-Unis / Autochtone d'Amérique         15 (  0.5)  
-##      Arabe (Moyen-Orient, Afrique du Nord)                     18 (  0.6)  
-##      Asiatique / insulaire du Pacifique                       123 (  4.0)  
-##      Autre                                                      5 (  0.2)  
-##      Blanc(che) / Caucasien                                  2422 ( 78.7)  
-##      Hispanique / Latino / Espagnol(e)                         44 (  1.4)  
-##      Indien / Pakistanais                                      20 (  0.6)  
-##      Je préfère ne pas répondre                                51 (  1.7)  
-##      Jewish                                                     0 (  0.0)  
-##      Mixed / Mixed race / Bi-racial                            18 (  0.6)  
-##      Noir(e) / Africain(e) / Afro-Américain(e)                361 ( 11.7)  
-##   q48 (mean (SD))                                            4.51 (12.93)  
-##   q49 (%)                                                                  
-##      Ne sais pas/Ne s'applique pas                             23 (  0.7)  
-##      Non                                                      149 (  4.8)  
-##      Oui                                                     2905 ( 94.4)  
-##   q50 (%)                                                                  
-##      Ne sais pas/Ne s'applique pas                             18 (  0.6)  
-##      Non                                                      123 (  4.0)  
-##      Oui                                                     2936 ( 95.4)  
-##   q51 (%)                                                                  
-##      Aucun grade, certificat ou diplôme                         1 (  0.0)  
-##      Autre (précisez):                                         12 (  0.4)  
-##      Baccalauréat                                             951 ( 30.9)  
-##      Cégep                                                    506 ( 16.4)  
-##      Certificat d'école de métier, certificat ou diplôme      444 ( 14.4)  
-##      Diplôme d'études secondaire ou l'équivalent              404 ( 13.1)  
-##      Diplôme universitaire supérieur au baccalauréat          736 ( 23.9)  
-##      École primaire                                             6 (  0.2)  
-##      Refuse de répondre                                        17 (  0.6)  
-##   Q52_occupational_status_category (%)                                     
-##      Disability                                                64 (  2.1)  
-##      Full time or Self-employed                              1842 ( 60.2)  
-##      Homemaker or parental leave                              249 (  8.1)  
-##      Part time                                                310 ( 10.1)  
-##      Retired                                                  217 (  7.1)  
-##      Student                                                  243 (  7.9)  
-##      Unemployed seeking work                                  133 (  4.3)  
-##   q53 (%)                                                                  
-##      Entre 10000 $ and 19999 $ par année                      168 (  5.5)  
-##      Entre 100000 $ and 149999 $ par année                    443 ( 14.4)  
-##      Entre 150000 $ and 199999 $ par année                    123 (  4.0)  
-##      Entre 20000 $ and 34999 $ par année                      315 ( 10.2)  
-##      Entre 35000 $ and 49999 $ par année                      351 ( 11.4)  
-##      Entre 50000 $ and 74999 $ par année                      536 ( 17.4)  
-##      Entre 75000 $ and 99999 $ par année                      461 ( 15.0)  
-##      Moins de 10000 $ par année                               244 (  7.9)  
-##      Plus de 200000 $ par année                                70 (  2.3)  
-##      Refuse de répondre                                       366 ( 11.9)  
-##   bmi (mean (SD))                                           26.75 (5.11)   
-##   bmi_category (%)                                                         
-##      embonpoint                                               864 ( 32.8)  
-##      insuffisant                                               40 (  1.5)  
-##      normal                                                  1073 ( 40.7)  
-##      obesite                                                  661 ( 25.1)  
-##   WalkScore (mean (SD))                                     36.05 (24.44)  
-##   WalkScoreLabel (%)                                                       
-##                                                                27 (  0.9)  
-##      Car-Dependent                                           2094 ( 68.1)  
-##      Somewhat Walkable                                        733 ( 23.8)  
-##      Very Walkable                                            175 (  5.7)  
-##      Walker's Paradise                                         48 (  1.6)  
-##   TransitScore (mean (SD))                                  79.31 (7.37)   
-##   TransitScoreLabel (%)                                                    
-##                                                              3077 (100.0)  
-##      Excellent Transit                                          0 (  0.0)  
-##      Good Transit                                               0 (  0.0)  
-##      Minimal Transit                                            0 (  0.0)  
-##      Rider's Paradise                                           0 (  0.0)  
-##      Some Transit                                               0 (  0.0)  
-##   BikeScore (mean (SD))                                    133.74 (18.39)  
-##   BikeScoreLabel (%)                                                       
-##                                                              2898 ( 94.2)  
-##      Bikeable                                                  90 (  2.9)  
-##      Biker's Paradise                                          40 (  1.3)  
-##      Somewhat Bikeable                                          1 (  0.0)  
-##      Very Bikeable                                             48 (  1.6)  
-##   DiningandDrinkingScore (mean (SD))                        40.56 (26.92)  
-##   GroceryScore (mean (SD))                                  38.81 (34.49)
+##                                                          Overall        
+##   n                                                        3077         
+##   lang (%)                                                              
+##      Anglais                                               3074 ( 99.9) 
+##      Espagnol                                                 3 (  0.1) 
+##      Français                                                 0 (  0.0) 
+##   q54 = Homme (%)                                          1134 ( 36.9) 
+##   ville (%)                                                             
+##      Boston                                                   0 (  0.0) 
+##      Chicago                                                  0 (  0.0) 
+##      Détroit                                               3077 (100.0) 
+##      Montréal                                                 0 (  0.0) 
+##      New-York                                                 0 (  0.0) 
+##      Philadelphie                                             0 (  0.0) 
+##      Toronto                                                  0 (  0.0) 
+##      Vancouver                                                0 (  0.0) 
+##   q2 (%)                                                                
+##      Bon                                                    928 ( 30.2) 
+##      Excellent                                              566 ( 18.4) 
+##      Mauvais                                                 64 (  2.1) 
+##      Moyen                                                  326 ( 10.6) 
+##      Ne sais pas/Refuse de répondre                           1 (  0.0) 
+##      Très bon                                              1192 ( 38.7) 
+##   q13 (%)                                                               
+##      Autre (précisez:)                                        1 (  0.0) 
+##      Marche                                                 139 (  4.5) 
+##      Ne s'applique pas                                       18 (  0.6) 
+##      Ne sais pas                                             11 (  0.4) 
+##      Scooter                                                  1 (  0.0) 
+##      Taxi                                                     9 (  0.3) 
+##      Transport en commun                                    105 (  3.4) 
+##      Véhicule motorisé (loué, emprunté, covoiturage)       2681 ( 87.1) 
+##      Vélo en libre-service                                   17 (  0.6) 
+##      Vélo personnel                                          58 (  1.9) 
+##      Voiture personnelle                                     37 (  1.2) 
+##   q14 (%)                                                               
+##      Ne sais pas/Ne s'applique pas                           38 (  1.2) 
+##      Non                                                    680 ( 22.1) 
+##      Oui                                                   2355 ( 76.5) 
+##      Refuse de répondre                                       4 (  0.1) 
+##   q15 (mean (SD))                                         43.08 (24.93) 
+##   q18 (mean (SD))                                         50.63 (32.94) 
+##   q21 (mean (SD))                                         11.43 (22.24) 
+##   q22b (mean (SD))                                         1.99 (1.64)  
+##   q22c (mean (SD))                                        32.92 (23.26) 
+##   q22d (mean (SD))                                         8.92 (11.55) 
+##   q22e (mean (SD))                                       106.25 (237.97)
+##   q22f_m1 = Refuse de répondre (%)                            5 (  4.2) 
+##   q23 (mean (SD))                                          2.23 (3.38)  
+##   q25 (mean (SD))                                          3.24 (3.02)  
+##   q27 (mean (SD))                                         26.41 (42.98) 
+##   q42 (mean (SD))                                         41.11 (12.74) 
+##   q44 (%)                                                               
+##      Célibatiare                                            988 ( 32.1) 
+##      Divorcé (e)                                            268 (  8.7) 
+##      En couple                                               11 (  0.4) 
+##      Marié(e)/Conjoint de fait                             1699 ( 55.2) 
+##      Refuse de répondre                                      24 (  0.8) 
+##      Séparé (e)                                              46 (  1.5) 
+##      Veuf (ve)                                               41 (  1.3) 
+##   q45 (mean (SD))                                          5.80 (3.05)  
+##   q46b (mean (SD))                                         4.91 (3.18)  
+##   q47 (%)                                                               
+##      Amérindien des États-Unis / Autochtone d'Amérique       15 (  0.5) 
+##      Arabe (Moyen-Orient, Afrique du Nord)                   18 (  0.6) 
+##      Asiatique / insulaire du Pacifique                     123 (  4.0) 
+##      Autre                                                    5 (  0.2) 
+##      Blanc(che) / Caucasien                                2422 ( 78.7) 
+##      Hispanique / Latino / Espagnol(e)                       44 (  1.4) 
+##      Indien / Pakistanais                                    20 (  0.6) 
+##      Je préfère ne pas répondre                              51 (  1.7) 
+##      Jewish                                                   0 (  0.0) 
+##      Mixed / Mixed race / Bi-racial                          18 (  0.6) 
+##      Noir(e) / Africain(e) / Afro-Américain(e)              361 ( 11.7) 
+##   q48 (mean (SD))                                          4.51 (12.93) 
+##   q49 (%)                                                               
+##      Ne sais pas/Ne s'applique pas                           23 (  0.7) 
+##      Non                                                    149 (  4.8) 
+##      Oui                                                   2905 ( 94.4) 
+##   q50 (%)                                                               
+##      Ne sais pas/Ne s'applique pas                           18 (  0.6) 
+##      Non                                                    123 (  4.0) 
+##      Oui                                                   2936 ( 95.4) 
+##   q51 (%)                                                               
+##      Aucun grade, certificat ou diplôme                       1 (  0.0) 
+##      Autre (précisez):                                       12 (  0.4) 
+##      Baccalauréat                                           951 ( 30.9) 
+##      Cégep                                                  506 ( 16.4) 
+##      Certificat d'école de métier, certificat ou diplôme    444 ( 14.4) 
+##      Diplôme d'études secondaire ou l'équivalent            404 ( 13.1) 
+##      Diplôme universitaire supérieur au baccalauréat        736 ( 23.9) 
+##      École primaire                                           6 (  0.2) 
+##      Refuse de répondre                                      17 (  0.6) 
+##   Q52_occupational_status_category (%)                                  
+##      Disability                                              64 (  2.1) 
+##      Full time or Self-employed                            1842 ( 60.2) 
+##      Homemaker or parental leave                            249 (  8.1) 
+##      Part time                                              310 ( 10.1) 
+##      Retired                                                217 (  7.1) 
+##      Student                                                243 (  7.9) 
+##      Unemployed seeking work                                133 (  4.3) 
+##   q53 (%)                                                               
+##      Entre 10000 $ and 19999 $ par année                    168 (  5.5) 
+##      Entre 100000 $ and 149999 $ par année                  443 ( 14.4) 
+##      Entre 150000 $ and 199999 $ par année                  123 (  4.0) 
+##      Entre 20000 $ and 34999 $ par année                    315 ( 10.2) 
+##      Entre 35000 $ and 49999 $ par année                    351 ( 11.4) 
+##      Entre 50000 $ and 74999 $ par année                    536 ( 17.4) 
+##      Entre 75000 $ and 99999 $ par année                    461 ( 15.0) 
+##      Moins de 10000 $ par année                             244 (  7.9) 
+##      Plus de 200000 $ par année                              70 (  2.3) 
+##      Refuse de répondre                                     366 ( 11.9) 
+##   bmi (mean (SD))                                         26.75 (5.11)  
+##   bmi_category (%)                                                      
+##      normal weight                                         1073 ( 34.9) 
+##      obese                                                  661 ( 21.5) 
+##      other                                                  439 ( 14.3) 
+##      overweight                                             864 ( 28.1) 
+##      underweight                                             40 (  1.3) 
+##   WalkScore (mean (SD))                                   36.05 (24.44) 
+##   WalkScoreLabel (%)                                                    
+##                                                              27 (  0.9) 
+##      Car-Dependent                                         2094 ( 68.1) 
+##      Somewhat Walkable                                      733 ( 23.8) 
+##      Very Walkable                                          175 (  5.7) 
+##      Walker's Paradise                                       48 (  1.6) 
+##   TransitScore (mean (SD))                                79.31 (7.37)  
+##   TransitScoreLabel (%)                                                 
+##                                                            3077 (100.0) 
+##      Excellent Transit                                        0 (  0.0) 
+##      Good Transit                                             0 (  0.0) 
+##      Minimal Transit                                          0 (  0.0) 
+##      Rider's Paradise                                         0 (  0.0) 
+##      Some Transit                                             0 (  0.0) 
+##   BikeScore (mean (SD))                                  133.74 (18.39) 
+##   BikeScoreLabel (%)                                                    
+##                                                            2898 ( 94.2) 
+##      Bikeable                                                90 (  2.9) 
+##      Biker's Paradise                                        40 (  1.3) 
+##      Somewhat Bikeable                                        1 (  0.0) 
+##      Very Bikeable                                           48 (  1.6) 
+##   DiningandDrinkingScore (mean (SD))                      40.56 (26.92) 
+##   GroceryScore (mean (SD))                                38.81 (34.49)
 ```
 
 ```r
@@ -3830,149 +3827,149 @@ CreateTableOne(vars = vars, data = NewYork1)
 
 ```
 ##                                                         
-##                                                          Overall           
-##   n                                                          3824          
-##   lang (%)                                                                 
-##      Anglais                                                 3808 ( 99.6)  
-##      Espagnol                                                  15 (  0.4)  
-##      Français                                                   1 (  0.0)  
-##   q54 = Homme (%)                                            1593 ( 41.7)  
-##   ville (%)                                                                
-##      Boston                                                     0 (  0.0)  
-##      Chicago                                                    0 (  0.0)  
-##      Détroit                                                    0 (  0.0)  
-##      Montréal                                                   0 (  0.0)  
-##      New-York                                                3824 (100.0)  
-##      Philadelphie                                               0 (  0.0)  
-##      Toronto                                                    0 (  0.0)  
-##      Vancouver                                                  0 (  0.0)  
-##   q1us (mean (SD))                                       10565.52 (2256.07)
-##   q2 (%)                                                                   
-##      Bon                                                      986 ( 25.8)  
-##      Excellent                                                909 ( 23.8)  
-##      Mauvais                                                   47 (  1.2)  
-##      Moyen                                                    248 (  6.5)  
-##      Ne sais pas/Refuse de répondre                             6 (  0.2)  
-##      Très bon                                                1628 ( 42.6)  
-##   q13 (%)                                                                  
-##      Autre (précisez:)                                          6 (  0.2)  
-##      Marche                                                   978 ( 25.6)  
-##      Ne s'applique pas                                          8 (  0.2)  
-##      Ne sais pas                                                4 (  0.1)  
-##      Scooter                                                    3 (  0.1)  
-##      Taxi                                                      74 (  1.9)  
-##      Transport en commun                                     2207 ( 57.7)  
-##      Véhicule motorisé (loué, emprunté, covoiturage)          349 (  9.1)  
-##      Vélo en libre-service                                     67 (  1.8)  
-##      Vélo personnel                                           117 (  3.1)  
-##      Voiture personnelle                                       11 (  0.3)  
-##   q14 (%)                                                                  
-##      Ne sais pas/Ne s'applique pas                             51 (  1.3)  
-##      Non                                                      680 ( 17.8)  
-##      Oui                                                     3088 ( 80.8)  
-##      Refuse de répondre                                         5 (  0.1)  
-##   q15 (mean (SD))                                           44.68 (24.91)  
-##   q18 (mean (SD))                                           50.63 (32.11)  
-##   q21 (mean (SD))                                           16.06 (33.71)  
-##   q22b (mean (SD))                                           2.12 (1.85)   
-##   q22c (mean (SD))                                          24.99 (15.70)  
-##   q22d (mean (SD))                                           4.25 (7.34)   
-##   q22e (mean (SD))                                          27.14 (30.15)  
-##   q22f_m1 = Refuse de répondre (%)                             10 (  6.5)  
-##   q23 (mean (SD))                                            4.52 (2.36)   
-##   q25 (mean (SD))                                            5.42 (2.10)   
-##   q27 (mean (SD))                                           28.25 (43.72)  
-##   q42 (mean (SD))                                           39.74 (13.55)  
-##   q44 (%)                                                                  
-##      Célibatiare                                             1879 ( 49.1)  
-##      Divorcé (e)                                              205 (  5.4)  
-##      En couple                                                 15 (  0.4)  
-##      Marié(e)/Conjoint de fait                               1542 ( 40.3)  
-##      Refuse de répondre                                        53 (  1.4)  
-##      Séparé (e)                                                70 (  1.8)  
-##      Veuf (ve)                                                 60 (  1.6)  
-##   q45 (mean (SD))                                            6.64 (2.67)   
-##   q46b (mean (SD))                                           5.13 (3.58)   
-##   q47 (%)                                                                  
-##      Amérindien des États-Unis / Autochtone d'Amérique          9 (  0.2)  
-##      Arabe (Moyen-Orient, Afrique du Nord)                      9 (  0.2)  
-##      Asiatique / insulaire du Pacifique                       483 ( 12.6)  
-##      Autre                                                     14 (  0.4)  
-##      Blanc(che) / Caucasien                                  2493 ( 65.2)  
-##      Hispanique / Latino / Espagnol(e)                        317 (  8.3)  
-##      Indien / Pakistanais                                      30 (  0.8)  
-##      Je préfère ne pas répondre                                96 (  2.5)  
-##      Jewish                                                     1 (  0.0)  
-##      Mixed / Mixed race / Bi-racial                            36 (  0.9)  
-##      Noir(e) / Africain(e) / Afro-Américain(e)                336 (  8.8)  
-##   q48 (mean (SD))                                            7.41 (17.89)  
-##   q49 (%)                                                                  
-##      Ne sais pas/Ne s'applique pas                             27 (  0.7)  
-##      Non                                                      661 ( 17.3)  
-##      Oui                                                     3136 ( 82.0)  
-##   q50 (%)                                                                  
-##      Ne sais pas/Ne s'applique pas                             47 (  1.2)  
-##      Non                                                     2106 ( 55.1)  
-##      Oui                                                     1671 ( 43.7)  
-##   q51 (%)                                                                  
-##      Aucun grade, certificat ou diplôme                         3 (  0.1)  
-##      Autre (précisez):                                          4 (  0.1)  
-##      Baccalauréat                                            1589 ( 41.6)  
-##      Cégep                                                    466 ( 12.2)  
-##      Certificat d'école de métier, certificat ou diplôme      168 (  4.4)  
-##      Diplôme d'études secondaire ou l'équivalent              284 (  7.4)  
-##      Diplôme universitaire supérieur au baccalauréat         1284 ( 33.6)  
-##      École primaire                                             7 (  0.2)  
-##      Refuse de répondre                                        19 (  0.5)  
-##   Q52_occupational_status_category (%)                                     
-##      Disability                                                47 (  1.2)  
-##      Full time or Self-employed                              2659 ( 70.2)  
-##      Homemaker or parental leave                              125 (  3.3)  
-##      Part time                                                284 (  7.5)  
-##      Retired                                                  236 (  6.2)  
-##      Student                                                  270 (  7.1)  
-##      Unemployed seeking work                                  166 (  4.4)  
-##   q53 (%)                                                                  
-##      Entre 10000 $ and 19999 $ par année                      156 (  4.1)  
-##      Entre 100000 $ and 149999 $ par année                    631 ( 16.5)  
-##      Entre 150000 $ and 199999 $ par année                    267 (  7.0)  
-##      Entre 20000 $ and 34999 $ par année                      262 (  6.9)  
-##      Entre 35000 $ and 49999 $ par année                      343 (  9.0)  
-##      Entre 50000 $ and 74999 $ par année                      611 ( 16.0)  
-##      Entre 75000 $ and 99999 $ par année                      545 ( 14.3)  
-##      Moins de 10000 $ par année                               241 (  6.3)  
-##      Plus de 200000 $ par année                               331 (  8.7)  
-##      Refuse de répondre                                       437 ( 11.4)  
-##   bmi (mean (SD))                                           25.05 (4.52)   
-##   bmi_category (%)                                                         
-##      embonpoint                                               971 ( 28.8)  
-##      insuffisant                                               72 (  2.1)  
-##      normal                                                  1841 ( 54.6)  
-##      obesite                                                  490 ( 14.5)  
-##   WalkScore (mean (SD))                                     95.88 (11.04)  
-##   WalkScoreLabel (%)                                                       
-##                                                                65 (  1.7)  
-##      Car-Dependent                                             61 (  1.6)  
-##      Somewhat Walkable                                         33 (  0.9)  
-##      Very Walkable                                            169 (  4.4)  
-##      Walker's Paradise                                       3496 ( 91.4)  
-##   TransitScore (mean (SD))                                  71.19 (24.19)  
-##   TransitScoreLabel (%)                                                    
-##                                                              3394 ( 88.8)  
-##      Excellent Transit                                         34 (  0.9)  
-##      Good Transit                                               7 (  0.2)  
-##      Minimal Transit                                            0 (  0.0)  
-##      Rider's Paradise                                         389 ( 10.2)  
-##      Some Transit                                               0 (  0.0)  
-##   BikeScore (mean (SD))                                     90.15 (24.92)  
-##   BikeScoreLabel (%)                                                       
-##                                                               178 (  4.7)  
-##      Bikeable                                                1137 ( 29.7)  
-##      Biker's Paradise                                         145 (  3.8)  
-##      Somewhat Bikeable                                         71 (  1.9)  
-##      Very Bikeable                                           2293 ( 60.0)  
-##   DiningandDrinkingScore (mean (SD))                        96.05 (11.20)  
-##   GroceryScore (mean (SD))                                  97.91 (11.21)
+##                                                          Overall       
+##   n                                                       3824         
+##   lang (%)                                                             
+##      Anglais                                              3808 ( 99.6) 
+##      Espagnol                                               15 (  0.4) 
+##      Français                                                1 (  0.0) 
+##   q54 = Homme (%)                                         1593 ( 41.7) 
+##   ville (%)                                                            
+##      Boston                                                  0 (  0.0) 
+##      Chicago                                                 0 (  0.0) 
+##      Détroit                                                 0 (  0.0) 
+##      Montréal                                                0 (  0.0) 
+##      New-York                                             3824 (100.0) 
+##      Philadelphie                                            0 (  0.0) 
+##      Toronto                                                 0 (  0.0) 
+##      Vancouver                                               0 (  0.0) 
+##   q2 (%)                                                               
+##      Bon                                                   986 ( 25.8) 
+##      Excellent                                             909 ( 23.8) 
+##      Mauvais                                                47 (  1.2) 
+##      Moyen                                                 248 (  6.5) 
+##      Ne sais pas/Refuse de répondre                          6 (  0.2) 
+##      Très bon                                             1628 ( 42.6) 
+##   q13 (%)                                                              
+##      Autre (précisez:)                                       6 (  0.2) 
+##      Marche                                                978 ( 25.6) 
+##      Ne s'applique pas                                       8 (  0.2) 
+##      Ne sais pas                                             4 (  0.1) 
+##      Scooter                                                 3 (  0.1) 
+##      Taxi                                                   74 (  1.9) 
+##      Transport en commun                                  2207 ( 57.7) 
+##      Véhicule motorisé (loué, emprunté, covoiturage)       349 (  9.1) 
+##      Vélo en libre-service                                  67 (  1.8) 
+##      Vélo personnel                                        117 (  3.1) 
+##      Voiture personnelle                                    11 (  0.3) 
+##   q14 (%)                                                              
+##      Ne sais pas/Ne s'applique pas                          51 (  1.3) 
+##      Non                                                   680 ( 17.8) 
+##      Oui                                                  3088 ( 80.8) 
+##      Refuse de répondre                                      5 (  0.1) 
+##   q15 (mean (SD))                                        44.68 (24.91) 
+##   q18 (mean (SD))                                        50.63 (32.11) 
+##   q21 (mean (SD))                                        16.06 (33.71) 
+##   q22b (mean (SD))                                        2.12 (1.85)  
+##   q22c (mean (SD))                                       24.99 (15.70) 
+##   q22d (mean (SD))                                        4.25 (7.34)  
+##   q22e (mean (SD))                                       27.14 (30.15) 
+##   q22f_m1 = Refuse de répondre (%)                          10 (  6.5) 
+##   q23 (mean (SD))                                         4.52 (2.36)  
+##   q25 (mean (SD))                                         5.42 (2.10)  
+##   q27 (mean (SD))                                        28.25 (43.72) 
+##   q42 (mean (SD))                                        39.74 (13.55) 
+##   q44 (%)                                                              
+##      Célibatiare                                          1879 ( 49.1) 
+##      Divorcé (e)                                           205 (  5.4) 
+##      En couple                                              15 (  0.4) 
+##      Marié(e)/Conjoint de fait                            1542 ( 40.3) 
+##      Refuse de répondre                                     53 (  1.4) 
+##      Séparé (e)                                             70 (  1.8) 
+##      Veuf (ve)                                              60 (  1.6) 
+##   q45 (mean (SD))                                         6.64 (2.67)  
+##   q46b (mean (SD))                                        5.13 (3.58)  
+##   q47 (%)                                                              
+##      Amérindien des États-Unis / Autochtone d'Amérique       9 (  0.2) 
+##      Arabe (Moyen-Orient, Afrique du Nord)                   9 (  0.2) 
+##      Asiatique / insulaire du Pacifique                    483 ( 12.6) 
+##      Autre                                                  14 (  0.4) 
+##      Blanc(che) / Caucasien                               2493 ( 65.2) 
+##      Hispanique / Latino / Espagnol(e)                     317 (  8.3) 
+##      Indien / Pakistanais                                   30 (  0.8) 
+##      Je préfère ne pas répondre                             96 (  2.5) 
+##      Jewish                                                  1 (  0.0) 
+##      Mixed / Mixed race / Bi-racial                         36 (  0.9) 
+##      Noir(e) / Africain(e) / Afro-Américain(e)             336 (  8.8) 
+##   q48 (mean (SD))                                         7.41 (17.89) 
+##   q49 (%)                                                              
+##      Ne sais pas/Ne s'applique pas                          27 (  0.7) 
+##      Non                                                   661 ( 17.3) 
+##      Oui                                                  3136 ( 82.0) 
+##   q50 (%)                                                              
+##      Ne sais pas/Ne s'applique pas                          47 (  1.2) 
+##      Non                                                  2106 ( 55.1) 
+##      Oui                                                  1671 ( 43.7) 
+##   q51 (%)                                                              
+##      Aucun grade, certificat ou diplôme                      3 (  0.1) 
+##      Autre (précisez):                                       4 (  0.1) 
+##      Baccalauréat                                         1589 ( 41.6) 
+##      Cégep                                                 466 ( 12.2) 
+##      Certificat d'école de métier, certificat ou diplôme   168 (  4.4) 
+##      Diplôme d'études secondaire ou l'équivalent           284 (  7.4) 
+##      Diplôme universitaire supérieur au baccalauréat      1284 ( 33.6) 
+##      École primaire                                          7 (  0.2) 
+##      Refuse de répondre                                     19 (  0.5) 
+##   Q52_occupational_status_category (%)                                 
+##      Disability                                             47 (  1.2) 
+##      Full time or Self-employed                           2659 ( 70.2) 
+##      Homemaker or parental leave                           125 (  3.3) 
+##      Part time                                             284 (  7.5) 
+##      Retired                                               236 (  6.2) 
+##      Student                                               270 (  7.1) 
+##      Unemployed seeking work                               166 (  4.4) 
+##   q53 (%)                                                              
+##      Entre 10000 $ and 19999 $ par année                   156 (  4.1) 
+##      Entre 100000 $ and 149999 $ par année                 631 ( 16.5) 
+##      Entre 150000 $ and 199999 $ par année                 267 (  7.0) 
+##      Entre 20000 $ and 34999 $ par année                   262 (  6.9) 
+##      Entre 35000 $ and 49999 $ par année                   343 (  9.0) 
+##      Entre 50000 $ and 74999 $ par année                   611 ( 16.0) 
+##      Entre 75000 $ and 99999 $ par année                   545 ( 14.3) 
+##      Moins de 10000 $ par année                            241 (  6.3) 
+##      Plus de 200000 $ par année                            331 (  8.7) 
+##      Refuse de répondre                                    437 ( 11.4) 
+##   bmi (mean (SD))                                        25.05 (4.52)  
+##   bmi_category (%)                                                     
+##      normal weight                                        1841 ( 48.1) 
+##      obese                                                 490 ( 12.8) 
+##      other                                                 450 ( 11.8) 
+##      overweight                                            971 ( 25.4) 
+##      underweight                                            72 (  1.9) 
+##   WalkScore (mean (SD))                                  95.88 (11.04) 
+##   WalkScoreLabel (%)                                                   
+##                                                             65 (  1.7) 
+##      Car-Dependent                                          61 (  1.6) 
+##      Somewhat Walkable                                      33 (  0.9) 
+##      Very Walkable                                         169 (  4.4) 
+##      Walker's Paradise                                    3496 ( 91.4) 
+##   TransitScore (mean (SD))                               71.19 (24.19) 
+##   TransitScoreLabel (%)                                                
+##                                                           3394 ( 88.8) 
+##      Excellent Transit                                      34 (  0.9) 
+##      Good Transit                                            7 (  0.2) 
+##      Minimal Transit                                         0 (  0.0) 
+##      Rider's Paradise                                      389 ( 10.2) 
+##      Some Transit                                            0 (  0.0) 
+##   BikeScore (mean (SD))                                  90.15 (24.92) 
+##   BikeScoreLabel (%)                                                   
+##                                                            178 (  4.7) 
+##      Bikeable                                             1137 ( 29.7) 
+##      Biker's Paradise                                      145 (  3.8) 
+##      Somewhat Bikeable                                      71 (  1.9) 
+##      Very Bikeable                                        2293 ( 60.0) 
+##   DiningandDrinkingScore (mean (SD))                     96.05 (11.20) 
+##   GroceryScore (mean (SD))                               97.91 (11.21)
 ```
 
 ```r
@@ -3981,149 +3978,149 @@ CreateTableOne(vars = vars, data = Philadelphia1)
 
 ```
 ##                                                         
-##                                                          Overall           
-##   n                                                          1478          
-##   lang (%)                                                                 
-##      Anglais                                                 1475 ( 99.8)  
-##      Espagnol                                                   3 (  0.2)  
-##      Français                                                   0 (  0.0)  
-##   q54 = Homme (%)                                             536 ( 36.3)  
-##   ville (%)                                                                
-##      Boston                                                     0 (  0.0)  
-##      Chicago                                                    0 (  0.0)  
-##      Détroit                                                    0 (  0.0)  
-##      Montréal                                                   0 (  0.0)  
-##      New-York                                                   0 (  0.0)  
-##      Philadelphie                                            1478 (100.0)  
-##      Toronto                                                    0 (  0.0)  
-##      Vancouver                                                  0 (  0.0)  
-##   q1us (mean (SD))                                       19147.23 (1311.01)
-##   q2 (%)                                                                   
-##      Bon                                                      404 ( 27.3)  
-##      Excellent                                                297 ( 20.1)  
-##      Mauvais                                                   31 (  2.1)  
-##      Moyen                                                    113 (  7.6)  
-##      Ne sais pas/Refuse de répondre                             2 (  0.1)  
-##      Très bon                                                 631 ( 42.7)  
-##   q13 (%)                                                                  
-##      Autre (précisez:)                                          3 (  0.2)  
-##      Marche                                                   443 ( 30.0)  
-##      Ne s'applique pas                                          3 (  0.2)  
-##      Ne sais pas                                                1 (  0.1)  
-##      Scooter                                                    2 (  0.1)  
-##      Taxi                                                      12 (  0.8)  
-##      Transport en commun                                      321 ( 21.7)  
-##      Véhicule motorisé (loué, emprunté, covoiturage)          600 ( 40.6)  
-##      Vélo en libre-service                                      7 (  0.5)  
-##      Vélo personnel                                            80 (  5.4)  
-##      Voiture personnelle                                        6 (  0.4)  
-##   q14 (%)                                                                  
-##      Ne sais pas/Ne s'applique pas                             14 (  0.9)  
-##      Non                                                      270 ( 18.3)  
-##      Oui                                                     1193 ( 80.7)  
-##      Refuse de répondre                                         1 (  0.1)  
-##   q15 (mean (SD))                                           43.58 (25.02)  
-##   q18 (mean (SD))                                           50.69 (32.63)  
-##   q21 (mean (SD))                                           11.43 (25.74)  
-##   q22b (mean (SD))                                           2.01 (1.71)   
-##   q22c (mean (SD))                                          33.36 (23.45)  
-##   q22d (mean (SD))                                           5.41 (10.09)  
-##   q22e (mean (SD))                                          36.49 (45.79)  
-##   q22f_m1 = Refuse de répondre (%)                              4 (  7.8)  
-##   q23 (mean (SD))                                            3.05 (2.82)   
-##   q25 (mean (SD))                                            4.67 (2.46)   
-##   q27 (mean (SD))                                           26.52 (42.78)  
-##   q42 (mean (SD))                                           39.19 (13.51)  
-##   q44 (%)                                                                  
-##      Célibatiare                                              729 ( 49.3)  
-##      Divorcé (e)                                              102 (  6.9)  
-##      En couple                                                 10 (  0.7)  
-##      Marié(e)/Conjoint de fait                                572 ( 38.7)  
-##      Refuse de répondre                                        13 (  0.9)  
-##      Séparé (e)                                                28 (  1.9)  
-##      Veuf (ve)                                                 24 (  1.6)  
-##   q45 (mean (SD))                                            6.55 (2.70)   
-##   q46b (mean (SD))                                           5.17 (3.51)   
-##   q47 (%)                                                                  
-##      Amérindien des États-Unis / Autochtone d'Amérique          0 (  0.0)  
-##      Arabe (Moyen-Orient, Afrique du Nord)                      4 (  0.3)  
-##      Asiatique / insulaire du Pacifique                       128 (  8.7)  
-##      Autre                                                      6 (  0.4)  
-##      Blanc(che) / Caucasien                                   999 ( 67.6)  
-##      Hispanique / Latino / Espagnol(e)                         60 (  4.1)  
-##      Indien / Pakistanais                                      13 (  0.9)  
-##      Je préfère ne pas répondre                                22 (  1.5)  
-##      Jewish                                                     0 (  0.0)  
-##      Mixed / Mixed race / Bi-racial                            15 (  1.0)  
-##      Noir(e) / Africain(e) / Afro-Américain(e)                231 ( 15.6)  
-##   q48 (mean (SD))                                            4.50 (12.55)  
-##   q49 (%)                                                                  
-##      Ne sais pas/Ne s'applique pas                              9 (  0.6)  
-##      Non                                                      190 ( 12.9)  
-##      Oui                                                     1279 ( 86.5)  
-##   q50 (%)                                                                  
-##      Ne sais pas/Ne s'applique pas                             16 (  1.1)  
-##      Non                                                      353 ( 23.9)  
-##      Oui                                                     1109 ( 75.0)  
-##   q51 (%)                                                                  
-##      Aucun grade, certificat ou diplôme                         2 (  0.1)  
-##      Autre (précisez):                                         11 (  0.7)  
-##      Baccalauréat                                             509 ( 34.4)  
-##      Cégep                                                    206 ( 13.9)  
-##      Certificat d'école de métier, certificat ou diplôme       86 (  5.8)  
-##      Diplôme d'études secondaire ou l'équivalent              209 ( 14.1)  
-##      Diplôme universitaire supérieur au baccalauréat          447 ( 30.2)  
-##      École primaire                                             1 (  0.1)  
-##      Refuse de répondre                                         7 (  0.5)  
-##   Q52_occupational_status_category (%)                                     
-##      Disability                                                27 (  1.8)  
-##      Full time or Self-employed                               937 ( 63.7)  
-##      Homemaker or parental leave                               58 (  3.9)  
-##      Part time                                                112 (  7.6)  
-##      Retired                                                   92 (  6.2)  
-##      Student                                                  172 ( 11.7)  
-##      Unemployed seeking work                                   74 (  5.0)  
-##   q53 (%)                                                                  
-##      Entre 10000 $ and 19999 $ par année                       77 (  5.2)  
-##      Entre 100000 $ and 149999 $ par année                    182 ( 12.3)  
-##      Entre 150000 $ and 199999 $ par année                     74 (  5.0)  
-##      Entre 20000 $ and 34999 $ par année                      154 ( 10.4)  
-##      Entre 35000 $ and 49999 $ par année                      181 ( 12.2)  
-##      Entre 50000 $ and 74999 $ par année                      301 ( 20.4)  
-##      Entre 75000 $ and 99999 $ par année                      182 ( 12.3)  
-##      Moins de 10000 $ par année                               150 ( 10.1)  
-##      Plus de 200000 $ par année                                50 (  3.4)  
-##      Refuse de répondre                                       127 (  8.6)  
-##   bmi (mean (SD))                                           26.02 (4.97)   
-##   bmi_category (%)                                                         
-##      embonpoint                                               404 ( 30.7)  
-##      insuffisant                                               19 (  1.4)  
-##      normal                                                   618 ( 47.0)  
-##      obesite                                                  273 ( 20.8)  
-##   WalkScore (mean (SD))                                     86.27 (17.72)  
-##   WalkScoreLabel (%)                                                       
-##                                                                22 (  1.5)  
-##      Car-Dependent                                             83 (  5.6)  
-##      Somewhat Walkable                                         96 (  6.5)  
-##      Very Walkable                                            244 ( 16.5)  
-##      Walker's Paradise                                       1033 ( 69.9)  
-##   TransitScore (mean (SD))                                  73.31 (21.71)  
-##   TransitScoreLabel (%)                                                    
-##                                                              1371 ( 92.8)  
-##      Excellent Transit                                          0 (  0.0)  
-##      Good Transit                                               2 (  0.1)  
-##      Minimal Transit                                            0 (  0.0)  
-##      Rider's Paradise                                         105 (  7.1)  
-##      Some Transit                                               0 (  0.0)  
-##   BikeScore (mean (SD))                                    106.32 (30.52)  
-##   BikeScoreLabel (%)                                                       
-##                                                               148 ( 10.0)  
-##      Bikeable                                                 236 ( 16.0)  
-##      Biker's Paradise                                         594 ( 40.2)  
-##      Somewhat Bikeable                                         38 (  2.6)  
-##      Very Bikeable                                            462 ( 31.3)  
-##   DiningandDrinkingScore (mean (SD))                        87.70 (16.44)  
-##   GroceryScore (mean (SD))                                  90.43 (22.07)
+##                                                          Overall        
+##   n                                                        1478         
+##   lang (%)                                                              
+##      Anglais                                               1475 ( 99.8) 
+##      Espagnol                                                 3 (  0.2) 
+##      Français                                                 0 (  0.0) 
+##   q54 = Homme (%)                                           536 ( 36.3) 
+##   ville (%)                                                             
+##      Boston                                                   0 (  0.0) 
+##      Chicago                                                  0 (  0.0) 
+##      Détroit                                                  0 (  0.0) 
+##      Montréal                                                 0 (  0.0) 
+##      New-York                                                 0 (  0.0) 
+##      Philadelphie                                          1478 (100.0) 
+##      Toronto                                                  0 (  0.0) 
+##      Vancouver                                                0 (  0.0) 
+##   q2 (%)                                                                
+##      Bon                                                    404 ( 27.3) 
+##      Excellent                                              297 ( 20.1) 
+##      Mauvais                                                 31 (  2.1) 
+##      Moyen                                                  113 (  7.6) 
+##      Ne sais pas/Refuse de répondre                           2 (  0.1) 
+##      Très bon                                               631 ( 42.7) 
+##   q13 (%)                                                               
+##      Autre (précisez:)                                        3 (  0.2) 
+##      Marche                                                 443 ( 30.0) 
+##      Ne s'applique pas                                        3 (  0.2) 
+##      Ne sais pas                                              1 (  0.1) 
+##      Scooter                                                  2 (  0.1) 
+##      Taxi                                                    12 (  0.8) 
+##      Transport en commun                                    321 ( 21.7) 
+##      Véhicule motorisé (loué, emprunté, covoiturage)        600 ( 40.6) 
+##      Vélo en libre-service                                    7 (  0.5) 
+##      Vélo personnel                                          80 (  5.4) 
+##      Voiture personnelle                                      6 (  0.4) 
+##   q14 (%)                                                               
+##      Ne sais pas/Ne s'applique pas                           14 (  0.9) 
+##      Non                                                    270 ( 18.3) 
+##      Oui                                                   1193 ( 80.7) 
+##      Refuse de répondre                                       1 (  0.1) 
+##   q15 (mean (SD))                                         43.58 (25.02) 
+##   q18 (mean (SD))                                         50.69 (32.63) 
+##   q21 (mean (SD))                                         11.43 (25.74) 
+##   q22b (mean (SD))                                         2.01 (1.71)  
+##   q22c (mean (SD))                                        33.36 (23.45) 
+##   q22d (mean (SD))                                         5.41 (10.09) 
+##   q22e (mean (SD))                                        36.49 (45.79) 
+##   q22f_m1 = Refuse de répondre (%)                            4 (  7.8) 
+##   q23 (mean (SD))                                          3.05 (2.82)  
+##   q25 (mean (SD))                                          4.67 (2.46)  
+##   q27 (mean (SD))                                         26.52 (42.78) 
+##   q42 (mean (SD))                                         39.19 (13.51) 
+##   q44 (%)                                                               
+##      Célibatiare                                            729 ( 49.3) 
+##      Divorcé (e)                                            102 (  6.9) 
+##      En couple                                               10 (  0.7) 
+##      Marié(e)/Conjoint de fait                              572 ( 38.7) 
+##      Refuse de répondre                                      13 (  0.9) 
+##      Séparé (e)                                              28 (  1.9) 
+##      Veuf (ve)                                               24 (  1.6) 
+##   q45 (mean (SD))                                          6.55 (2.70)  
+##   q46b (mean (SD))                                         5.17 (3.51)  
+##   q47 (%)                                                               
+##      Amérindien des États-Unis / Autochtone d'Amérique        0 (  0.0) 
+##      Arabe (Moyen-Orient, Afrique du Nord)                    4 (  0.3) 
+##      Asiatique / insulaire du Pacifique                     128 (  8.7) 
+##      Autre                                                    6 (  0.4) 
+##      Blanc(che) / Caucasien                                 999 ( 67.6) 
+##      Hispanique / Latino / Espagnol(e)                       60 (  4.1) 
+##      Indien / Pakistanais                                    13 (  0.9) 
+##      Je préfère ne pas répondre                              22 (  1.5) 
+##      Jewish                                                   0 (  0.0) 
+##      Mixed / Mixed race / Bi-racial                          15 (  1.0) 
+##      Noir(e) / Africain(e) / Afro-Américain(e)              231 ( 15.6) 
+##   q48 (mean (SD))                                          4.50 (12.55) 
+##   q49 (%)                                                               
+##      Ne sais pas/Ne s'applique pas                            9 (  0.6) 
+##      Non                                                    190 ( 12.9) 
+##      Oui                                                   1279 ( 86.5) 
+##   q50 (%)                                                               
+##      Ne sais pas/Ne s'applique pas                           16 (  1.1) 
+##      Non                                                    353 ( 23.9) 
+##      Oui                                                   1109 ( 75.0) 
+##   q51 (%)                                                               
+##      Aucun grade, certificat ou diplôme                       2 (  0.1) 
+##      Autre (précisez):                                       11 (  0.7) 
+##      Baccalauréat                                           509 ( 34.4) 
+##      Cégep                                                  206 ( 13.9) 
+##      Certificat d'école de métier, certificat ou diplôme     86 (  5.8) 
+##      Diplôme d'études secondaire ou l'équivalent            209 ( 14.1) 
+##      Diplôme universitaire supérieur au baccalauréat        447 ( 30.2) 
+##      École primaire                                           1 (  0.1) 
+##      Refuse de répondre                                       7 (  0.5) 
+##   Q52_occupational_status_category (%)                                  
+##      Disability                                              27 (  1.8) 
+##      Full time or Self-employed                             937 ( 63.7) 
+##      Homemaker or parental leave                             58 (  3.9) 
+##      Part time                                              112 (  7.6) 
+##      Retired                                                 92 (  6.2) 
+##      Student                                                172 ( 11.7) 
+##      Unemployed seeking work                                 74 (  5.0) 
+##   q53 (%)                                                               
+##      Entre 10000 $ and 19999 $ par année                     77 (  5.2) 
+##      Entre 100000 $ and 149999 $ par année                  182 ( 12.3) 
+##      Entre 150000 $ and 199999 $ par année                   74 (  5.0) 
+##      Entre 20000 $ and 34999 $ par année                    154 ( 10.4) 
+##      Entre 35000 $ and 49999 $ par année                    181 ( 12.2) 
+##      Entre 50000 $ and 74999 $ par année                    301 ( 20.4) 
+##      Entre 75000 $ and 99999 $ par année                    182 ( 12.3) 
+##      Moins de 10000 $ par année                             150 ( 10.1) 
+##      Plus de 200000 $ par année                              50 (  3.4) 
+##      Refuse de répondre                                     127 (  8.6) 
+##   bmi (mean (SD))                                         26.02 (4.97)  
+##   bmi_category (%)                                                      
+##      normal weight                                          618 ( 41.8) 
+##      obese                                                  273 ( 18.5) 
+##      other                                                  164 ( 11.1) 
+##      overweight                                             404 ( 27.3) 
+##      underweight                                             19 (  1.3) 
+##   WalkScore (mean (SD))                                   86.27 (17.72) 
+##   WalkScoreLabel (%)                                                    
+##                                                              22 (  1.5) 
+##      Car-Dependent                                           83 (  5.6) 
+##      Somewhat Walkable                                       96 (  6.5) 
+##      Very Walkable                                          244 ( 16.5) 
+##      Walker's Paradise                                     1033 ( 69.9) 
+##   TransitScore (mean (SD))                                73.31 (21.71) 
+##   TransitScoreLabel (%)                                                 
+##                                                            1371 ( 92.8) 
+##      Excellent Transit                                        0 (  0.0) 
+##      Good Transit                                             2 (  0.1) 
+##      Minimal Transit                                          0 (  0.0) 
+##      Rider's Paradise                                       105 (  7.1) 
+##      Some Transit                                             0 (  0.0) 
+##   BikeScore (mean (SD))                                  106.32 (30.52) 
+##   BikeScoreLabel (%)                                                    
+##                                                             148 ( 10.0) 
+##      Bikeable                                               236 ( 16.0) 
+##      Biker's Paradise                                       594 ( 40.2) 
+##      Somewhat Bikeable                                       38 (  2.6) 
+##      Very Bikeable                                          462 ( 31.3) 
+##   DiningandDrinkingScore (mean (SD))                      87.70 (16.44) 
+##   GroceryScore (mean (SD))                                90.43 (22.07)
 ```
 
 ```r
@@ -4246,10 +4243,11 @@ CreateTableOne(vars = vars, data = Montreal1)
 ##      Refuse de répondre                                    354 ( 13.2) 
 ##   bmi (mean (SD))                                        25.88 (4.65)  
 ##   bmi_category (%)                                                     
-##      embonpoint                                            746 ( 31.7) 
-##      insuffisant                                            35 (  1.5) 
-##      normal                                               1122 ( 47.6) 
-##      obesite                                               454 ( 19.3) 
+##      normal weight                                        1122 ( 41.9) 
+##      obese                                                 454 ( 17.0) 
+##      other                                                 321 ( 12.0) 
+##      overweight                                            746 ( 27.9) 
+##      underweight                                            35 (  1.3) 
 ##   WalkScore (mean (SD))                                  81.88 (16.05) 
 ##   WalkScoreLabel (%)                                                   
 ##                                                             28 (  1.0) 
@@ -4396,10 +4394,11 @@ CreateTableOne(vars = vars, data = Toronto1)
 ##      Refuse de répondre                                    660 ( 15.5) 
 ##   bmi (mean (SD))                                        25.60 (4.46)  
 ##   bmi_category (%)                                                     
-##      embonpoint                                           1276 ( 33.9) 
-##      insuffisant                                            61 (  1.6) 
-##      normal                                               1843 ( 48.9) 
-##      obesite                                               586 ( 15.6) 
+##      normal weight                                        1843 ( 43.2) 
+##      obese                                                 586 ( 13.7) 
+##      other                                                 498 ( 11.7) 
+##      overweight                                           1276 ( 29.9) 
+##      underweight                                            61 (  1.4) 
 ##   WalkScore (mean (SD))                                  79.56 (18.77) 
 ##   WalkScoreLabel (%)                                                   
 ##                                                             26 (  0.6) 
@@ -4546,10 +4545,11 @@ CreateTableOne(vars = vars, data = Vancouver1)
 ##      Refuse de répondre                                    431 ( 17.1) 
 ##   bmi (mean (SD))                                        24.87 (4.27)  
 ##   bmi_category (%)                                                     
-##      embonpoint                                            747 ( 32.8) 
-##      insuffisant                                            57 (  2.5) 
-##      normal                                               1213 ( 53.2) 
-##      obesite                                               262 ( 11.5) 
+##      normal weight                                        1213 ( 48.2) 
+##      obese                                                 262 ( 10.4) 
+##      other                                                 239 (  9.5) 
+##      overweight                                            747 ( 29.7) 
+##      underweight                                            57 (  2.3) 
 ##   WalkScore (mean (SD))                                  78.79 (19.52) 
 ##   WalkScoreLabel (%)                                                   
 ##                                                             27 (  1.1) 
@@ -4582,159 +4582,153 @@ CreateTableOne(vars = vars, data = city, includeNA = TRUE)
 
 ```
 ##                                                         
-##                                                          Overall            
-##   n                                                         23901           
-##   lang (%)                                                                  
-##      Anglais                                                22236 (93.0)    
-##      Espagnol                                                  44 ( 0.2)    
-##      Français                                                1621 ( 6.8)    
-##   q54 = Homme (%)                                            9859 (41.2)    
-##   ville (%)                                                                 
-##      Boston                                                  1977 ( 8.3)    
-##      Chicago                                                 4085 (17.1)    
-##      Détroit                                                 3077 (12.9)    
-##      Montréal                                                2678 (11.2)    
-##      New-York                                                3824 (16.0)    
-##      Philadelphie                                            1478 ( 6.2)    
-##      Toronto                                                 4264 (17.8)    
-##      Vancouver                                               2518 (10.5)    
-##   q1us (mean (SD))                                       32122.16 (23594.13)
-##   q2 (%)                                                                    
-##      Bon                                                     6725 (28.1)    
-##      Excellent                                               4803 (20.1)    
-##      Mauvais                                                  489 ( 2.0)    
-##      Moyen                                                   2104 ( 8.8)    
-##      Ne sais pas/Refuse de répondre                            39 ( 0.2)    
-##      Très bon                                                9741 (40.8)    
-##   q13 (%)                                                                   
-##      Autre (précisez:)                                         35 ( 0.1)    
-##      Marche                                                  4484 (18.8)    
-##      Ne s'applique pas                                         61 ( 0.3)    
-##      Ne sais pas                                               36 ( 0.2)    
-##      Scooter                                                   21 ( 0.1)    
-##      Taxi                                                     205 ( 0.9)    
-##      Transport en commun                                     7886 (33.0)    
-##      Véhicule motorisé (loué, emprunté, covoiturage)         9768 (40.9)    
-##      Vélo en libre-service                                    243 ( 1.0)    
-##      Vélo personnel                                           934 ( 3.9)    
-##      Voiture personnelle                                      228 ( 1.0)    
-##   q14 (%)                                                                   
-##      Ne sais pas/Ne s'applique pas                            276 ( 1.2)    
-##      Non                                                     4124 (17.3)    
-##      Oui                                                    19471 (81.5)    
-##      Refuse de répondre                                        30 ( 0.1)    
-##   q15 (mean (SD))                                           45.11 (24.83)   
-##   q18 (mean (SD))                                           51.83 (32.41)   
-##   q21 (mean (SD))                                           12.33 (27.13)   
-##   q22b (mean (SD))                                           1.97 (1.73)    
-##   q22c (mean (SD))                                          30.53 (21.07)   
-##   q22d (mean (SD))                                           5.27 (8.62)    
-##   q22e (mean (SD))                                          43.21 (114.35)  
-##   q22f_m1 (%)                                                               
-##      Ne sais pas/Pas sûr                                      779 ( 3.3)    
-##      Refuse de répondre                                        48 ( 0.2)    
-##      NA                                                     23074 (96.5)    
-##   q23 (mean (SD))                                            3.32 (2.88)    
-##   q25 (mean (SD))                                            4.52 (2.55)    
-##   q27 (mean (SD))                                           27.56 (43.41)   
-##   q42 (mean (SD))                                           42.57 (14.20)   
-##   q44 (%)                                                                   
-##      Célibatiare                                             9452 (39.5)    
-##      Divorcé (e)                                             1854 ( 7.8)    
-##      En couple                                                 79 ( 0.3)    
-##      Marié(e)/Conjoint de fait                              11287 (47.2)    
-##      Refuse de répondre                                       291 ( 1.2)    
-##      Séparé (e)                                               460 ( 1.9)    
-##      Veuf (ve)                                                478 ( 2.0)    
-##   q45 (mean (SD))                                            6.56 (2.71)    
-##   q46b (mean (SD))                                           5.11 (3.72)    
-##   q47 (%)                                                                   
-##      Amérindien des États-Unis / Autochtone d'Amérique         79 ( 0.3)    
-##      Arabe (Moyen-Orient, Afrique du Nord)                    135 ( 0.6)    
-##      Asiatique / insulaire du Pacifique                      2661 (11.1)    
-##      Autre                                                    129 ( 0.5)    
-##      Blanc(che) / Caucasien                                 17154 (71.8)    
-##      Hispanique / Latino / Espagnol(e)                        933 ( 3.9)    
-##      Indien / Pakistanais                                     330 ( 1.4)    
-##      Je préfère ne pas répondre                               639 ( 2.7)    
-##      Jewish                                                    16 ( 0.1)    
-##      Mixed / Mixed race / Bi-racial                           171 ( 0.7)    
-##      Noir(e) / Africain(e) / Afro-Américain(e)               1654 ( 6.9)    
-##   q48 (mean (SD))                                            7.68 (18.95)   
-##   q49 (%)                                                                   
-##      Ne sais pas/Ne s'applique pas                            132 ( 0.6)    
-##      Non                                                     2891 (12.1)    
-##      Oui                                                    20878 (87.4)    
-##   q50 (%)                                                                   
-##      Ne sais pas/Ne s'applique pas                            230 ( 1.0)    
-##      Non                                                     6295 (26.3)    
-##      Oui                                                    17376 (72.7)    
-##   q51 (%)                                                                   
-##      Aucun grade, certificat ou diplôme                        32 ( 0.1)    
-##      Autre (précisez):                                         81 ( 0.3)    
-##      Baccalauréat                                            8638 (36.1)    
-##      Cégep                                                   3197 (13.4)    
-##      Certificat d'école de métier, certificat ou diplôme     2559 (10.7)    
-##      Diplôme d'études secondaire ou l'équivalent             2471 (10.3)    
-##      Diplôme universitaire supérieur au baccalauréat         6655 (27.8)    
-##      École primaire                                            88 ( 0.4)    
-##      Refuse de répondre                                       180 ( 0.8)    
-##   Q52_occupational_status_category (%)                                      
-##      Disability                                               453 ( 1.9)    
-##      Full time or Self-employed                             15373 (64.3)    
-##      Homemaker or parental leave                              983 ( 4.1)    
-##      Part time                                               1899 ( 7.9)    
-##      Retired                                                 2434 (10.2)    
-##      Student                                                 1586 ( 6.6)    
-##      Unemployed seeking work                                  977 ( 4.1)    
-##      NA                                                       196 ( 0.8)    
-##   q53 (%)                                                                   
-##      Entre 10000 $ and 19999 $ par année                     1084 ( 4.5)    
-##      Entre 100000 $ and 149999 $ par année                   3490 (14.6)    
-##      Entre 150000 $ and 199999 $ par année                   1296 ( 5.4)    
-##      Entre 20000 $ and 34999 $ par année                     2061 ( 8.6)    
-##      Entre 35000 $ and 49999 $ par année                     2700 (11.3)    
-##      Entre 50000 $ and 74999 $ par année                     4396 (18.4)    
-##      Entre 75000 $ and 99999 $ par année                     3425 (14.3)    
-##      Moins de 10000 $ par année                              1366 ( 5.7)    
-##      Plus de 200000 $ par année                              1104 ( 4.6)    
-##      Refuse de répondre                                      2979 (12.5)    
-##   bmi (mean (SD))                                           25.64 (4.70)    
-##   bmi_category (%)                                                          
-##      embonpoint                                              6147 (25.7)    
-##      insuffisant                                              349 ( 1.5)    
-##      normal                                                  9455 (39.6)    
-##      obesite                                                 3424 (14.3)    
-##      overweight                                               511 ( 2.1)    
-##      other                                                    192 ( 0.8)    
-##      normal weight                                            982 ( 4.1)    
-##      obese                                                    248 ( 1.0)    
-##      underweight                                               44 ( 0.2)    
-##      NA                                                      2549 (10.7)    
-##   WalkScore (mean (SD))                                     77.81 (24.80)   
-##   WalkScoreLabel (%)                                                        
-##                                                               284 ( 1.2)    
-##      Car-Dependent                                           3337 (14.0)    
-##      Somewhat Walkable                                       2863 (12.0)    
-##      Very Walkable                                           6319 (26.4)    
-##      Walker's Paradise                                      11098 (46.4)    
-##   TransitScore (mean (SD))                                  60.30 (28.30)   
-##   TransitScoreLabel (%)                                                     
-##                                                             13415 (56.1)    
-##      Excellent Transit                                       3165 (13.2)    
-##      Good Transit                                            2444 (10.2)    
-##      Minimal Transit                                           82 ( 0.3)    
-##      Rider's Paradise                                        4476 (18.7)    
-##      Some Transit                                             319 ( 1.3)    
-##   BikeScore (mean (SD))                                     94.10 (35.92)   
-##   BikeScoreLabel (%)                                                        
-##                                                              5636 (23.6)    
-##      Bikeable                                                6729 (28.2)    
-##      Biker's Paradise                                        2451 (10.3)    
-##      Somewhat Bikeable                                       1162 ( 4.9)    
-##      Very Bikeable                                           7923 (33.1)    
-##   DiningandDrinkingScore (mean (SD))                        79.53 (24.59)   
-##   GroceryScore (mean (SD))                                  80.76 (29.33)
+##                                                          Overall       
+##   n                                                      23901         
+##   lang (%)                                                             
+##      Anglais                                             22236 (93.0)  
+##      Espagnol                                               44 ( 0.2)  
+##      Français                                             1621 ( 6.8)  
+##   q54 = Homme (%)                                         9859 (41.2)  
+##   ville (%)                                                            
+##      Boston                                               1977 ( 8.3)  
+##      Chicago                                              4085 (17.1)  
+##      Détroit                                              3077 (12.9)  
+##      Montréal                                             2678 (11.2)  
+##      New-York                                             3824 (16.0)  
+##      Philadelphie                                         1478 ( 6.2)  
+##      Toronto                                              4264 (17.8)  
+##      Vancouver                                            2518 (10.5)  
+##   q2 (%)                                                               
+##      Bon                                                  6725 (28.1)  
+##      Excellent                                            4803 (20.1)  
+##      Mauvais                                               489 ( 2.0)  
+##      Moyen                                                2104 ( 8.8)  
+##      Ne sais pas/Refuse de répondre                         39 ( 0.2)  
+##      Très bon                                             9741 (40.8)  
+##   q13 (%)                                                              
+##      Autre (précisez:)                                      35 ( 0.1)  
+##      Marche                                               4484 (18.8)  
+##      Ne s'applique pas                                      61 ( 0.3)  
+##      Ne sais pas                                            36 ( 0.2)  
+##      Scooter                                                21 ( 0.1)  
+##      Taxi                                                  205 ( 0.9)  
+##      Transport en commun                                  7886 (33.0)  
+##      Véhicule motorisé (loué, emprunté, covoiturage)      9768 (40.9)  
+##      Vélo en libre-service                                 243 ( 1.0)  
+##      Vélo personnel                                        934 ( 3.9)  
+##      Voiture personnelle                                   228 ( 1.0)  
+##   q14 (%)                                                              
+##      Ne sais pas/Ne s'applique pas                         276 ( 1.2)  
+##      Non                                                  4124 (17.3)  
+##      Oui                                                 19471 (81.5)  
+##      Refuse de répondre                                     30 ( 0.1)  
+##   q15 (mean (SD))                                        45.11 (24.83) 
+##   q18 (mean (SD))                                        51.83 (32.41) 
+##   q21 (mean (SD))                                        12.33 (27.13) 
+##   q22b (mean (SD))                                        1.97 (1.73)  
+##   q22c (mean (SD))                                       30.53 (21.07) 
+##   q22d (mean (SD))                                        5.27 (8.62)  
+##   q22e (mean (SD))                                       43.21 (114.35)
+##   q22f_m1 (%)                                                          
+##      Ne sais pas/Pas sûr                                   779 ( 3.3)  
+##      Refuse de répondre                                     48 ( 0.2)  
+##      NA                                                  23074 (96.5)  
+##   q23 (mean (SD))                                         3.32 (2.88)  
+##   q25 (mean (SD))                                         4.52 (2.55)  
+##   q27 (mean (SD))                                        27.56 (43.41) 
+##   q42 (mean (SD))                                        42.57 (14.20) 
+##   q44 (%)                                                              
+##      Célibatiare                                          9452 (39.5)  
+##      Divorcé (e)                                          1854 ( 7.8)  
+##      En couple                                              79 ( 0.3)  
+##      Marié(e)/Conjoint de fait                           11287 (47.2)  
+##      Refuse de répondre                                    291 ( 1.2)  
+##      Séparé (e)                                            460 ( 1.9)  
+##      Veuf (ve)                                             478 ( 2.0)  
+##   q45 (mean (SD))                                         6.56 (2.71)  
+##   q46b (mean (SD))                                        5.11 (3.72)  
+##   q47 (%)                                                              
+##      Amérindien des États-Unis / Autochtone d'Amérique      79 ( 0.3)  
+##      Arabe (Moyen-Orient, Afrique du Nord)                 135 ( 0.6)  
+##      Asiatique / insulaire du Pacifique                   2661 (11.1)  
+##      Autre                                                 129 ( 0.5)  
+##      Blanc(che) / Caucasien                              17154 (71.8)  
+##      Hispanique / Latino / Espagnol(e)                     933 ( 3.9)  
+##      Indien / Pakistanais                                  330 ( 1.4)  
+##      Je préfère ne pas répondre                            639 ( 2.7)  
+##      Jewish                                                 16 ( 0.1)  
+##      Mixed / Mixed race / Bi-racial                        171 ( 0.7)  
+##      Noir(e) / Africain(e) / Afro-Américain(e)            1654 ( 6.9)  
+##   q48 (mean (SD))                                         7.68 (18.95) 
+##   q49 (%)                                                              
+##      Ne sais pas/Ne s'applique pas                         132 ( 0.6)  
+##      Non                                                  2891 (12.1)  
+##      Oui                                                 20878 (87.4)  
+##   q50 (%)                                                              
+##      Ne sais pas/Ne s'applique pas                         230 ( 1.0)  
+##      Non                                                  6295 (26.3)  
+##      Oui                                                 17376 (72.7)  
+##   q51 (%)                                                              
+##      Aucun grade, certificat ou diplôme                     32 ( 0.1)  
+##      Autre (précisez):                                      81 ( 0.3)  
+##      Baccalauréat                                         8638 (36.1)  
+##      Cégep                                                3197 (13.4)  
+##      Certificat d'école de métier, certificat ou diplôme  2559 (10.7)  
+##      Diplôme d'études secondaire ou l'équivalent          2471 (10.3)  
+##      Diplôme universitaire supérieur au baccalauréat      6655 (27.8)  
+##      École primaire                                         88 ( 0.4)  
+##      Refuse de répondre                                    180 ( 0.8)  
+##   Q52_occupational_status_category (%)                                 
+##      Disability                                            453 ( 1.9)  
+##      Full time or Self-employed                          15373 (64.3)  
+##      Homemaker or parental leave                           983 ( 4.1)  
+##      Part time                                            1899 ( 7.9)  
+##      Retired                                              2434 (10.2)  
+##      Student                                              1586 ( 6.6)  
+##      Unemployed seeking work                               977 ( 4.1)  
+##      NA                                                    196 ( 0.8)  
+##   q53 (%)                                                              
+##      Entre 10000 $ and 19999 $ par année                  1084 ( 4.5)  
+##      Entre 100000 $ and 149999 $ par année                3490 (14.6)  
+##      Entre 150000 $ and 199999 $ par année                1296 ( 5.4)  
+##      Entre 20000 $ and 34999 $ par année                  2061 ( 8.6)  
+##      Entre 35000 $ and 49999 $ par année                  2700 (11.3)  
+##      Entre 50000 $ and 74999 $ par année                  4396 (18.4)  
+##      Entre 75000 $ and 99999 $ par année                  3425 (14.3)  
+##      Moins de 10000 $ par année                           1366 ( 5.7)  
+##      Plus de 200000 $ par année                           1104 ( 4.6)  
+##      Refuse de répondre                                   2979 (12.5)  
+##   bmi (mean (SD))                                        25.64 (4.70)  
+##   bmi_category (%)                                                     
+##      normal weight                                       10437 (43.7)  
+##      obese                                                3672 (15.4)  
+##      other                                                2741 (11.5)  
+##      overweight                                           6658 (27.9)  
+##      underweight                                           393 ( 1.6)  
+##   WalkScore (mean (SD))                                  77.81 (24.80) 
+##   WalkScoreLabel (%)                                                   
+##                                                            284 ( 1.2)  
+##      Car-Dependent                                        3337 (14.0)  
+##      Somewhat Walkable                                    2863 (12.0)  
+##      Very Walkable                                        6319 (26.4)  
+##      Walker's Paradise                                   11098 (46.4)  
+##   TransitScore (mean (SD))                               60.30 (28.30) 
+##   TransitScoreLabel (%)                                                
+##                                                          13415 (56.1)  
+##      Excellent Transit                                    3165 (13.2)  
+##      Good Transit                                         2444 (10.2)  
+##      Minimal Transit                                        82 ( 0.3)  
+##      Rider's Paradise                                     4476 (18.7)  
+##      Some Transit                                          319 ( 1.3)  
+##   BikeScore (mean (SD))                                  94.10 (35.92) 
+##   BikeScoreLabel (%)                                                   
+##                                                           5636 (23.6)  
+##      Bikeable                                             6729 (28.2)  
+##      Biker's Paradise                                     2451 (10.3)  
+##      Somewhat Bikeable                                    1162 ( 4.9)  
+##      Very Bikeable                                        7923 (33.1)  
+##   DiningandDrinkingScore (mean (SD))                     79.53 (24.59) 
+##   GroceryScore (mean (SD))                               80.76 (29.33)
 ```
 
 # Fix this Code - Breaks Session
@@ -4758,7 +4752,7 @@ plot(hist_bmi)
 ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 ```
 
-![](Thesis-Analysis_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
+![](Thesis-Analysis_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
 
 ```r
 hist_bmi_city <- ggplot(city, aes(bmi)) + 
@@ -4767,7 +4761,7 @@ hist_bmi_city <- ggplot(city, aes(bmi)) +
 plot(hist_bmi_city)
 ```
 
-![](Thesis-Analysis_files/figure-html/unnamed-chunk-11-2.png)<!-- -->
+![](Thesis-Analysis_files/figure-html/unnamed-chunk-14-2.png)<!-- -->
 To do:
 1. Fix variable reponses by mutate (see INTERACT)
 2. Linear Regressions (loop)
