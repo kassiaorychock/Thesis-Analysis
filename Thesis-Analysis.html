@@ -159,35 +159,483 @@ ibiccs_clean &lt;- ibiccs_readin %&gt;%
 </div>
 <div id="recode-language" class="section level1">
 <h1>Recode Language</h1>
+<pre class="r"><code>table(ibiccs_clean$lang)</code></pre>
+<pre><code>## 
+##  Anglais Espagnol Français 
+##    22236       44     1621</code></pre>
 <pre class="r"><code>## Language
 ibiccs_clean &lt;- ibiccs_clean %&gt;%
-    mutate(Q43_lang_speak_home = case_when(
-        lang == 1 ~ &quot;English&quot;,
-        lang == 2  ~ &quot;Other&quot;,
-        lang == 3 ~ &quot;Other&quot;,
-        lang == 97 ~ &quot;Other&quot;, 
-        TRUE ~ &quot;other&quot;
-    ))</code></pre>
+    mutate(language = case_when(
+        lang == &quot;Anglais&quot; ~ &quot;English&quot;,
+        lang == &quot;Espagnol&quot; ~ &quot;Fren/Span&quot;,
+        lang == &quot;Français&quot; ~ &quot;Fren/Span&quot;
+    ))
+
+table(ibiccs_clean$lang, ibiccs_clean$language)</code></pre>
+<pre><code>##           
+##            English Fren/Span
+##   Anglais    22236         0
+##   Espagnol       0        44
+##   Français       0      1621</code></pre>
 </div>
 <div id="recode-gender" class="section level1">
 <h1>Recode Gender</h1>
+<pre class="r"><code>table(ibiccs_clean$q54)</code></pre>
+<pre><code>## 
+## Femme Homme 
+## 14042  9859</code></pre>
 <pre class="r"><code>#Gender
 ibiccs_clean &lt;- ibiccs_clean %&gt;%
-  mutate(Q54_gender = case_when(
-    q54 == 1 ~ &quot;Female&quot;,
-    q54 == 2 ~ &quot;Male&quot;,
-    TRUE ~ &quot;other&quot;
-  ))</code></pre>
+  mutate(gender = case_when(
+    q54 == &quot;Femme&quot; ~ &quot;Female&quot;,
+    q54 == &quot;Homme&quot; ~ &quot;Male&quot;
+  ))
+
+table(ibiccs_clean$q54, ibiccs_clean$gender)</code></pre>
+<pre><code>##        
+##         Female  Male
+##   Femme  14042     0
+##   Homme      0  9859</code></pre>
+</div>
+<div id="recode-self-rated-health" class="section level1">
+<h1>Recode Self-Rated Health</h1>
+<pre class="r"><code>table(ibiccs_clean$q2)</code></pre>
+<pre><code>## 
+##                            Bon                      Excellent 
+##                           6725                           4803 
+##                        Mauvais                          Moyen 
+##                            489                           2104 
+## Ne sais pas/Refuse de répondre                       Très bon 
+##                             39                           9741</code></pre>
 <pre class="r"><code>ibiccs_clean &lt;- ibiccs_clean %&gt;%
-  mutate(Q2_health = case_when(
-    q2 == 1 ~ &quot;Excellent&quot;,
-    q2 == 2 ~ &quot;Excellent&quot;,
-    q2 == 3 ~ &quot;Good&quot;,
-    q2 == 4 ~ &quot;Other&quot;,
-    q2 == 5 ~ &quot;Other&quot;,
-    q2 == 9 ~ &quot;Other&quot;,
-    TRUE ~ &quot;other&quot;
-  ))</code></pre>
+  mutate(health = case_when(
+    q2 == &quot;Excellent&quot; ~ &quot;Excellent&quot;,
+    q2 == &quot;Très bon&quot; ~ &quot;Excellent&quot;,
+    q2 == &quot;Bon&quot; ~ &quot;Good&quot;,
+    q2 == &quot;Moyen&quot; ~ &quot;Poor&quot;,
+    q2 == &quot;Mauvais&quot; ~ &quot;Poor&quot;,
+    q2 == &quot;Ne sais pas/Refuse de répondre&quot; ~ &quot;NA&quot;
+  ))
+
+table(ibiccs_clean$q2, ibiccs_clean$health)</code></pre>
+<pre><code>##                                 
+##                                  Excellent Good   NA Poor
+##   Bon                                    0 6725    0    0
+##   Excellent                           4803    0    0    0
+##   Mauvais                                0    0    0  489
+##   Moyen                                  0    0    0 2104
+##   Ne sais pas/Refuse de répondre         0    0   39    0
+##   Très bon                            9741    0    0    0</code></pre>
+</div>
+<div id="recode-transportation" class="section level1">
+<h1>Recode Transportation</h1>
+<pre class="r"><code>table(ibiccs_clean$q13)</code></pre>
+<pre><code>## 
+##                               Autre (précisez:) 
+##                                              35 
+##                                          Marche 
+##                                            4484 
+##                               Ne s'applique pas 
+##                                              61 
+##                                     Ne sais pas 
+##                                              36 
+##                                         Scooter 
+##                                              21 
+##                                            Taxi 
+##                                             205 
+##                             Transport en commun 
+##                                            7886 
+## Véhicule motorisé (loué, emprunté, covoiturage) 
+##                                            9768 
+##                           Vélo en libre-service 
+##                                             243 
+##                                  Vélo personnel 
+##                                             934 
+##                             Voiture personnelle 
+##                                             228</code></pre>
+<pre class="r"><code>ibiccs_clean &lt;- ibiccs_clean %&gt;%
+  mutate(common_transportation = case_when(
+    q13 == &quot;Marche&quot; ~ &quot;Walking&quot;,
+    q13 == &quot;Véhicule motorisé (loué, emprunté, covoiturage)&quot; ~ &quot;Car&quot;,
+    q13 == &quot;Voiture personnelle&quot; ~ &quot;Car&quot;,
+    q13 == &quot; Ne s'applique pas&quot; ~ &quot;Other&quot;,
+    q13 == &quot;Ne sais pas&quot; ~ &quot;Other&quot;,
+    q13 == &quot;Scooter&quot; ~ &quot;Other&quot;,
+    q13 == &quot;Taxi&quot; ~ &quot;Other&quot;,
+    q13 == &quot;Transport en commun&quot; ~ &quot;Public Transportation&quot;,
+    q13 == &quot;Vélo en libre-service&quot; ~ &quot;Bicycle&quot;,
+    q13 == &quot;Vélo personnel&quot; ~ &quot;Bicycle&quot;
+  ))
+
+table(ibiccs_clean$q13, ibiccs_clean$common_transportation)</code></pre>
+<pre><code>##                                                  
+##                                                   Bicycle  Car Other
+##   Autre (précisez:)                                     0    0     0
+##   Marche                                                0    0     0
+##   Ne s'applique pas                                     0    0     0
+##   Ne sais pas                                           0    0    36
+##   Scooter                                               0    0    21
+##   Taxi                                                  0    0   205
+##   Transport en commun                                   0    0     0
+##   Véhicule motorisé (loué, emprunté, covoiturage)       0 9768     0
+##   Vélo en libre-service                               243    0     0
+##   Vélo personnel                                      934    0     0
+##   Voiture personnelle                                   0  228     0
+##                                                  
+##                                                   Public Transportation
+##   Autre (précisez:)                                                   0
+##   Marche                                                              0
+##   Ne s'applique pas                                                   0
+##   Ne sais pas                                                         0
+##   Scooter                                                             0
+##   Taxi                                                                0
+##   Transport en commun                                              7886
+##   Véhicule motorisé (loué, emprunté, covoiturage)                     0
+##   Vélo en libre-service                                               0
+##   Vélo personnel                                                      0
+##   Voiture personnelle                                                 0
+##                                                  
+##                                                   Walking
+##   Autre (précisez:)                                     0
+##   Marche                                             4484
+##   Ne s'applique pas                                     0
+##   Ne sais pas                                           0
+##   Scooter                                               0
+##   Taxi                                                  0
+##   Transport en commun                                   0
+##   Véhicule motorisé (loué, emprunté, covoiturage)       0
+##   Vélo en libre-service                                 0
+##   Vélo personnel                                        0
+##   Voiture personnelle                                   0</code></pre>
+</div>
+<div id="recode-physically-active-yn" class="section level1">
+<h1>Recode Physically Active (Y/N)</h1>
+<pre class="r"><code>table(ibiccs_clean$q14)</code></pre>
+<pre><code>## 
+## Ne sais pas/Ne s'applique pas                           Non 
+##                           276                          4124 
+##                           Oui            Refuse de répondre 
+##                         19471                            30</code></pre>
+<pre class="r"><code>ibiccs_clean &lt;- ibiccs_clean %&gt;%
+  mutate(physically_active = case_when(
+    q14 == &quot;Ne sais pas/Ne s'applique pas&quot; ~ &quot;Other&quot;,
+    q14 == &quot;Refuse de répondre &quot; ~ &quot;Other&quot;,
+    q14 == &quot;Oui&quot; ~ &quot;Yes&quot;,
+    q14 == &quot;Non&quot; ~ &quot;No&quot;
+  ))
+
+table(ibiccs_clean$q14, ibiccs_clean$physically_active)</code></pre>
+<pre><code>##                                
+##                                    No Other   Yes
+##   Ne sais pas/Ne s'applique pas     0   276     0
+##   Non                            4124     0     0
+##   Oui                               0     0 19471
+##   Refuse de répondre                0     0     0</code></pre>
+</div>
+<div id="recode-type-of-physical-activity" class="section level1">
+<h1>Recode Type of Physical Activity</h1>
+<pre><code># Talk to Dr. Fuller about organizing questions 15 and 18
+table(ibiccs_clean$q15)
+
+table(ibiccs_clean$q18)
+</code></pre>
+</div>
+<div id="recode-days-per-week-spent-travelling-via-car" class="section level1">
+<h1>Recode Days Per Week Spent Travelling via Car</h1>
+<pre class="r"><code>table(ibiccs_clean$q21)</code></pre>
+<pre><code>## 
+##    0    1    2    3    4    5    6    7   98   99 
+## 2785 2527 2631 2070 1648 3136 2019 4925 2037  123</code></pre>
+<pre class="r"><code>ibiccs_clean &lt;- ibiccs_clean %&gt;%
+  mutate(day_per_week_motor_vehicle = case_when(
+    q21 == &quot;0&quot; ~ &quot;0&quot;,
+    q21 == &quot;1&quot; ~ &quot;1&quot;,
+    q21 == &quot;2&quot; ~ &quot;2&quot;,
+    q21 == &quot;3&quot; ~ &quot;3&quot;,
+    q21 == &quot;4&quot; ~ &quot;4&quot;,
+    q21 == &quot;5&quot; ~ &quot;5&quot;,
+    q21 == &quot;6&quot; ~ &quot;6&quot;,
+    q21 == &quot;7&quot; ~ &quot;7&quot;,
+    q21 == &quot;98&quot; ~ &quot;NA&quot;,
+    q21 == &quot;99&quot; ~ &quot;NA&quot;
+  ))
+
+table(ibiccs_clean$q21, ibiccs_clean$day_per_week_motor_vehicle)</code></pre>
+<pre><code>##     
+##         0    1    2    3    4    5    6    7   NA
+##   0  2785    0    0    0    0    0    0    0    0
+##   1     0 2527    0    0    0    0    0    0    0
+##   2     0    0 2631    0    0    0    0    0    0
+##   3     0    0    0 2070    0    0    0    0    0
+##   4     0    0    0    0 1648    0    0    0    0
+##   5     0    0    0    0    0 3136    0    0    0
+##   6     0    0    0    0    0    0 2019    0    0
+##   7     0    0    0    0    0    0    0 4925    0
+##   98    0    0    0    0    0    0    0    0 2037
+##   99    0    0    0    0    0    0    0    0  123</code></pre>
+</div>
+<div id="recode-days-per-week-spent-travelling-via-public-transport" class="section level1">
+<h1>Recode Days Per Week Spent Travelling via Public Transport</h1>
+<pre class="r"><code>table(ibiccs_clean$q23)</code></pre>
+<pre><code>## 
+##    0    1    2    3    4    5    6    7    8    9 
+## 6169 2993 2167 1598 1339 3617 1482 1583 2726  227</code></pre>
+<pre class="r"><code>ibiccs_clean &lt;- ibiccs_clean %&gt;%
+  mutate(day_per_week_public_transit = case_when(
+    q23 == &quot;0&quot; ~ &quot;0&quot;,
+    q23 == &quot;1&quot; ~ &quot;1&quot;,
+    q23 == &quot;2&quot; ~ &quot;2&quot;,
+    q23 == &quot;3&quot; ~ &quot;3&quot;,
+    q23 == &quot;4&quot; ~ &quot;4&quot;,
+    q23 == &quot;5&quot; ~ &quot;5&quot;,
+    q23 == &quot;6&quot; ~ &quot;6&quot;,
+    q23 == &quot;7&quot; ~ &quot;7&quot;,
+    q23 == &quot;8&quot; ~ &quot;NA&quot;,
+    q23 == &quot;9&quot; ~ &quot;NA&quot;
+  ))
+
+table(ibiccs_clean$q23, ibiccs_clean$day_per_week_public_transit)</code></pre>
+<pre><code>##    
+##        0    1    2    3    4    5    6    7   NA
+##   0 6169    0    0    0    0    0    0    0    0
+##   1    0 2993    0    0    0    0    0    0    0
+##   2    0    0 2167    0    0    0    0    0    0
+##   3    0    0    0 1598    0    0    0    0    0
+##   4    0    0    0    0 1339    0    0    0    0
+##   5    0    0    0    0    0 3617    0    0    0
+##   6    0    0    0    0    0    0 1482    0    0
+##   7    0    0    0    0    0    0    0 1583    0
+##   8    0    0    0    0    0    0    0    0 2726
+##   9    0    0    0    0    0    0    0    0  227</code></pre>
+</div>
+<div id="recode-days-per-week-spent-travelling-via-walking-dr.fuller" class="section level1">
+<h1>Recode Days Per Week Spent Travelling via Walking (Dr. Fuller)</h1>
+<pre class="r"><code>table(ibiccs_clean$q25)</code></pre>
+<pre><code>## 
+##    0    1    2    3    4    5    6    7    8    9 
+## 2115 1841 2361 2245 1831 3994 1711 5436 2149  218</code></pre>
+<pre class="r"><code>ibiccs_clean &lt;- ibiccs_clean %&gt;%
+  mutate(day_per_week_walking = case_when(
+    q25 == &quot;0&quot; ~ &quot;0&quot;,
+    q25 == &quot;1&quot; ~ &quot;1&quot;,
+    q25 == &quot;2&quot; ~ &quot;2&quot;,
+    q25 == &quot;3&quot; ~ &quot;3&quot;,
+    q25 == &quot;4&quot; ~ &quot;4&quot;,
+    q25 == &quot;5&quot; ~ &quot;5&quot;,
+    q25 == &quot;6&quot; ~ &quot;6&quot;,
+    q25 == &quot;7&quot; ~ &quot;7&quot;,
+    q25 == &quot;8&quot; ~ &quot;NA&quot;,
+    q25 == &quot;9&quot; ~ &quot;NA&quot;
+  ))
+
+table(ibiccs_clean$q25, ibiccs_clean$day_per_week_walking)</code></pre>
+<pre><code>##    
+##        0    1    2    3    4    5    6    7   NA
+##   0 2115    0    0    0    0    0    0    0    0
+##   1    0 1841    0    0    0    0    0    0    0
+##   2    0    0 2361    0    0    0    0    0    0
+##   3    0    0    0 2245    0    0    0    0    0
+##   4    0    0    0    0 1831    0    0    0    0
+##   5    0    0    0    0    0 3994    0    0    0
+##   6    0    0    0    0    0    0 1711    0    0
+##   7    0    0    0    0    0    0    0 5436    0
+##   8    0    0    0    0    0    0    0    0 2149
+##   9    0    0    0    0    0    0    0    0  218</code></pre>
+</div>
+<div id="recode-days-per-week-spent-travelling-via-bike" class="section level1">
+<h1>Recode Days Per Week Spent Travelling via Bike</h1>
+<pre class="r"><code>table(ibiccs_clean$q27)</code></pre>
+<pre><code>## 
+##     0     1     2     3     4     5     6     7    98    99 
+## 12010  1793  1185   741   462   632   215   294  6395   174</code></pre>
+<pre class="r"><code>ibiccs_clean &lt;- ibiccs_clean %&gt;%
+  mutate(day_per_week_bike = case_when(
+    q27 == &quot;0&quot; ~ &quot;0&quot;,
+    q27 == &quot;1&quot; ~ &quot;1&quot;,
+    q27 == &quot;2&quot; ~ &quot;2&quot;,
+    q27 == &quot;3&quot; ~ &quot;3&quot;,
+    q27 == &quot;4&quot; ~ &quot;4&quot;,
+    q27 == &quot;5&quot; ~ &quot;5&quot;,
+    q27 == &quot;6&quot; ~ &quot;6&quot;,
+    q27 == &quot;7&quot; ~ &quot;7&quot;,
+    q27 == &quot;98&quot; ~ &quot;NA&quot;,
+    q27 == &quot;99&quot; ~ &quot;NA&quot;
+  ))
+
+table(ibiccs_clean$q27, ibiccs_clean$day_per_week_bike)</code></pre>
+<pre><code>##     
+##          0     1     2     3     4     5     6     7    NA
+##   0  12010     0     0     0     0     0     0     0     0
+##   1      0  1793     0     0     0     0     0     0     0
+##   2      0     0  1185     0     0     0     0     0     0
+##   3      0     0     0   741     0     0     0     0     0
+##   4      0     0     0     0   462     0     0     0     0
+##   5      0     0     0     0     0   632     0     0     0
+##   6      0     0     0     0     0     0   215     0     0
+##   7      0     0     0     0     0     0     0   294     0
+##   98     0     0     0     0     0     0     0     0  6395
+##   99     0     0     0     0     0     0     0     0   174</code></pre>
+</div>
+<div id="recode-age" class="section level1">
+<h1>Recode Age</h1>
+<pre class="r"><code>table(ibiccs_clean$q42)</code></pre>
+<pre><code>## 
+##  18  19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34  35 
+## 152 148 187 267 327 458 546 552 602 622 645 657 702 647 624 582 615 673 
+##  36  37  38  39  40  41  42  43  44  45  46  47  48  49  50  51  52  53 
+## 504 515 519 482 549 464 555 522 499 565 475 506 543 454 592 533 580 571 
+##  54  55  56  57  58  59  60  61  62  63  64  65  66  67  68  69  70  71 
+## 589 396 277 298 262 312 329 238 282 230 258 276 265 230 179 157 147 118 
+##  72  73  74  75  76  77  78  79  80  81  82  83  84  85  86  87  88  89 
+##  98  77  78  69  60  44  39  29  29  21  20  14  12   7   6   6   5   2 
+##  90  91  94 
+##   4   2   2</code></pre>
+</div>
+<div id="recode-marital-status" class="section level1">
+<h1>Recode Marital Status</h1>
+<pre class="r"><code>table(ibiccs_clean$q44)</code></pre>
+<pre><code>## 
+##               Célibatiare               Divorcé (e) 
+##                      9452                      1854 
+##                 En couple Marié(e)/Conjoint de fait 
+##                        79                     11287 
+##        Refuse de répondre                Séparé (e) 
+##                       291                       460 
+##                 Veuf (ve) 
+##                       478</code></pre>
+<pre class="r"><code>ibiccs_clean &lt;- ibiccs_clean %&gt;%
+  mutate(marital_status = case_when(
+    q44 == &quot;Célibatiare&quot; ~ &quot;Single&quot;,
+    q44 == &quot;Divorcé(e)&quot; ~ &quot;Separated&quot;,
+    q44 == &quot;En couple&quot; ~ &quot;In a relationship&quot;,
+    q44 == &quot;Marié(e)/Conjoint de fait&quot; ~ &quot;In a relationship&quot;,
+    q44 == &quot;Refuse de répondre&quot; ~ &quot;NA&quot;,
+    q44 == &quot;Séparé(e)&quot; ~ &quot;Separated&quot;,
+    q44 == &quot;Veuf(ve)&quot; ~ &quot;Separated&quot;
+  ))
+
+table(ibiccs_clean$q44, ibiccs_clean$marital_status)</code></pre>
+<pre><code>##                            
+##                             In a relationship    NA Single
+##   Célibatiare                               0     0   9452
+##   Divorcé (e)                               0     0      0
+##   En couple                                79     0      0
+##   Marié(e)/Conjoint de fait             11287     0      0
+##   Refuse de répondre                        0   291      0
+##   Séparé (e)                                0     0      0
+##   Veuf (ve)                                 0     0      0</code></pre>
+</div>
+<div id="recode-number-of-children-in-home" class="section level1">
+<h1>Recode Number of Children in Home</h1>
+<pre class="r"><code>table(ibiccs_clean$q45)</code></pre>
+<pre><code>## 
+##     1     2     3     4     5     6     7     8     9 
+##  2915  1863   471   119    40    18     9 18191   275</code></pre>
+<pre class="r"><code>ibiccs_clean &lt;- ibiccs_clean %&gt;%
+  mutate(children_household = case_when(
+    q45 == &quot;1&quot; ~ &quot;1&quot;,
+    q45 == &quot;2&quot; ~ &quot;2-3&quot;,
+    q45 == &quot;3&quot; ~ &quot;2-3&quot;,
+    q45 == &quot;4&quot; ~ &quot;4+&quot;,
+    q45 == &quot;5&quot; ~ &quot;4+&quot;,
+    q45 == &quot;6&quot; ~ &quot;4+&quot;,
+    q45 == &quot;7&quot; ~ &quot;4+&quot;,
+    q45 == &quot;8&quot; ~ &quot;0&quot;,
+    q45 == &quot;9&quot; ~ &quot;Refuse&quot;
+  ))
+
+table(ibiccs_clean$q45, ibiccs_clean$children_household)</code></pre>
+<pre><code>##    
+##         0     1   2-3    4+ Refuse
+##   1     0  2915     0     0      0
+##   2     0     0  1863     0      0
+##   3     0     0   471     0      0
+##   4     0     0     0   119      0
+##   5     0     0     0    40      0
+##   6     0     0     0    18      0
+##   7     0     0     0     9      0
+##   8 18191     0     0     0      0
+##   9     0     0     0     0    275</code></pre>
+</div>
+<div id="recode-months-in-current-home" class="section level1">
+<h1>Recode Months in Current Home?</h1>
+<pre class="r"><code>table(ibiccs_clean$q46b)</code></pre>
+<pre><code>## 
+##    0    1    2    3    4    5    6    7    8    9   10   11   12   13   14 
+##  251  599 1008 1292 1040  885 1382  441  439  357  346  325   14    7   15 
+##   15   16   17   18   19   20   21   22   23   24   26   27   28   29   30 
+##   30   20    4   41    4    6    5    1    1    2    1    1    3    2    8 
+##   32   38   39   40   42   46   64   74   81 
+##    3    1    3    1    1    1    1    1    1</code></pre>
+</div>
+<div id="recode-ethnicity" class="section level1">
+<h1>Recode Ethnicity</h1>
+<pre class="r"><code>table(ibiccs_clean$q47)</code></pre>
+<pre><code>## 
+## Amérindien des États-Unis / Autochtone d'Amérique 
+##                                                79 
+##             Arabe (Moyen-Orient, Afrique du Nord) 
+##                                               135 
+##                Asiatique / insulaire du Pacifique 
+##                                              2661 
+##                                             Autre 
+##                                               129 
+##                            Blanc(che) / Caucasien 
+##                                             17154 
+##                 Hispanique / Latino / Espagnol(e) 
+##                                               933 
+##                              Indien / Pakistanais 
+##                                               330 
+##                        Je préfère ne pas répondre 
+##                                               639 
+##                                            Jewish 
+##                                                16 
+##                    Mixed / Mixed race / Bi-racial 
+##                                               171 
+##         Noir(e) / Africain(e) / Afro-Américain(e) 
+##                                              1654</code></pre>
+<pre class="r"><code>ibiccs_clean &lt;- ibiccs_clean %&gt;%
+  mutate(ethnicity = case_when(
+    q47 == &quot;Amérindien des États-Unis / Autochtone d'Amérique&quot; ~ &quot;Native American&quot;,
+    q47 == &quot;Arabe (Moyen-Orient, Afrique du Nord) &quot; ~ &quot;Other&quot;,
+    q47 == &quot;Asiatique / insulaire du Pacifique &quot; ~ &quot;Asian&quot;,
+    q47 == &quot;Autre &quot; ~ &quot;Other&quot;,
+    q47 == &quot;Blanc(che) / Caucasien &quot; ~ &quot;Causcasian&quot;,
+    q47 == &quot;Hispanique / Latino / Espagnol(e) &quot; ~ &quot;Hispanic&quot;,
+    q47 == &quot;Indien / Pakistanais&quot; ~ &quot;Other&quot;,
+    q47 == &quot;Je préfère ne pas répondre &quot; ~ &quot;Other&quot;,
+    q47 == &quot;Jewish &quot; ~ &quot;Refuse&quot;,
+    q47 == &quot;Mixed / Mixed race / Bi-racial&quot; ~ &quot;Other&quot;,
+    q47 == &quot;Noir(e) / Africain(e) / Afro-Américain(e)&quot; ~ &quot;African American&quot;
+  ))
+
+table(ibiccs_clean$q47, ibiccs_clean$ethnicity)</code></pre>
+<pre><code>##                                                    
+##                                                     African American
+##   Amérindien des États-Unis / Autochtone d'Amérique                0
+##   Arabe (Moyen-Orient, Afrique du Nord)                            0
+##   Asiatique / insulaire du Pacifique                               0
+##   Autre                                                            0
+##   Blanc(che) / Caucasien                                           0
+##   Hispanique / Latino / Espagnol(e)                                0
+##   Indien / Pakistanais                                             0
+##   Je préfère ne pas répondre                                       0
+##   Jewish                                                           0
+##   Mixed / Mixed race / Bi-racial                                   0
+##   Noir(e) / Africain(e) / Afro-Américain(e)                     1654
+##                                                    
+##                                                     Native American Other
+##   Amérindien des États-Unis / Autochtone d'Amérique              79     0
+##   Arabe (Moyen-Orient, Afrique du Nord)                           0     0
+##   Asiatique / insulaire du Pacifique                              0     0
+##   Autre                                                           0     0
+##   Blanc(che) / Caucasien                                          0     0
+##   Hispanique / Latino / Espagnol(e)                               0     0
+##   Indien / Pakistanais                                            0   330
+##   Je préfère ne pas répondre                                      0     0
+##   Jewish                                                          0     0
+##   Mixed / Mixed race / Bi-racial                                  0   171
+##   Noir(e) / Africain(e) / Afro-Américain(e)                       0     0</code></pre>
 </div>
 <div id="filtering-out-cities" class="section level1">
 <h1>Filtering Out Cities</h1>
@@ -209,7 +657,12 @@ Vancouver &lt;- filter(ibiccs_clean, ville == &quot;Vancouver&quot;)</code></pre
 </div>
 <div id="filtering-out-variables-in-usa-data" class="section level1">
 <h1>Filtering Out Variables in USA Data</h1>
-<pre class="r"><code>ibiccs &lt;- select(ibiccs_clean, lang, q54, ville, q2, q13, q14, q15, q18, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q25, q27, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
+<pre class="r"><code>ibiccs &lt;- select(ibiccs_clean, lang, q54, ville, q2, q13, q14, q15, q18, q21, q23, q25, q27, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
+ 
+### Add the prepost variable
+
+Boston &lt;- filter(ibiccs_clean, ville == &quot;Boston&quot;)
+
 
 Boston1 &lt;- select(Boston, lang, q54, ville, q2, q13, q14, q15, q18, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q25, q27, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
 

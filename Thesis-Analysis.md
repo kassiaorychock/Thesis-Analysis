@@ -48,41 +48,623 @@ ibiccs_clean <- ibiccs_readin %>%
 # Recode Language
 
 ```r
+table(ibiccs_clean$lang)
+```
+
+```
+## 
+##  Anglais Espagnol Français 
+##    22236       44     1621
+```
+
+```r
 ## Language
 ibiccs_clean <- ibiccs_clean %>%
-	mutate(Q43_lang_speak_home = case_when(
-		lang == 1 ~ "English",
-		lang == 2  ~ "Other",
-		lang == 3 ~ "Other",
-		lang == 97 ~ "Other", 
-		TRUE ~ "other"
+	mutate(language = case_when(
+		lang == "Anglais" ~ "English",
+		lang == "Espagnol" ~ "Fren/Span",
+		lang == "Français" ~ "Fren/Span"
 	))
+
+table(ibiccs_clean$lang, ibiccs_clean$language)
+```
+
+```
+##           
+##            English Fren/Span
+##   Anglais    22236         0
+##   Espagnol       0        44
+##   Français       0      1621
 ```
 
 # Recode Gender
 
 ```r
-#Gender
-ibiccs_clean <- ibiccs_clean %>%
-  mutate(Q54_gender = case_when(
-    q54 == 1 ~ "Female",
-    q54 == 2 ~ "Male",
-    TRUE ~ "other"
-  ))
+table(ibiccs_clean$q54)
 ```
 
+```
+## 
+## Femme Homme 
+## 14042  9859
+```
+
+```r
+#Gender
+ibiccs_clean <- ibiccs_clean %>%
+  mutate(gender = case_when(
+    q54 == "Femme" ~ "Female",
+    q54 == "Homme" ~ "Male"
+  ))
+
+table(ibiccs_clean$q54, ibiccs_clean$gender)
+```
+
+```
+##        
+##         Female  Male
+##   Femme  14042     0
+##   Homme      0  9859
+```
+
+# Recode Self-Rated Health
+
+```r
+table(ibiccs_clean$q2)
+```
+
+```
+## 
+##                            Bon                      Excellent 
+##                           6725                           4803 
+##                        Mauvais                          Moyen 
+##                            489                           2104 
+## Ne sais pas/Refuse de répondre                       Très bon 
+##                             39                           9741
+```
 
 ```r
 ibiccs_clean <- ibiccs_clean %>%
-  mutate(Q2_health = case_when(
-    q2 == 1 ~ "Excellent",
-    q2 == 2 ~ "Excellent",
-    q2 == 3 ~ "Good",
-    q2 == 4 ~ "Other",
-    q2 == 5 ~ "Other",
-    q2 == 9 ~ "Other",
-    TRUE ~ "other"
+  mutate(health = case_when(
+    q2 == "Excellent" ~ "Excellent",
+    q2 == "Très bon" ~ "Excellent",
+    q2 == "Bon" ~ "Good",
+    q2 == "Moyen" ~ "Poor",
+    q2 == "Mauvais" ~ "Poor",
+    q2 == "Ne sais pas/Refuse de répondre" ~ "NA"
   ))
+
+table(ibiccs_clean$q2, ibiccs_clean$health)
+```
+
+```
+##                                 
+##                                  Excellent Good   NA Poor
+##   Bon                                    0 6725    0    0
+##   Excellent                           4803    0    0    0
+##   Mauvais                                0    0    0  489
+##   Moyen                                  0    0    0 2104
+##   Ne sais pas/Refuse de répondre         0    0   39    0
+##   Très bon                            9741    0    0    0
+```
+
+# Recode Transportation
+
+```r
+table(ibiccs_clean$q13)
+```
+
+```
+## 
+##                               Autre (précisez:) 
+##                                              35 
+##                                          Marche 
+##                                            4484 
+##                               Ne s'applique pas 
+##                                              61 
+##                                     Ne sais pas 
+##                                              36 
+##                                         Scooter 
+##                                              21 
+##                                            Taxi 
+##                                             205 
+##                             Transport en commun 
+##                                            7886 
+## Véhicule motorisé (loué, emprunté, covoiturage) 
+##                                            9768 
+##                           Vélo en libre-service 
+##                                             243 
+##                                  Vélo personnel 
+##                                             934 
+##                             Voiture personnelle 
+##                                             228
+```
+
+```r
+ibiccs_clean <- ibiccs_clean %>%
+  mutate(common_transportation = case_when(
+    q13 == "Marche" ~ "Walking",
+    q13 == "Véhicule motorisé (loué, emprunté, covoiturage)" ~ "Car",
+    q13 == "Voiture personnelle" ~ "Car",
+    q13 == " Ne s'applique pas" ~ "Other",
+    q13 == "Ne sais pas" ~ "Other",
+    q13 == "Scooter" ~ "Other",
+    q13 == "Taxi" ~ "Other",
+    q13 == "Transport en commun" ~ "Public Transportation",
+    q13 == "Vélo en libre-service" ~ "Bicycle",
+    q13 == "Vélo personnel" ~ "Bicycle"
+  ))
+
+table(ibiccs_clean$q13, ibiccs_clean$common_transportation)
+```
+
+```
+##                                                  
+##                                                   Bicycle  Car Other
+##   Autre (précisez:)                                     0    0     0
+##   Marche                                                0    0     0
+##   Ne s'applique pas                                     0    0     0
+##   Ne sais pas                                           0    0    36
+##   Scooter                                               0    0    21
+##   Taxi                                                  0    0   205
+##   Transport en commun                                   0    0     0
+##   Véhicule motorisé (loué, emprunté, covoiturage)       0 9768     0
+##   Vélo en libre-service                               243    0     0
+##   Vélo personnel                                      934    0     0
+##   Voiture personnelle                                   0  228     0
+##                                                  
+##                                                   Public Transportation
+##   Autre (précisez:)                                                   0
+##   Marche                                                              0
+##   Ne s'applique pas                                                   0
+##   Ne sais pas                                                         0
+##   Scooter                                                             0
+##   Taxi                                                                0
+##   Transport en commun                                              7886
+##   Véhicule motorisé (loué, emprunté, covoiturage)                     0
+##   Vélo en libre-service                                               0
+##   Vélo personnel                                                      0
+##   Voiture personnelle                                                 0
+##                                                  
+##                                                   Walking
+##   Autre (précisez:)                                     0
+##   Marche                                             4484
+##   Ne s'applique pas                                     0
+##   Ne sais pas                                           0
+##   Scooter                                               0
+##   Taxi                                                  0
+##   Transport en commun                                   0
+##   Véhicule motorisé (loué, emprunté, covoiturage)       0
+##   Vélo en libre-service                                 0
+##   Vélo personnel                                        0
+##   Voiture personnelle                                   0
+```
+
+# Recode Physically Active (Y/N)
+
+```r
+table(ibiccs_clean$q14)
+```
+
+```
+## 
+## Ne sais pas/Ne s'applique pas                           Non 
+##                           276                          4124 
+##                           Oui            Refuse de répondre 
+##                         19471                            30
+```
+
+```r
+ibiccs_clean <- ibiccs_clean %>%
+  mutate(physically_active = case_when(
+    q14 == "Ne sais pas/Ne s'applique pas" ~ "Other",
+    q14 == "Refuse de répondre " ~ "Other",
+    q14 == "Oui" ~ "Yes",
+    q14 == "Non" ~ "No"
+  ))
+
+table(ibiccs_clean$q14, ibiccs_clean$physically_active)
+```
+
+```
+##                                
+##                                    No Other   Yes
+##   Ne sais pas/Ne s'applique pas     0   276     0
+##   Non                            4124     0     0
+##   Oui                               0     0 19471
+##   Refuse de répondre                0     0     0
+```
+
+# Recode Type of Physical Activity 
+```
+# Talk to Dr. Fuller about organizing questions 15 and 18
+table(ibiccs_clean$q15)
+
+table(ibiccs_clean$q18)
+
+```
+# Recode Days Per Week Spent Travelling via Car
+
+```r
+table(ibiccs_clean$q21)
+```
+
+```
+## 
+##    0    1    2    3    4    5    6    7   98   99 
+## 2785 2527 2631 2070 1648 3136 2019 4925 2037  123
+```
+
+```r
+ibiccs_clean <- ibiccs_clean %>%
+  mutate(day_per_week_motor_vehicle = case_when(
+    q21 == "0" ~ "0",
+    q21 == "1" ~ "1",
+    q21 == "2" ~ "2",
+    q21 == "3" ~ "3",
+    q21 == "4" ~ "4",
+    q21 == "5" ~ "5",
+    q21 == "6" ~ "6",
+    q21 == "7" ~ "7",
+    q21 == "98" ~ "NA",
+    q21 == "99" ~ "NA"
+  ))
+
+table(ibiccs_clean$q21, ibiccs_clean$day_per_week_motor_vehicle)
+```
+
+```
+##     
+##         0    1    2    3    4    5    6    7   NA
+##   0  2785    0    0    0    0    0    0    0    0
+##   1     0 2527    0    0    0    0    0    0    0
+##   2     0    0 2631    0    0    0    0    0    0
+##   3     0    0    0 2070    0    0    0    0    0
+##   4     0    0    0    0 1648    0    0    0    0
+##   5     0    0    0    0    0 3136    0    0    0
+##   6     0    0    0    0    0    0 2019    0    0
+##   7     0    0    0    0    0    0    0 4925    0
+##   98    0    0    0    0    0    0    0    0 2037
+##   99    0    0    0    0    0    0    0    0  123
+```
+
+# Recode Days Per Week Spent Travelling via Public Transport
+
+```r
+table(ibiccs_clean$q23)
+```
+
+```
+## 
+##    0    1    2    3    4    5    6    7    8    9 
+## 6169 2993 2167 1598 1339 3617 1482 1583 2726  227
+```
+
+```r
+ibiccs_clean <- ibiccs_clean %>%
+  mutate(day_per_week_public_transit = case_when(
+    q23 == "0" ~ "0",
+    q23 == "1" ~ "1",
+    q23 == "2" ~ "2",
+    q23 == "3" ~ "3",
+    q23 == "4" ~ "4",
+    q23 == "5" ~ "5",
+    q23 == "6" ~ "6",
+    q23 == "7" ~ "7",
+    q23 == "8" ~ "NA",
+    q23 == "9" ~ "NA"
+  ))
+
+table(ibiccs_clean$q23, ibiccs_clean$day_per_week_public_transit)
+```
+
+```
+##    
+##        0    1    2    3    4    5    6    7   NA
+##   0 6169    0    0    0    0    0    0    0    0
+##   1    0 2993    0    0    0    0    0    0    0
+##   2    0    0 2167    0    0    0    0    0    0
+##   3    0    0    0 1598    0    0    0    0    0
+##   4    0    0    0    0 1339    0    0    0    0
+##   5    0    0    0    0    0 3617    0    0    0
+##   6    0    0    0    0    0    0 1482    0    0
+##   7    0    0    0    0    0    0    0 1583    0
+##   8    0    0    0    0    0    0    0    0 2726
+##   9    0    0    0    0    0    0    0    0  227
+```
+
+# Recode Days Per Week Spent Travelling via Walking (Dr. Fuller)
+
+```r
+table(ibiccs_clean$q25)
+```
+
+```
+## 
+##    0    1    2    3    4    5    6    7    8    9 
+## 2115 1841 2361 2245 1831 3994 1711 5436 2149  218
+```
+
+```r
+ibiccs_clean <- ibiccs_clean %>%
+  mutate(day_per_week_walking = case_when(
+    q25 == "0" ~ "0",
+    q25 == "1" ~ "1",
+    q25 == "2" ~ "2",
+    q25 == "3" ~ "3",
+    q25 == "4" ~ "4",
+    q25 == "5" ~ "5",
+    q25 == "6" ~ "6",
+    q25 == "7" ~ "7",
+    q25 == "8" ~ "NA",
+    q25 == "9" ~ "NA"
+  ))
+
+table(ibiccs_clean$q25, ibiccs_clean$day_per_week_walking)
+```
+
+```
+##    
+##        0    1    2    3    4    5    6    7   NA
+##   0 2115    0    0    0    0    0    0    0    0
+##   1    0 1841    0    0    0    0    0    0    0
+##   2    0    0 2361    0    0    0    0    0    0
+##   3    0    0    0 2245    0    0    0    0    0
+##   4    0    0    0    0 1831    0    0    0    0
+##   5    0    0    0    0    0 3994    0    0    0
+##   6    0    0    0    0    0    0 1711    0    0
+##   7    0    0    0    0    0    0    0 5436    0
+##   8    0    0    0    0    0    0    0    0 2149
+##   9    0    0    0    0    0    0    0    0  218
+```
+
+# Recode Days Per Week Spent Travelling via Bike
+
+```r
+table(ibiccs_clean$q27)
+```
+
+```
+## 
+##     0     1     2     3     4     5     6     7    98    99 
+## 12010  1793  1185   741   462   632   215   294  6395   174
+```
+
+```r
+ibiccs_clean <- ibiccs_clean %>%
+  mutate(day_per_week_bike = case_when(
+    q27 == "0" ~ "0",
+    q27 == "1" ~ "1",
+    q27 == "2" ~ "2",
+    q27 == "3" ~ "3",
+    q27 == "4" ~ "4",
+    q27 == "5" ~ "5",
+    q27 == "6" ~ "6",
+    q27 == "7" ~ "7",
+    q27 == "98" ~ "NA",
+    q27 == "99" ~ "NA"
+  ))
+
+table(ibiccs_clean$q27, ibiccs_clean$day_per_week_bike)
+```
+
+```
+##     
+##          0     1     2     3     4     5     6     7    NA
+##   0  12010     0     0     0     0     0     0     0     0
+##   1      0  1793     0     0     0     0     0     0     0
+##   2      0     0  1185     0     0     0     0     0     0
+##   3      0     0     0   741     0     0     0     0     0
+##   4      0     0     0     0   462     0     0     0     0
+##   5      0     0     0     0     0   632     0     0     0
+##   6      0     0     0     0     0     0   215     0     0
+##   7      0     0     0     0     0     0     0   294     0
+##   98     0     0     0     0     0     0     0     0  6395
+##   99     0     0     0     0     0     0     0     0   174
+```
+
+# Recode Age
+
+```r
+table(ibiccs_clean$q42)
+```
+
+```
+## 
+##  18  19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34  35 
+## 152 148 187 267 327 458 546 552 602 622 645 657 702 647 624 582 615 673 
+##  36  37  38  39  40  41  42  43  44  45  46  47  48  49  50  51  52  53 
+## 504 515 519 482 549 464 555 522 499 565 475 506 543 454 592 533 580 571 
+##  54  55  56  57  58  59  60  61  62  63  64  65  66  67  68  69  70  71 
+## 589 396 277 298 262 312 329 238 282 230 258 276 265 230 179 157 147 118 
+##  72  73  74  75  76  77  78  79  80  81  82  83  84  85  86  87  88  89 
+##  98  77  78  69  60  44  39  29  29  21  20  14  12   7   6   6   5   2 
+##  90  91  94 
+##   4   2   2
+```
+
+# Recode Marital Status
+
+```r
+table(ibiccs_clean$q44)
+```
+
+```
+## 
+##               Célibatiare               Divorcé (e) 
+##                      9452                      1854 
+##                 En couple Marié(e)/Conjoint de fait 
+##                        79                     11287 
+##        Refuse de répondre                Séparé (e) 
+##                       291                       460 
+##                 Veuf (ve) 
+##                       478
+```
+
+```r
+ibiccs_clean <- ibiccs_clean %>%
+  mutate(marital_status = case_when(
+    q44 == "Célibatiare" ~ "Single",
+    q44 == "Divorcé(e)" ~ "Separated",
+    q44 == "En couple" ~ "In a relationship",
+    q44 == "Marié(e)/Conjoint de fait" ~ "In a relationship",
+    q44 == "Refuse de répondre" ~ "NA",
+    q44 == "Séparé(e)" ~ "Separated",
+    q44 == "Veuf(ve)" ~ "Separated"
+  ))
+
+table(ibiccs_clean$q44, ibiccs_clean$marital_status)
+```
+
+```
+##                            
+##                             In a relationship    NA Single
+##   Célibatiare                               0     0   9452
+##   Divorcé (e)                               0     0      0
+##   En couple                                79     0      0
+##   Marié(e)/Conjoint de fait             11287     0      0
+##   Refuse de répondre                        0   291      0
+##   Séparé (e)                                0     0      0
+##   Veuf (ve)                                 0     0      0
+```
+
+# Recode Number of Children in Home
+
+```r
+table(ibiccs_clean$q45)
+```
+
+```
+## 
+##     1     2     3     4     5     6     7     8     9 
+##  2915  1863   471   119    40    18     9 18191   275
+```
+
+```r
+ibiccs_clean <- ibiccs_clean %>%
+  mutate(children_household = case_when(
+    q45 == "1" ~ "1",
+    q45 == "2" ~ "2-3",
+    q45 == "3" ~ "2-3",
+    q45 == "4" ~ "4+",
+    q45 == "5" ~ "4+",
+    q45 == "6" ~ "4+",
+    q45 == "7" ~ "4+",
+    q45 == "8" ~ "0",
+    q45 == "9" ~ "Refuse"
+  ))
+
+table(ibiccs_clean$q45, ibiccs_clean$children_household)
+```
+
+```
+##    
+##         0     1   2-3    4+ Refuse
+##   1     0  2915     0     0      0
+##   2     0     0  1863     0      0
+##   3     0     0   471     0      0
+##   4     0     0     0   119      0
+##   5     0     0     0    40      0
+##   6     0     0     0    18      0
+##   7     0     0     0     9      0
+##   8 18191     0     0     0      0
+##   9     0     0     0     0    275
+```
+
+# Recode Months in Current Home?
+
+```r
+table(ibiccs_clean$q46b)
+```
+
+```
+## 
+##    0    1    2    3    4    5    6    7    8    9   10   11   12   13   14 
+##  251  599 1008 1292 1040  885 1382  441  439  357  346  325   14    7   15 
+##   15   16   17   18   19   20   21   22   23   24   26   27   28   29   30 
+##   30   20    4   41    4    6    5    1    1    2    1    1    3    2    8 
+##   32   38   39   40   42   46   64   74   81 
+##    3    1    3    1    1    1    1    1    1
+```
+
+# Recode Ethnicity
+
+```r
+table(ibiccs_clean$q47)
+```
+
+```
+## 
+## Amérindien des États-Unis / Autochtone d'Amérique 
+##                                                79 
+##             Arabe (Moyen-Orient, Afrique du Nord) 
+##                                               135 
+##                Asiatique / insulaire du Pacifique 
+##                                              2661 
+##                                             Autre 
+##                                               129 
+##                            Blanc(che) / Caucasien 
+##                                             17154 
+##                 Hispanique / Latino / Espagnol(e) 
+##                                               933 
+##                              Indien / Pakistanais 
+##                                               330 
+##                        Je préfère ne pas répondre 
+##                                               639 
+##                                            Jewish 
+##                                                16 
+##                    Mixed / Mixed race / Bi-racial 
+##                                               171 
+##         Noir(e) / Africain(e) / Afro-Américain(e) 
+##                                              1654
+```
+
+```r
+ibiccs_clean <- ibiccs_clean %>%
+  mutate(ethnicity = case_when(
+    q47 == "Amérindien des États-Unis / Autochtone d'Amérique" ~ "Native American",
+    q47 == "Arabe (Moyen-Orient, Afrique du Nord) " ~ "Other",
+    q47 == "Asiatique / insulaire du Pacifique " ~ "Asian",
+    q47 == "Autre " ~ "Other",
+    q47 == "Blanc(che) / Caucasien " ~ "Causcasian",
+    q47 == "Hispanique / Latino / Espagnol(e) " ~ "Hispanic",
+    q47 == "Indien / Pakistanais" ~ "Other",
+    q47 == "Je préfère ne pas répondre " ~ "Other",
+    q47 == "Jewish " ~ "Refuse",
+    q47 == "Mixed / Mixed race / Bi-racial" ~ "Other",
+    q47 == "Noir(e) / Africain(e) / Afro-Américain(e)" ~ "African American"
+  ))
+
+table(ibiccs_clean$q47, ibiccs_clean$ethnicity)
+```
+
+```
+##                                                    
+##                                                     African American
+##   Amérindien des États-Unis / Autochtone d'Amérique                0
+##   Arabe (Moyen-Orient, Afrique du Nord)                            0
+##   Asiatique / insulaire du Pacifique                               0
+##   Autre                                                            0
+##   Blanc(che) / Caucasien                                           0
+##   Hispanique / Latino / Espagnol(e)                                0
+##   Indien / Pakistanais                                             0
+##   Je préfère ne pas répondre                                       0
+##   Jewish                                                           0
+##   Mixed / Mixed race / Bi-racial                                   0
+##   Noir(e) / Africain(e) / Afro-Américain(e)                     1654
+##                                                    
+##                                                     Native American Other
+##   Amérindien des États-Unis / Autochtone d'Amérique              79     0
+##   Arabe (Moyen-Orient, Afrique du Nord)                           0     0
+##   Asiatique / insulaire du Pacifique                              0     0
+##   Autre                                                           0     0
+##   Blanc(che) / Caucasien                                          0     0
+##   Hispanique / Latino / Espagnol(e)                               0     0
+##   Indien / Pakistanais                                            0   330
+##   Je préfère ne pas répondre                                      0     0
+##   Jewish                                                          0     0
+##   Mixed / Mixed race / Bi-racial                                  0   171
+##   Noir(e) / Africain(e) / Afro-Américain(e)                       0     0
 ```
 
 # Filtering Out Cities
@@ -108,7 +690,12 @@ Vancouver <- filter(ibiccs_clean, ville == "Vancouver")
 # Filtering Out Variables in USA Data
 
 ```r
-ibiccs <- select(ibiccs_clean, lang, q54, ville, q2, q13, q14, q15, q18, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q25, q27, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
+ibiccs <- select(ibiccs_clean, lang, q54, ville, q2, q13, q14, q15, q18, q21, q23, q25, q27, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
+ 
+### Add the prepost variable
+
+Boston <- filter(ibiccs_clean, ville == "Boston")
+
 
 Boston1 <- select(Boston, lang, q54, ville, q2, q13, q14, q15, q18, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q25, q27, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
 
@@ -4752,7 +5339,7 @@ plot(hist_bmi)
 ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 ```
 
-![](Thesis-Analysis_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
+![](Thesis-Analysis_files/figure-html/unnamed-chunk-25-1.png)<!-- -->
 
 ```r
 hist_bmi_city <- ggplot(city, aes(bmi)) + 
@@ -4761,7 +5348,7 @@ hist_bmi_city <- ggplot(city, aes(bmi)) +
 plot(hist_bmi_city)
 ```
 
-![](Thesis-Analysis_files/figure-html/unnamed-chunk-14-2.png)<!-- -->
+![](Thesis-Analysis_files/figure-html/unnamed-chunk-25-2.png)<!-- -->
 To do:
 1. Fix variable reponses by mutate (see INTERACT)
 2. Linear Regressions (loop)

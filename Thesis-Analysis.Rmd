@@ -48,39 +48,257 @@ ibiccs_clean <- ibiccs_readin %>%
 
 # Recode Language
 ```{r}
+
+table(ibiccs_clean$lang)
+
 ## Language
 ibiccs_clean <- ibiccs_clean %>%
-	mutate(Q43_lang_speak_home = case_when(
-		lang == 1 ~ "English",
-		lang == 2  ~ "Other",
-		lang == 3 ~ "Other",
-		lang == 97 ~ "Other", 
-		TRUE ~ "other"
+	mutate(language = case_when(
+		lang == "Anglais" ~ "English",
+		lang == "Espagnol" ~ "Fren/Span",
+		lang == "Français" ~ "Fren/Span"
 	))
+
+table(ibiccs_clean$lang, ibiccs_clean$language)
 ```
 
 # Recode Gender
 ```{r}
+
+table(ibiccs_clean$q54)
+
 #Gender
 ibiccs_clean <- ibiccs_clean %>%
-  mutate(Q54_gender = case_when(
-    q54 == 1 ~ "Female",
-    q54 == 2 ~ "Male",
-    TRUE ~ "other"
+  mutate(gender = case_when(
+    q54 == "Femme" ~ "Female",
+    q54 == "Homme" ~ "Male"
   ))
+
+table(ibiccs_clean$q54, ibiccs_clean$gender)
 ```
 
+# Recode Self-Rated Health
 ```{r}
+
+table(ibiccs_clean$q2)
+
 ibiccs_clean <- ibiccs_clean %>%
-  mutate(Q2_health = case_when(
-    q2 == 1 ~ "Excellent",
-    q2 == 2 ~ "Excellent",
-    q2 == 3 ~ "Good",
-    q2 == 4 ~ "Other",
-    q2 == 5 ~ "Other",
-    q2 == 9 ~ "Other",
-    TRUE ~ "other"
+  mutate(health = case_when(
+    q2 == "Excellent" ~ "Excellent",
+    q2 == "Très bon" ~ "Excellent",
+    q2 == "Bon" ~ "Good",
+    q2 == "Moyen" ~ "Poor",
+    q2 == "Mauvais" ~ "Poor",
+    q2 == "Ne sais pas/Refuse de répondre" ~ "NA"
   ))
+
+table(ibiccs_clean$q2, ibiccs_clean$health)
+```
+
+# Recode Transportation
+```{r}
+
+table(ibiccs_clean$q13)
+
+ibiccs_clean <- ibiccs_clean %>%
+  mutate(common_transportation = case_when(
+    q13 == "Marche" ~ "Walking",
+    q13 == "Véhicule motorisé (loué, emprunté, covoiturage)" ~ "Car",
+    q13 == "Voiture personnelle" ~ "Car",
+    q13 == " Ne s'applique pas" ~ "Other",
+    q13 == "Ne sais pas" ~ "Other",
+    q13 == "Scooter" ~ "Other",
+    q13 == "Taxi" ~ "Other",
+    q13 == "Transport en commun" ~ "Public Transportation",
+    q13 == "Vélo en libre-service" ~ "Bicycle",
+    q13 == "Vélo personnel" ~ "Bicycle"
+  ))
+
+table(ibiccs_clean$q13, ibiccs_clean$common_transportation)
+```
+
+# Recode Physically Active (Y/N)
+```{r}
+
+table(ibiccs_clean$q14)
+
+ibiccs_clean <- ibiccs_clean %>%
+  mutate(physically_active = case_when(
+    q14 == "Ne sais pas/Ne s'applique pas" ~ "Other",
+    q14 == "Refuse de répondre " ~ "Other",
+    q14 == "Oui" ~ "Yes",
+    q14 == "Non" ~ "No"
+  ))
+
+table(ibiccs_clean$q14, ibiccs_clean$physically_active)
+```
+
+# Recode Type of Physical Activity 
+```
+# Talk to Dr. Fuller about organizing questions 15 and 18
+table(ibiccs_clean$q15)
+
+table(ibiccs_clean$q18)
+
+```
+# Recode Days Per Week Spent Travelling via Car
+```{r}
+
+table(ibiccs_clean$q21)
+
+ibiccs_clean <- ibiccs_clean %>%
+  mutate(day_per_week_motor_vehicle = case_when(
+    q21 == "0" ~ "0",
+    q21 == "1" ~ "1",
+    q21 == "2" ~ "2",
+    q21 == "3" ~ "3",
+    q21 == "4" ~ "4",
+    q21 == "5" ~ "5",
+    q21 == "6" ~ "6",
+    q21 == "7" ~ "7",
+    q21 == "98" ~ "NA",
+    q21 == "99" ~ "NA"
+  ))
+
+table(ibiccs_clean$q21, ibiccs_clean$day_per_week_motor_vehicle)
+```
+
+# Recode Days Per Week Spent Travelling via Public Transport
+```{r}
+
+table(ibiccs_clean$q23)
+
+ibiccs_clean <- ibiccs_clean %>%
+  mutate(day_per_week_public_transit = case_when(
+    q23 == "0" ~ "0",
+    q23 == "1" ~ "1",
+    q23 == "2" ~ "2",
+    q23 == "3" ~ "3",
+    q23 == "4" ~ "4",
+    q23 == "5" ~ "5",
+    q23 == "6" ~ "6",
+    q23 == "7" ~ "7",
+    q23 == "8" ~ "NA",
+    q23 == "9" ~ "NA"
+  ))
+
+table(ibiccs_clean$q23, ibiccs_clean$day_per_week_public_transit)
+```
+
+# Recode Days Per Week Spent Travelling via Walking (Dr. Fuller)
+```{r}
+
+table(ibiccs_clean$q25)
+
+ibiccs_clean <- ibiccs_clean %>%
+  mutate(day_per_week_walking = case_when(
+    q25 == "0" ~ "0",
+    q25 == "1" ~ "1",
+    q25 == "2" ~ "2",
+    q25 == "3" ~ "3",
+    q25 == "4" ~ "4",
+    q25 == "5" ~ "5",
+    q25 == "6" ~ "6",
+    q25 == "7" ~ "7",
+    q25 == "8" ~ "NA",
+    q25 == "9" ~ "NA"
+  ))
+
+table(ibiccs_clean$q25, ibiccs_clean$day_per_week_walking)
+```
+
+# Recode Days Per Week Spent Travelling via Bike
+```{r}
+
+table(ibiccs_clean$q27)
+
+ibiccs_clean <- ibiccs_clean %>%
+  mutate(day_per_week_bike = case_when(
+    q27 == "0" ~ "0",
+    q27 == "1" ~ "1",
+    q27 == "2" ~ "2",
+    q27 == "3" ~ "3",
+    q27 == "4" ~ "4",
+    q27 == "5" ~ "5",
+    q27 == "6" ~ "6",
+    q27 == "7" ~ "7",
+    q27 == "98" ~ "NA",
+    q27 == "99" ~ "NA"
+  ))
+
+table(ibiccs_clean$q27, ibiccs_clean$day_per_week_bike)
+```
+
+# Recode Age
+```{r}
+
+table(ibiccs_clean$q42)
+```
+
+# Recode Marital Status
+```{r}
+
+table(ibiccs_clean$q44)
+
+ibiccs_clean <- ibiccs_clean %>%
+  mutate(marital_status = case_when(
+    q44 == "Célibatiare" ~ "Single",
+    q44 == "Divorcé(e)" ~ "Separated",
+    q44 == "En couple" ~ "In a relationship",
+    q44 == "Marié(e)/Conjoint de fait" ~ "In a relationship",
+    q44 == "Refuse de répondre" ~ "NA",
+    q44 == "Séparé(e)" ~ "Separated",
+    q44 == "Veuf(ve)" ~ "Separated"
+  ))
+
+table(ibiccs_clean$q44, ibiccs_clean$marital_status)
+```
+
+# Recode Number of Children in Home
+```{r}
+table(ibiccs_clean$q45)
+
+ibiccs_clean <- ibiccs_clean %>%
+  mutate(children_household = case_when(
+    q45 == "1" ~ "1",
+    q45 == "2" ~ "2-3",
+    q45 == "3" ~ "2-3",
+    q45 == "4" ~ "4+",
+    q45 == "5" ~ "4+",
+    q45 == "6" ~ "4+",
+    q45 == "7" ~ "4+",
+    q45 == "8" ~ "0",
+    q45 == "9" ~ "Refuse"
+  ))
+
+table(ibiccs_clean$q45, ibiccs_clean$children_household)
+```
+
+# Recode Months in Current Home?
+```{r}
+table(ibiccs_clean$q46b)
+```
+
+# Recode Ethnicity
+```{r}
+table(ibiccs_clean$q47)
+
+ibiccs_clean <- ibiccs_clean %>%
+  mutate(ethnicity = case_when(
+    q47 == "Amérindien des États-Unis / Autochtone d'Amérique" ~ "Native American",
+    q47 == "Arabe (Moyen-Orient, Afrique du Nord) " ~ "Other",
+    q47 == "Asiatique / insulaire du Pacifique " ~ "Asian",
+    q47 == "Autre " ~ "Other",
+    q47 == "Blanc(che) / Caucasien " ~ "Causcasian",
+    q47 == "Hispanique / Latino / Espagnol(e) " ~ "Hispanic",
+    q47 == "Indien / Pakistanais" ~ "Other",
+    q47 == "Je préfère ne pas répondre " ~ "Other",
+    q47 == "Jewish " ~ "Refuse",
+    q47 == "Mixed / Mixed race / Bi-racial" ~ "Other",
+    q47 == "Noir(e) / Africain(e) / Afro-Américain(e)" ~ "African American"
+  ))
+
+table(ibiccs_clean$q47, ibiccs_clean$ethnicity)
 ```
 
 # Filtering Out Cities
@@ -104,7 +322,12 @@ Vancouver <- filter(ibiccs_clean, ville == "Vancouver")
 
 # Filtering Out Variables in USA Data
 ```{r}
-ibiccs <- select(ibiccs_clean, lang, q54, ville, q2, q13, q14, q15, q18, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q25, q27, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
+ibiccs <- select(ibiccs_clean, lang, q54, ville, q2, q13, q14, q15, q18, q21, q23, q25, q27, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
+ 
+### Add the prepost variable
+
+Boston <- filter(ibiccs_clean, ville == "Boston")
+
 
 Boston1 <- select(Boston, lang, q54, ville, q2, q13, q14, q15, q18, q21, q22b, q22c, q22d, q22e, q22f_m1, q23, q25, q27, q42, q44, q45, q46b, q47, q48, q49, q50, q51, Q52_occupational_status_category, q53, bmi, bmi_category, WalkScore, WalkScoreLabel, TransitScore, TransitScoreLabel, BikeScore, BikeScoreLabel, DiningandDrinkingScore, GroceryScore)
 
