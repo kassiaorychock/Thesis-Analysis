@@ -137,6 +137,7 @@ library(car)
 library(foreign)
 library(Hmisc)
 library(survival)
+library(finalfit)
 library(tableone)</code></pre>
 </div>
 <div id="reading-of-raw-survey-data" class="section level1">
@@ -1027,146 +1028,702 @@ city_CAN &lt;- rbind(Montreal, Toronto, Vancouver)</code></pre>
 <div id="tables-for-each-city-and-combined" class="section level1">
 <h1>Tables for Each City and Combined</h1>
 <pre class="r"><code>vars &lt;- c('language', 'ville', 'gender', 'health', 'common_transportation', 'physically_active', 'day_per_week_motor_vehicle', 'day_per_week_public_transit', 'day_per_week_walking', 'day_per_week_bike', 'q42', 'marital_status', 'children_household', 'ethnicity', 'q48', 'motor_vehicle_access', 'education', 'occupation_status', 'household_income', 'bmi', 'bmi_category', 'WalkScore', 'WalkScoreLabel', 'TransitScore', 'TransitScoreLabel', 'BikeScore', 'BikeScoreLabel', 'DiningandDrinkingScore', 'GroceryScore')
-CreateTableOne(vars = vars, data = Boston)</code></pre>
-<pre><code>##                                     
-##                                      Overall        
-##   n                                    1977         
-##   language = Fren/Span (%)                3 (  0.2) 
-##   ville (%)                                         
-##      Boston                            1977 (100.0) 
-##      Chicago                              0 (  0.0) 
-##      Détroit                              0 (  0.0) 
-##      Montréal                             0 (  0.0) 
-##      New-York                             0 (  0.0) 
-##      Philadelphie                         0 (  0.0) 
-##      Toronto                              0 (  0.0) 
-##      Vancouver                            0 (  0.0) 
-##   gender = Male (%)                     694 ( 35.1) 
-##   health (%)                                        
-##      Excellent                         1285 ( 65.0) 
-##      Good                               521 ( 26.4) 
-##      NA                                   5 (  0.3) 
-##      Poor                               166 (  8.4) 
-##   common_transportation (%)                         
-##      Bicycle                            104 (  5.3) 
-##      Car                                685 ( 34.8) 
-##      Other                               13 (  0.7) 
-##      Public Transportation              669 ( 33.9) 
-##      Walking                            500 ( 25.4) 
-##   physically_active (%)                             
-##      No                                 255 ( 12.9) 
-##      Other                               18 (  0.9) 
-##      Yes                               1703 ( 86.2) 
-##   day_per_week_motor_vehicle (%)                    
-##      0                                  231 ( 11.7) 
-##      1                                  261 ( 13.2) 
-##      2                                  222 ( 11.2) 
-##      3                                  163 (  8.2) 
-##      4                                  133 (  6.7) 
-##      5                                  277 ( 14.0) 
-##      6                                  186 (  9.4) 
-##      7                                  362 ( 18.3) 
-##      NA                                 142 (  7.2) 
-##   day_per_week_public_transit (%)                   
-##      0                                  344 ( 17.4) 
-##      1                                  354 ( 17.9) 
-##      2                                  210 ( 10.6) 
-##      3                                  130 (  6.6) 
-##      4                                  120 (  6.1) 
-##      5                                  336 ( 17.0) 
-##      6                                  134 (  6.8) 
-##      7                                  165 (  8.3) 
-##      NA                                 184 (  9.3) 
-##   day_per_week_walking (%)                          
-##      0                                  103 (  5.2) 
-##      1                                  127 (  6.4) 
-##      2                                  185 (  9.4) 
-##      3                                  158 (  8.0) 
-##      4                                  163 (  8.2) 
-##      5                                  365 ( 18.5) 
-##      6                                  141 (  7.1) 
-##      7                                  609 ( 30.8) 
-##      NA                                 126 (  6.4) 
-##   day_per_week_bike (%)                             
-##      0                                 1069 ( 54.1) 
-##      1                                  141 (  7.1) 
-##      2                                   70 (  3.5) 
-##      3                                   47 (  2.4) 
-##      4                                   39 (  2.0) 
-##      5                                   69 (  3.5) 
-##      6                                   25 (  1.3) 
-##      7                                   32 (  1.6) 
-##      NA                                 485 ( 24.5) 
-##   q42 (mean (SD))                     37.21 (13.86) 
-##   marital_status (%)                                
-##      NA                                  23 (  1.3) 
-##      Relationship/Married/Common-Law    747 ( 41.6) 
-##      Single                            1025 ( 57.1) 
-##   children_household (%)                            
-##      0                                 1627 ( 82.3) 
-##      1                                  209 ( 10.6) 
-##      2-3                                111 (  5.6) 
-##      4+                                  11 (  0.6) 
-##      Refuse                              19 (  1.0) 
-##   ethnicity (%)                                     
-##      African American                   110 ( 71.0) 
-##      Arab/Indian/Jewish/Mixed/Other      38 ( 24.5) 
-##      Native American                      7 (  4.5) 
-##   q48 (mean (SD))                      6.22 (16.05) 
-##   motor_vehicle_access (%)                          
-##      NA                                  16 (  0.8) 
-##      No                                 519 ( 26.3) 
-##      Yes                               1442 ( 72.9) 
-##   education (%)                                     
-##      Baccalaureate                      757 ( 38.3) 
-##      Cégep                              231 ( 11.7) 
-##      Certificate/Diploma                 65 (  3.3) 
-##      Graduate School                    774 ( 39.2) 
-##      High School/Lower                  132 (  6.7) 
-##      Other                               16 (  0.8) 
-##   occupation_status (%)                             
-##      Employed                          1442 ( 73.5) 
-##      Student                            272 ( 13.9) 
-##      Unemployed                         249 ( 12.7) 
-##   household_income (%)                              
-##      $0-$19999                          210 ( 10.6) 
-##      $100000-149999                     304 ( 15.4) 
-##      $150000+                           232 ( 11.7) 
-##      $20000-$49999                      389 ( 19.7) 
-##      $50000-$74999                      342 ( 17.3) 
-##      $75000-$99999                      275 ( 13.9) 
-##      Refuse                             225 ( 11.4) 
-##   bmi (mean (SD))                     25.06 (4.59)  
-##   bmi_category (%)                                  
-##      normal weight                      982 ( 49.7) 
-##      obese                              248 ( 12.5) 
-##      other                              192 (  9.7) 
-##      overweight                         511 ( 25.8) 
-##      underweight                         44 (  2.2) 
-##   WalkScore (mean (SD))               86.19 (17.12) 
-##   WalkScoreLabel (%)                                
-##                                          38 (  1.9) 
-##      Car-Dependent                       96 (  4.9) 
-##      Somewhat Walkable                   85 (  4.3) 
-##      Very Walkable                      598 ( 30.2) 
-##      Walker's Paradise                 1160 ( 58.7) 
-##   TransitScore (mean (SD))            73.62 (16.68) 
-##   TransitScoreLabel (%)                             
-##                                        1694 ( 85.7) 
-##      Excellent Transit                  201 ( 10.2) 
-##      Good Transit                        64 (  3.2) 
-##      Minimal Transit                      0 (  0.0) 
-##      Rider's Paradise                    16 (  0.8) 
-##      Some Transit                         2 (  0.1) 
-##   BikeScore (mean (SD))              106.50 (32.02) 
-##   BikeScoreLabel (%)                                
-##                                         598 ( 30.2) 
-##      Bikeable                           475 ( 24.0) 
-##      Biker's Paradise                   323 ( 16.3) 
-##      Somewhat Bikeable                   26 (  1.3) 
-##      Very Bikeable                      555 ( 28.1) 
-##   DiningandDrinkingScore (mean (SD))  86.12 (17.23) 
-##   GroceryScore (mean (SD))            88.94 (21.26)</code></pre>
+CreateTableOne(vars = vars, strata = &quot;ville&quot;, data = ibiccs_clean)</code></pre>
+<pre><code>##                                     Stratified by ville
+##                                      Boston          Chicago       
+##   n                                    1977           4085         
+##   language = Fren/Span (%)                3 (  0.2)     20 (  0.5) 
+##   ville (%)                                                        
+##      Boston                            1977 (100.0)      0 (  0.0) 
+##      Chicago                              0 (  0.0)   4085 (100.0) 
+##      Détroit                              0 (  0.0)      0 (  0.0) 
+##      Montréal                             0 (  0.0)      0 (  0.0) 
+##      New-York                             0 (  0.0)      0 (  0.0) 
+##      Philadelphie                         0 (  0.0)      0 (  0.0) 
+##      Toronto                              0 (  0.0)      0 (  0.0) 
+##      Vancouver                            0 (  0.0)      0 (  0.0) 
+##   gender = Male (%)                     694 ( 35.1)   1628 ( 39.9) 
+##   health (%)                                                       
+##      Excellent                         1285 ( 65.0)   2559 ( 62.6) 
+##      Good                               521 ( 26.4)   1105 ( 27.1) 
+##      NA                                   5 (  0.3)      9 (  0.2) 
+##      Poor                               166 (  8.4)    412 ( 10.1) 
+##   common_transportation (%)                                        
+##      Bicycle                            104 (  5.3)    170 (  4.2) 
+##      Car                                685 ( 34.8)   1803 ( 44.3) 
+##      Other                               13 (  0.7)     46 (  1.1) 
+##      Public Transportation              669 ( 33.9)   1473 ( 36.2) 
+##      Walking                            500 ( 25.4)    576 ( 14.2) 
+##   physically_active (%)                                            
+##      No                                 255 ( 12.9)    626 ( 15.3) 
+##      Other                               18 (  0.9)     35 (  0.9) 
+##      Yes                               1703 ( 86.2)   3418 ( 83.8) 
+##   day_per_week_motor_vehicle (%)                                   
+##      0                                  231 ( 11.7)    311 (  7.6) 
+##      1                                  261 ( 13.2)    400 (  9.8) 
+##      2                                  222 ( 11.2)    479 ( 11.7) 
+##      3                                  163 (  8.2)    416 ( 10.2) 
+##      4                                  133 (  6.7)    299 (  7.3) 
+##      5                                  277 ( 14.0)    614 ( 15.0) 
+##      6                                  186 (  9.4)    412 ( 10.1) 
+##      7                                  362 ( 18.3)    897 ( 22.0) 
+##      NA                                 142 (  7.2)    257 (  6.3) 
+##   day_per_week_public_transit (%)                                  
+##      0                                  344 ( 17.4)    936 ( 22.9) 
+##      1                                  354 ( 17.9)    564 ( 13.8) 
+##      2                                  210 ( 10.6)    380 (  9.3) 
+##      3                                  130 (  6.6)    286 (  7.0) 
+##      4                                  120 (  6.1)    224 (  5.5) 
+##      5                                  336 ( 17.0)    751 ( 18.4) 
+##      6                                  134 (  6.8)    276 (  6.8) 
+##      7                                  165 (  8.3)    235 (  5.8) 
+##      NA                                 184 (  9.3)    433 ( 10.6) 
+##   day_per_week_walking (%)                                         
+##      0                                  103 (  5.2)    295 (  7.2) 
+##      1                                  127 (  6.4)    360 (  8.8) 
+##      2                                  185 (  9.4)    430 ( 10.5) 
+##      3                                  158 (  8.0)    434 ( 10.6) 
+##      4                                  163 (  8.2)    325 (  8.0) 
+##      5                                  365 ( 18.5)    731 ( 17.9) 
+##      6                                  141 (  7.1)    302 (  7.4) 
+##      7                                  609 ( 30.8)    864 ( 21.2) 
+##      NA                                 126 (  6.4)    344 (  8.4) 
+##   day_per_week_bike (%)                                            
+##      0                                 1069 ( 54.1)   2080 ( 50.9) 
+##      1                                  141 (  7.1)    341 (  8.3) 
+##      2                                   70 (  3.5)    229 (  5.6) 
+##      3                                   47 (  2.4)    145 (  3.5) 
+##      4                                   39 (  2.0)     69 (  1.7) 
+##      5                                   69 (  3.5)     96 (  2.4) 
+##      6                                   25 (  1.3)     39 (  1.0) 
+##      7                                   32 (  1.6)     47 (  1.2) 
+##      NA                                 485 ( 24.5)   1039 ( 25.4) 
+##   q42 (mean (SD))                     37.21 (13.86)  39.59 (12.73) 
+##   marital_status (%)                                               
+##      NA                                  23 (  1.3)     33 (  0.9) 
+##      Relationship/Married/Common-Law    747 ( 41.6)   1806 ( 49.0) 
+##      Single                            1025 ( 57.1)   1844 ( 50.1) 
+##   children_household (%)                                           
+##      0                                 1627 ( 82.3)   3150 ( 77.1) 
+##      1                                  209 ( 10.6)    446 ( 10.9) 
+##      2-3                                111 (  5.6)    417 ( 10.2) 
+##      4+                                  11 (  0.6)     35 (  0.9) 
+##      Refuse                              19 (  1.0)     37 (  0.9) 
+##   ethnicity (%)                                                    
+##      African American                   110 ( 71.0)    449 ( 87.5) 
+##      Arab/Indian/Jewish/Mixed/Other      38 ( 24.5)     56 ( 10.9) 
+##      Native American                      7 (  4.5)      8 (  1.6) 
+##   q48 (mean (SD))                      6.22 (16.05)   5.55 (14.90) 
+##   motor_vehicle_access (%)                                         
+##      NA                                  16 (  0.8)     30 (  0.7) 
+##      No                                 519 ( 26.3)    789 ( 19.3) 
+##      Yes                               1442 ( 72.9)   3266 ( 80.0) 
+##   education (%)                                                    
+##      Baccalaureate                      757 ( 38.3)   1624 ( 39.9) 
+##      Cégep                              231 ( 11.7)    495 ( 12.2) 
+##      Certificate/Diploma                 65 (  3.3)    293 (  7.2) 
+##      Graduate School                    774 ( 39.2)   1320 ( 32.4) 
+##      High School/Lower                  132 (  6.7)    315 (  7.7) 
+##      Other                               16 (  0.8)     23 (  0.6) 
+##   occupation_status (%)                                            
+##      Employed                          1442 ( 73.5)   3160 ( 78.0) 
+##      Student                            272 ( 13.9)    271 (  6.7) 
+##      Unemployed                         249 ( 12.7)    622 ( 15.3) 
+##   household_income (%)                                             
+##      $0-$19999                          210 ( 10.6)    436 ( 10.7) 
+##      $100000-149999                     304 ( 15.4)    617 ( 15.1) 
+##      $150000+                           232 ( 11.7)    438 ( 10.7) 
+##      $20000-$49999                      389 ( 19.7)    812 ( 19.9) 
+##      $50000-$74999                      342 ( 17.3)    799 ( 19.6) 
+##      $75000-$99999                      275 ( 13.9)    604 ( 14.8) 
+##      Refuse                             225 ( 11.4)    379 (  9.3) 
+##   bmi (mean (SD))                     25.06 (4.59)   25.89 (4.86)  
+##   bmi_category (%)                                                 
+##      normal weight                      982 ( 49.7)   1745 ( 42.7) 
+##      obese                              248 ( 12.5)    698 ( 17.1) 
+##      other                              192 (  9.7)    438 ( 10.7) 
+##      overweight                         511 ( 25.8)   1139 ( 27.9) 
+##      underweight                         44 (  2.2)     65 (  1.6) 
+##   WalkScore (mean (SD))               86.19 (17.12)  80.36 (17.45) 
+##   WalkScoreLabel (%)                                               
+##                                          38 (  1.9)     51 (  1.2) 
+##      Car-Dependent                       96 (  4.9)    274 (  6.7) 
+##      Somewhat Walkable                   85 (  4.3)    510 ( 12.5) 
+##      Very Walkable                      598 ( 30.2)   1680 ( 41.1) 
+##      Walker's Paradise                 1160 ( 58.7)   1570 ( 38.4) 
+##   TransitScore (mean (SD))            73.62 (16.68)  77.05 (11.31) 
+##   TransitScoreLabel (%)                                            
+##                                        1694 ( 85.7)   3713 ( 90.9) 
+##      Excellent Transit                  201 ( 10.2)    277 (  6.8) 
+##      Good Transit                        64 (  3.2)     82 (  2.0) 
+##      Minimal Transit                      0 (  0.0)      0 (  0.0) 
+##      Rider's Paradise                    16 (  0.8)     13 (  0.3) 
+##      Some Transit                         2 (  0.1)      0 (  0.0) 
+##   BikeScore (mean (SD))              106.50 (32.02)  87.29 (29.96) 
+##   BikeScoreLabel (%)                                               
+##                                         598 ( 30.2)    558 ( 13.7) 
+##      Bikeable                           475 ( 24.0)   1113 ( 27.2) 
+##      Biker's Paradise                   323 ( 16.3)      0 (  0.0) 
+##      Somewhat Bikeable                   26 (  1.3)    264 (  6.5) 
+##      Very Bikeable                      555 ( 28.1)   2150 ( 52.6) 
+##   DiningandDrinkingScore (mean (SD))  86.12 (17.23)  82.41 (18.59) 
+##   GroceryScore (mean (SD))            88.94 (21.26)  78.71 (28.21) 
+##                                     Stratified by ville
+##                                      Détroit         Montréal      
+##   n                                    3077           2678         
+##   language = Fren/Span (%)                3 (  0.1)   1617 ( 60.4) 
+##   ville (%)                                                        
+##      Boston                               0 (  0.0)      0 (  0.0) 
+##      Chicago                              0 (  0.0)      0 (  0.0) 
+##      Détroit                           3077 (100.0)      0 (  0.0) 
+##      Montréal                             0 (  0.0)   2678 (100.0) 
+##      New-York                             0 (  0.0)      0 (  0.0) 
+##      Philadelphie                         0 (  0.0)      0 (  0.0) 
+##      Toronto                              0 (  0.0)      0 (  0.0) 
+##      Vancouver                            0 (  0.0)      0 (  0.0) 
+##   gender = Male (%)                    1134 ( 36.9)   1159 ( 43.3) 
+##   health (%)                                                       
+##      Excellent                         1758 ( 57.1)   1501 ( 56.0) 
+##      Good                               928 ( 30.2)    791 ( 29.5) 
+##      NA                                   1 (  0.0)      3 (  0.1) 
+##      Poor                               390 ( 12.7)    383 ( 14.3) 
+##   common_transportation (%)                                        
+##      Bicycle                             75 (  2.5)    207 (  7.8) 
+##      Car                               2718 ( 88.9)    914 ( 34.3) 
+##      Other                               21 (  0.7)     30 (  1.1) 
+##      Public Transportation              105 (  3.4)   1019 ( 38.3) 
+##      Walking                            139 (  4.5)    492 ( 18.5) 
+##   physically_active (%)                                            
+##      No                                 680 ( 22.1)    528 ( 19.7) 
+##      Other                               38 (  1.2)     40 (  1.5) 
+##      Yes                               2355 ( 76.6)   2107 ( 78.8) 
+##   day_per_week_motor_vehicle (%)                                   
+##      0                                   41 (  1.3)    449 ( 16.8) 
+##      1                                   67 (  2.2)    298 ( 11.1) 
+##      2                                  106 (  3.4)    357 ( 13.3) 
+##      3                                  159 (  5.2)    209 (  7.8) 
+##      4                                  161 (  5.2)    179 (  6.7) 
+##      5                                  433 ( 14.1)    340 ( 12.7) 
+##      6                                  392 ( 12.7)    175 (  6.5) 
+##      7                                 1529 ( 49.7)    372 ( 13.9) 
+##      NA                                 189 (  6.1)    299 ( 11.2) 
+##   day_per_week_public_transit (%)                                  
+##      0                                 1988 ( 64.6)    723 ( 27.0) 
+##      1                                  102 (  3.3)    332 ( 12.4) 
+##      2                                   77 (  2.5)    250 (  9.3) 
+##      3                                   45 (  1.5)    194 (  7.2) 
+##      4                                   33 (  1.1)    155 (  5.8) 
+##      5                                   77 (  2.5)    430 ( 16.1) 
+##      6                                   26 (  0.8)    159 (  5.9) 
+##      7                                   48 (  1.6)    174 (  6.5) 
+##      NA                                 681 ( 22.1)    261 (  9.7) 
+##   day_per_week_walking (%)                                         
+##      0                                  903 ( 29.3)    233 (  8.7) 
+##      1                                  328 ( 10.7)    223 (  8.3) 
+##      2                                  334 ( 10.9)    286 ( 10.7) 
+##      3                                  238 (  7.7)    273 ( 10.2) 
+##      4                                  165 (  5.4)    226 (  8.4) 
+##      5                                  294 (  9.6)    482 ( 18.0) 
+##      6                                   81 (  2.6)    170 (  6.3) 
+##      7                                  238 (  7.7)    509 ( 19.0) 
+##      NA                                 496 ( 16.1)    276 ( 10.3) 
+##   day_per_week_bike (%)                                            
+##      0                                 1711 ( 55.6)   1500 ( 56.0) 
+##      1                                  191 (  6.2)    183 (  6.8) 
+##      2                                  135 (  4.4)    141 (  5.3) 
+##      3                                   77 (  2.5)     96 (  3.6) 
+##      4                                   47 (  1.5)     72 (  2.7) 
+##      5                                   54 (  1.8)     99 (  3.7) 
+##      6                                   22 (  0.7)     21 (  0.8) 
+##      7                                   26 (  0.8)     34 (  1.3) 
+##      NA                                 814 ( 26.5)    532 ( 19.9) 
+##   q42 (mean (SD))                     41.11 (12.74)  47.02 (14.17) 
+##   marital_status (%)                                               
+##      NA                                  24 (  0.9)     29 (  1.3) 
+##      Relationship/Married/Common-Law   1710 ( 62.8)   1333 ( 58.8) 
+##      Single                             988 ( 36.3)    906 ( 39.9) 
+##   children_household (%)                                           
+##      0                                 1954 ( 63.5)   2103 ( 78.5) 
+##      1                                  523 ( 17.0)    321 ( 12.0) 
+##      2-3                                516 ( 16.8)    219 (  8.2) 
+##      4+                                  49 (  1.6)     13 (  0.5) 
+##      Refuse                              35 (  1.1)     22 (  0.8) 
+##   ethnicity (%)                                                    
+##      African American                   361 ( 87.2)     52 ( 50.0) 
+##      Arab/Indian/Jewish/Mixed/Other      38 (  9.2)     44 ( 42.3) 
+##      Native American                     15 (  3.6)      8 (  7.7) 
+##   q48 (mean (SD))                      4.51 (12.93)   8.11 (20.21) 
+##   motor_vehicle_access (%)                                         
+##      NA                                  18 (  0.6)     20 (  0.7) 
+##      No                                 123 (  4.0)    837 ( 31.3) 
+##      Yes                               2936 ( 95.4)   1821 ( 68.0) 
+##   education (%)                                                    
+##      Baccalaureate                      951 ( 31.0)    788 ( 29.5) 
+##      Cégep                              506 ( 16.5)    528 ( 19.8) 
+##      Certificate/Diploma                444 ( 14.5)    330 ( 12.4) 
+##      Graduate School                    736 ( 24.0)    581 ( 21.8) 
+##      High School/Lower                  410 ( 13.4)    401 ( 15.0) 
+##      Other                               18 (  0.6)     42 (  1.6) 
+##   occupation_status (%)                                            
+##      Employed                          2152 ( 70.4)   1750 ( 65.8) 
+##      Student                            243 (  7.9)    141 (  5.3) 
+##      Unemployed                         663 ( 21.7)    769 ( 28.9) 
+##   household_income (%)                                             
+##      $0-$19999                          412 ( 13.4)    286 ( 10.7) 
+##      $100000-149999                     443 ( 14.4)    271 ( 10.1) 
+##      $150000+                           193 (  6.3)    148 (  5.5) 
+##      $20000-$49999                      666 ( 21.6)    731 ( 27.3) 
+##      $50000-$74999                      536 ( 17.4)    523 ( 19.5) 
+##      $75000-$99999                      461 ( 15.0)    365 ( 13.6) 
+##      Refuse                             366 ( 11.9)    354 ( 13.2) 
+##   bmi (mean (SD))                     26.75 (5.11)   25.88 (4.65)  
+##   bmi_category (%)                                                 
+##      normal weight                     1073 ( 34.9)   1122 ( 41.9) 
+##      obese                              661 ( 21.5)    454 ( 17.0) 
+##      other                              439 ( 14.3)    321 ( 12.0) 
+##      overweight                         864 ( 28.1)    746 ( 27.9) 
+##      underweight                         40 (  1.3)     35 (  1.3) 
+##   WalkScore (mean (SD))               36.05 (24.44)  81.88 (16.05) 
+##   WalkScoreLabel (%)                                               
+##                                          27 (  0.9)     28 (  1.0) 
+##      Car-Dependent                     2094 ( 68.1)    135 (  5.0) 
+##      Somewhat Walkable                  733 ( 23.8)    303 ( 11.3) 
+##      Very Walkable                      175 (  5.7)   1117 ( 41.7) 
+##      Walker's Paradise                   48 (  1.6)   1095 ( 40.9) 
+##   TransitScore (mean (SD))            79.31 (7.37)   13.38 (18.57) 
+##   TransitScoreLabel (%)                                            
+##                                        3077 (100.0)     45 (  1.7) 
+##      Excellent Transit                    0 (  0.0)     71 (  2.7) 
+##      Good Transit                         0 (  0.0)    485 ( 18.1) 
+##      Minimal Transit                      0 (  0.0)     43 (  1.6) 
+##      Rider's Paradise                     0 (  0.0)   1911 ( 71.4) 
+##      Some Transit                         0 (  0.0)    123 (  4.6) 
+##   BikeScore (mean (SD))              133.74 (18.39)  86.99 (43.07) 
+##   BikeScoreLabel (%)                                               
+##                                        2898 ( 94.2)    624 ( 23.3) 
+##      Bikeable                            90 (  2.9)    719 ( 26.8) 
+##      Biker's Paradise                    40 (  1.3)    496 ( 18.5) 
+##      Somewhat Bikeable                    1 (  0.0)     83 (  3.1) 
+##      Very Bikeable                       48 (  1.6)    756 ( 28.2) 
+##   DiningandDrinkingScore (mean (SD))  40.56 (26.92)  82.34 (17.58) 
+##   GroceryScore (mean (SD))            38.81 (34.49)  89.47 (17.42) 
+##                                     Stratified by ville
+##                                      New-York       Philadelphie   
+##   n                                   3824            1478         
+##   language = Fren/Span (%)              16 (  0.4)       3 (  0.2) 
+##   ville (%)                                                        
+##      Boston                              0 (  0.0)       0 (  0.0) 
+##      Chicago                             0 (  0.0)       0 (  0.0) 
+##      Détroit                             0 (  0.0)       0 (  0.0) 
+##      Montréal                            0 (  0.0)       0 (  0.0) 
+##      New-York                         3824 (100.0)       0 (  0.0) 
+##      Philadelphie                        0 (  0.0)    1478 (100.0) 
+##      Toronto                             0 (  0.0)       0 (  0.0) 
+##      Vancouver                           0 (  0.0)       0 (  0.0) 
+##   gender = Male (%)                   1593 ( 41.7)     536 ( 36.3) 
+##   health (%)                                                       
+##      Excellent                        2537 ( 66.3)     928 ( 62.8) 
+##      Good                              986 ( 25.8)     404 ( 27.3) 
+##      NA                                  6 (  0.2)       2 (  0.1) 
+##      Poor                              295 (  7.7)     144 (  9.7) 
+##   common_transportation (%)                                        
+##      Bicycle                           184 (  4.8)      87 (  5.9) 
+##      Car                               360 (  9.4)     606 ( 41.2) 
+##      Other                              81 (  2.1)      15 (  1.0) 
+##      Public Transportation            2207 ( 57.9)     321 ( 21.8) 
+##      Walking                           978 ( 25.7)     443 ( 30.1) 
+##   physically_active (%)                                            
+##      No                                680 ( 17.8)     270 ( 18.3) 
+##      Other                              51 (  1.3)      14 (  0.9) 
+##      Yes                              3088 ( 80.9)    1193 ( 80.8) 
+##   day_per_week_motor_vehicle (%)                                   
+##      0                                 968 ( 25.3)     128 (  8.7) 
+##      1                                 594 ( 15.5)     178 ( 12.0) 
+##      2                                 487 ( 12.7)     192 ( 13.0) 
+##      3                                 323 (  8.4)     128 (  8.7) 
+##      4                                 237 (  6.2)     105 (  7.1) 
+##      5                                 306 (  8.0)     209 ( 14.1) 
+##      6                                 135 (  3.5)     117 (  7.9) 
+##      7                                 223 (  5.8)     302 ( 20.4) 
+##      NA                                551 ( 14.4)     119 (  8.1) 
+##   day_per_week_public_transit (%)                                  
+##      0                                 229 (  6.0)     390 ( 26.4) 
+##      1                                 320 (  8.4)     234 ( 15.8) 
+##      2                                 368 (  9.6)     151 ( 10.2) 
+##      3                                 365 (  9.5)      99 (  6.7) 
+##      4                                 298 (  7.8)      85 (  5.8) 
+##      5                                 844 ( 22.1)     222 ( 15.0) 
+##      6                                 477 ( 12.5)      58 (  3.9) 
+##      7                                 588 ( 15.4)      53 (  3.6) 
+##      NA                                335 (  8.8)     186 ( 12.6) 
+##   day_per_week_walking (%)                                         
+##      0                                  69 (  1.8)     101 (  6.8) 
+##      1                                 160 (  4.2)     100 (  6.8) 
+##      2                                 257 (  6.7)     157 ( 10.6) 
+##      3                                 287 (  7.5)     137 (  9.3) 
+##      4                                 303 (  7.9)      98 (  6.6) 
+##      5                                 629 ( 16.4)     282 ( 19.1) 
+##      6                                 388 ( 10.1)     100 (  6.8) 
+##      7                                1386 ( 36.2)     366 ( 24.8) 
+##      NA                                345 (  9.0)     137 (  9.3) 
+##   day_per_week_bike (%)                                            
+##      0                                1851 ( 48.4)     722 ( 48.8) 
+##      1                                 298 (  7.8)     113 (  7.6) 
+##      2                                 199 (  5.2)      87 (  5.9) 
+##      3                                 131 (  3.4)      48 (  3.2) 
+##      4                                  93 (  2.4)      34 (  2.3) 
+##      5                                 107 (  2.8)      40 (  2.7) 
+##      6                                  24 (  0.6)      19 (  1.3) 
+##      7                                  44 (  1.2)      26 (  1.8) 
+##      NA                               1077 ( 28.2)     389 ( 26.3) 
+##   q42 (mean (SD))                    39.74 (13.55)   39.19 (13.51) 
+##   marital_status (%)                                               
+##      NA                                 53 (  1.5)      13 (  1.0) 
+##      Relationship/Married/Common-Law  1557 ( 44.6)     582 ( 44.0) 
+##      Single                           1879 ( 53.9)     729 ( 55.1) 
+##   children_household (%)                                           
+##      0                                2959 ( 77.4)    1120 ( 75.8) 
+##      1                                 480 ( 12.6)     177 ( 12.0) 
+##      2-3                               306 (  8.0)     146 (  9.9) 
+##      4+                                 31 (  0.8)      20 (  1.4) 
+##      Refuse                             48 (  1.3)      15 (  1.0) 
+##   ethnicity (%)                                                    
+##      African American                  336 ( 81.8)     231 ( 89.2) 
+##      Arab/Indian/Jewish/Mixed/Other     66 ( 16.1)      28 ( 10.8) 
+##      Native American                     9 (  2.2)       0 (  0.0) 
+##   q48 (mean (SD))                     7.41 (17.89)    4.50 (12.55) 
+##   motor_vehicle_access (%)                                         
+##      NA                                 47 (  1.2)      16 (  1.1) 
+##      No                               2106 ( 55.1)     353 ( 23.9) 
+##      Yes                              1671 ( 43.7)    1109 ( 75.0) 
+##   education (%)                                                    
+##      Baccalaureate                    1589 ( 41.6)     509 ( 34.7) 
+##      Cégep                             466 ( 12.2)     206 ( 14.0) 
+##      Certificate/Diploma               168 (  4.4)      86 (  5.9) 
+##      Graduate School                  1284 ( 33.6)     447 ( 30.5) 
+##      High School/Lower                 291 (  7.6)     210 ( 14.3) 
+##      Other                              22 (  0.6)       9 (  0.6) 
+##   occupation_status (%)                                            
+##      Employed                         2943 ( 77.7)    1049 ( 71.3) 
+##      Student                           270 (  7.1)     172 ( 11.7) 
+##      Unemployed                        574 ( 15.2)     251 ( 17.1) 
+##   household_income (%)                                             
+##      $0-$19999                         397 ( 10.4)     227 ( 15.4) 
+##      $100000-149999                    631 ( 16.5)     182 ( 12.3) 
+##      $150000+                          598 ( 15.6)     124 (  8.4) 
+##      $20000-$49999                     605 ( 15.8)     335 ( 22.7) 
+##      $50000-$74999                     611 ( 16.0)     301 ( 20.4) 
+##      $75000-$99999                     545 ( 14.3)     182 ( 12.3) 
+##      Refuse                            437 ( 11.4)     127 (  8.6) 
+##   bmi (mean (SD))                    25.05 (4.52)    26.02 (4.97)  
+##   bmi_category (%)                                                 
+##      normal weight                    1841 ( 48.1)     618 ( 41.8) 
+##      obese                             490 ( 12.8)     273 ( 18.5) 
+##      other                             450 ( 11.8)     164 ( 11.1) 
+##      overweight                        971 ( 25.4)     404 ( 27.3) 
+##      underweight                        72 (  1.9)      19 (  1.3) 
+##   WalkScore (mean (SD))              95.88 (11.04)   86.27 (17.72) 
+##   WalkScoreLabel (%)                                               
+##                                         65 (  1.7)      22 (  1.5) 
+##      Car-Dependent                      61 (  1.6)      83 (  5.6) 
+##      Somewhat Walkable                  33 (  0.9)      96 (  6.5) 
+##      Very Walkable                     169 (  4.4)     244 ( 16.5) 
+##      Walker's Paradise                3496 ( 91.4)    1033 ( 69.9) 
+##   TransitScore (mean (SD))           71.19 (24.19)   73.31 (21.71) 
+##   TransitScoreLabel (%)                                            
+##                                       3394 ( 88.8)    1371 ( 92.8) 
+##      Excellent Transit                  34 (  0.9)       0 (  0.0) 
+##      Good Transit                        7 (  0.2)       2 (  0.1) 
+##      Minimal Transit                     0 (  0.0)       0 (  0.0) 
+##      Rider's Paradise                  389 ( 10.2)     105 (  7.1) 
+##      Some Transit                        0 (  0.0)       0 (  0.0) 
+##   BikeScore (mean (SD))              90.15 (24.92)  106.32 (30.52) 
+##   BikeScoreLabel (%)                                               
+##                                        178 (  4.7)     148 ( 10.0) 
+##      Bikeable                         1137 ( 29.7)     236 ( 16.0) 
+##      Biker's Paradise                  145 (  3.8)     594 ( 40.2) 
+##      Somewhat Bikeable                  71 (  1.9)      38 (  2.6) 
+##      Very Bikeable                    2293 ( 60.0)     462 ( 31.3) 
+##   DiningandDrinkingScore (mean (SD)) 96.05 (11.20)   87.70 (16.44) 
+##   GroceryScore (mean (SD))           97.91 (11.21)   90.43 (22.07) 
+##                                     Stratified by ville
+##                                      Toronto        Vancouver      p     
+##   n                                   4264           2518                
+##   language = Fren/Span (%)               3 (  0.1)      0 (  0.0)  &lt;0.001
+##   ville (%)                                                        &lt;0.001
+##      Boston                              0 (  0.0)      0 (  0.0)        
+##      Chicago                             0 (  0.0)      0 (  0.0)        
+##      Détroit                             0 (  0.0)      0 (  0.0)        
+##      Montréal                            0 (  0.0)      0 (  0.0)        
+##      New-York                            0 (  0.0)      0 (  0.0)        
+##      Philadelphie                        0 (  0.0)      0 (  0.0)        
+##      Toronto                          4264 (100.0)      0 (  0.0)        
+##      Vancouver                           0 (  0.0)   2518 (100.0)        
+##   gender = Male (%)                   1984 ( 46.5)   1131 ( 44.9)  &lt;0.001
+##   health (%)                                                       &lt;0.001
+##      Excellent                        2572 ( 60.3)   1404 ( 55.8)        
+##      Good                             1220 ( 28.6)    770 ( 30.6)        
+##      NA                                  8 (  0.2)      5 (  0.2)        
+##      Poor                              464 ( 10.9)    339 ( 13.5)        
+##   common_transportation (%)                                        &lt;0.001
+##      Bicycle                           231 (  5.4)    119 (  4.7)        
+##      Car                              1665 ( 39.2)   1245 ( 49.5)        
+##      Other                              43 (  1.0)     13 (  0.5)        
+##      Public Transportation            1459 ( 34.3)    633 ( 25.2)        
+##      Walking                           853 ( 20.1)    503 ( 20.0)        
+##   physically_active (%)                                            &lt;0.001
+##      No                                713 ( 16.7)    372 ( 14.8)        
+##      Other                              52 (  1.2)     28 (  1.1)        
+##      Yes                              3493 ( 82.0)   2114 ( 84.1)        
+##   day_per_week_motor_vehicle (%)                                   &lt;0.001
+##      0                                 470 ( 11.0)    187 (  7.4)        
+##      1                                 484 ( 11.4)    245 (  9.7)        
+##      2                                 504 ( 11.8)    284 ( 11.3)        
+##      3                                 430 ( 10.1)    242 (  9.6)        
+##      4                                 311 (  7.3)    223 (  8.9)        
+##      5                                 571 ( 13.4)    386 ( 15.3)        
+##      6                                 349 (  8.2)    253 ( 10.0)        
+##      7                                 731 ( 17.1)    509 ( 20.2)        
+##      NA                                414 (  9.7)    189 (  7.5)        
+##   day_per_week_public_transit (%)                                  &lt;0.001
+##      0                                 857 ( 20.1)    702 ( 27.9)        
+##      1                                 674 ( 15.8)    413 ( 16.4)        
+##      2                                 467 ( 11.0)    264 ( 10.5)        
+##      3                                 325 (  7.6)    154 (  6.1)        
+##      4                                 296 (  6.9)    128 (  5.1)        
+##      5                                 634 ( 14.9)    323 ( 12.8)        
+##      6                                 245 (  5.7)    107 (  4.2)        
+##      7                                 223 (  5.2)     97 (  3.9)        
+##      NA                                543 ( 12.7)    330 ( 13.1)        
+##   day_per_week_walking (%)                                         &lt;0.001
+##      0                                 248 (  5.8)    163 (  6.5)        
+##      1                                 348 (  8.2)    195 (  7.7)        
+##      2                                 464 ( 10.9)    248 (  9.8)        
+##      3                                 449 ( 10.5)    269 ( 10.7)        
+##      4                                 341 (  8.0)    210 (  8.3)        
+##      5                                 756 ( 17.7)    455 ( 18.1)        
+##      6                                 328 (  7.7)    201 (  8.0)        
+##      7                                 911 ( 21.4)    553 ( 22.0)        
+##      NA                                419 (  9.8)    224 (  8.9)        
+##   day_per_week_bike (%)                                            &lt;0.001
+##      0                                1844 ( 43.2)   1233 ( 49.0)        
+##      1                                 341 (  8.0)    185 (  7.3)        
+##      2                                 200 (  4.7)    124 (  4.9)        
+##      3                                 110 (  2.6)     87 (  3.5)        
+##      4                                  77 (  1.8)     31 (  1.2)        
+##      5                                 114 (  2.7)     53 (  2.1)        
+##      6                                  45 (  1.1)     20 (  0.8)        
+##      7                                  61 (  1.4)     24 (  1.0)        
+##      NA                               1472 ( 34.5)    761 ( 30.2)        
+##   q42 (mean (SD))                    46.98 (14.52)  47.49 (14.51)  &lt;0.001
+##   marital_status (%)                                               &lt;0.001
+##      NA                                 73 (  2.0)     43 (  2.0)        
+##      Relationship/Married/Common-Law  2228 ( 61.1)   1403 ( 64.3)        
+##      Single                           1345 ( 36.9)    736 ( 33.7)        
+##   children_household (%)                                           &lt;0.001
+##      0                                3375 ( 79.2)   1903 ( 75.6)        
+##      1                                 454 ( 10.6)    305 ( 12.1)        
+##      2-3                               361 (  8.5)    258 ( 10.2)        
+##      4+                                 22 (  0.5)      5 (  0.2)        
+##      Refuse                             52 (  1.2)     47 (  1.9)        
+##   ethnicity (%)                                                    &lt;0.001
+##      African American                   96 ( 35.6)     19 ( 17.6)        
+##      Arab/Indian/Jewish/Mixed/Other    160 ( 59.3)     71 ( 65.7)        
+##      Native American                    14 (  5.2)     18 ( 16.7)        
+##   q48 (mean (SD))                    12.16 (24.93)  10.41 (22.52)  &lt;0.001
+##   motor_vehicle_access (%)                                         &lt;0.001
+##      NA                                 60 (  1.4)     23 (  0.9)        
+##      No                               1147 ( 26.9)    421 ( 16.7)        
+##      Yes                              3057 ( 71.7)   2074 ( 82.4)        
+##   education (%)                                                    &lt;0.001
+##      Baccalaureate                    1543 ( 36.3)    877 ( 35.1)        
+##      Cégep                             451 ( 10.6)    314 ( 12.6)        
+##      Certificate/Diploma               746 ( 17.5)    427 ( 17.1)        
+##      Graduate School                   995 ( 23.4)    518 ( 20.7)        
+##      High School/Lower                 478 ( 11.2)    322 ( 12.9)        
+##      Other                              42 (  1.0)     40 (  1.6)        
+##   occupation_status (%)                                            &lt;0.001
+##      Employed                         3051 ( 72.2)   1725 ( 69.4)        
+##      Student                           134 (  3.2)     83 (  3.3)        
+##      Unemployed                       1040 ( 24.6)    679 ( 27.3)        
+##   household_income (%)                                             &lt;0.001
+##      $0-$19999                         301 (  7.1)    181 (  7.2)        
+##      $100000-149999                    673 ( 15.8)    369 ( 14.7)        
+##      $150000+                          463 ( 10.9)    204 (  8.1)        
+##      $20000-$49999                     768 ( 18.0)    455 ( 18.1)        
+##      $50000-$74999                     780 ( 18.3)    504 ( 20.0)        
+##      $75000-$99999                     619 ( 14.5)    374 ( 14.9)        
+##      Refuse                            660 ( 15.5)    431 ( 17.1)        
+##   bmi (mean (SD))                    25.60 (4.46)   24.87 (4.27)   &lt;0.001
+##   bmi_category (%)                                                 &lt;0.001
+##      normal weight                    1843 ( 43.2)   1213 ( 48.2)        
+##      obese                             586 ( 13.7)    262 ( 10.4)        
+##      other                             498 ( 11.7)    239 (  9.5)        
+##      overweight                       1276 ( 29.9)    747 ( 29.7)        
+##      underweight                        61 (  1.4)     57 (  2.3)        
+##   WalkScore (mean (SD))              79.56 (18.77)  78.79 (19.52)  &lt;0.001
+##   WalkScoreLabel (%)                                               &lt;0.001
+##                                         26 (  0.6)     27 (  1.1)        
+##      Car-Dependent                     351 (  8.2)    243 (  9.7)        
+##      Somewhat Walkable                 700 ( 16.4)    403 ( 16.0)        
+##      Very Walkable                    1467 ( 34.4)    869 ( 34.5)        
+##      Walker's Paradise                1720 ( 40.3)    976 ( 38.8)        
+##   TransitScore (mean (SD))           48.42 (25.00)  45.29 (19.95)  &lt;0.001
+##   TransitScoreLabel (%)                                            &lt;0.001
+##                                         33 (  0.8)     88 (  3.5)        
+##      Excellent Transit                1547 ( 36.3)   1035 ( 41.1)        
+##      Good Transit                      939 ( 22.0)    865 ( 34.4)        
+##      Minimal Transit                    34 (  0.8)      5 (  0.2)        
+##      Rider's Paradise                 1671 ( 39.2)    371 ( 14.7)        
+##      Some Transit                       40 (  0.9)    154 (  6.1)        
+##   BikeScore (mean (SD))              70.90 (30.62)  92.61 (36.44)  &lt;0.001
+##   BikeScoreLabel (%)                                               &lt;0.001
+##                                        120 (  2.8)    512 ( 20.3)        
+##      Bikeable                         2214 ( 51.9)    745 ( 29.6)        
+##      Biker's Paradise                  431 ( 10.1)    422 ( 16.8)        
+##      Somewhat Bikeable                 500 ( 11.7)    179 (  7.1)        
+##      Very Bikeable                     999 ( 23.4)    660 ( 26.2)        
+##   DiningandDrinkingScore (mean (SD)) 81.64 (19.10)  81.17 (19.59)  &lt;0.001
+##   GroceryScore (mean (SD))           82.99 (23.65)  84.45 (22.22)  &lt;0.001
+##                                     Stratified by ville
+##                                      test
+##   n                                      
+##   language = Fren/Span (%)               
+##   ville (%)                              
+##      Boston                              
+##      Chicago                             
+##      Détroit                             
+##      Montréal                            
+##      New-York                            
+##      Philadelphie                        
+##      Toronto                             
+##      Vancouver                           
+##   gender = Male (%)                      
+##   health (%)                             
+##      Excellent                           
+##      Good                                
+##      NA                                  
+##      Poor                                
+##   common_transportation (%)              
+##      Bicycle                             
+##      Car                                 
+##      Other                               
+##      Public Transportation               
+##      Walking                             
+##   physically_active (%)                  
+##      No                                  
+##      Other                               
+##      Yes                                 
+##   day_per_week_motor_vehicle (%)         
+##      0                                   
+##      1                                   
+##      2                                   
+##      3                                   
+##      4                                   
+##      5                                   
+##      6                                   
+##      7                                   
+##      NA                                  
+##   day_per_week_public_transit (%)        
+##      0                                   
+##      1                                   
+##      2                                   
+##      3                                   
+##      4                                   
+##      5                                   
+##      6                                   
+##      7                                   
+##      NA                                  
+##   day_per_week_walking (%)               
+##      0                                   
+##      1                                   
+##      2                                   
+##      3                                   
+##      4                                   
+##      5                                   
+##      6                                   
+##      7                                   
+##      NA                                  
+##   day_per_week_bike (%)                  
+##      0                                   
+##      1                                   
+##      2                                   
+##      3                                   
+##      4                                   
+##      5                                   
+##      6                                   
+##      7                                   
+##      NA                                  
+##   q42 (mean (SD))                        
+##   marital_status (%)                     
+##      NA                                  
+##      Relationship/Married/Common-Law     
+##      Single                              
+##   children_household (%)                 
+##      0                                   
+##      1                                   
+##      2-3                                 
+##      4+                                  
+##      Refuse                              
+##   ethnicity (%)                          
+##      African American                    
+##      Arab/Indian/Jewish/Mixed/Other      
+##      Native American                     
+##   q48 (mean (SD))                        
+##   motor_vehicle_access (%)               
+##      NA                                  
+##      No                                  
+##      Yes                                 
+##   education (%)                          
+##      Baccalaureate                       
+##      Cégep                               
+##      Certificate/Diploma                 
+##      Graduate School                     
+##      High School/Lower                   
+##      Other                               
+##   occupation_status (%)                  
+##      Employed                            
+##      Student                             
+##      Unemployed                          
+##   household_income (%)                   
+##      $0-$19999                           
+##      $100000-149999                      
+##      $150000+                            
+##      $20000-$49999                       
+##      $50000-$74999                       
+##      $75000-$99999                       
+##      Refuse                              
+##   bmi (mean (SD))                        
+##   bmi_category (%)                       
+##      normal weight                       
+##      obese                               
+##      other                               
+##      overweight                          
+##      underweight                         
+##   WalkScore (mean (SD))                  
+##   WalkScoreLabel (%)                     
+##                                          
+##      Car-Dependent                       
+##      Somewhat Walkable                   
+##      Very Walkable                       
+##      Walker's Paradise                   
+##   TransitScore (mean (SD))               
+##   TransitScoreLabel (%)                  
+##                                          
+##      Excellent Transit                   
+##      Good Transit                        
+##      Minimal Transit                     
+##      Rider's Paradise                    
+##      Some Transit                        
+##   BikeScore (mean (SD))                  
+##   BikeScoreLabel (%)                     
+##                                          
+##      Bikeable                            
+##      Biker's Paradise                    
+##      Somewhat Bikeable                   
+##      Very Bikeable                       
+##   DiningandDrinkingScore (mean (SD))     
+##   GroceryScore (mean (SD))</code></pre>
 <pre class="r"><code>CreateTableOne(vars = vars, data = Chicago)</code></pre>
 <pre><code>##                                     
 ##                                      Overall       
@@ -2147,8 +2704,8 @@ CreateTableOne(vars = vars, data = Boston)</code></pre>
 </div>
 <div id="fix-this-code---breaks-session" class="section level1">
 <h1>Fix this Code - Breaks Session</h1>
-<p>table1 &lt;- ibiccs %&gt;% group_by(ville) %&gt;% CreateTableOne(vars = vars, data = ibiccs)</p>
-<p>lang_lm &lt;- lm(bmi ~ cbind(lang, q2), Boston1) tidy(lang_lm)</p>
+<p>ibiccs_clean %&gt;% group_by(ville) %&gt;% CreateTableOne(vars = vars)</p>
+<p>language_lm &lt;- lm(bmi ~ cbind(lang, q2), Boston) tidy(language_lm)</p>
 </div>
 <div id="histogram-of-bmi" class="section level1">
 <h1>Histogram of BMI</h1>
@@ -2214,19 +2771,181 @@ plot(hist_diningdrinkingscore)</code></pre>
   theme_minimal()
 plot(hist_diningdrinkingscore_city)</code></pre>
 <p><img src="data:image/png;base64,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m2++afL7+eefTR533HGH6Shs166da3o9AxjWg5ADUH1T27ZtpUGDBiboXLlypTRu3Fg2b95sVsYHZ8pjBBBAAAEEEHC/QH5+vilkLF2g5WqsE044QXSLyh9//NHko4uzr7766kCeH3/8sQlQFy9eLLNnz5Z7771XhgwZEnjd7q2cP3++VKlSRSZPnizPPfecxMXFycSJEwPbXepNgbRnVINbHfrXrTC1p1V7VZ999lnR9tR1OjrU/uWXX5ryVK9eXTQgdlsqdSP64MLq3M+bb75Z9uzZE3zYPOZOSEeQcAABBBBAAAHXC9AD6lwT9e3b1wSZ2lmnQebrr78eyFxHj3X3oNTUVHNMz9UezVdeecU8v/DCCwM3/tHF3TocX1zq2bOnOU+H5bUXdOTIkWZnIj139+7dMnfuXLnttttM0Ko9qz/88INoh6EO1bsthRyA3n777WaOgVasZs2aheqh94snIYAAAggggIC3BOw5oLHWrSxJ5RPQYfRLLrlETj31VPn9739vei/tHHXE2O4d1WMaEGZmZgbOCY6rdDGR3TNtv9/+HhxvaY+rdgzqTYM0DRw40Azt6/RIXRClQ/06P/Suu+4qMT8734r4HtIQvM5F0G0EtHtXYXXuQvCXLkgiIYAAAggggIC3BOweULZhKn+7tWrVyvRw6v7o11xzTaEM+/TpI5MmTQosKNKeS42nSlu5rgGmJl24VDTVqVNHdOHTunXrpFu3bmax04033mjmimrPqA7B69xRnYOqw/o6h9RtKaQAtGrVqtK8eXNZsGCB28pPeRBAAAEEEECgjAJ2TxtzQMsIWORt2guqw+Onn356oVcaNmxoeiS1806H6HVe5+jRowudU/SJzv/UuZ669ua3334r+rI88cQTZociXQh+7rnnmnml2iGoi50GDRok55xzjmhQqltl6hxTt6WQh+CfeuopU7mNGzeaYDT4/u9169Y1K7vcVjnKgwACCCCAAAIlC+QWrEES7oRUstHRXtEeRjvpnpz6ZSfdBslOdsCYlpYmujDITi+88IL90HzXhUV20gVFer7OHdVboQen7t27mx5QDXi1R9RO1157rVkApWt2gof29fXybIpv5+/U95ADUJ0DunfvXrOpatGLswipqAjPEUAAAQQQcL9AnhxaBc8c0Ig0lg6r20ProV7QXrhU0vnBwad9jg7tFw0+7dfc8j3kAFS7f+2u+qKF125iEgIIIIAAAgh4SyAnsA0Ti5C81XLeL23IAWjwZqrerzY1QAABBBBAAIGcvIIe0AQmgfJhiLBASIuQ7DKlp6eLbq6qK7x0A3pdlJSXZ2/iYJ/FdwQQQAABBBDwgoC9Cj7euuW2l1P+oakEXq5DtJU95B7QZcuWyQUXXCBbt241QafudaWbnOq80I8++sjcGz7a8KgvAggggAACXhawA1A/bMM0f/dyafDFVY42R63Eqo7mR2aHBUIOQG+66SazrcBrr70mnTt3Njm89dZbontbjRkzxqyQP5wtjxBAAAEEEEDA7QJ5h+aAen0V/CX1e0vbym0d506JK9jk3fGMyVBCCkB1C4DvvvtO3n77bdE9Qe1Ur1490R33hw0bRgBqo/AdAQQQQAABjwjkHhq69noA+unmGPlki/PTCGolxsjA4z3SmB4rZkgBqO75qUv6Dx48eET1fv7551J38j/iDRxAAAEEEEAAAVcIBIbgXVGa8hWiVeVK8nDb1uXLJOjdH23aIt/u3Bl0hIdOCoQUgOqeVfYu+//617/M9bVX9N1335WhQ4fK3/72NyfLRF4IIIAAAgggEAEBDUC13zDG44uQtPjVrXuin1+/nmNqP+7dRwDqmOaRGYUUgOrbdJj9iiuuMPcu1Q+q3topOzvb7LZ/9913H5kzRxBAAAEEEEDA1QIagHp9+N3VwBSuRIGQA1C9j+ncuXNl5syZ8ssvv5id/Dt16iT6RUIAAQQQQAAB7wkQgHqvzfxS4lID0B07dkhOTk6hurZu3Vr0y066LVNycnKh+5rar/EdAQQQQAABBNwroPeCpwfUve3j55KVGoD27t1bdJHR0RL3gj+aEK8jgAACCCDgPgHdhokA1H3tEg0lKvVOSB9++KH88MMP5uvBBx80PZ/jx4+XNWvWyOzZs+Xxxx8XHZrXrZhICCCAAAIIIOAtAYbgy99eEyZMkIULFxbKaNu2bTJ27NhCx8r7ZM+ePWY9zq5duwplpSPVw4cPN3eoLPRCKU+0fHoToYpMpfaAtmnTxpQt3/of0jnnnCOjRo2S888/3xxr3ry52Zg+NzdXXnjhBTnjjDMqsh5cGwEEEEAAAQSOUaAgAD3GN3F6IYFnn31W1q5da0aMa9SoYV7TjrrHHntM+vbtW+jc8jypXr26fPbZZ/LNN9/I6NGjA1k988wzMmnSJBkwYEDg2NEeaPmefPJJ+cMf/nC0U8P2eqk9oPZV9R7wesvNVq1a2YcC33Uz+qLReOBFHiCAAAIIIICAawU0APXDbTgrGjjB2gKqtB2BtCNv9erVsmHDhkBR9+/fLxpf2UnX3eTl5ZmnWVlZJu6yX7O/690oJ06cKJ9//rk5pNMk//vf/8rIkSML7cm+cuVK2bdvn/02s2uRPt9p7Wuq1ymadu/eXexe70XPc/J5SAFoamqq6e0cPHhwAETRFEEj74suusjJMpEXAggggAACCERAgDmgziA//fTTMm3aNNHh+KJJg7tu3bqJrpfp1auXXH755aIBqQaT9957rzldA9M6derI119/bZ5rUPnPf/6zaFbSoEEDGTJkiNx2222iAezNN99s4rDjjz/enKvX79Chg/z5z3+WJk2amL3a9YV58+aZ7TP1VupaFr2+nXSqgB7T4DSSKaQAVAv05ptvikbUdevWFa1ozZo15cILLzRfpUX9kawM10IAAQQQQACB0AVyrEAkzmxFH/p7OPNIAY2JNKC89dZbjxgV1gBPA79FixaZOEr3UJ8zZ45cdtllMnnyZJPZlClTTMA4ffp081x7ODVQLS798Y9/NPn16NFDateubYJQPU/vVnndddfJSy+9JDNmzJAlS5bI3//+d9P7qa//9NNP5rorVqwI3Hjggw8+kH/84x+i123atKmeFrFU6hzQ4FK0aNHC3A9e7wn/448/mnvCn3LKKXLCCScEn8ZjBBBAAAEEEPCIAIuQnGuoSy65RH7/+9+bofg777wzkPG4cePM4xtuuMF81wVAGvg9//zzkpSUZIJSDUR1sbfO7bzvvvvMnNLTTjtNHnjggUAAqb2l2qupSXtBdS1OcI/rsmXLzLaY2suqSQNK3TZz6tSpUqVKFdN52KhRI/Oa/qPzQDWY1WsEHw+cEOYHIQegWo6UlBTTfWxXLsxlI3sEEEAAAQQQCKNAnu4DGqs34yQ5IaCBYfv27aVx48aFsjvvvPNEeyztZC9WuvTSS80Covnz55uF3k899ZRowKojzHrXSe3h1B5TTfHxh0M2+/3a82on3ZVIF4brPNK4uDhzWG+bbu/nXrlyZftU812nV+q0AV1crtMDdOg+kulwbSJ5Va6FAAIIIIAAAhUuYHpAGYJ3rB00MNRbl+vwecuWLU2+/fr1ky+//FLuuece0cVKffr0Mbc2152GdBj++uuvN6PJ+poGqU888YS88cYb5r269ibUpAFo27Zt5dNPPzXX1yF3/eratavp7SyaT/369eXkk08219PeWb3bZXCQW/R8p5+HPAfU6QuTHwIIIIAAAghUrABD8M77X3zxxdK/f/9AxroV04EDB6RZs2Zy0kknmWH3a665xryui390l6Gzzz7bPNctL/Xc3/3ud4H3H8sD3VrpjjvukI4dO5qezTFjxpj92kvL4/bbbzdD97qoPJKJHtBIanMtBBBAAAEEXCSQK7oNk4sK5MGifPvtt0eU+u233w4cq1atmhlm122QEhMTTbBnvxgbGys6J9ROuqpdv46WNM/glez2+XoHy02bNsn27dvNqnr7+Jlnnik6zG8nDXy///5781SH+mfNmmW/FLHvBKARo+ZCCCCAAAIIuEuAbZgi1x5Vq1aN2MV0Sye3J4bg3d5ClA8BBBBAAIEwCTAEHyZYsj2qAAHoUYk4AQEEEEAAAX8KmH1ArSFYEgKRFiAAjbQ410MAAQQQQMAlAjoEz604XdIYUVYM5oBGWYNTXQQQQAABBGyBXGsf0Hgf9IDqnSUX7N4jzb8ouLOQXb/yfM+yMq2eQJhUHsPS3otsaTq8hgACCCCAgI8F/DIH9ML6DaVFanXHWyo1joFix1EPZUgAGi5Z8kUAAQQQQMDlAhqA+mEIfsLPdeXj1c5j10oWubO18/mSo9XzDgICCCCAAAIIRKeAn7ZhalFN5K8nO9eOE9aIzN3iXH7kVFiAALSwB88QQAABBBCIGoGCIXjvV1ensdZKEbnSwd7KVXsIQMP5yWByQzh1yRsBBBBAAAEXC5gAlHvBu7iF/Fs0AlD/ti01QwABBBBAoFQBv8wBLbWSvOhKAQJQVzYLhUIAAQQQQCD8AgVD8GxEH35prlBUgAC0qAjPEUAAAQQQiBIBDUD9sA9olDSXr6pJAOqr5qQyCCCAAAIIhC6gG9H7YRum0Gvs/JmffvqpDBs2zHy98cYb8vHHH8v+/fvNhX777Tf56KOPir3o3Llz5YcffjCvjRo1Sg4ePFjsecUdzLf+46DX1O+lpVDynTNnTqAcwXlt27atxLIHn1fWxwSgZZXjfQgggAACCHhcIE/yJc4Hd0KqyGZ47rnnZOzYsfL999/Ld999Jy+//LI0b95cVq1aJWvWrJGnn3662OLNmzcvEPjdf//9smvXrmLPK+5gXl6e3HrrrUcNQEPJV8s+adKkIy6jAej48eOPOO7UAbZhckqSfBBAAAEEEPCYAHNAnWmwm266Sa655ppAZn369JHhw4fLZZddZo5lZ2fLypUrpVmzZpKammqO3XzzzRJTQvCvPaf6pYFslSpVAvlmZmbKunXrzPHAwUMPduzYIRo0tm7dWuLjC4d3OTk5poc1OTlZfv31V2nVqpXExhbug9y7d69s2bLFvF9fa9u2rbz44ouBy2hvqwbUiYmJ0qRJk8Dxsj4oXMKy5sL7EEAAAQQQQMBzAgUBqOeK7foCa2BZvXrBrUE1kOzRo4do8Ldo0SKZMGGC9O7dWx577DGpVauWPPTQQ4H6aKB45ZVXyvr1681r8+fPl9GjR8vFF19shvY10G3fvr3oecHpwQcflBEjRpjAcuPGjaZHs02bNoFTNB8NeDUQPv7442XJkiUydepUadeunTlHpw1oT6jmq4HmrFmzZNmyZXLbbbeZnt3du3fL+eefb96/Z88eOfHEE03vaEkBdODCpTwoHP6WciIvIYAAAggggIC/BDQAZQ5o+dtUg7nXXntNhgwZIv369TMB4J/+9CeT8fbt2+X999+Xr776SgYNGiRvvfVWiRfUoK9atWomUJ0yZYo8/PDDMnLkSBP4XXfddSbfb775Rv785z8H8tD833nnHdMzOnPmTHnkkUfk1VdfDbxuP1i6dKl88sknJo9HH33UDOHbr2lwvGDBAvnxxx/NIQ1Ag5MGp507dzbl0p5cDWR17mh5Ej2g5dHjvQgggAACCHhYgCF4Zxpvw4YNpodTh767du1q5n02atTI9GS2aNFCjjvuOHOhTp06md7Fkq7asWNH+etf/yr/+c9/zPxQDfK0l1ID05SUFDn55IJ7jWqPqN37qPM0dVhc54Rq0sVMOr/0+eefL3QZ7RG1ezz1/ffdd5/k5uaac3r16hUYktcy6lC89s7aady4cebhDTfcYL7rUP8HH3wg3bt3t0855u8EoMdMxhsQQAABBBDwhwABqDPteOONNxaaAxqcqwaOdrKDRvt50e8zZsyQ/v37m57Su+66ywzd6yp7DTC111EXH8XFxZkvew6nDpm3bNlSBg4cWDS7Ep8fOHBAkpKSTD56UtEyFre6/rzzzjPlsTOtUaOG/bBM3xmCLxMbb0IAAQQQQMD7AgSg7mpD7fE855xzTO+k9nZ+8cUXJvDU3ksdJp84caIpsPY+2r2XuuBp4cKFZmFSt27dzGKnf//734EeUruGy5cvl8WLF5unY8aMMfNQ7deO9l2nFWivqvbu6jV05b/OKy1PilgPqK7c0vkFGv2fcsopkpCQUGy5daKrQuok2wYNGhR7DgcRQAABBBBAoPwCedY2kmzDVH5Hp3LQeaOXX3659OzZUzRu0sVKuo+oxk461K6B4AMPPCBNmzYNrKavXbu2CVh19bu9Al5X4BdNOiVAV+pr76bOM9We1VBT37595cMPP5Rm1ip+vZ7GaMGr/kPNJ/i8GKsgpe9iGnx2GR+np6fLgAEDTIE3b95sun11bkLRrmidHKtRvcJrEKpbANxzzz1lvGrZ36ZbEWjD161bt+yZuPid9nYM+gH0Y9L5L/v27ZP69esf8RnzS311v7iaNWv6pTqF6qE/e1o//SVX0n9UC73Bg0/83H7aK6Pzw3R4Tnts/Ji0o0RXOBf9nKtCAABAAElEQVT9G+bFunaZ+pVc0aiBPNru8Irp5l9MltuPayKD2xeskPZCvW6eIrLpgMjEK5wr7TPfibz5s8iKG53LM9Scdu7caX7HF/cZK+n3h/5t1w3wixsa157VO++808RW+vkt7pxQyqZ/W3U6gBM/2xEZgtfVX6eddppZmfXKK69IWlqa6coNrqz+0tId+//xj3/ILbfcYibP6qoyhSIhgAACCCCAgPMCDME7b+pEjroAqLjgU/MuqfNBF0CFEliGck5JdahataojwafmH5EheL0bwLnnnhuoT5cuXUS3A9B5BHbSSbVvv/22VKpUyRzKyMgQnSRrz3Gwzwv+rpNxdeNVp5Pmqx3D+r94Pyatm35pT5Mfk7afJm2/kn6AvV5vu5fJ6/Uorvz2oIz+L5/2K07I3cfs9tORJO0t8WPS3zG69Y0fUrbV+ZNhdQoV/XuXlZV1xDEn6lunTh3f/lw74ROuPHRo/tlnnw1X9mXKNyIB6NatW0WjZjvpY90otWiyg0/94da9tHTTUx2GKy050Q1cNH8NzPQPfDjyLnqtiniuvrqaTlfA+TFp3fSXp7afXwMY/Q+aXz+f+rOn9dPPp73K02+fUz+3n/5+0WlXOn2i6N1Y/NKO9ufTD79fdA5eotVzVvT3if7sFT3ml/aLxnpoj6oubnJTikgAqr2bwT2ZOk8heMl/MIgGfzoMr/+L1g1YS0v6AxIc2JZ27rG8Zs8BDUfex1KOcJ1rzwH1a/10DqgGoFo/P/yBKO5zoG3o1/bT3wH6B17/Q+rXOaB+bj/9Xa8BqN5u0K8BjNbRL79fdBfIVOs/60V/n+h/HooeK+53EccQKKtARAJQ7cXU4TQ76ePi7iOqc0N1dZeu1Bo8eHBgfyr7fXxHAAEEEEAAAecE/DIH1OqzkoW/ibQa4ZxNunW3y9SIREnOldlLOUWEVu+BqntX6Xed1zl79mx55plnjJM9h1OD1Mcff1x0rytdqUVCAAEEEEAAgfAK5FmRmx+2Ybq0mUibwzP9HENLjXMsKzIqIhCRAFTnHXz77bdmzygdNr/66qvNhqlalhEjRphhNt1hf+7cueZL7zlqp5deesnc9N5+zncEEEAAAQQQcEYgV/wRgDaztmFKsbZNcjolVLFyPMXpXMlPBSISgOpckieffNLsT6VzP4MnputQu51mzpxpP+Q7AggggAACCIRZINcauvZDD6gypVhbdze/yDmwbYtE9q5xLj9yKiwQkQDUvmSVKvpfCRICCCCAAAIIuEFA54DGWnfZ8XrSKiRZ91Zp3Nu5mmRYS1cIQJ3zLJpTRDaiL3pRniOAAAIIIIBAxQrYe7b6pQe0YjW5+rEKEIAeqxjnI4AAAggg4AMB7f3UFOf9DlAftEb0VYEANPranBojgAACCCAgOYEAlAiUj0PkBQhAI2/OFRFAAAEEEKhwAbsH1A9zQCsckwIcs0BEFyEdc+l4AwIIIIAAAgiERSCvYARe4n2wCCksQCFkunz5cvn666+LPfOiiy4yN9Yp9kWHDupdx0q6s6RDlwhbNgSgYaMlYwQQQAABBNwrYPeAsgip7G2kN9P5/vvvTQYzZswwty/t2rWred6zZ8+yZxzCO7Ozs6VDhw6yevXqEM523ykEoO5rE0qEAAIIIIBA2AV0E3pNDMGXnfqMM84Q/dJ04403SosWLeSRRx45IsOVK1dKvXr1TICqL2rwqL2X+l13I9C7QWrKysqSNWvWmHwSEhLMsZ07d0qtWrVkw4YN5tymTZua4xr8/vrrr7J9+3apU6eOOab/FL1W4AWXPWAOqMsahOIggAACCCAQCQG9DaemOGERUri8J0yYYHop//znP0uTJk1k6NCh5lLz5s2Ts846Szp37izdunUzgaXemKd9+/YyYMAAadmypfz000/m3JNOOkn69esnV111lZx++ulyzz33mONPP/205OXlyXXXXSc5OTlS0rXCVbfy5ksAWl5B3o8AAggggIAHBRiCD2+jHTx40ASHektxHZ5fsmSJ/P3vfze9nnplDTDnzJkjK1askE8++UTGjRsnixcvltmzZ8u9994rQ4YMCRSwXbt25lblelvzl19+2QSezz33nMTFxcnEiRMlMzOz1GsFMnLRAwJQFzUGRUEAAQQQQCBSAocD0EhdMbqus2zZMklOTpZevXqZiuvQeevWrWXq1Knm+fHHH28WKcXGxppAVBctpaammtf69u0rH374YSBYvfjii83xZs2amd7StLQ089z+52jXss9z03cCUDe1BmVBAAEEEEAgQgL2PqDMAQ0PeMOGDSU3N9f0VtpX0MBRh8s1Va5c2T4sjRs3NvM/7QMZGRmmV1N7ODXVqFHDfkk0YLXvYmUfPNq17PPc9J0A1E2tQVkQQAABBBCIkEBgDijbMIVFXIPCtm3byqeffmry1yF3/bJXyQdftE+fPjJp0iSzoEiPjxw5Uk499VQTbAafF/w4MTHRPNWFS8dyreA8KvIxq+ArUp9rI4AAAgggUEEC9hA8+4CGrwGefPJJ6d+/vzz66KOye/duGTNmjAkWdaV7cNIA0l581KBBA6lWrZp89NFHwacc8Vh7R88880zR85cuXSolXeuIN7rkAAGoSxqCYiCAAAIIIBBJgdxDG9EzBO+M+ogRI47IqHfv3rJp06YjtkrSwHH+/PmFzn/iiSfk4YcfFh2mr169euC1jRs3Bh7rA+3xtNNXX31lzte5o7rNU3HXss9123cCULe1COVBAAEEEEAgAgIMwUcA+dAlgvfpLO2qOqxuD62Xdl7wa/bCJftYqNeyz6+o78wBrSh5rosAAggggEAFCthD8NwJqQIbIYovTQAaxY1P1RFAAAEEoleAADR6294NNScAdUMrUAYEEEAAAQQiLGBvw0QPaIThuZwRYA4oHwQEEEAAAQSiUCDLuo2jpiRrX0mvJ72r6N61It/c61xNctJFYoiSnAMtkhO0RUB4igACCCCAQDQIZB8KQONjvX8v+LqdRVJqOd9qcUnO50mOBQIEoHwSEEAAAQQQiEKBbO02tFJijPd7QOtNXyZ1Z2x3vhWrJ4hccbrz+ZKjEIDyIUAAAQQQQCAKBewe0AQfDMGLziaolywxVzZyrCXz5+4SWXnAsfzIqLAAAWhhD54hgAACCCAQFQJZeQU9oAk+GIIXnUVQK1Fi/+BcAJq3N1vyCUDD9rPg/X73sNGQMQIIIIAAAv4VCPSA+mAI3r+t5N+aEYD6t22pGQIIIIAAAiUKZOcXrIL3RQ9oibXkBbcKEIC6tWUoFwIIIIAAAmEUyD40BJ/ohzmgYXQi6/AIEICGx5VcEUAAAQQQcLWAvQ9ofIz3t2FyNTSFK1aAALRYFg4igAACCCDgbwEdgtfgM4YAtMwN/d1338m0adOOeP++ffvkjTfekPxDW10dcQIHhACUDwECCCCAAAJRKKBD8Ay/l6/hNdD805/+JHmHNvW3c3vvvffkgw8+ILi3QYr5TgBaDAqHEEAAAQQQ8LuAroJnAVL5Wvnss8+WpKQkmT59eqGM3n77bbnlllsCx3777Tf58ccfZf/+/YFjBw4ckMzMTHNs6dKlkpOTE3hNH+Tm5sqKFSvM9+AXsrKy5JdffpHs7OzAYc0rPd26d+ihpIGx5r1r165C5+mxvXv32qfJjh07pOi1d+7cad6zZs2awHnheEAAGg5V8kQAAQQQQMDlAroPaAJbMJWrlXT6woABA2T06NGBfFauXCmrV6+WSy65xASVl19+uVxwwQVy//33S5MmTeSzzz4z5z766KPSr18/6dKli1x//fXSsWNH0cBR06xZs6R+/fpyxx13SPv27WXixInm+ODBg81zvWbLli3lp59+MscfeOABGTp0qHms/9xwww3y0UcfyX333Sf/+9//AscfeeQRef75583zBx98UDp06CC33nqrtGrVSpYvX26O67GLL75YTjnlFFOOwJsdfkAA6jAo2SGAAAIIIOAFAZ0DSg9o+VtKg71PPvkk0AOpvZ/XXXedJCQkyLJly6RatWqyaNEimTJlijz88MMycuTIwEVXrVplejnnz58vVapUkcmTJ5vXrrrqKnOevmfUqFEyZswY+fjjj2XcuHGyePFimT17ttx7770yZMiQQF7FPbjxxhsDwbFOE9B8NNjdvn27vPPOO7Ju3TqZOXOmaGD66quvBrK47LLLTO/omWeeGTjm9AMCUKdFyQ8BBBBAAAEPCBQMwRMGlLeptFezW7duMmHCBLPoSHtDb7rpJpOt9mr+9a9/lf/85z9mruhrr70WCFT1hAsvvDAwT7RFixZmOH7Dhg3muw7va9KeSA1a58yZIxdddJGkpqaa43379pUPP/yw0BC7eSHon549e5peVR1m18VS2mt6/PHHy/jx4yUxMdH0fmoAPWnSJJOXvWhK3xfuxWncijOooXiIAAIIIIBAtAiYRUgMwTvS3BpwapBYp04dadq0qbRp08bkO2PGDOnfv78MGjRI7rrrLunRo4d8+umngWvWrFkz8DjW2o9VA0DtCY2Liyu0gl4DyEaNGsmSJUsC52dkZJh5nnquBovBc0h1TqgmPa4B5rvvvivr168X7RHVpNfRYHTgwIHmedF/KleuXPSQ48/5r4/jpGSIAAIIIICA+wWyGIJ3rJEuvfRSM8z++uuvF1p8pL2W55xzjpmLefLJJ8sXX3xRao+lFqh69erSvXv3QKCqC5w0wL3yyitNT6UOn2vSgPfUU08VDVxr1aolP//8szm+detWUxbzxPpHh9x1Rb7mo3lo6tOnjyxcuFCaN29uem913uq///3vsPd6mosf+oce0GANHiOAAAIIIBAlAgzBO9fQOpytQ+IjRoyQN998M5CxbtGki5B0SFtXoPfu3dssDgqcUMIDnZOpC5SeeuopSU5ONnM9GzZsaBY8ac9lgwYNzNxSXWikSYPMc889V0444QTR3svTTz89kLNOEdBeWf1eqVIlc7x27domKG7durXoV3x8vAwfPjzwnkg8iLG6YfMjcSEvXUO3KNAPSt26db1U7JDLqt30Bw8eNB/ekN/koRO1brqSUFcQhnsOS0Wx6NYawUM3FVWOcFzX3jpEf0HqJH4/Jj+3n24ds23bNqlRo4b5w+nH9tu9e7fppfL675fbFi2W9Wnp8vmZ3Qo1U/MvJsvtxzWRwe3bFTru5id5Ty6T/G2ZEve/To4VM2/Er5I/YYvEjT8czJU1c93aSH9nH+tnRt+nvZvBSbdhSktLM5/B4OP6WHtHdRpAqEnjAd0aSn9eI53oAY20ONdDAAEEEEDABQK6Cj4xlttwRqIpigaRoV6zuPdpb6t+FZeOJfjU92vPZ0UEn3pt5oCqAgkBBBBAAIEoEzD7gFrzB0kIVIQAn7yKUOeaCCCAAAIIVLAAd0Kq4AaI8ssTgEb5B4DqI4AAAghEp4AJQNmGKTob3wW1Zg6oCxqBIiCAAAIIIBBpgWxrDXKiX4bgdTn1ygOSe/185xj3Wvdat/bRJIVHgAA0PK7kigACCCCAgKsFfDUEf0oNiakahpAmNc7VbejlwoWhtbzMQdkRQAABBBCIDoEs697gCT4Zgo+9oL6IfpE8I8AcUM80FQVFAAEEEEDAOYEcawg+wS9D8M6xkFOEBAhAIwTNZRBAAAEEEHCTgPaAsg+om1okuspCABpd7U1tEUAAAQQQMALZefSA8lGoOAEC0Iqz58oIIIAAAghUmEDBHFBWeVdYA0T5hQlAo/wDQPURQAABBKJTIMe6FSdzQKOz7d1QawJQN7QCZUAAAQQQQCDCAnorTt/sAxphOy5XfgEC0PIbkgMCCCCAAAKeE/DVPqCe06fABKB8BhBAAAEEEIhCAT/tAxqFzef5KhOAer4JqQACCCCAAALHJpBv7QGaZ72FOaDH5sbZzgkQgDpnSU4IIIAAAgh4QkDnf2piH1BPNJcvC0kA6stmpVIIIIAAAgiULJBtrYDX5JdbcZZcU15xqwABqFtbhnIhgAACCCAQJgGd/6kpIZZ9QMNETLZHESAAPQoQLyOAAAIIIOA3gczcggA0KTbOb1WjPh4RIAD1SENRTAQQQAABBJwS2JeTY7KqmhDvVJbkg8AxCRCAHhMXJyOAAAIIIOB9gb3Z2aYS1RISvF8ZauBJAQJQTzYbhUYAAQQQQKDsAocDUHpAy67IO8sjQABaHj3eiwACCCCAgAcF9mYXDMFXpwfUg63njyITgPqjHakFAggggAACIQvssYbgdf17lXh6QENG40RHBQhAHeUkMwQQQAABBNwvsM8KQHUBUkwM2zC5v7X8WUJP/9dHbyWWlZXleMvk5uaK5p2Zmel43m7IUOunX36tX86h1Z1aP7/+cs2z9vDza/tlH1ocod+1nn5Mfm4/u820/fz682f//vRy/XZmZEjVuPgSf4+E6zOamJjo28+FH39XhbNOng5AFcYONpxE0uAzXHk7Wc6y5qW/WPQrHHZlLZOT77P/AGr9vPwHojQT/Yz6tf30j7smrZ/9s1iahRdf83P72T9/2o5+/Yza7efl3y97s6we0Pi4EtvIrqPTP18agJIQUAFPB6D6w1+pUiXHW1J/aeovz3Dk7Xhhy5Ch1k//SPi1fkqSYf3vXuvn5T8QpTWt9n76tf20bmlpaZKSkiIJPl0g4ef209+dBw4ckOTkZPNV2ufYq6/pyJvXf78csP4TWyMpqcTfI3FxcSW+5tV2o9zuEmAOqLvag9IggAACCCAQdgHdiJ49QMPOzAVKESAALQWHlxBAAAEEEPCjgK6CJwD1Y8t6p04EoN5pK0qKAAIIIICAIwI6B5Q9QB2hJJMyChCAlhGOtyGAAAIIIOBVgb052gPq6WUgXqWn3IcECED5KCCAAAIIIBBFArusRVQHcnKlYUpyFNWaqrpNgADUbS1CeRBAAAEEEAijwM/79pvcT6hSJYxXIWsEShcgAC3dh1cRQAABBBDwlcAyKwCNt7YxbFWlsq/qRWW8JUAA6q32orQIIIAAAgiUS0B7QFtWriSJsYQA5YLkzeUS4NNXLj7ejAACCCCAgLcElloBaPuqDL97q9X8V1oCUP+1KTVCAAEEEECgRIE1Bw+aHtAST+AFBCIgQAAaAWQugQACCCCAgBsEdmRmyUHrdqnHpaa6oTiUIYoFCECjuPGpOgIIIIBAdAmsS0szFSYAja52d2NtCUDd2CqUCQEEEEAAgTAIEICGAZUsyyRAAFomNt6EAAIIIICA9wQ0AK0UFye1kxK9V3hK7CsBAlBfNSeVQQABBBBAoGSBdQfT5bhKzP8sWYhXIiVAABopaa6DAAIIIIBABQusT0+XpikpFVwKLo+ACAEonwIEEEAAAQSiRGBrRoY0SOYe8FHS3K6uJgGoq5uHwiGAAAIIIOCcwNaMTKmfnORchuSEQBkFCEDLCMfbEEAAAQQQ8JLAgZwcSbP2AK1HAOqlZvNtWQlAfdu0VAwBBBBAAIHDAjr8rqk+Q/CHUXhUYQIEoBVGz4URQAABBBCInIAOv2uql8QQfOTUuVJJAgSgJclwHAEEEEAAAR8J/HYoAGUOqI8a1cNVIQD1cONRdAQQQAABBEIV2JqZIUmxsVIjkU3oQzXjvPAJEICGz5acEUAAAQQQcI2ADsEz/O6a5oj6ghCARv1HAAAEEEAAgWgQ2GItQmL4PRpa2ht1jPdGMSklAggggAACCJRHYHN6hjRNLbgNZ3auyHvLRaasF8nOEzmricgNJ4gkxpXnCrwXgdAFCEBDt+JMBBBAAAEEXC2Qu2qlZH/zleStWiX5aWkSU62axLVuLfFn9hTtAe1Ws6as2iNy/Zciv+wSObmeFXRaY6EPzRIZ84vIh5e4unoUzkcCBKA+akyqggACCCAQnQL5Bw5IxltvSO787ySmZi2Ja99BYqpUkfxdOyVnzhzJmDJZfuvTX/L2J8j5H4lUs3ZimvwHka5WAKpp/laRq78Qucb6yk+KKTjIvwiEUYAANIy4ZI0AAggggEC4BfK2b5f05/4p+fv3S9JNt5jezhhrtbud8q07IK0f/6Hk5qbKiAX1pGnldPn4DylSK8U+Q+SU+iKjzhe5bIJIfJUW1gsFe4YePoNHCDgrcPgT6my+5IYAAggggAACYRbI27Nb0p95yprImSOpjz0hCT17S3DwqZePiY+XX7qfLznbTpFKMTkyctYgqbrwmyNK1r2hyF2dRLL2NZOdaWzVdAQQBxwVoAfUUU4yQwABBBBAoOwC29JE3vhJZNp6kR3WnTMbVxY5v5nIn9oVDJsH55yflSUZL/zHihizJOXRJyS2bl3z8sStv0lKXJz0rlPbPM+1FhkNmm4tPsqNl2GXiTSIay+Zw4dZkWmsJJxxZnCWMqiryJDvRVbutC5MQiCMAvSAhhGXrBFAAAEEEAhVYMTP1qKgd0ReXizSpIrIxc1FUhNEnpwn0tk6Pmpp4ZwyR74leRs3SPI9gwLB57iNm2TAgu+l/3cL5avtO8wbHp8jsvlAvMTVXCzdG6ZI0i0DJf60bpL5xjDJWWpdNCjp9SQmT/LzmQcaxMLDMAjQAxoGVLJEAAEEEEAgVIEcq4fy3q9E3rW2Rbq6jcgTp4vUDpqfuemAiAaR93wtMtXqGf3f70RSvp8jOTO/lqTrbpS4Fi3kx7175e4flsgv+w/IpQ3qywprUdLb69bLr9tqy9AfRTo02SxbE3ZIbIwVWFpfGoTm7d4tGS+9KKlPPi2xtQp6S0MtM+chUF4BekDLK8j7EUAAAQQQKKNAlrUfp26J9P4KkRd6Wb2fVnAZHHxqto2s0fDhvxcZdo7IjA0i54zNlZ/fmyhxnbtIwtnWQSu9tGqt7M3Olte6nCTDunaS39WpI1+vS5DBM/Plj22tPOpskc7Vq5tz9R+dF5p8593me8bQlyU/z4qCSQhEUIAANILYXAoBBBBAAAFbQOdm3jS5oFfzzXNFrrM2gi8t9WllbZ3Ux5rKuW+fXNriIfnsrNvM6TutOaA67/OG45rKZQ0bmGOZBxrI3m3t5czGufIfK7Bda+0J2vzQJvT2NWKrVpOkW2+TvJUrJHuStf8SCYEIChCARhCbSyGAAAIIIKAC+fkid84QmbRO5HWrE/Pi40Nzablqnny6YLD0qnFABs5Olas/Fxm5Yr9kWxle0aiBbNgvcsd0kVcXVpXY1K1yafvNVsZ5sj4tXY6vVHAXpOArxVv7hcafdbZkffSB5G3fFvwSjxEIqwABaFh5yRwBBBBAAIEjBR6cJTLWGnYf0lus3swjXy/uSH56mmSOHik12rWUUf1rmyH5pdbdjJ6aWUtyNp0tF36QKp1Gi3y+VuRfPUTaNl1pbTC/Wn5aPllyrQC19r7lkpdjLa0vkpL6XS0xqZUkc9TbRV7hKQLhEyAADZ8tOSOAAAIIIHCEwBNzrV5Pa6ulp7qLXGvNzww1ZY0ba91e86AkXT/AvEWH5Bf1F+nWarU0rP2bXNkqX/7VcZl8VP+v0nHmCdJww+cyf9MK+WbK3835mVMHyrf/riWLR50tmxe+JrlZ1uomK8WkpEri1ddK7uIfJMf6IiEQCQEC0Egocw0EEEAAAQQsAV3N/qK1z+bDp4rcdlLoJLmrV0v29KmSeNkVgS2X9N3x1l/xPbEb5Yxqs+TCRW2l1TedJGv1WKnetKec2aCHNNx+mlSK+1Dund1ZGm5bJCkJMyV98+WyYsJQmfdyK9n03f+sBUi5En96d4lt0VIy33s39EJxJgLlEIgvx3t5KwIIIIAAAgiEIJBprXbXrZZ0tfujp1lbKnUJ4U2HTsnPzZXMEa9LbMNGknDBRYE36nD62vlDZe3BNtJzyzip3KCLtPj965K2qYdsnhkjbVbnSxuJkQOJWVI9Kc8ahk+WtM01JGOndfH8uyS/yiZZvvkZ2fpjb2l3xXBJsnpB05/+h8hxgUvwAIGwCRCAho2WjBFAAAEE/CKg8y9zly+X3NWrJG7Naknft9caDk8Tse65HmOtJo9t2lTiO54kcSeeZLY2Cq73qj0iA6eKLNlZMOfzj9ZdjY4lZX82wdpwfqOkPPJ4IO/tSz+QNdP/Jiuy4iSv9RA5u+ffJXllR/nxv9ZdOQ+K1LRW1Le9UeTutPkyN2+nNTR/gvSxVslrykkX2WntP7/pm0ayY/GLsmvPFvnu1welw5+ukEqdOhcUTVdJkRAIowABaBhxyRoBBBBAwLsCeZs3S86ihZLzwyLJswJP0b0ydSujBg2tgLOZxFS2Nui0juVbG7rnLl4sOdOnSUy1apJw/oWScM65siUr0WwCP3yJSL1KIp9at8E8tf6xeeSuXy9Zn4yX+N+fK5sbVZdla6x5nYuGyrr9m2Rv446yvnI3OfOXhrL70yayef9eOVjpe4lL3SKpi1OlyqxKMjY9QeLyUiUv7lfJjVsv0tFaHd+mitTtVF3q3lVNDvwWK8vfqSu7lr4tP/zvPWl1oVVH6zSxAmyr1MdWWM5G4BgECECPAYtTEUAAAQT8LZD322+SM+dbyZ43V/I3b7ImWVq3sGzbzlqk01/irC2LYhs1kj179kiStal7jHVHofQcaw5mphWvZVm9ims3yYbvfpZfZh+Uub+slwUpLSQ5PkYGWnM977NGvaskHt1un9V9ufrgFutrs6zat0FWzJ8ia87PkXVVJ0nGjE8LMkhJlrpVOkqnrK7yyAeXSodNOVI7+2dJtna1z4uNkR0N68rmJunyVdVt8mvcDtmWs1ca7K8sHXfUlRaZDaThp/sl5l1rR/vK8VLpnLrS9dqGsmlNrCx7+w+yYvwaqW/1nkplq2IkBMIoQAAaRlyyRgABBBBwv4DOscxZMF+yp02RvOW/iCRYvYbWUHT85X+Q+JM6SUxysqmEbhw/Y6PVk7k8RX6yOgh1aF0Dz8OpkfWwkVQ5Lk+6pK2Rv699W/q0jZN6nftKTGJS4LSsvGxr3uZWWWUFmasPbDIB59q0LbLGCjx3Zu0LnFctL0Gax+TKCbWOk9N++07q7P5VOrW+Qk5r/aBkvpouyQu2SkruBtmbEiMpFzSQmNNrSmzHatIgJU50O/quh3LakblX3ts4Q57Y9I11i86NUiUuRR6JuVz6Lj9B4qduk/xPNkvDXrWl+u3N5bsRdeQfP8XJZ52zA+XgAQLhECAADYcqeSKAAAIIuF4gPydHcr7+SrI+/1Tyd1r3ST++hSTddIvEn3KatTXR4Zuxa+A5apnI84useZPWzkV1khOluxVrntNUpKE1tF7dik+rWr2bNawYs771vG5qrLXRfAvJnrxKtnz8rnyxfa4sP6eLLIvZI8v2rzfBZ561ObymlNhEaVapvrSo1FC6WRM3W1RqYG0Y31CaLlwhye+Mki3dM2XbvCFSuV4naXPiBxL3WSWJ/+cvkmQtLkprWUcePG2nZHSuLC92aVmid+2kanJni8vN1/q03+SVNRPkoQ3vy39OqCr/d8mNcv6iFpL/znpJmbVAelzWWKbOqyZNd1QpMT9eQMAJAQJQJxTJAwEEEEDAUwI5CxdI5ph3JN+6+09c15Ml8Y67Ja7FkTvCL7MWDt0+XeTHHdbdipoX3LWoVdJeqVFDh+CPrPLWjF0yduOPMnvXUpmXtEx+vcRa8SPpkrJpkrRLqCunNz7RumXmedKqUiNpWbmRNEyuZYbyg3PKnjtHtn78b1nTZqnk7sqRdnWHSo2FnSXmnf2SEZcrW5o2l5r315eqHeJl3MQpcm/VgttvBudR0uOmqfXkmQ63yK3NL5aHfn5Dblr6vFxx/Jny7FsDpNJ7VhA+1trSKWa7rKpfraQsOI6AIwIEoI4wkgkCCCCAgBcE8vbstrY0ekNyf7AW67Q7QRLvtALPZlZkWUx6f7k1d/Nra1DdWmv0+eXWhu+H4jxrzVGhtGTvWvli6zyZvG2BLN2/zrymPZpn1Gov97T8g3RObSqNP5oqeTO/sa65Q5Kuu1hi6+hwfeGUby1o2vfRa7Lm+3/KwXq7pdnBv0j91RdKzNYc2W/1rK6r004q/X971wFnR1Wvv9u292w2bdOAECShhd5RmgioCAqKSJEiYAGfoPgAC+8hNuSJPkUFUUSUJyIoghRRCCBCIHRCIL1utrd7794y7/vO3bm52exusmQ3udn8//ubPTNnzsyc+ebOzDf/dk6rxU6nBBDk23tBRyei3GZWxdC1ldOpab3rgKvx2+WP4erXf4kXWhfittOvwHuOnoPi81/AzEYRZxNDYOQQMAI6ctjang0BQ8AQMATyCAFFtMd+8TMO/QMUfuYSRA4+dMDe3fBv4LvzgFN2yaROKo1s2FRBQvesfBL3rp6LpTRrl4SK8L6xe+PC6SfiyNq9ML6oZsMNzt8Zyf32R/xXt6P7q19G+IADET7kMAQn045PV4D4Gy9g2RPXoTm5GPVrP4rZaz+CQFcQnfUVeKtuMtIzKzHr0wxkYnNf5rXQCZUyp+rdays/Mflo7F+9G85/4Xs46Zn/xI/3+jze159q1z+olYbAMCFgBHSYgLTdGAKGgCFgCOQnAtIs9vzhbiTo6xmavQcKL7wYQaZL6k+U/vLLc4FbOVTmFYzi+QpHLPKliwk0/7TqKdyx5BG81LkIxaFCnDDuAHzzPec40lkY6sNS/Q17y/DecxDafbYLdko8+jCSjLRPM8hoXdXb6IikMG7lydi54b1AKIzu2ePwems9ukIl2PkTzA1/HHkzRz3KlXmMxp9eWoLqgs0Ir8/dsM/8DLoCPHDI9bh4/k34NInoYny+TwtbNASGHwEjoMOPqe3REDAEDAFDIE8Q8GIxxP73ZjfOecEppyLCoSyVPmkg+dITwO2vA9dTOXrRnplWMrH/etnD+OOquehOxbB/xa74nz0vxUnjD0JJOBMhP9D++tYHSBYLOJpR4L2HYfUjNyL+6AKMXXIhprXvBq86hOix9Xi9cSLaGiIgt8XeHwf6KlP9fUoDui/TQQ2HlIWLcfu+Vzq/UO0vOTBEw3E424chACOg9iMwBAwBQ8AQGJUIpKkhjH3/O0ivWYOiz1+OMIONBpOvUvMp8vntw4BP7B7H75Y/hV8tewTz297GmIIKnMvgoTNpsq7qKUJVbx7QwfbX37ruxjfRdP89CP8zhnGrDkE4dTRSu0fQwSj2BUvGoO31ICp3YcL6CxldP6O/PWTqmnp68CZ9QM+fNnzjZoYCIXx79oWIYy44cqiJITCiCBgBHVF4beeGgCFgCBgC2wKBdEMDot/5FkANaPFXr0Zo+k6DduN6+nzewhGLLt6nCe8E7sXejz2JjmQ3DmZqpJ/ufRlOGH8ACoIZE3tLT58opEH3zKExu5vQ+siDSD22DOVvz8DE2OFIlsbgvX8cVo+fgcXzSxD9J1M5sYv7XM40T3tvYodc/VRjs2t0eO2YTTe2FoZAHiJgBDQPL4p1yRAwBAwBQ+DdI5DiuOkxkc9IGMXXfA3BcYOPf/nfz3XhxnmlGFf3N9za/AvUdJTjE5Pfh09OPsalSno3PYmtXoTOh5+G92wTShdPQU18ClIFdYjPTqPpPTOxorWO47HTzk1f07Ecfl0BRjW7bf6RnmhsxGTmKp1KH1ATQ2B7RMAI6PZ41azPhoAhYAhsRwikElHEWhYh3rGc2sBGJOMdHEOdQz0yl1CooBSRompESschUlKL4urBNZWbOu3UksXUfN6AQEUFiq+8CsGaPtHovTt4o30pHl33An5Fk/viFacgXPEA9p/6Kj5W/yUcWzcnq+3c1PH89QlqXLuefA6peasQXhhBafNUVHtT0FNcg65phVg7aWes6Z6AjpVBYB21ndOAGadxWPlDGJH/Ltw4n2xswuG1/Z+b3ycrDYF8RsAIaD5fHeubIWAIGALbIQIJEs2G5fehe82/0L7yOZLPd3gWDC/fQBTl0rdOnLQYxWN2RenY3VFatwfK6vZC2fi9HTndYPN+FlJvLUD3978L1E5kfs8voSdQwUTzQFdPjOOqr8aC9hV4rXUpXm5bhNaeTgSj+8Fr+yg+OK4B1x1wFEczYnAQh9aMr+TE7qmHvriecvAij1P3Yo65vmIh0gtXIrisC0XrwiiKlqCcf4nQDLSXF6JhfB0aMA5dYSYR7SbJZCL76l2ByYxmr2Vw00CBRf7xBiuXdXcz9VMUX5lZO1gzW2cI5DUCRkDz+vJY5wwBQ8AQ2D4Q6G56C+te/z3WvfFHdDdSrUgpGTsLVVOPRNkBn3eksqhiMjWdddR6lrtIdI85j9KJLiSizYi3r0TrkseYaogpiJoWoGvda2h4/U/w4jXwkhMQjsxGQSnTGIVnIhhi4E2qDqmeEsQ7mWKp20Oyk6Qwynrv5wisIHX8Si5uilSfzvHRNR2OY3JXaf6VOrz+6PrKUDqFwlQcRZqSMTeVsCxmGqYS+oWWioVSUozj7YpMRCPPp72mFN1VZUiNKye5DKCI3HDSOIAZjlA++d1pOf0evd7egWteewPHj6vDBdOn4ol1HJ6JYv6fPkJWbo8IGAHdHq+a9dkQMAQMgTxAINXTRZJ4N9bMvw0dq/7ttJfVO5+A8t0vxMRZH0R59caj/fjdVr7NnvYAYk1lbupcPQWNLx+EdGkPos0eEi00VXdGEPAyekgqJqVIRCzchY7CVk7L0V7Yha6CLnRXdCE6hmb+SBTxUJy+n0mUFReiuqQM4xm9PiVUhWnBGtQHqlDYE8BryxOY+1YSexQlcHhFAsEObtMaRaAtzvkUgmyTKz08ZqyoBbGKNnQy5icxrghFu09B8Z6zSazHoZzDxk8hxx0ku1Pu7oY0vyIaxSnPPIvCYAhPNb2JykgED6xZi9kc/ai2cMvyfw6pI9bYEBhmBIyADjOgtjtDwBAwBEY7AtJ2rpr3E6x9+Q5qITtQOeUIzDz5NtTO/DCTqBdhzYp11EhWo5Vm53hrZooxcDzazKEmGxPgcOlIt5JcMtlkyKMekRpHeD3UOkaxqnItOgtJ9iIdSIylmZxksjDioYhvq+JwCGVeAWp6uBxlfXcCBWu6Ucj5SDqMwmQYBYkipjaqRChVglCyiGb0EC+HhpWkXd1NwP6c25fm/1SkC8kCpmqKtCDBMlHcgp7KJiRKOhAYW4DghCpEpk1CSf17UDbuQKZe2slpbls4Fue7TcPEQw9JLpv/iiOfjx95KP7jpVedJrSdIyd9f89ZQ9qPNTYE8g0BI6BDuCIpOs13xRvRGWtENMGHVqID8UQnemiSSaZ7kEon4PFh6vEvoD/mVAvJyZ6pO8LBQoT5YC6gf1OEI1uoLAyXcipDQaSMD9dyrrev2SFcDmuapwjEaVKNJtp4f7Tz/uA9kuxyUw9Ld68wkXeCUzIdz9w3qQTSXpL3T9LdPwkux2JRFC0tQjAY7L2XWHIYmCDvqWAgzHrdV5wCvLd43+j+CgULeG+RfHB0mkxZxJLzQZa839z9F8qUWq9J9+bWkmRKz4geJHjeHbEGeJ3t7pmhOp17yuPzg0Qs7Z4haWKRMfOqfzp3jv7tzlvnH+a5hnje7jx4fgXhEp5jCbGh1nAYRV3g4w28pOjp9NCy8Hmse+0f6FxD38fARAYM/QmFxbMQW1KIJS8msLQ9hnBnFyJUV3akG0gKE5ySJJhJlAdiqPDimMhrHUmlUEDOWZjeuL/702czIxrfPGeM8zC1koVsX8CpiKSSly7d3ggvSiI7rgbBafXwSFZTQZJKTnFXNiMV6kQyzOd0OIo7Y4fgnsTBOKLm37i4/s+IFJYgXFiBMAOFCjhee0n5RBSW16OgjLbzPJC/rW3A3KZm3LbvPsxDWoDv7DELF7wwH6uZWupj9QNrl/Og69YFQ2CTCBgB7QeiFS3zMX/ZH1C4NIKmzsVo7lqOtu6V6CT53JSIePJtwa950VDntr6pTbLr9TIUES2M0IcoUsFJpT+vZU0kq65khGdBZe98eXa+OFLJ7en0bmIIDAMC+sBqj61FR5RTbB3vAU4q+RGm+6Er3sSpGd3Mi6gp2tPqCNSmDu1IFMmhI1IiUySTjliSYPIGQppDJ4Y4HKEMoZk7if9JzNK9BE1kLU1Sk/nwy3z8beqY/a3X/SrCKnLq9yVTRrJkT6RXBFC3c2PnO6gqmUTiV5zpFxmaI4zsmz5AU45IsxSpJOFU/0S0tW5riPqlZ4aeIXoWhCNjUFlYjpKCapQWjuFUg9JQHYp76lEYH49ItBahWBVSHRG0t/agqzWJnjayztYUIh0eNYyciLOIZAE/DCLpatSnTmLZgzDJZIR1halXSI03lp5gGp1FSXSXJtFZRpzK+PFQFkFhRRFKGKFeRBNyoIx262Liy8kr5NVuTyIwtTRDNIu410L+HkQ4STwDQf0aMpJ8/jnE77id29BH89MXuHHV/XV6qRX6C71lIxWglzwCPEkl6DeOAi7d+0iu0ZQ/0hCL49rX38BlM3bGbuUZ4v2tN9/CftVV+MCEDCGuKyrEfYcciB7eHxF+nJkYAtszAkZA+7l6D7z6VSxr+TfGlE1zU33NXphdfyIqi8ejvKiOD/FaPtCrHPmTFlPaB73E+tOmOM2GewnxRUStTw+d2BOp7l6NEEu+4OPJzow2NdnBksvUGkl7JA2rylaS31jijeyy6vTSG0j0stTLRwS1OFLlSr2ASgo5sSwK0zyFEtRW1aO0gC8kvZTcy2mMO5eB9mv1owMB/SalgWuPrnFTW3Q1CeYatPUui3D66xI0ifYVae3LGGGh+6CMv5uxFbu435F+W8XMJ+P/9tyHEtvqg0jbSENXQO2/tJGDaeri8Tiam5tRW1uLCP3dNlekYXRaVQaOOA1rr6ZV56Dl9VNmWfdjpp00sZrWE0cRXOEkzWyGYJJAkfzqXq0t39lZL5xWkvdaRiub0czqGZCZRKpl+aB2NkdD68gutbWx7h5UVtb0kl5t00vAXUlCRkqXGS6yl4K7D1r1QZpSaYv1PNGkc406zbLTNPfwmdISQqI5jOZVNXhj7RxUdnSjrpNm6q4KlERJTBPUCvNcpZmMpJuonVyDoBfDGJ5zodNMyoKzsXRHEugsTaF7DDWhlWkkKgJIVpIgVrLv1YUoqCb5ZSBOCQNxRLzrJo7H2CIF/2ye9HfM3C0VsJR67VUk/nwfUm++wTHVZ6HwvAsQHDs2t9lG8w8vBb7wODW45NW/PxE4espGTUakYjmj1G9+exHG0k/zipkzssfoJsatPQlMLN4Qm0vnvwylVvp7QyP+TnP7Ao5ypJGO7jpg3+y2/kyBkU8fCiu3YwSMgPZz8SZV7YWOeAO+ccrCftYOrSpjgqdfEgnfcIqIrIiob+qM0Q/Lzfe0uVKaqKjWq+TU3dNM7c0idMdbmJKkmS8s2tT6EZkyc8lF7rwjHCQeZSQePmHVepkBTbYtAiJS0kyuan3NEZN4sp0kUlpLEU2VIpucZ9lF7WVf7by0ZhXFE1BRNJ6BG/WYOmY/LjO4omhcb1nnPr7K+AEms3Y+iiN6cmPhueS7iGDXDJCfsm/fvQSZUzs1qNQOplsSSKxMIrEmgWQDl5tptm9jPs0Oag7pDxnqEamUyTtBDSW3U8LJrLRxrg007jNwJ4UuBuB0l/dQQ8mx0jnFFdATaUBnYAU6QpyKqOkuamM7Bt5w8kIeP8InoqZ0CqpLJ7syM88k66Vj3ce6PjZSJFgNzIm5KfGoxUM8xlByfkynqV6mhtNLpREI87XEOo/rvDb2l8Nopt55243l7jU1IjBxEoo++wWE9z9g0EMsawe+/i/gvncYLT4J+PH7GJW+BcahtkQCf1m9FoeMqcbmpO2UNvOxhnUkvp7TYr63biyea27Bqf/6Nwm6h3upyTywptqdw7OsF/m8Yfbu+PaChc7Pc0lXN3anlljbmRgCoxEBI6ADXFVnSh9gXT5Uy4dUk0jCUCVJB/b2jlaEi6jNIBn1zagqZVoVQXUlTaxyP1je9KIzt8rE2p/I7OcT0lKnZc1oVZ3WVVoxaoulfZVmTH56BdQaV9OMKQ1ZYYTmth1cRB6lvUrQ2S7jLykteK9WnFpwfVhEcz4sdB3aOhv4YuvIXLueJqcB6wujtG8ijBW9JHJqLUklCWYFNfmapNHPzE9wv6W+29vyegTS1DYqkXrzoodpCi6gT+Ra9HStySRVZ3RNMtaGVKKbKYU4USvpkQC6hJEMigmlaB1JFzPYhpaSdBmXyxBMlaLFo4k8Rd/vFH0QkyyTrI/zHomVc6KWOEYNKpNRBvsYO6QT1pSinjJBshajb2RnQRItJTE0MxK8saQTDWWdWF02HcnqZqykW081tZYfnlmNCWPrUF87DlUF1GLH29HV8Aqj159D27K5SC77J0pZV1k8hsFEH0Lt7ldQuziTmvGVaOlegRY+C1q6WHYv48fsYixc+0+nKV+PEtMu8X6vKZ2K0vA41HFcybGoRVW0GCWthYg2lqGTAUldXdQ2d9NXlASzOB1DJX/7tfxYrkr1/1Gs/QdqxiA0azbCBx/iNJ8Z7XDukdfPzyfnvvUV4G7qDyr5PXITLe2ffE/GM2p9q6HPnfrMv/Eq0yHtQfeB383ebdAdvEM/2IfWNOCbs3bDn1auwdWvvYm/kWxeziCiGWX8DdBN6/PUeM496nBnSr97xUrUFRbirKmT6XEQxBdffhVhtrmfJNXEEBitCBgBHa1XdhPnJfNgRXEtp80nsDJBipz6gVidzv9PPoAZP0CVIrTyFVzbzoTQvb6BIlgDicyYMs86vzWZazmJoGYINs21vQFb8tHzAy5CIZk2My4PvsnT9x+UObSH5q1YNIZVsWqShV4/KeV8oTh/QmqGFODBDIRUvGg+E/ghU2vGxzBjdpW50wXHyAzrfA9l+uytI8HIrue87/+X7p33g9JU7/spylwqU6/w0OSbgAfCJrdemMjtw5F5vuQjoVLUMSK3hC4UZUXy7ctopoVnLYmHNFRywTBZj4BMuOgmm9PURa1htHeepaf5ODVyjKZOtJLcN69Fso0j9nRQA9fVgTT984KpMKo7ZiJe1EC3xbEkEVNoKCdRZFR2MM1AGEZhB1I0n2tK0oSeUODQ4IZl/SqT1PwlmWInyYCqJMltjGb4JKcEfWA7KxMkllE0lHRhTXkrVlY0Y1llA5ZUrUJX+SpUB2MYT4eaCdRKT+K9Mona33pOSW8C/qsziTurGnF/NI6Heqrw2TV3I714HRZ1rCKZXsygolUOHOXdLBs/BxP3vRg1Ox2HivqDed/IFzcjVaUTMdXFjfs1mdLrYUBVcwNaGt5A47oFaG59G82dS7CmZR1eSZfjgeB4rAzuhdb0Huj2JnMjYlHBQlM/EiGlDvKu3Le0C9OKYphSkkJ9VQj148sxoZYuQ0x1VEFCmZvqqJM8f2Un8Caj6h9fkcRDSz2s64pgLNteQcv1hXtmtunncBtVfe+ttyGz+TUcJrNveiNpJ0U+P7PTNPx00RLct64R51ZntJcb7YgVv166HOX8ODhzymTMqarCiU/9C8c88TSfSVH89dCD6Ubh4fi5z0DE8+QJ43HfqtX41JQpjph+Yko99qqsQBsVBXPo/2liCIxWBIyAjtYrOwLnFeRLqbxorJswBG4jXzXnBsDMAc2dy0hMmxjgEXEuBHIjcD6v9K3LZBRYHzHdGaNmL7XcEbUe+rmJsPkkzkUUK2rYmRmH92RFGhRlLVKb65sXUvS1H4HtyozvniKxM1HZ65elfRSZlllYWt+ML6CCbhTwkpkKqDmW9liT/IhFMjOZEVjKb5JEIuNHWc79rycEOtuhmHCHF51ttzdPZlqRRxIrRyBVMvm45y/TDI0OMhK/zq1Xm972Xdx2E+IF2CZIU7YCXkJjmNeyDulQCCmm/0nzN5FOBxCP1CPOwBjulZQpo4lMMVdl2mMbTl6aLIlTkFPIiyDNj6IUP4RSKt18CNFQEM2FaawrjqO1uI0kk6mHylfQr5LpgCqYj7KqB5HqNAOIilDDe6WaJHMsScvMZALVJM9VTGfk0aKe6GbEN/McJXn/pNLdnGLsQw8eGX8WqiqrUPDklZhVNhu/n/51zF2+EHNCbQwCmoSKiQdkRhtyIw3twfMsYr9JwLk/j+bzdHs7PDfR9C4zeLtK1WWWVTJVgUNTNoxlJZPxr5pD8I/az2Fe4TQkeJ4lRGivshiOoVZ2fMVClAaWE5PFiMWX0ueY2tTudWiOUgubLEXcq2PU/M5YnXo/ltOd6K2e6Whvnoie5WSS1GauF48aQs9dn55UgERu/ZpwKI0UhxsqqF2LHx5ej+PGb77p+q7lKyACWsTrpLyb9xy8oXn/F4uXYieOuf41klMlhf8VtZrn7rrer3N9L+RrmsYfVq7ERyZNQAl/O/uSRH555i74/fJV+NbsWZhNcik5uq4W3+Ux36CfZ4yuB+dOm5LdzazeNtkKmzEERiECW42AKrDg+eefd471+++//4DBBY2NjZg3bx6mTZuGmTNnjkLId7xTEgkrL6YPIadxFbsOKwDSYPqaSKfBpBazq4uR23xBjqXv1Ab6J6pOnEaKJUNHXGSzH+HsUmY5Urkh0RvWzo7CnXliAEkSl0Q/pXwXWZ+OkixRu+jlljGu4+TFSOFYj3hvyWUvmkBZFwNsEqtIrmho5hTUxCiSDa5nDp7iIYlIkKl2gtQcsuSLP8EpSfKWoJYyWULyVyIdG0kkSLZoxJaWMZcUpqg99jgNJl6Rh3iYwYRh9i/MKPxQAD0kq3Huq5ue3p3cbzePH+XPKFlIIlvCaPGyHpbsfyk15cWMCid5bWKaonaa3Fd2FmE182V6mO4OW0vb+q50sd2JHHYSezu2vQWVrWtR3LQawYY1SDd2YG0sgOXBKTzmzjx2BD1MJZQKF7hna4Ta+uJEDP+etCv2WbEa4xedi9l02bhpQpRBLUfj9PnPk1izcxFm9AjLpeZZdIt40r/RTf2dfEkpAiREQRLaILV+ganTaOKvw1McjeiJnnH4R3sl1sbp507oDp4IXDUpjVnFjTh4ahlKmQieYwFxEhns/96Xu09z1zJmHFmC11fd5nzM26J3uuDLtTRlr+kOMminjCR1LHo8RuyT2nq8fyNhD+URYlTUjXcKd8PrgWm4vPIZ/C02G595YRW+P3UtJrPvmWwhsq4oO0DGyqIPPT9tVYz+pje8uRAncOjMD02cwG1f4khDjThibGaYS0WnP8J0SNfuPtNh/GmORHT2cy/gH2zTn3/mH1eu4vVNQJpMXy6fsQs05cr19Pc8/slnIHL7qSmT2VeSbRNDYAdCIECzVM435MiceZRflOeddx5mzZqFVatWoZC+LjfeeKO7mXOP+OKLL+Laa6/Fcccdh0cffRTnnHMOTjnllNwmW2X+zrmXYMHaR/HNU9/aKscb6kHWkcz/nA8tGfhkEqoqkEfY5ot8QLu6uhiFOwQ15ubvfpu31Lm1U3szfvz4jX5j27xzW9ABF4yiUF6SudaGZlQVU5PilkneWDqSt7gbHpmAJ9cDkb44nQ5YZua5rPYiiyq1TZLzvUSRdtsMmSSh9EQqRS45BRQYIu0jpyAnzbuJj46BCOHmnCb3SAIYzGgI+2oJuSyztAiiK0nwkpyPk/DJ5zHOgJgok5NHSUKi4TTnSQZJCFMhpj+iBlNlMsD0RzRRp4JRTnFqMOkCwQ6nwoWcipCOMJVSAckMCZzHOo9aTo/kLCCCxvkATeBeWBpMkjwSve5UBM+tjaCsIIB1zI0pZauEoTPYqSxFs2kP9qyIs4xTy5VAldIIuX3xO18ppbhPjiHpLNEtDEKqUqod3svdHVH6U8bxBoOK3mwJ4O3uAixNlGBVsALtJEpbKqGAxwTudP0IdeFUmrZ3DrRjGqfJgQ5MDEUxhrhRI4AAta0oKWFqpDIE2LcAfR1TZZU0G4fxDhWeMnO/RP/KeWuBxQzwkezER8j7Jmciyw8j+STHzwYhVZOsFg0hCl7PNQXp7Mft6tewhAAAHlRJREFUlG4oV+SyolRgmZRgDJRiOjCXFozk9S1qxX/YfjQODs7FPsm/oJnk748F16Io3YwjO67iJ8HGmRz8fcsisbD4VMyLnIGPJW9AXbgNvw98gc9W4LyC39I6UYgnkgfjycTeuKriTwz4T4v64getR/C3VICv1D5Hdwz+VvjblIWkm+4YX1szC5MLYrhiPDW+/N2uz5KQaadlWVa0zbJ4Adro2jGnnHvlbyRjdVlvSVGuV1lP+reiME/uJj6Y/PMcahk/ei4enlaGk2/de6ibWntDYLMR2CoE9Pbbb0draysuu+wy17GLLroI5557Lg466KANOnr22Wfji1/8Ivbaay+sXbsW559/Pu655x4UMAHv1pQ7H/s0Xlr9DC7Z5U6EGVWaJmHzEpxSfFC7iM04fbw4dBvz4AVoBtbkaQrwpU39SooP/Bi1bE8FKvA0J2ld9kYcu9G8F+MDL8osdTFOcT7ANMn3K8VJLyf5XoWpQSmiJqeYUylfduXU7MiZvorzi3ui+PKypYhS0yd/xho+tO7YaTJm6uUhESPQQ0kEhA859yLlS9SLcAd6yXD/GxFQMYEckUbgF4uX4DfLVkCRn+9lmhPlptu1XJqM9eLIixZFTrQPlRIV+q5xZc681pHQsOt8IauekyCTqPkG27Cud7/uE4nzSfZLEbbKEZnglNY8yVGK86pPkTSp1AdPlD6gpdR+pLldim3UV81LY6fttSyTLl07XR0vUrZ0fVK/RMBYBpQsW0SM5teASvWf26rUJVeQSIaUqaR21W1DsqZ6mmZViripPti7nlZE1vfWab53fciVGaLn5nnyWhdi+W7InnSGaUfyRPQ0cZmvUM17mledKFTvOh2F7ov8Pfq+iSw5n5CfItsk+LtKuJIaRr5Ae6RtVJ3TAkobGCQ5VB2Joib+BF3Julg4TM1gqFdDqGWZpbV/HjXYyRdtMwMvmpjysZE/3w5ytw6MSb2DMemlHHu7EaVoRFm6CyU0MxfywpGDEhv+ngPF6AlUojtYi6bQZGrDZqElOIHXgtffq0BzsA5NgWo0Mal50v3weP0GEJFJ6UhJRYWcm3iHooYEqILp0xoYSDQnuhi7UmM3pXsNdo6txgwG6UR4/3fz/Mp4vxC+DaSR9+bDkyajg/fgfo0N2LeJLK6PdPAeXUbiV8yP851YhhnpHayvR6J+GjrGTUWssJTuKMBSflwtopm8uiCE/WsqUFsUYWor3k69P46ORApnPTsfa+jT+pO99qf2MOB8JOc39uAPS1vpM1pF4katMH+HvoSJf3VRAEzR6faleiqcwVEp0cLJlyDbjeUwmaUMcmrCWnSFGjClPOA0d2/RjKz0QofVjsFFNCXvJFeBHAKa5u9XydNfphn/pVZmaOD6cTzXan48L6SWU9pElb4oOlxaweM49nl5hD+ifkR+lK9wfxcxMXsRn2t/O/xg5qfXgwV4sbUNH+HwlbUFYRxfy4CrUIIuAEyCzwz59ZFO3uscFIHXcyHdMr6xejoOKG7AGeWvON/s12KV+EXnkTiu4FlMDyzGrfHTsGfwZbwv8NeMrzf9uldwHPr7QpfyF9WEuvQ74BhOfESE0Bicyt9jIY7tuoa/l6X8/WX8y/vp/rBUibA633jnI093HgamOpceufYoUNWVcu8pYZBjjD78TZheexCXtS4zeEG2jXMFymw//vS4EdBhuUK2k8EQ2CoE9Oqrr3ZazSOOOML15ZZbbnEmeGlFfREpOv74453m049wPP3003HDDTdg+vTpfrMNShEWkY3hlkcvfgfvW9XhXrjat3tU82WXeWRzxq9zc5l/G9Wy8QZ17GuQk7Q5bk991ru27gB6BUoyR3OzfZayazINXRN/KxE/rc+2cS/SzF54sVnv7713YxZy/HeE0W3nr9c+MvX97iuzS/vfi4BQ85Fz8wQtg3YGPRE/DWnt6hwJzCxnCKGIoJbp0+bWkd+qJJnTMrkANXgZ8uiWe9tpXgEsiobW+iSXIykRO2kIRRj9Y5Jou3l9sohW9e5fpa4+14mPqL532G3O+eJaY5eOGNYxGXgHv3Mye9BZui1YoZKFiCRdIgJuOXMsV+/WitTSR5IvzMxBHBi8J9gD+U862kbax5e4/CgzXygZ7Ho3H0LhXw2WZP9EUQhxe/ZTh+09X6LDY4uSMoWRW6/rI8xJQdnXvhIkyfS/nLSPXNF2vgRJOqi75aIw0HUhs8sRna2Gn/RFx9qdnHRBDaPaed389Zl+Z1qJCrt+9SHQaqNPCK3P3Mk6qwCKvC4S6fXH0F6Ysp0fDb0f88ScnzWEJLMdL53bTgCpJnONM9fSoakvJl7XzN7V/2TvcTNUXe21nc5V1zKzrC21RQZXFk78tplrnjmW8Mhch8zvRv3UZ4Ak9xyFZy7WmfV0qvC6XX/cBr3/tH8RwyCDwmbQ2+C1sTnXiHtXr3QM4Vfsdbr++9vnYtXfep2TtmV6fkKo/Qp1ngt/zwU8qrbpK9omI+vn/JrBSiGysWTq+lujvvStX9+675qN96yaM18H/jq9DMfePPxucMXFxXxGCC2THR2B/j8thxmVNczjVkFzji+aX7Fihb/oSuWNKy2lr1HOD1MmYgVbTJ8+fYO2/oIIaBsd5IdbJkVpspK2cySEX88mow8B9/Jxp9X7gHdFzsM+Z3b0nb2d0ZYioJ/HQZtOnbmFh8lRZ27hnrafzTMKCuF78JDw3Vys6IsxSqWlrHtE3q8ioCaGgBDYKgQ0RLOITKO+SNvZ90fYt43aqt1gPkQaJ1p+fsMtJT8vwTtrilDJ9Bm5IsIrq6xEJq9cspypHfx/ihuHem1lMh9JlA9uuMTvX28XB9xtkqbqeLybhH+9SV29CFObtjmi48hdcDDRrjZ1bpvb34GOo972dx1kfu/u7mCi71qnCfCv2UD72VT9QMfJ3U6JpXMh2Zzzz92+v3l/nzq+9hfM+a20MciqsmK9D6+w3NTvUWbQd4uF3BhCNKP7oj5t7u/F32Zzyzh9+DqZp7aycgzCNNPnijCRjNSxc481kvN9r19Kbhabef+NZL+GY996zrW20mWC/qNFHAUoH2S48W3raEdFGf1kc+7JfDjP4epDS0szTp00CWV0BxluGa2YDTdOO8L+tgoB1ZB60mT6ovnJkyf7i64cM2aMC4xRtLyClCRqN3EiPdsHkZH6MVcxdUZdXd0gR95+V23kA7r9nkq/Pc8EIUUwjv5jI/X76PfAW7EyQr+4zR1JZyt2a1gOpWdAhMSzlv6EQxmKc1gOvpV2Mpqvn5QNcsPI9QHdSrButcMU0He1igqK0fp8UXo7ndtoPb+t9kOxAw2KwIbqhUGbvvuVhx9+OB588EGmjYtBaZaefvpp7LPPPm6HWtYUpgP/gQceiPvvv9/VP/HEE+4BpoeYiSFgCBgChoAhYAgYAobA6EFgq2hAjznmGDz11FP4+Mc/zujWIM4444ysX+cvf/lLp+VQhPwll1yCK6+8Evfee69rp5RMJoaAIWAIGAKGgCFgCBgCowuBrUJApd287rrr0NHR4Xw/tezLFVdc4c9i6tSp+P3vf+9SNsm8YWIIGAKGgCFgCBgChoAhMPoQWM8Et8K5lSvx8maIkc/NAMmaGAKGgCFgCBgChoAhsJ0isFV8QLdTbKzbhoAhYAgYAoaAIWAIGAIjgIAR0BEA1XZpCBgChoAhYAgYAoaAITAwAkZAB8bG1hgChoAhYAgYAoaAIWAIjAACRkBHAFTbpSFgCBgChoAhYAgYAobAwAgYAR0YG1tjCBgChoAhYAgYAoaAITACCBgBHQFQbZeGgCFgCBgChoAhYAgYAgMjYAR0YGxsjSFgCBgChoAhYAgYAobACCBgBHQEQLVdGgKGgCFgCBgChoAhYAgMjIAR0IGxsTWGgCFgCBgChoAhYAgYAiOAgBHQEQDVdmkIGAKGgCFgCBgChoAhMDACRkAHxsbWGAKGgCFgCBgChoAhYAiMAAJGQEcAVNulIWAIGAKGgCFgCBgChsDACIQHXrXjrolEIqP65AOBAEbzOYZCIRQWFo7qaziar18wGHTXT+VoldF8/fR80f1n12/7/fXq+uk5amIIjCQCAY8ykgewfRsChoAhYAgYAoaAIWAIGAK5CIxeFUPuWdq8IWAIGAKGgCFgCBgChkDeIGAENG8uhXXEEDAEDAFDwBAwBAyBHQMBI6A7xnW2szQEDAFDwBAwBAwBQyBvEDACmjeXwjpiCBgChoAhYAgYAobAjoGAEdAd4zrbWRoChoAhYAgYAoaAIZA3CFgapj6XIh6P4/nnn4dSiey///6jOl1Rn1PfbhcTiQTmzZuH4uJi7Lnnnu7a6WSWLVuGVatWZc9rzJgxmDFjRnbZZvIDgRdffBG673zZddddUVNT4xYbGxvdtZ02bRpmzpzpN7EyTxBYvXo1lixZskFv9Ow86KCD0NnZiVdffXWDdao3yR8EHnnkEbz3ve9FOLyeCgx2zy1YsABLly7FnDlzUFtbmz8nYj3ZLhGwNEw5ly0ajeK8887DrFmzHHFRLrQbb7wxS2hymtpsniCwZs0aXHrppTj00EPR3d2N119/Hb/85S9dHsJrr70Wa9euRVVVleutyOmZZ56ZJz23bgiBZDKJ97///dh3332zgHzyk5/EHnvsARFTXcPjjjsOjz76KM455xyccsop2XY2s+0RePLJJ/GXv/wl2xF98LW1teH+++/H448/jh/96EfYZZddsuu//e1vZ+dtZtsicM899+Cmm25y95afN3mwe+4HP/gBXnvtNfcR//TTT+Pmm2/GlClTtu1J2NG3bwSUB9QkgwCJi8ebLAvHhRde6D3zzDPZZZvJPwR++MMferfeemu2Y9dcc4335z//2S2fccYZHr/Ws+tsJv8QWLhwoXf22Wf327FPfepT3vz58906fmh4J510kkdNab9trXLbIxCLxTx+4Hlz5851nbnlllu822+/fdt3zHqwAQK0GHlXXXWVp/fbYYcd5um6+TLQPbd48WKPH39eKpVyTe+66y7v+uuv9zez0hB4VwiYD2jO98Pbb7/tTAt+lcwM0qiZ5C8CF110Ec4666xsB6V9kSZb2tDm5masW7cOv/nNb7BixYpsG5vJHwRIQFFfX4+HHnoI9913n7tu6p00o7pm0lpLxo0bh5KSEqxcudIt27/8Q4Afgk5zLWuERNe2rKwMv/3tb/Hcc8+Bb6j86/QO2COSSOci8eMf/3iDsx/snlu0aJG7F/3RrezduAF0tvAuETACmgOczLkVFRXZGs03NTVll20m/xAoKCjI+un+/e9/d6TlhBNOwDvvvOP8CvXi0wP3sssuwwMPPJB/J7CD9+itt96C/Mo6Ojpc+bGPfQzyQWtoaEBpaekG7i+VlZXuo2IHhywvT18ffn/84x+dm4TfQRHQf/3rX84d5te//jWuuOIKf5WV2xABmds/+MEPbuD3qe4Mds/J11f3ny/2bvSRsHJLEFjvebwlexkl22rsW5EVX/RFqMAWk/xHQD5n0nTKZ1dal/e85z249957UV1d7TovP7TbbrsNJ554Yv6fzA7UwwsuuACapN2UKBhJ2tBjjz12g3tR63Q/FhUVadYkzxDQNTvggAOcptrvmu43+V9La3byySfjQx/6kPtAlMbbJP8Q6Pv+Uw/9e67vOns35t/12x57ZBrQnKumqD6ZbX3R/MSJE/1FK/MUgTvuuAN33323c4qfOnWq62VraytaWlqyPZazvAKS0ul0ts5mtj0CMqnnRsDrOknboowFXV1dG6yz+3HbX6+BevDXv/4VH/7wh7Ore3p6XLS0b7KVpUJuFLIymeQnAoPdc2PHjt3o3ThhwoT8PBHr1XaDgBHQnEt1+OGH48EHHwSdsp0ZUJF+++yzT04Lm803BPTie+yxx/CTn/xkA+2LTIKXX3658weV75kidY888kinjcm3c9iR+/PEE0/gpz/9qYNAfrtyo/DTwhx44IEumlor1U7abF+jvSNjlm/nrg8IpWKaPXt2tmuRSMRZI2SCl7zxxhvOnWnvvffOtrGZ/EJAqZgGuueUklAptZYvX+60ogz0dBrv/DoD6832hoClYcq5YjIrfOMb33A3mr7cGUWNj370ozktbDbfEDjttNOcZlO5B3059dRT8YUvfAG/+tWvXIoRXVf5LF133XWoq6vzm1mZBwi0t7dDqXmUvkcBYzK9f+5zn3MfCso3eOWVV0LmP92PSsmkHKEm+YWAfD0ZVY0//OEPG3RMuXl/9rOfQXl6dW2/8pWvuHRpGzSyhW2KgJQuSnHmp2Ea7J7TR7xSLylHryxN//Vf/7WRH+k2PRk7+HaHgBHQfi6ZAiLk+5mbnLefZla1HSAgk7sSYucGl20H3d7huijtp4im/yLMBUDuFH4u19x6m98+EJA1Qvdf7kfi9tHzHbeXA91z+piQxlt+9iaGwJYiYAR0SxG07Q0BQ8AQMAQMAUPAEDAEhoSA+YAOCS5rbAgYAoaAIWAIGAKGgCGwpQgYAd1SBG17Q8AQMAQMAUPAEDAEDIEhIWAEdEhwWWNDwBAwBAwBQ8AQMAQMgS1FwAjoliJo2xsChoAhYAgYAoaAIWAIDAkBI6BDgssaGwKGgCFgCBgChoAhYAhsKQI2FOeWImjbGwKDIKAce0899VS2hdJ7acSt448/HpMmTcrWv/LKK24QBOW93Bz53e9+51KhnHTSSZvTfKu30ahTSjD/H//xH66fm4tDfx0dCjYaSlf5CT/1qU9h+vTpG+1uJHBT7kSNg65+6tpq8AqNaa+0UiaGgCFgCBgC/SNgGtD+cbFaQ2BYEBDxUqJ1jeSjScm6lZB75513xre+9a3sMURevve972WXNzWjoUc1ClS+ioZc/PrXv+5ysKqPm4tDf+czFGxEQHXcRYsW9bcrN2TrcOL25JNPYs6cOfif//kfN0LMCy+8gHPOOQfvf//7oST7JoaAIWAIGAL9I2B5QPvHxWoNgWFBQGRT2rG33nprg/2p/jvf+Y4bRlRDT442eemll6BhFzWu+/jx4x3p3ho4aAxyJbMX4T366KNHHFZpspVg/aGHHsoe680338SsWbPc8LAXXnhhtt5mDAFDwBAwBNYjYBrQ9VjYnCGw1RC44YYbcNhhh+Hqq692x3z22Wdx2WWXuXmNNnLBBRc4LZ6IqkjOZz/7WUfm/A7++Mc/xm9+8xu3+KMf/Qh/+9vfcNttt+HDH/6wG0JWBCxXpBHUUJYf+MAH8LWvfQ3S3GnZF63X8aW5+8hHPoLvfve7EJmTbE5/1Fb9+NCHPoSLL74YK1as8Hc9aNkXB42yonN/7rnnoCFV5ZLwzDPPDAmb3ANqhKUvfvGLuOWWW1x1Lm4ap/y///u/8fzzz+PTn/60w+b73/8+pEX1Rf353//9X4er2mhMc/Vv5cqVronM732HB91tt90cFiLeuXLHHXfgrLPOcu4B99xzj9OY+uuffvppnH322W4oUg0jqzG3ffnhD3/oCK7O48wzz8SCBQvcqvnz57u+HHfccQ4fDWdqYggYAobA9oKAEdDt5UpZP0cdAgcffDBeffVVd15vv/02RFAkIkC/+MUvHCGSL+UHP/hBpykV0fDl4Ycfxty5c92iyOdFF12E22+/3Wn9tL1I62uvvebWNzU1ufpHHnnE7euf//wnTj75ZPzf//2fW7948WLsueeeaG5udgRpxowZuO6667LkeHP6c+mllzrfy0MOOcQRVxGlzZVcHER2de6f+MQnnCZTQwKKHA8FG/+40WjUnacI7Omnn+6qc3HTGOY33XSTO+fJkyfjoIMOwle/+lVHSv19XHLJJfjmN7/p1hUUFOCoo45y/WtpaXFN5GsqX9fzzjsP9913HzTspEQkXNfNF5H+z3/+85gwYQL2228/N969yLDkz3/+MzQmt7YV6ZbP8B577JF1I5B2VZpUEWUNK6thEP/+979DuGn5ox/9KPQBo2toJNRH3EpDwBDIewQ8E0PAEBgxBL785S97JHT97p8BMR4fEB5Jg0dtpldTU+PakTi5+muuuSa7Hcljtq0qSW48kk63noFI3u677+6RKLpllWPGjPHol+iWqUX16urqvHQ67Zb1T+2pqXPLDz74oEcCld1eleeee65HUuTWb6o/NLd7NEN7JLyuvf5Rk+j6SxO8q9tcHDo6Otx26rMvQ8GGGku3/V/+8hfv2GOPdedAX0x/Vxvg9utf/9q1ffnll7PrSfQ8aqbd8rx589z6xx9/PLue/qUbbfOTn/zEXWNdSwYeeSSGHslodhtdX60j8c/Wkfx7JNnumkybNs375Cc/mV2nGdV9/OMfd3UnnHCCRy2rl0wms20Y6OSdcsop2WXNqI4fAhvU2YIhYAgYAvmKgGlA8/4TwTo4WhHwtWWVlZX9nuIBBxyQrZ8yZYqb7+rqytblzkirFgxmbmeVirCXdkwizRlJjPNV9LfJjZ6X2V3aOGnVbr75Zqe9kwk/Fov5zV05UH9kCh43bhxIarPttc/Nlf5wOPDAAwfdfKC++BtJcymN75e+9CWUl5f71RuVykogbaMvwjkXN10buUr4cuKJJ/qz2fIzn/mM8/GVplba0JKSEmeyF5aSF1980WlzpeX05bTTTsOdd94JaXiXLFnitN3+OpW6Prpuvuy7777ZqHq5BcjHVqVcNPxJUfe52/jbWmkIGAKGQD4iYAQ0H6+K9WmHQEDBKjLJirD0J6Wlpdlqn1zySzZblzuT21b1uSmAZIKXiTlXqqqqsovUALqURfJx9E25Rx55ZHa9P5N7jNz+iERRu4rcvoXDYX+zTZb94UAN7qDbDdQXf6OZM2c6/8jPfe5zoFbVr96o7Iu9zss/D7kkiFjnnksubvJz/cEPfpD1lVXap/PPP98FQImUKjJeIjcKEV0FK/UVYSfJTcmlZR1Xrg++5OKh6HrhLVO8+utP1Pg6E76/jZWGgCFgCOQzAkZA8/nqWN9GLQINDQ249dZbXVDJSJ+kIrKVHihX5Dfqi9IWKXBGGjwFNsl/UQQnlwD5bfsrlYZI5yNNqC+PPfaYPztoOVI40OSPG2+80R1buUjfjQg3BRmJiPqSi5ui7aVhfeCBB/zV2XKXXXbJ4qeUWyKaOldfpBWVj6jyhsq3NDeKXm10HGUR6E/Gjh2LiooKTJw4Eddff312Ouqoo5x/aX/bWJ0hYAgYAvmGgBHQfLsi1p9Rh4CCYRR1ron+li5C+tBDD4W0WldcccWIn+/ll1/uCI2ImLSdCojJTY6vaG2RLPVT2j8F0yhfqUy8myMy/4usKVhHWkEd42c/+9lGm25tHKQhVPS7gpoUfDRUUcaAnXbayWUFUODWXXfdlSW12peIoEzpimxXpLrylSqYTNkIFF2vACWJArPkniCtqEj+unXrQP9et73cAxRgJOKv/KTC6Oc//zkUoa/gooFEHwkKzLr//vsd0VWOWWUgaGxsHGgTqzcEDAFDIK8Q2Hw7WV512zpjCGw/CIiUHXHEEa7D0prJ3CofSUVcMzhoxE9EGkoRlf/8z/905EaESKZikRyJ0vsoGl9m36KiIjeSj9IwSYsoc680dIOJtmHQj4s0l+ZPIrKbqxFV3bbAQTgrIl/n62ccUF82R+TGIF9YZRhQeiu5SygdlvCSSV3y29/+1l1H5XRV+iSJ2kkzetVVV7llmfCVdklEVSmbRIzlkyvCLtGABEoXJY2o2orYyn/0jDPOcOv7+6ePCPmqigBrG107fcwMRlr724/VGQKGgCGwrRCwRPTbCnk7riGwlRBQwIqIr8zsviglkPJJ5pqU5SsqsjlY0I6//UCltHvaXqR0exedi0irTNu+/6a02PKPVRqmvsFjqlPglgjoQCKMdS1EQvuKNM46Zn19fd9VAy4rbZV8TIeyzYA7sxWGgCFgCGxFBMwEvxXBtkMZAtsCAZEm5YyU2V1aM2krZZb2c2P6fZJLwJaQT+1H2rvRQD51LiJ3CuzREKny4ZRrgRLjK8dqX/Kp9tXV1YOST7URxv2RT60TMR0qkYxEIkPeRscyMQQMAUNgWyNgGtBtfQXs+IbACCPA/JHO/C7iqYhzmYHldyjfUJPBEbj77rudH6nIuwJ/jjnmGOffOhCJHHxvttYQMAQMAUPAR8AIqI+ElYbADoCAzLzStJkMDQHDbWh4WWtDwBAwBDaFgBHQTSFk6w0BQ8AQMAQMAUPAEDAEhhUB8wEdVjhtZ4aAIWAIGAKGgCFgCBgCm0LACOimELL1hoAhYAgYAoaAIWAIGALDioAR0GGF03ZmCBgChoAhYAgYAoaAIbApBIyAbgohW28IGAKGgCFgCBgChoAhMKwIGAEdVjhtZ4aAIWAIGAKGgCFgCBgCm0Lg/wFYPZhe1mjmuAAAAABJRU5ErkJggg==" /><!-- --></p>
-<p>To do: 2. Linear Regressions (loop)</p>
-<div id="linear-regression" class="section level3">
-<h3>Linear regression</h3>
 </div>
+<div id="linear-regression" class="section level1">
+<h1>Linear Regression</h1>
+<pre class="r"><code>explanatory &lt;- c(&quot;DiningandDrinkingScore&quot;, &quot;WalkScore&quot;, &quot;TransitScore&quot;)
+dependent &lt;- &quot;bmi&quot;
+ibiccs_clean %&gt;%
+  finalfit.lm(dependent, explanatory)</code></pre>
+<pre><code>##           Dependent: bmi          Mean (sd)
+## 1 DiningandDrinkingScore [0,100] 25.6 (4.7)
+## 3              WalkScore [0,100] 25.6 (4.7)
+## 2           TransitScore  [1,80] 25.6 (4.7)
+##         Coefficient (univariable)     Coefficient (multivariable)
+## 1 -0.02 (-0.02 to -0.02, p&lt;0.001) -0.02 (-0.03 to -0.01, p&lt;0.001)
+## 3 -0.02 (-0.02 to -0.02, p&lt;0.001)   0.00 (-0.01 to 0.01, p=0.796)
+## 2    0.01 (0.00 to 0.01, p&lt;0.001)    0.00 (0.00 to 0.01, p=0.003)</code></pre>
+</div>
+<div id="linear-regression-1" class="section level1">
+<h1>Linear Regression</h1>
+<pre class="r"><code>lm1 &lt;- lm(bmi ~ WalkScore + DiningandDrinkingScore + TransitScore + GroceryScore + factor(ville), data = ibiccs_clean)
+summary(lm1)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = bmi ~ WalkScore + DiningandDrinkingScore + TransitScore + 
+##     GroceryScore + factor(ville), data = ibiccs_clean)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -9.949 -3.441 -0.781  2.583 15.476 
+## 
+## Coefficients:
+##                           Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)               25.83536    0.24117  107.13  &lt; 2e-16 ***
+## WalkScore                 -0.01524    0.00757   -2.01   0.0441 *  
+## DiningandDrinkingScore    -0.01349    0.00580   -2.32   0.0201 *  
+## TransitScore               0.00567    0.00180    3.15   0.0016 ** 
+## GroceryScore               0.01399    0.00266    5.26  1.4e-07 ***
+## factor(ville)Chicago       0.87269    0.13682    6.38  1.8e-10 ***
+## factor(ville)Détroit       0.99810    0.17311    5.77  8.2e-09 ***
+## factor(ville)Montréal      1.07539    0.18641    5.77  8.1e-09 ***
+## factor(ville)New-York      0.17548    0.13876    1.26   0.2060    
+## factor(ville)Philadelphie  1.01116    0.17097    5.91  3.4e-09 ***
+## factor(ville)Toronto       0.64052    0.14452    4.43  9.4e-06 ***
+## factor(ville)Vancouver    -0.09132    0.15988   -0.57   0.5679    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 4.66 on 20910 degrees of freedom
+##   (2979 observations deleted due to missingness)
+## Multiple R-squared:  0.0206, Adjusted R-squared:  0.0201 
+## F-statistic:   40 on 11 and 20910 DF,  p-value: &lt;2e-16</code></pre>
+<pre class="r"><code>confint(lm1)</code></pre>
+<pre><code>##                               2.5 %     97.5 %
+## (Intercept)               25.362648 26.3080704
+## WalkScore                 -0.030076 -0.0004043
+## DiningandDrinkingScore    -0.024860 -0.0021113
+## TransitScore               0.002140  0.0091972
+## GroceryScore               0.008778  0.0191945
+## factor(ville)Chicago       0.604508  1.1408655
+## factor(ville)Détroit       0.658788  1.3374042
+## factor(ville)Montréal      0.710006  1.4407736
+## factor(ville)New-York     -0.096492  0.4474543
+## factor(ville)Philadelphie  0.676034  1.3462768
+## factor(ville)Toronto       0.357243  0.9237921
+## factor(ville)Vancouver    -0.404711  0.2220625</code></pre>
+<pre class="r"><code>lm2 &lt;- lm(bmi ~ WalkScore + DiningandDrinkingScore + TransitScore + GroceryScore + factor(ville) + language + marital_status + ethnicity + education + occupation_status + gender, data = ibiccs_clean)
+summary(lm2)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = bmi ~ WalkScore + DiningandDrinkingScore + TransitScore + 
+##     GroceryScore + factor(ville) + language + marital_status + 
+##     ethnicity + education + occupation_status + gender, data = ibiccs_clean)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -10.769  -3.616  -0.895   3.132  14.545 
+## 
+## Coefficients:
+##                                               Estimate Std. Error t value
+## (Intercept)                                   25.49162    1.95832   13.02
+## WalkScore                                     -0.01553    0.03085   -0.50
+## DiningandDrinkingScore                        -0.01139    0.02331   -0.49
+## TransitScore                                   0.01263    0.00873    1.45
+## GroceryScore                                   0.01964    0.01110    1.77
+## factor(ville)Chicago                           1.68998    0.57356    2.95
+## factor(ville)Détroit                           1.84830    0.68474    2.70
+## factor(ville)Montréal                          0.96031    1.11891    0.86
+## factor(ville)New-York                          1.10837    0.57800    1.92
+## factor(ville)Philadelphie                      2.87865    0.62840    4.58
+## factor(ville)Toronto                           0.69460    0.68770    1.01
+## factor(ville)Vancouver                         0.51557    0.82349    0.63
+## languageFren/Span                              1.86792    1.25603    1.49
+## marital_statusRelationship/Married/Common-Law -0.18054    1.62593   -0.11
+## marital_statusSingle                          -0.62796    1.61938   -0.39
+## ethnicityArab/Indian/Jewish/Mixed/Other       -1.62907    0.35541   -4.58
+## ethnicityNative American                      -1.34373    0.74560   -1.80
+## educationCégep                                 1.09240    0.40103    2.72
+## educationCertificate/Diploma                   1.26244    0.43927    2.87
+## educationGraduate School                       0.15574    0.35484    0.44
+## educationHigh School/Lower                     0.28403    0.45086    0.63
+## educationOther                                 2.24247    1.82007    1.23
+## occupation_statusStudent                      -1.67497    0.45139   -3.71
+## occupation_statusUnemployed                    0.45379    0.35746    1.27
+## genderMale                                     0.24375    0.27718    0.88
+##                                               Pr(&gt;|t|)    
+## (Intercept)                                    &lt; 2e-16 ***
+## WalkScore                                      0.61481    
+## DiningandDrinkingScore                         0.62512    
+## TransitScore                                   0.14838    
+## GroceryScore                                   0.07704 .  
+## factor(ville)Chicago                           0.00326 ** 
+## factor(ville)Détroit                           0.00703 ** 
+## factor(ville)Montréal                          0.39089    
+## factor(ville)New-York                          0.05535 .  
+## factor(ville)Philadelphie                        5e-06 ***
+## factor(ville)Toronto                           0.31264    
+## factor(ville)Vancouver                         0.53136    
+## languageFren/Span                              0.13718    
+## marital_statusRelationship/Married/Common-Law  0.91160    
+## marital_statusSingle                           0.69823    
+## ethnicityArab/Indian/Jewish/Mixed/Other          5e-06 ***
+## ethnicityNative American                       0.07172 .  
+## educationCégep                                 0.00653 ** 
+## educationCertificate/Diploma                   0.00411 ** 
+## educationGraduate School                       0.66079    
+## educationHigh School/Lower                     0.52881    
+## educationOther                                 0.21811    
+## occupation_statusStudent                       0.00021 ***
+## occupation_statusUnemployed                    0.20447    
+## genderMale                                     0.37932    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 5.01 on 1489 degrees of freedom
+##   (22387 observations deleted due to missingness)
+## Multiple R-squared:  0.0991, Adjusted R-squared:  0.0846 
+## F-statistic: 6.82 on 24 and 1489 DF,  p-value: &lt;2e-16</code></pre>
+<pre class="r"><code>confint(lm2)</code></pre>
+<pre><code>##                                                   2.5 %   97.5 %
+## (Intercept)                                   21.650270 29.33297
+## WalkScore                                     -0.076033  0.04498
+## DiningandDrinkingScore                        -0.057117  0.03433
+## TransitScore                                  -0.004503  0.02976
+## GroceryScore                                  -0.002134  0.04142
+## factor(ville)Chicago                           0.564906  2.81506
+## factor(ville)Détroit                           0.505154  3.19145
+## factor(ville)Montréal                         -1.234501  3.15512
+## factor(ville)New-York                         -0.025412  2.24215
+## factor(ville)Philadelphie                      1.646008  4.11129
+## factor(ville)Toronto                          -0.654368  2.04358
+## factor(ville)Vancouver                        -1.099758  2.13089
+## languageFren/Span                             -0.595845  4.33169
+## marital_statusRelationship/Married/Common-Law -3.369899  3.00882
+## marital_statusSingle                          -3.804461  2.54854
+## ethnicityArab/Indian/Jewish/Mixed/Other       -2.326233 -0.93191
+## ethnicityNative American                      -2.806268  0.11882
+## educationCégep                                 0.305753  1.87904
+## educationCertificate/Diploma                   0.400794  2.12409
+## educationGraduate School                      -0.540302  0.85179
+## educationHigh School/Lower                    -0.600352  1.16841
+## educationOther                                -1.327694  5.81264
+## occupation_statusStudent                      -2.560407 -0.78954
+## occupation_statusUnemployed                   -0.247396  1.15497
+## genderMale                                    -0.299949  0.78746</code></pre>
+<pre class="r"><code>table(ibiccs_clean$education)</code></pre>
+<pre><code>## 
+##       Baccalaureate               Cégep Certificate/Diploma 
+##                8638                3197                2559 
+##     Graduate School   High School/Lower               Other 
+##                6655                2559                 212</code></pre>
+</div>
+<div id="to-do-loop-regressions" class="section level1">
+<h1>TO DO: LOOP REGRESSIONS</h1>
+<p>Select associations we are keeping Read mediation package information Figure out how you want to run model for next week BMI &amp; KEY variable scatterplot and regression line</p>
 <div id="junk-code" class="section level2">
 <h2>Junk Code</h2>
-<pre><code>lm1 &lt;- lm(bmi ~ WalkScore + DiningandDrinkingScore + TransitScore + GroceryScore + factor(ville), data = ibiccs)
-summary(lm1)
-confint(lm1)
-
-lm2 &lt;- lm(bmi ~ WalkScore + DiningandDrinkingScore + + TransitScore + GroceryScore + factor(ville) + lang + q44 + q47 + q51 + Q52_occupational_status_category + q54, data = ibiccs)
-summary(lm2)
-confint(lm2)</code></pre>
 <pre><code>usda_zip &lt;- dplyr::full_join(USDA, USA_ZIP, by = &quot;CensusTract&quot;)
 
 usda_zip_food &lt;- usda_zip %&gt;%

@@ -23,6 +23,7 @@ library(car)
 library(foreign)
 library(Hmisc)
 library(survival)
+library(finalfit)
 library(tableone)
 ```
 
@@ -417,7 +418,8 @@ city_CAN <- rbind(Montreal, Toronto, Vancouver)
 #Tables for Each City and Combined
 ```{r}
 vars <- c('language', 'ville', 'gender', 'health', 'common_transportation', 'physically_active', 'day_per_week_motor_vehicle', 'day_per_week_public_transit', 'day_per_week_walking', 'day_per_week_bike', 'q42', 'marital_status', 'children_household', 'ethnicity', 'q48', 'motor_vehicle_access', 'education', 'occupation_status', 'household_income', 'bmi', 'bmi_category', 'WalkScore', 'WalkScoreLabel', 'TransitScore', 'TransitScoreLabel', 'BikeScore', 'BikeScoreLabel', 'DiningandDrinkingScore', 'GroceryScore')
-CreateTableOne(vars = vars, data = Boston)
+CreateTableOne(vars = vars, strata = "ville", data = ibiccs_clean)
+
 CreateTableOne(vars = vars, data = Chicago)
 CreateTableOne(vars = vars, data = Detroit)
 CreateTableOne(vars = vars, data = NewYork)
@@ -428,13 +430,12 @@ CreateTableOne(vars = vars, data = Vancouver)
 ```
 
 # Fix this Code - Breaks Session
-table1 <- ibiccs %>%
+ibiccs_clean %>%
             group_by(ville) %>%
-              CreateTableOne(vars = vars, data = ibiccs)
+              CreateTableOne(vars = vars)
 
-
-lang_lm <- lm(bmi ~ cbind(lang, q2), Boston1)
-tidy(lang_lm)
+language_lm <- lm(bmi ~ cbind(lang, q2), Boston)
+tidy(language_lm)
 
 # Histogram of BMI
 ```{r}
@@ -496,26 +497,35 @@ hist_diningdrinkingscore_city <- ggplot(city, aes(DiningandDrinkingScore)) +
 plot(hist_diningdrinkingscore_city)
 ```
 
+# Linear Regression
+```{r}
+explanatory <- c("DiningandDrinkingScore", "WalkScore", "TransitScore")
+dependent <- "bmi"
+ibiccs_clean %>%
+  finalfit.lm(dependent, explanatory)
 
-To do:
-2. Linear Regressions (loop)
-
-### Linear regression
-
-
-
-
-## Junk Code
 ```
-lm1 <- lm(bmi ~ WalkScore + DiningandDrinkingScore + TransitScore + GroceryScore + factor(ville), data = ibiccs)
+
+# Linear Regression
+```{r}
+lm1 <- lm(bmi ~ WalkScore + DiningandDrinkingScore + TransitScore + GroceryScore + factor(ville), data = ibiccs_clean)
 summary(lm1)
 confint(lm1)
 
-lm2 <- lm(bmi ~ WalkScore + DiningandDrinkingScore + + TransitScore + GroceryScore + factor(ville) + lang + q44 + q47 + q51 + Q52_occupational_status_category + q54, data = ibiccs)
+lm2 <- lm(bmi ~ WalkScore + DiningandDrinkingScore + TransitScore + GroceryScore + factor(ville) + language + marital_status + ethnicity + education + occupation_status + gender, data = ibiccs_clean)
 summary(lm2)
 confint(lm2)
+
+table(ibiccs_clean$education)
 ```
 
+# TO DO: LOOP REGRESSIONS
+Select associations we are keeping
+Read mediation package information
+Figure out how you want to run model for next week
+BMI & KEY variable scatterplot and regression line
+
+## Junk Code
 ```
 usda_zip <- dplyr::full_join(USDA, USA_ZIP, by = "CensusTract")
 

@@ -20,6 +20,7 @@ library(car)
 library(foreign)
 library(Hmisc)
 library(survival)
+library(finalfit)
 library(tableone)
 ```
 
@@ -1137,149 +1138,705 @@ city_CAN <- rbind(Montreal, Toronto, Vancouver)
 
 ```r
 vars <- c('language', 'ville', 'gender', 'health', 'common_transportation', 'physically_active', 'day_per_week_motor_vehicle', 'day_per_week_public_transit', 'day_per_week_walking', 'day_per_week_bike', 'q42', 'marital_status', 'children_household', 'ethnicity', 'q48', 'motor_vehicle_access', 'education', 'occupation_status', 'household_income', 'bmi', 'bmi_category', 'WalkScore', 'WalkScoreLabel', 'TransitScore', 'TransitScoreLabel', 'BikeScore', 'BikeScoreLabel', 'DiningandDrinkingScore', 'GroceryScore')
-CreateTableOne(vars = vars, data = Boston)
+CreateTableOne(vars = vars, strata = "ville", data = ibiccs_clean)
 ```
 
 ```
-##                                     
-##                                      Overall        
-##   n                                    1977         
-##   language = Fren/Span (%)                3 (  0.2) 
-##   ville (%)                                         
-##      Boston                            1977 (100.0) 
-##      Chicago                              0 (  0.0) 
-##      Détroit                              0 (  0.0) 
-##      Montréal                             0 (  0.0) 
-##      New-York                             0 (  0.0) 
-##      Philadelphie                         0 (  0.0) 
-##      Toronto                              0 (  0.0) 
-##      Vancouver                            0 (  0.0) 
-##   gender = Male (%)                     694 ( 35.1) 
-##   health (%)                                        
-##      Excellent                         1285 ( 65.0) 
-##      Good                               521 ( 26.4) 
-##      NA                                   5 (  0.3) 
-##      Poor                               166 (  8.4) 
-##   common_transportation (%)                         
-##      Bicycle                            104 (  5.3) 
-##      Car                                685 ( 34.8) 
-##      Other                               13 (  0.7) 
-##      Public Transportation              669 ( 33.9) 
-##      Walking                            500 ( 25.4) 
-##   physically_active (%)                             
-##      No                                 255 ( 12.9) 
-##      Other                               18 (  0.9) 
-##      Yes                               1703 ( 86.2) 
-##   day_per_week_motor_vehicle (%)                    
-##      0                                  231 ( 11.7) 
-##      1                                  261 ( 13.2) 
-##      2                                  222 ( 11.2) 
-##      3                                  163 (  8.2) 
-##      4                                  133 (  6.7) 
-##      5                                  277 ( 14.0) 
-##      6                                  186 (  9.4) 
-##      7                                  362 ( 18.3) 
-##      NA                                 142 (  7.2) 
-##   day_per_week_public_transit (%)                   
-##      0                                  344 ( 17.4) 
-##      1                                  354 ( 17.9) 
-##      2                                  210 ( 10.6) 
-##      3                                  130 (  6.6) 
-##      4                                  120 (  6.1) 
-##      5                                  336 ( 17.0) 
-##      6                                  134 (  6.8) 
-##      7                                  165 (  8.3) 
-##      NA                                 184 (  9.3) 
-##   day_per_week_walking (%)                          
-##      0                                  103 (  5.2) 
-##      1                                  127 (  6.4) 
-##      2                                  185 (  9.4) 
-##      3                                  158 (  8.0) 
-##      4                                  163 (  8.2) 
-##      5                                  365 ( 18.5) 
-##      6                                  141 (  7.1) 
-##      7                                  609 ( 30.8) 
-##      NA                                 126 (  6.4) 
-##   day_per_week_bike (%)                             
-##      0                                 1069 ( 54.1) 
-##      1                                  141 (  7.1) 
-##      2                                   70 (  3.5) 
-##      3                                   47 (  2.4) 
-##      4                                   39 (  2.0) 
-##      5                                   69 (  3.5) 
-##      6                                   25 (  1.3) 
-##      7                                   32 (  1.6) 
-##      NA                                 485 ( 24.5) 
-##   q42 (mean (SD))                     37.21 (13.86) 
-##   marital_status (%)                                
-##      NA                                  23 (  1.3) 
-##      Relationship/Married/Common-Law    747 ( 41.6) 
-##      Single                            1025 ( 57.1) 
-##   children_household (%)                            
-##      0                                 1627 ( 82.3) 
-##      1                                  209 ( 10.6) 
-##      2-3                                111 (  5.6) 
-##      4+                                  11 (  0.6) 
-##      Refuse                              19 (  1.0) 
-##   ethnicity (%)                                     
-##      African American                   110 ( 71.0) 
-##      Arab/Indian/Jewish/Mixed/Other      38 ( 24.5) 
-##      Native American                      7 (  4.5) 
-##   q48 (mean (SD))                      6.22 (16.05) 
-##   motor_vehicle_access (%)                          
-##      NA                                  16 (  0.8) 
-##      No                                 519 ( 26.3) 
-##      Yes                               1442 ( 72.9) 
-##   education (%)                                     
-##      Baccalaureate                      757 ( 38.3) 
-##      Cégep                              231 ( 11.7) 
-##      Certificate/Diploma                 65 (  3.3) 
-##      Graduate School                    774 ( 39.2) 
-##      High School/Lower                  132 (  6.7) 
-##      Other                               16 (  0.8) 
-##   occupation_status (%)                             
-##      Employed                          1442 ( 73.5) 
-##      Student                            272 ( 13.9) 
-##      Unemployed                         249 ( 12.7) 
-##   household_income (%)                              
-##      $0-$19999                          210 ( 10.6) 
-##      $100000-149999                     304 ( 15.4) 
-##      $150000+                           232 ( 11.7) 
-##      $20000-$49999                      389 ( 19.7) 
-##      $50000-$74999                      342 ( 17.3) 
-##      $75000-$99999                      275 ( 13.9) 
-##      Refuse                             225 ( 11.4) 
-##   bmi (mean (SD))                     25.06 (4.59)  
-##   bmi_category (%)                                  
-##      normal weight                      982 ( 49.7) 
-##      obese                              248 ( 12.5) 
-##      other                              192 (  9.7) 
-##      overweight                         511 ( 25.8) 
-##      underweight                         44 (  2.2) 
-##   WalkScore (mean (SD))               86.19 (17.12) 
-##   WalkScoreLabel (%)                                
-##                                          38 (  1.9) 
-##      Car-Dependent                       96 (  4.9) 
-##      Somewhat Walkable                   85 (  4.3) 
-##      Very Walkable                      598 ( 30.2) 
-##      Walker's Paradise                 1160 ( 58.7) 
-##   TransitScore (mean (SD))            73.62 (16.68) 
-##   TransitScoreLabel (%)                             
-##                                        1694 ( 85.7) 
-##      Excellent Transit                  201 ( 10.2) 
-##      Good Transit                        64 (  3.2) 
-##      Minimal Transit                      0 (  0.0) 
-##      Rider's Paradise                    16 (  0.8) 
-##      Some Transit                         2 (  0.1) 
-##   BikeScore (mean (SD))              106.50 (32.02) 
-##   BikeScoreLabel (%)                                
-##                                         598 ( 30.2) 
-##      Bikeable                           475 ( 24.0) 
-##      Biker's Paradise                   323 ( 16.3) 
-##      Somewhat Bikeable                   26 (  1.3) 
-##      Very Bikeable                      555 ( 28.1) 
-##   DiningandDrinkingScore (mean (SD))  86.12 (17.23) 
-##   GroceryScore (mean (SD))            88.94 (21.26)
+##                                     Stratified by ville
+##                                      Boston          Chicago       
+##   n                                    1977           4085         
+##   language = Fren/Span (%)                3 (  0.2)     20 (  0.5) 
+##   ville (%)                                                        
+##      Boston                            1977 (100.0)      0 (  0.0) 
+##      Chicago                              0 (  0.0)   4085 (100.0) 
+##      Détroit                              0 (  0.0)      0 (  0.0) 
+##      Montréal                             0 (  0.0)      0 (  0.0) 
+##      New-York                             0 (  0.0)      0 (  0.0) 
+##      Philadelphie                         0 (  0.0)      0 (  0.0) 
+##      Toronto                              0 (  0.0)      0 (  0.0) 
+##      Vancouver                            0 (  0.0)      0 (  0.0) 
+##   gender = Male (%)                     694 ( 35.1)   1628 ( 39.9) 
+##   health (%)                                                       
+##      Excellent                         1285 ( 65.0)   2559 ( 62.6) 
+##      Good                               521 ( 26.4)   1105 ( 27.1) 
+##      NA                                   5 (  0.3)      9 (  0.2) 
+##      Poor                               166 (  8.4)    412 ( 10.1) 
+##   common_transportation (%)                                        
+##      Bicycle                            104 (  5.3)    170 (  4.2) 
+##      Car                                685 ( 34.8)   1803 ( 44.3) 
+##      Other                               13 (  0.7)     46 (  1.1) 
+##      Public Transportation              669 ( 33.9)   1473 ( 36.2) 
+##      Walking                            500 ( 25.4)    576 ( 14.2) 
+##   physically_active (%)                                            
+##      No                                 255 ( 12.9)    626 ( 15.3) 
+##      Other                               18 (  0.9)     35 (  0.9) 
+##      Yes                               1703 ( 86.2)   3418 ( 83.8) 
+##   day_per_week_motor_vehicle (%)                                   
+##      0                                  231 ( 11.7)    311 (  7.6) 
+##      1                                  261 ( 13.2)    400 (  9.8) 
+##      2                                  222 ( 11.2)    479 ( 11.7) 
+##      3                                  163 (  8.2)    416 ( 10.2) 
+##      4                                  133 (  6.7)    299 (  7.3) 
+##      5                                  277 ( 14.0)    614 ( 15.0) 
+##      6                                  186 (  9.4)    412 ( 10.1) 
+##      7                                  362 ( 18.3)    897 ( 22.0) 
+##      NA                                 142 (  7.2)    257 (  6.3) 
+##   day_per_week_public_transit (%)                                  
+##      0                                  344 ( 17.4)    936 ( 22.9) 
+##      1                                  354 ( 17.9)    564 ( 13.8) 
+##      2                                  210 ( 10.6)    380 (  9.3) 
+##      3                                  130 (  6.6)    286 (  7.0) 
+##      4                                  120 (  6.1)    224 (  5.5) 
+##      5                                  336 ( 17.0)    751 ( 18.4) 
+##      6                                  134 (  6.8)    276 (  6.8) 
+##      7                                  165 (  8.3)    235 (  5.8) 
+##      NA                                 184 (  9.3)    433 ( 10.6) 
+##   day_per_week_walking (%)                                         
+##      0                                  103 (  5.2)    295 (  7.2) 
+##      1                                  127 (  6.4)    360 (  8.8) 
+##      2                                  185 (  9.4)    430 ( 10.5) 
+##      3                                  158 (  8.0)    434 ( 10.6) 
+##      4                                  163 (  8.2)    325 (  8.0) 
+##      5                                  365 ( 18.5)    731 ( 17.9) 
+##      6                                  141 (  7.1)    302 (  7.4) 
+##      7                                  609 ( 30.8)    864 ( 21.2) 
+##      NA                                 126 (  6.4)    344 (  8.4) 
+##   day_per_week_bike (%)                                            
+##      0                                 1069 ( 54.1)   2080 ( 50.9) 
+##      1                                  141 (  7.1)    341 (  8.3) 
+##      2                                   70 (  3.5)    229 (  5.6) 
+##      3                                   47 (  2.4)    145 (  3.5) 
+##      4                                   39 (  2.0)     69 (  1.7) 
+##      5                                   69 (  3.5)     96 (  2.4) 
+##      6                                   25 (  1.3)     39 (  1.0) 
+##      7                                   32 (  1.6)     47 (  1.2) 
+##      NA                                 485 ( 24.5)   1039 ( 25.4) 
+##   q42 (mean (SD))                     37.21 (13.86)  39.59 (12.73) 
+##   marital_status (%)                                               
+##      NA                                  23 (  1.3)     33 (  0.9) 
+##      Relationship/Married/Common-Law    747 ( 41.6)   1806 ( 49.0) 
+##      Single                            1025 ( 57.1)   1844 ( 50.1) 
+##   children_household (%)                                           
+##      0                                 1627 ( 82.3)   3150 ( 77.1) 
+##      1                                  209 ( 10.6)    446 ( 10.9) 
+##      2-3                                111 (  5.6)    417 ( 10.2) 
+##      4+                                  11 (  0.6)     35 (  0.9) 
+##      Refuse                              19 (  1.0)     37 (  0.9) 
+##   ethnicity (%)                                                    
+##      African American                   110 ( 71.0)    449 ( 87.5) 
+##      Arab/Indian/Jewish/Mixed/Other      38 ( 24.5)     56 ( 10.9) 
+##      Native American                      7 (  4.5)      8 (  1.6) 
+##   q48 (mean (SD))                      6.22 (16.05)   5.55 (14.90) 
+##   motor_vehicle_access (%)                                         
+##      NA                                  16 (  0.8)     30 (  0.7) 
+##      No                                 519 ( 26.3)    789 ( 19.3) 
+##      Yes                               1442 ( 72.9)   3266 ( 80.0) 
+##   education (%)                                                    
+##      Baccalaureate                      757 ( 38.3)   1624 ( 39.9) 
+##      Cégep                              231 ( 11.7)    495 ( 12.2) 
+##      Certificate/Diploma                 65 (  3.3)    293 (  7.2) 
+##      Graduate School                    774 ( 39.2)   1320 ( 32.4) 
+##      High School/Lower                  132 (  6.7)    315 (  7.7) 
+##      Other                               16 (  0.8)     23 (  0.6) 
+##   occupation_status (%)                                            
+##      Employed                          1442 ( 73.5)   3160 ( 78.0) 
+##      Student                            272 ( 13.9)    271 (  6.7) 
+##      Unemployed                         249 ( 12.7)    622 ( 15.3) 
+##   household_income (%)                                             
+##      $0-$19999                          210 ( 10.6)    436 ( 10.7) 
+##      $100000-149999                     304 ( 15.4)    617 ( 15.1) 
+##      $150000+                           232 ( 11.7)    438 ( 10.7) 
+##      $20000-$49999                      389 ( 19.7)    812 ( 19.9) 
+##      $50000-$74999                      342 ( 17.3)    799 ( 19.6) 
+##      $75000-$99999                      275 ( 13.9)    604 ( 14.8) 
+##      Refuse                             225 ( 11.4)    379 (  9.3) 
+##   bmi (mean (SD))                     25.06 (4.59)   25.89 (4.86)  
+##   bmi_category (%)                                                 
+##      normal weight                      982 ( 49.7)   1745 ( 42.7) 
+##      obese                              248 ( 12.5)    698 ( 17.1) 
+##      other                              192 (  9.7)    438 ( 10.7) 
+##      overweight                         511 ( 25.8)   1139 ( 27.9) 
+##      underweight                         44 (  2.2)     65 (  1.6) 
+##   WalkScore (mean (SD))               86.19 (17.12)  80.36 (17.45) 
+##   WalkScoreLabel (%)                                               
+##                                          38 (  1.9)     51 (  1.2) 
+##      Car-Dependent                       96 (  4.9)    274 (  6.7) 
+##      Somewhat Walkable                   85 (  4.3)    510 ( 12.5) 
+##      Very Walkable                      598 ( 30.2)   1680 ( 41.1) 
+##      Walker's Paradise                 1160 ( 58.7)   1570 ( 38.4) 
+##   TransitScore (mean (SD))            73.62 (16.68)  77.05 (11.31) 
+##   TransitScoreLabel (%)                                            
+##                                        1694 ( 85.7)   3713 ( 90.9) 
+##      Excellent Transit                  201 ( 10.2)    277 (  6.8) 
+##      Good Transit                        64 (  3.2)     82 (  2.0) 
+##      Minimal Transit                      0 (  0.0)      0 (  0.0) 
+##      Rider's Paradise                    16 (  0.8)     13 (  0.3) 
+##      Some Transit                         2 (  0.1)      0 (  0.0) 
+##   BikeScore (mean (SD))              106.50 (32.02)  87.29 (29.96) 
+##   BikeScoreLabel (%)                                               
+##                                         598 ( 30.2)    558 ( 13.7) 
+##      Bikeable                           475 ( 24.0)   1113 ( 27.2) 
+##      Biker's Paradise                   323 ( 16.3)      0 (  0.0) 
+##      Somewhat Bikeable                   26 (  1.3)    264 (  6.5) 
+##      Very Bikeable                      555 ( 28.1)   2150 ( 52.6) 
+##   DiningandDrinkingScore (mean (SD))  86.12 (17.23)  82.41 (18.59) 
+##   GroceryScore (mean (SD))            88.94 (21.26)  78.71 (28.21) 
+##                                     Stratified by ville
+##                                      Détroit         Montréal      
+##   n                                    3077           2678         
+##   language = Fren/Span (%)                3 (  0.1)   1617 ( 60.4) 
+##   ville (%)                                                        
+##      Boston                               0 (  0.0)      0 (  0.0) 
+##      Chicago                              0 (  0.0)      0 (  0.0) 
+##      Détroit                           3077 (100.0)      0 (  0.0) 
+##      Montréal                             0 (  0.0)   2678 (100.0) 
+##      New-York                             0 (  0.0)      0 (  0.0) 
+##      Philadelphie                         0 (  0.0)      0 (  0.0) 
+##      Toronto                              0 (  0.0)      0 (  0.0) 
+##      Vancouver                            0 (  0.0)      0 (  0.0) 
+##   gender = Male (%)                    1134 ( 36.9)   1159 ( 43.3) 
+##   health (%)                                                       
+##      Excellent                         1758 ( 57.1)   1501 ( 56.0) 
+##      Good                               928 ( 30.2)    791 ( 29.5) 
+##      NA                                   1 (  0.0)      3 (  0.1) 
+##      Poor                               390 ( 12.7)    383 ( 14.3) 
+##   common_transportation (%)                                        
+##      Bicycle                             75 (  2.5)    207 (  7.8) 
+##      Car                               2718 ( 88.9)    914 ( 34.3) 
+##      Other                               21 (  0.7)     30 (  1.1) 
+##      Public Transportation              105 (  3.4)   1019 ( 38.3) 
+##      Walking                            139 (  4.5)    492 ( 18.5) 
+##   physically_active (%)                                            
+##      No                                 680 ( 22.1)    528 ( 19.7) 
+##      Other                               38 (  1.2)     40 (  1.5) 
+##      Yes                               2355 ( 76.6)   2107 ( 78.8) 
+##   day_per_week_motor_vehicle (%)                                   
+##      0                                   41 (  1.3)    449 ( 16.8) 
+##      1                                   67 (  2.2)    298 ( 11.1) 
+##      2                                  106 (  3.4)    357 ( 13.3) 
+##      3                                  159 (  5.2)    209 (  7.8) 
+##      4                                  161 (  5.2)    179 (  6.7) 
+##      5                                  433 ( 14.1)    340 ( 12.7) 
+##      6                                  392 ( 12.7)    175 (  6.5) 
+##      7                                 1529 ( 49.7)    372 ( 13.9) 
+##      NA                                 189 (  6.1)    299 ( 11.2) 
+##   day_per_week_public_transit (%)                                  
+##      0                                 1988 ( 64.6)    723 ( 27.0) 
+##      1                                  102 (  3.3)    332 ( 12.4) 
+##      2                                   77 (  2.5)    250 (  9.3) 
+##      3                                   45 (  1.5)    194 (  7.2) 
+##      4                                   33 (  1.1)    155 (  5.8) 
+##      5                                   77 (  2.5)    430 ( 16.1) 
+##      6                                   26 (  0.8)    159 (  5.9) 
+##      7                                   48 (  1.6)    174 (  6.5) 
+##      NA                                 681 ( 22.1)    261 (  9.7) 
+##   day_per_week_walking (%)                                         
+##      0                                  903 ( 29.3)    233 (  8.7) 
+##      1                                  328 ( 10.7)    223 (  8.3) 
+##      2                                  334 ( 10.9)    286 ( 10.7) 
+##      3                                  238 (  7.7)    273 ( 10.2) 
+##      4                                  165 (  5.4)    226 (  8.4) 
+##      5                                  294 (  9.6)    482 ( 18.0) 
+##      6                                   81 (  2.6)    170 (  6.3) 
+##      7                                  238 (  7.7)    509 ( 19.0) 
+##      NA                                 496 ( 16.1)    276 ( 10.3) 
+##   day_per_week_bike (%)                                            
+##      0                                 1711 ( 55.6)   1500 ( 56.0) 
+##      1                                  191 (  6.2)    183 (  6.8) 
+##      2                                  135 (  4.4)    141 (  5.3) 
+##      3                                   77 (  2.5)     96 (  3.6) 
+##      4                                   47 (  1.5)     72 (  2.7) 
+##      5                                   54 (  1.8)     99 (  3.7) 
+##      6                                   22 (  0.7)     21 (  0.8) 
+##      7                                   26 (  0.8)     34 (  1.3) 
+##      NA                                 814 ( 26.5)    532 ( 19.9) 
+##   q42 (mean (SD))                     41.11 (12.74)  47.02 (14.17) 
+##   marital_status (%)                                               
+##      NA                                  24 (  0.9)     29 (  1.3) 
+##      Relationship/Married/Common-Law   1710 ( 62.8)   1333 ( 58.8) 
+##      Single                             988 ( 36.3)    906 ( 39.9) 
+##   children_household (%)                                           
+##      0                                 1954 ( 63.5)   2103 ( 78.5) 
+##      1                                  523 ( 17.0)    321 ( 12.0) 
+##      2-3                                516 ( 16.8)    219 (  8.2) 
+##      4+                                  49 (  1.6)     13 (  0.5) 
+##      Refuse                              35 (  1.1)     22 (  0.8) 
+##   ethnicity (%)                                                    
+##      African American                   361 ( 87.2)     52 ( 50.0) 
+##      Arab/Indian/Jewish/Mixed/Other      38 (  9.2)     44 ( 42.3) 
+##      Native American                     15 (  3.6)      8 (  7.7) 
+##   q48 (mean (SD))                      4.51 (12.93)   8.11 (20.21) 
+##   motor_vehicle_access (%)                                         
+##      NA                                  18 (  0.6)     20 (  0.7) 
+##      No                                 123 (  4.0)    837 ( 31.3) 
+##      Yes                               2936 ( 95.4)   1821 ( 68.0) 
+##   education (%)                                                    
+##      Baccalaureate                      951 ( 31.0)    788 ( 29.5) 
+##      Cégep                              506 ( 16.5)    528 ( 19.8) 
+##      Certificate/Diploma                444 ( 14.5)    330 ( 12.4) 
+##      Graduate School                    736 ( 24.0)    581 ( 21.8) 
+##      High School/Lower                  410 ( 13.4)    401 ( 15.0) 
+##      Other                               18 (  0.6)     42 (  1.6) 
+##   occupation_status (%)                                            
+##      Employed                          2152 ( 70.4)   1750 ( 65.8) 
+##      Student                            243 (  7.9)    141 (  5.3) 
+##      Unemployed                         663 ( 21.7)    769 ( 28.9) 
+##   household_income (%)                                             
+##      $0-$19999                          412 ( 13.4)    286 ( 10.7) 
+##      $100000-149999                     443 ( 14.4)    271 ( 10.1) 
+##      $150000+                           193 (  6.3)    148 (  5.5) 
+##      $20000-$49999                      666 ( 21.6)    731 ( 27.3) 
+##      $50000-$74999                      536 ( 17.4)    523 ( 19.5) 
+##      $75000-$99999                      461 ( 15.0)    365 ( 13.6) 
+##      Refuse                             366 ( 11.9)    354 ( 13.2) 
+##   bmi (mean (SD))                     26.75 (5.11)   25.88 (4.65)  
+##   bmi_category (%)                                                 
+##      normal weight                     1073 ( 34.9)   1122 ( 41.9) 
+##      obese                              661 ( 21.5)    454 ( 17.0) 
+##      other                              439 ( 14.3)    321 ( 12.0) 
+##      overweight                         864 ( 28.1)    746 ( 27.9) 
+##      underweight                         40 (  1.3)     35 (  1.3) 
+##   WalkScore (mean (SD))               36.05 (24.44)  81.88 (16.05) 
+##   WalkScoreLabel (%)                                               
+##                                          27 (  0.9)     28 (  1.0) 
+##      Car-Dependent                     2094 ( 68.1)    135 (  5.0) 
+##      Somewhat Walkable                  733 ( 23.8)    303 ( 11.3) 
+##      Very Walkable                      175 (  5.7)   1117 ( 41.7) 
+##      Walker's Paradise                   48 (  1.6)   1095 ( 40.9) 
+##   TransitScore (mean (SD))            79.31 (7.37)   13.38 (18.57) 
+##   TransitScoreLabel (%)                                            
+##                                        3077 (100.0)     45 (  1.7) 
+##      Excellent Transit                    0 (  0.0)     71 (  2.7) 
+##      Good Transit                         0 (  0.0)    485 ( 18.1) 
+##      Minimal Transit                      0 (  0.0)     43 (  1.6) 
+##      Rider's Paradise                     0 (  0.0)   1911 ( 71.4) 
+##      Some Transit                         0 (  0.0)    123 (  4.6) 
+##   BikeScore (mean (SD))              133.74 (18.39)  86.99 (43.07) 
+##   BikeScoreLabel (%)                                               
+##                                        2898 ( 94.2)    624 ( 23.3) 
+##      Bikeable                            90 (  2.9)    719 ( 26.8) 
+##      Biker's Paradise                    40 (  1.3)    496 ( 18.5) 
+##      Somewhat Bikeable                    1 (  0.0)     83 (  3.1) 
+##      Very Bikeable                       48 (  1.6)    756 ( 28.2) 
+##   DiningandDrinkingScore (mean (SD))  40.56 (26.92)  82.34 (17.58) 
+##   GroceryScore (mean (SD))            38.81 (34.49)  89.47 (17.42) 
+##                                     Stratified by ville
+##                                      New-York       Philadelphie   
+##   n                                   3824            1478         
+##   language = Fren/Span (%)              16 (  0.4)       3 (  0.2) 
+##   ville (%)                                                        
+##      Boston                              0 (  0.0)       0 (  0.0) 
+##      Chicago                             0 (  0.0)       0 (  0.0) 
+##      Détroit                             0 (  0.0)       0 (  0.0) 
+##      Montréal                            0 (  0.0)       0 (  0.0) 
+##      New-York                         3824 (100.0)       0 (  0.0) 
+##      Philadelphie                        0 (  0.0)    1478 (100.0) 
+##      Toronto                             0 (  0.0)       0 (  0.0) 
+##      Vancouver                           0 (  0.0)       0 (  0.0) 
+##   gender = Male (%)                   1593 ( 41.7)     536 ( 36.3) 
+##   health (%)                                                       
+##      Excellent                        2537 ( 66.3)     928 ( 62.8) 
+##      Good                              986 ( 25.8)     404 ( 27.3) 
+##      NA                                  6 (  0.2)       2 (  0.1) 
+##      Poor                              295 (  7.7)     144 (  9.7) 
+##   common_transportation (%)                                        
+##      Bicycle                           184 (  4.8)      87 (  5.9) 
+##      Car                               360 (  9.4)     606 ( 41.2) 
+##      Other                              81 (  2.1)      15 (  1.0) 
+##      Public Transportation            2207 ( 57.9)     321 ( 21.8) 
+##      Walking                           978 ( 25.7)     443 ( 30.1) 
+##   physically_active (%)                                            
+##      No                                680 ( 17.8)     270 ( 18.3) 
+##      Other                              51 (  1.3)      14 (  0.9) 
+##      Yes                              3088 ( 80.9)    1193 ( 80.8) 
+##   day_per_week_motor_vehicle (%)                                   
+##      0                                 968 ( 25.3)     128 (  8.7) 
+##      1                                 594 ( 15.5)     178 ( 12.0) 
+##      2                                 487 ( 12.7)     192 ( 13.0) 
+##      3                                 323 (  8.4)     128 (  8.7) 
+##      4                                 237 (  6.2)     105 (  7.1) 
+##      5                                 306 (  8.0)     209 ( 14.1) 
+##      6                                 135 (  3.5)     117 (  7.9) 
+##      7                                 223 (  5.8)     302 ( 20.4) 
+##      NA                                551 ( 14.4)     119 (  8.1) 
+##   day_per_week_public_transit (%)                                  
+##      0                                 229 (  6.0)     390 ( 26.4) 
+##      1                                 320 (  8.4)     234 ( 15.8) 
+##      2                                 368 (  9.6)     151 ( 10.2) 
+##      3                                 365 (  9.5)      99 (  6.7) 
+##      4                                 298 (  7.8)      85 (  5.8) 
+##      5                                 844 ( 22.1)     222 ( 15.0) 
+##      6                                 477 ( 12.5)      58 (  3.9) 
+##      7                                 588 ( 15.4)      53 (  3.6) 
+##      NA                                335 (  8.8)     186 ( 12.6) 
+##   day_per_week_walking (%)                                         
+##      0                                  69 (  1.8)     101 (  6.8) 
+##      1                                 160 (  4.2)     100 (  6.8) 
+##      2                                 257 (  6.7)     157 ( 10.6) 
+##      3                                 287 (  7.5)     137 (  9.3) 
+##      4                                 303 (  7.9)      98 (  6.6) 
+##      5                                 629 ( 16.4)     282 ( 19.1) 
+##      6                                 388 ( 10.1)     100 (  6.8) 
+##      7                                1386 ( 36.2)     366 ( 24.8) 
+##      NA                                345 (  9.0)     137 (  9.3) 
+##   day_per_week_bike (%)                                            
+##      0                                1851 ( 48.4)     722 ( 48.8) 
+##      1                                 298 (  7.8)     113 (  7.6) 
+##      2                                 199 (  5.2)      87 (  5.9) 
+##      3                                 131 (  3.4)      48 (  3.2) 
+##      4                                  93 (  2.4)      34 (  2.3) 
+##      5                                 107 (  2.8)      40 (  2.7) 
+##      6                                  24 (  0.6)      19 (  1.3) 
+##      7                                  44 (  1.2)      26 (  1.8) 
+##      NA                               1077 ( 28.2)     389 ( 26.3) 
+##   q42 (mean (SD))                    39.74 (13.55)   39.19 (13.51) 
+##   marital_status (%)                                               
+##      NA                                 53 (  1.5)      13 (  1.0) 
+##      Relationship/Married/Common-Law  1557 ( 44.6)     582 ( 44.0) 
+##      Single                           1879 ( 53.9)     729 ( 55.1) 
+##   children_household (%)                                           
+##      0                                2959 ( 77.4)    1120 ( 75.8) 
+##      1                                 480 ( 12.6)     177 ( 12.0) 
+##      2-3                               306 (  8.0)     146 (  9.9) 
+##      4+                                 31 (  0.8)      20 (  1.4) 
+##      Refuse                             48 (  1.3)      15 (  1.0) 
+##   ethnicity (%)                                                    
+##      African American                  336 ( 81.8)     231 ( 89.2) 
+##      Arab/Indian/Jewish/Mixed/Other     66 ( 16.1)      28 ( 10.8) 
+##      Native American                     9 (  2.2)       0 (  0.0) 
+##   q48 (mean (SD))                     7.41 (17.89)    4.50 (12.55) 
+##   motor_vehicle_access (%)                                         
+##      NA                                 47 (  1.2)      16 (  1.1) 
+##      No                               2106 ( 55.1)     353 ( 23.9) 
+##      Yes                              1671 ( 43.7)    1109 ( 75.0) 
+##   education (%)                                                    
+##      Baccalaureate                    1589 ( 41.6)     509 ( 34.7) 
+##      Cégep                             466 ( 12.2)     206 ( 14.0) 
+##      Certificate/Diploma               168 (  4.4)      86 (  5.9) 
+##      Graduate School                  1284 ( 33.6)     447 ( 30.5) 
+##      High School/Lower                 291 (  7.6)     210 ( 14.3) 
+##      Other                              22 (  0.6)       9 (  0.6) 
+##   occupation_status (%)                                            
+##      Employed                         2943 ( 77.7)    1049 ( 71.3) 
+##      Student                           270 (  7.1)     172 ( 11.7) 
+##      Unemployed                        574 ( 15.2)     251 ( 17.1) 
+##   household_income (%)                                             
+##      $0-$19999                         397 ( 10.4)     227 ( 15.4) 
+##      $100000-149999                    631 ( 16.5)     182 ( 12.3) 
+##      $150000+                          598 ( 15.6)     124 (  8.4) 
+##      $20000-$49999                     605 ( 15.8)     335 ( 22.7) 
+##      $50000-$74999                     611 ( 16.0)     301 ( 20.4) 
+##      $75000-$99999                     545 ( 14.3)     182 ( 12.3) 
+##      Refuse                            437 ( 11.4)     127 (  8.6) 
+##   bmi (mean (SD))                    25.05 (4.52)    26.02 (4.97)  
+##   bmi_category (%)                                                 
+##      normal weight                    1841 ( 48.1)     618 ( 41.8) 
+##      obese                             490 ( 12.8)     273 ( 18.5) 
+##      other                             450 ( 11.8)     164 ( 11.1) 
+##      overweight                        971 ( 25.4)     404 ( 27.3) 
+##      underweight                        72 (  1.9)      19 (  1.3) 
+##   WalkScore (mean (SD))              95.88 (11.04)   86.27 (17.72) 
+##   WalkScoreLabel (%)                                               
+##                                         65 (  1.7)      22 (  1.5) 
+##      Car-Dependent                      61 (  1.6)      83 (  5.6) 
+##      Somewhat Walkable                  33 (  0.9)      96 (  6.5) 
+##      Very Walkable                     169 (  4.4)     244 ( 16.5) 
+##      Walker's Paradise                3496 ( 91.4)    1033 ( 69.9) 
+##   TransitScore (mean (SD))           71.19 (24.19)   73.31 (21.71) 
+##   TransitScoreLabel (%)                                            
+##                                       3394 ( 88.8)    1371 ( 92.8) 
+##      Excellent Transit                  34 (  0.9)       0 (  0.0) 
+##      Good Transit                        7 (  0.2)       2 (  0.1) 
+##      Minimal Transit                     0 (  0.0)       0 (  0.0) 
+##      Rider's Paradise                  389 ( 10.2)     105 (  7.1) 
+##      Some Transit                        0 (  0.0)       0 (  0.0) 
+##   BikeScore (mean (SD))              90.15 (24.92)  106.32 (30.52) 
+##   BikeScoreLabel (%)                                               
+##                                        178 (  4.7)     148 ( 10.0) 
+##      Bikeable                         1137 ( 29.7)     236 ( 16.0) 
+##      Biker's Paradise                  145 (  3.8)     594 ( 40.2) 
+##      Somewhat Bikeable                  71 (  1.9)      38 (  2.6) 
+##      Very Bikeable                    2293 ( 60.0)     462 ( 31.3) 
+##   DiningandDrinkingScore (mean (SD)) 96.05 (11.20)   87.70 (16.44) 
+##   GroceryScore (mean (SD))           97.91 (11.21)   90.43 (22.07) 
+##                                     Stratified by ville
+##                                      Toronto        Vancouver      p     
+##   n                                   4264           2518                
+##   language = Fren/Span (%)               3 (  0.1)      0 (  0.0)  <0.001
+##   ville (%)                                                        <0.001
+##      Boston                              0 (  0.0)      0 (  0.0)        
+##      Chicago                             0 (  0.0)      0 (  0.0)        
+##      Détroit                             0 (  0.0)      0 (  0.0)        
+##      Montréal                            0 (  0.0)      0 (  0.0)        
+##      New-York                            0 (  0.0)      0 (  0.0)        
+##      Philadelphie                        0 (  0.0)      0 (  0.0)        
+##      Toronto                          4264 (100.0)      0 (  0.0)        
+##      Vancouver                           0 (  0.0)   2518 (100.0)        
+##   gender = Male (%)                   1984 ( 46.5)   1131 ( 44.9)  <0.001
+##   health (%)                                                       <0.001
+##      Excellent                        2572 ( 60.3)   1404 ( 55.8)        
+##      Good                             1220 ( 28.6)    770 ( 30.6)        
+##      NA                                  8 (  0.2)      5 (  0.2)        
+##      Poor                              464 ( 10.9)    339 ( 13.5)        
+##   common_transportation (%)                                        <0.001
+##      Bicycle                           231 (  5.4)    119 (  4.7)        
+##      Car                              1665 ( 39.2)   1245 ( 49.5)        
+##      Other                              43 (  1.0)     13 (  0.5)        
+##      Public Transportation            1459 ( 34.3)    633 ( 25.2)        
+##      Walking                           853 ( 20.1)    503 ( 20.0)        
+##   physically_active (%)                                            <0.001
+##      No                                713 ( 16.7)    372 ( 14.8)        
+##      Other                              52 (  1.2)     28 (  1.1)        
+##      Yes                              3493 ( 82.0)   2114 ( 84.1)        
+##   day_per_week_motor_vehicle (%)                                   <0.001
+##      0                                 470 ( 11.0)    187 (  7.4)        
+##      1                                 484 ( 11.4)    245 (  9.7)        
+##      2                                 504 ( 11.8)    284 ( 11.3)        
+##      3                                 430 ( 10.1)    242 (  9.6)        
+##      4                                 311 (  7.3)    223 (  8.9)        
+##      5                                 571 ( 13.4)    386 ( 15.3)        
+##      6                                 349 (  8.2)    253 ( 10.0)        
+##      7                                 731 ( 17.1)    509 ( 20.2)        
+##      NA                                414 (  9.7)    189 (  7.5)        
+##   day_per_week_public_transit (%)                                  <0.001
+##      0                                 857 ( 20.1)    702 ( 27.9)        
+##      1                                 674 ( 15.8)    413 ( 16.4)        
+##      2                                 467 ( 11.0)    264 ( 10.5)        
+##      3                                 325 (  7.6)    154 (  6.1)        
+##      4                                 296 (  6.9)    128 (  5.1)        
+##      5                                 634 ( 14.9)    323 ( 12.8)        
+##      6                                 245 (  5.7)    107 (  4.2)        
+##      7                                 223 (  5.2)     97 (  3.9)        
+##      NA                                543 ( 12.7)    330 ( 13.1)        
+##   day_per_week_walking (%)                                         <0.001
+##      0                                 248 (  5.8)    163 (  6.5)        
+##      1                                 348 (  8.2)    195 (  7.7)        
+##      2                                 464 ( 10.9)    248 (  9.8)        
+##      3                                 449 ( 10.5)    269 ( 10.7)        
+##      4                                 341 (  8.0)    210 (  8.3)        
+##      5                                 756 ( 17.7)    455 ( 18.1)        
+##      6                                 328 (  7.7)    201 (  8.0)        
+##      7                                 911 ( 21.4)    553 ( 22.0)        
+##      NA                                419 (  9.8)    224 (  8.9)        
+##   day_per_week_bike (%)                                            <0.001
+##      0                                1844 ( 43.2)   1233 ( 49.0)        
+##      1                                 341 (  8.0)    185 (  7.3)        
+##      2                                 200 (  4.7)    124 (  4.9)        
+##      3                                 110 (  2.6)     87 (  3.5)        
+##      4                                  77 (  1.8)     31 (  1.2)        
+##      5                                 114 (  2.7)     53 (  2.1)        
+##      6                                  45 (  1.1)     20 (  0.8)        
+##      7                                  61 (  1.4)     24 (  1.0)        
+##      NA                               1472 ( 34.5)    761 ( 30.2)        
+##   q42 (mean (SD))                    46.98 (14.52)  47.49 (14.51)  <0.001
+##   marital_status (%)                                               <0.001
+##      NA                                 73 (  2.0)     43 (  2.0)        
+##      Relationship/Married/Common-Law  2228 ( 61.1)   1403 ( 64.3)        
+##      Single                           1345 ( 36.9)    736 ( 33.7)        
+##   children_household (%)                                           <0.001
+##      0                                3375 ( 79.2)   1903 ( 75.6)        
+##      1                                 454 ( 10.6)    305 ( 12.1)        
+##      2-3                               361 (  8.5)    258 ( 10.2)        
+##      4+                                 22 (  0.5)      5 (  0.2)        
+##      Refuse                             52 (  1.2)     47 (  1.9)        
+##   ethnicity (%)                                                    <0.001
+##      African American                   96 ( 35.6)     19 ( 17.6)        
+##      Arab/Indian/Jewish/Mixed/Other    160 ( 59.3)     71 ( 65.7)        
+##      Native American                    14 (  5.2)     18 ( 16.7)        
+##   q48 (mean (SD))                    12.16 (24.93)  10.41 (22.52)  <0.001
+##   motor_vehicle_access (%)                                         <0.001
+##      NA                                 60 (  1.4)     23 (  0.9)        
+##      No                               1147 ( 26.9)    421 ( 16.7)        
+##      Yes                              3057 ( 71.7)   2074 ( 82.4)        
+##   education (%)                                                    <0.001
+##      Baccalaureate                    1543 ( 36.3)    877 ( 35.1)        
+##      Cégep                             451 ( 10.6)    314 ( 12.6)        
+##      Certificate/Diploma               746 ( 17.5)    427 ( 17.1)        
+##      Graduate School                   995 ( 23.4)    518 ( 20.7)        
+##      High School/Lower                 478 ( 11.2)    322 ( 12.9)        
+##      Other                              42 (  1.0)     40 (  1.6)        
+##   occupation_status (%)                                            <0.001
+##      Employed                         3051 ( 72.2)   1725 ( 69.4)        
+##      Student                           134 (  3.2)     83 (  3.3)        
+##      Unemployed                       1040 ( 24.6)    679 ( 27.3)        
+##   household_income (%)                                             <0.001
+##      $0-$19999                         301 (  7.1)    181 (  7.2)        
+##      $100000-149999                    673 ( 15.8)    369 ( 14.7)        
+##      $150000+                          463 ( 10.9)    204 (  8.1)        
+##      $20000-$49999                     768 ( 18.0)    455 ( 18.1)        
+##      $50000-$74999                     780 ( 18.3)    504 ( 20.0)        
+##      $75000-$99999                     619 ( 14.5)    374 ( 14.9)        
+##      Refuse                            660 ( 15.5)    431 ( 17.1)        
+##   bmi (mean (SD))                    25.60 (4.46)   24.87 (4.27)   <0.001
+##   bmi_category (%)                                                 <0.001
+##      normal weight                    1843 ( 43.2)   1213 ( 48.2)        
+##      obese                             586 ( 13.7)    262 ( 10.4)        
+##      other                             498 ( 11.7)    239 (  9.5)        
+##      overweight                       1276 ( 29.9)    747 ( 29.7)        
+##      underweight                        61 (  1.4)     57 (  2.3)        
+##   WalkScore (mean (SD))              79.56 (18.77)  78.79 (19.52)  <0.001
+##   WalkScoreLabel (%)                                               <0.001
+##                                         26 (  0.6)     27 (  1.1)        
+##      Car-Dependent                     351 (  8.2)    243 (  9.7)        
+##      Somewhat Walkable                 700 ( 16.4)    403 ( 16.0)        
+##      Very Walkable                    1467 ( 34.4)    869 ( 34.5)        
+##      Walker's Paradise                1720 ( 40.3)    976 ( 38.8)        
+##   TransitScore (mean (SD))           48.42 (25.00)  45.29 (19.95)  <0.001
+##   TransitScoreLabel (%)                                            <0.001
+##                                         33 (  0.8)     88 (  3.5)        
+##      Excellent Transit                1547 ( 36.3)   1035 ( 41.1)        
+##      Good Transit                      939 ( 22.0)    865 ( 34.4)        
+##      Minimal Transit                    34 (  0.8)      5 (  0.2)        
+##      Rider's Paradise                 1671 ( 39.2)    371 ( 14.7)        
+##      Some Transit                       40 (  0.9)    154 (  6.1)        
+##   BikeScore (mean (SD))              70.90 (30.62)  92.61 (36.44)  <0.001
+##   BikeScoreLabel (%)                                               <0.001
+##                                        120 (  2.8)    512 ( 20.3)        
+##      Bikeable                         2214 ( 51.9)    745 ( 29.6)        
+##      Biker's Paradise                  431 ( 10.1)    422 ( 16.8)        
+##      Somewhat Bikeable                 500 ( 11.7)    179 (  7.1)        
+##      Very Bikeable                     999 ( 23.4)    660 ( 26.2)        
+##   DiningandDrinkingScore (mean (SD)) 81.64 (19.10)  81.17 (19.59)  <0.001
+##   GroceryScore (mean (SD))           82.99 (23.65)  84.45 (22.22)  <0.001
+##                                     Stratified by ville
+##                                      test
+##   n                                      
+##   language = Fren/Span (%)               
+##   ville (%)                              
+##      Boston                              
+##      Chicago                             
+##      Détroit                             
+##      Montréal                            
+##      New-York                            
+##      Philadelphie                        
+##      Toronto                             
+##      Vancouver                           
+##   gender = Male (%)                      
+##   health (%)                             
+##      Excellent                           
+##      Good                                
+##      NA                                  
+##      Poor                                
+##   common_transportation (%)              
+##      Bicycle                             
+##      Car                                 
+##      Other                               
+##      Public Transportation               
+##      Walking                             
+##   physically_active (%)                  
+##      No                                  
+##      Other                               
+##      Yes                                 
+##   day_per_week_motor_vehicle (%)         
+##      0                                   
+##      1                                   
+##      2                                   
+##      3                                   
+##      4                                   
+##      5                                   
+##      6                                   
+##      7                                   
+##      NA                                  
+##   day_per_week_public_transit (%)        
+##      0                                   
+##      1                                   
+##      2                                   
+##      3                                   
+##      4                                   
+##      5                                   
+##      6                                   
+##      7                                   
+##      NA                                  
+##   day_per_week_walking (%)               
+##      0                                   
+##      1                                   
+##      2                                   
+##      3                                   
+##      4                                   
+##      5                                   
+##      6                                   
+##      7                                   
+##      NA                                  
+##   day_per_week_bike (%)                  
+##      0                                   
+##      1                                   
+##      2                                   
+##      3                                   
+##      4                                   
+##      5                                   
+##      6                                   
+##      7                                   
+##      NA                                  
+##   q42 (mean (SD))                        
+##   marital_status (%)                     
+##      NA                                  
+##      Relationship/Married/Common-Law     
+##      Single                              
+##   children_household (%)                 
+##      0                                   
+##      1                                   
+##      2-3                                 
+##      4+                                  
+##      Refuse                              
+##   ethnicity (%)                          
+##      African American                    
+##      Arab/Indian/Jewish/Mixed/Other      
+##      Native American                     
+##   q48 (mean (SD))                        
+##   motor_vehicle_access (%)               
+##      NA                                  
+##      No                                  
+##      Yes                                 
+##   education (%)                          
+##      Baccalaureate                       
+##      Cégep                               
+##      Certificate/Diploma                 
+##      Graduate School                     
+##      High School/Lower                   
+##      Other                               
+##   occupation_status (%)                  
+##      Employed                            
+##      Student                             
+##      Unemployed                          
+##   household_income (%)                   
+##      $0-$19999                           
+##      $100000-149999                      
+##      $150000+                            
+##      $20000-$49999                       
+##      $50000-$74999                       
+##      $75000-$99999                       
+##      Refuse                              
+##   bmi (mean (SD))                        
+##   bmi_category (%)                       
+##      normal weight                       
+##      obese                               
+##      other                               
+##      overweight                          
+##      underweight                         
+##   WalkScore (mean (SD))                  
+##   WalkScoreLabel (%)                     
+##                                          
+##      Car-Dependent                       
+##      Somewhat Walkable                   
+##      Very Walkable                       
+##      Walker's Paradise                   
+##   TransitScore (mean (SD))               
+##   TransitScoreLabel (%)                  
+##                                          
+##      Excellent Transit                   
+##      Good Transit                        
+##      Minimal Transit                     
+##      Rider's Paradise                    
+##      Some Transit                        
+##   BikeScore (mean (SD))                  
+##   BikeScoreLabel (%)                     
+##                                          
+##      Bikeable                            
+##      Biker's Paradise                    
+##      Somewhat Bikeable                   
+##      Very Bikeable                       
+##   DiningandDrinkingScore (mean (SD))     
+##   GroceryScore (mean (SD))
 ```
 
 ```r
@@ -2302,13 +2859,12 @@ CreateTableOne(vars = vars, data = Vancouver)
 ```
 
 # Fix this Code - Breaks Session
-table1 <- ibiccs %>%
+ibiccs_clean %>%
             group_by(ville) %>%
-              CreateTableOne(vars = vars, data = ibiccs)
+              CreateTableOne(vars = vars)
 
-
-lang_lm <- lm(bmi ~ cbind(lang, q2), Boston1)
-tidy(lang_lm)
+language_lm <- lm(bmi ~ cbind(lang, q2), Boston)
+tidy(language_lm)
 
 # Histogram of BMI
 
@@ -2425,26 +2981,216 @@ plot(hist_diningdrinkingscore_city)
 
 ![](Thesis-Analysis_files/figure-html/unnamed-chunk-33-2.png)<!-- -->
 
+# Linear Regression
 
-To do:
-2. Linear Regressions (loop)
-
-### Linear regression
-
-
-
-
-## Junk Code
+```r
+explanatory <- c("DiningandDrinkingScore", "WalkScore", "TransitScore")
+dependent <- "bmi"
+ibiccs_clean %>%
+  finalfit.lm(dependent, explanatory)
 ```
-lm1 <- lm(bmi ~ WalkScore + DiningandDrinkingScore + TransitScore + GroceryScore + factor(ville), data = ibiccs)
-summary(lm1)
-confint(lm1)
 
-lm2 <- lm(bmi ~ WalkScore + DiningandDrinkingScore + + TransitScore + GroceryScore + factor(ville) + lang + q44 + q47 + q51 + Q52_occupational_status_category + q54, data = ibiccs)
+```
+##           Dependent: bmi          Mean (sd)
+## 1 DiningandDrinkingScore [0,100] 25.6 (4.7)
+## 3              WalkScore [0,100] 25.6 (4.7)
+## 2           TransitScore  [1,80] 25.6 (4.7)
+##         Coefficient (univariable)     Coefficient (multivariable)
+## 1 -0.02 (-0.02 to -0.02, p<0.001) -0.02 (-0.03 to -0.01, p<0.001)
+## 3 -0.02 (-0.02 to -0.02, p<0.001)   0.00 (-0.01 to 0.01, p=0.796)
+## 2    0.01 (0.00 to 0.01, p<0.001)    0.00 (0.00 to 0.01, p=0.003)
+```
+
+# Linear Regression
+
+```r
+lm1 <- lm(bmi ~ WalkScore + DiningandDrinkingScore + TransitScore + GroceryScore + factor(ville), data = ibiccs_clean)
+summary(lm1)
+```
+
+```
+## 
+## Call:
+## lm(formula = bmi ~ WalkScore + DiningandDrinkingScore + TransitScore + 
+##     GroceryScore + factor(ville), data = ibiccs_clean)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -9.949 -3.441 -0.781  2.583 15.476 
+## 
+## Coefficients:
+##                           Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)               25.83536    0.24117  107.13  < 2e-16 ***
+## WalkScore                 -0.01524    0.00757   -2.01   0.0441 *  
+## DiningandDrinkingScore    -0.01349    0.00580   -2.32   0.0201 *  
+## TransitScore               0.00567    0.00180    3.15   0.0016 ** 
+## GroceryScore               0.01399    0.00266    5.26  1.4e-07 ***
+## factor(ville)Chicago       0.87269    0.13682    6.38  1.8e-10 ***
+## factor(ville)Détroit       0.99810    0.17311    5.77  8.2e-09 ***
+## factor(ville)Montréal      1.07539    0.18641    5.77  8.1e-09 ***
+## factor(ville)New-York      0.17548    0.13876    1.26   0.2060    
+## factor(ville)Philadelphie  1.01116    0.17097    5.91  3.4e-09 ***
+## factor(ville)Toronto       0.64052    0.14452    4.43  9.4e-06 ***
+## factor(ville)Vancouver    -0.09132    0.15988   -0.57   0.5679    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 4.66 on 20910 degrees of freedom
+##   (2979 observations deleted due to missingness)
+## Multiple R-squared:  0.0206,	Adjusted R-squared:  0.0201 
+## F-statistic:   40 on 11 and 20910 DF,  p-value: <2e-16
+```
+
+```r
+confint(lm1)
+```
+
+```
+##                               2.5 %     97.5 %
+## (Intercept)               25.362648 26.3080704
+## WalkScore                 -0.030076 -0.0004043
+## DiningandDrinkingScore    -0.024860 -0.0021113
+## TransitScore               0.002140  0.0091972
+## GroceryScore               0.008778  0.0191945
+## factor(ville)Chicago       0.604508  1.1408655
+## factor(ville)Détroit       0.658788  1.3374042
+## factor(ville)Montréal      0.710006  1.4407736
+## factor(ville)New-York     -0.096492  0.4474543
+## factor(ville)Philadelphie  0.676034  1.3462768
+## factor(ville)Toronto       0.357243  0.9237921
+## factor(ville)Vancouver    -0.404711  0.2220625
+```
+
+```r
+lm2 <- lm(bmi ~ WalkScore + DiningandDrinkingScore + TransitScore + GroceryScore + factor(ville) + language + marital_status + ethnicity + education + occupation_status + gender, data = ibiccs_clean)
 summary(lm2)
+```
+
+```
+## 
+## Call:
+## lm(formula = bmi ~ WalkScore + DiningandDrinkingScore + TransitScore + 
+##     GroceryScore + factor(ville) + language + marital_status + 
+##     ethnicity + education + occupation_status + gender, data = ibiccs_clean)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -10.769  -3.616  -0.895   3.132  14.545 
+## 
+## Coefficients:
+##                                               Estimate Std. Error t value
+## (Intercept)                                   25.49162    1.95832   13.02
+## WalkScore                                     -0.01553    0.03085   -0.50
+## DiningandDrinkingScore                        -0.01139    0.02331   -0.49
+## TransitScore                                   0.01263    0.00873    1.45
+## GroceryScore                                   0.01964    0.01110    1.77
+## factor(ville)Chicago                           1.68998    0.57356    2.95
+## factor(ville)Détroit                           1.84830    0.68474    2.70
+## factor(ville)Montréal                          0.96031    1.11891    0.86
+## factor(ville)New-York                          1.10837    0.57800    1.92
+## factor(ville)Philadelphie                      2.87865    0.62840    4.58
+## factor(ville)Toronto                           0.69460    0.68770    1.01
+## factor(ville)Vancouver                         0.51557    0.82349    0.63
+## languageFren/Span                              1.86792    1.25603    1.49
+## marital_statusRelationship/Married/Common-Law -0.18054    1.62593   -0.11
+## marital_statusSingle                          -0.62796    1.61938   -0.39
+## ethnicityArab/Indian/Jewish/Mixed/Other       -1.62907    0.35541   -4.58
+## ethnicityNative American                      -1.34373    0.74560   -1.80
+## educationCégep                                 1.09240    0.40103    2.72
+## educationCertificate/Diploma                   1.26244    0.43927    2.87
+## educationGraduate School                       0.15574    0.35484    0.44
+## educationHigh School/Lower                     0.28403    0.45086    0.63
+## educationOther                                 2.24247    1.82007    1.23
+## occupation_statusStudent                      -1.67497    0.45139   -3.71
+## occupation_statusUnemployed                    0.45379    0.35746    1.27
+## genderMale                                     0.24375    0.27718    0.88
+##                                               Pr(>|t|)    
+## (Intercept)                                    < 2e-16 ***
+## WalkScore                                      0.61481    
+## DiningandDrinkingScore                         0.62512    
+## TransitScore                                   0.14838    
+## GroceryScore                                   0.07704 .  
+## factor(ville)Chicago                           0.00326 ** 
+## factor(ville)Détroit                           0.00703 ** 
+## factor(ville)Montréal                          0.39089    
+## factor(ville)New-York                          0.05535 .  
+## factor(ville)Philadelphie                        5e-06 ***
+## factor(ville)Toronto                           0.31264    
+## factor(ville)Vancouver                         0.53136    
+## languageFren/Span                              0.13718    
+## marital_statusRelationship/Married/Common-Law  0.91160    
+## marital_statusSingle                           0.69823    
+## ethnicityArab/Indian/Jewish/Mixed/Other          5e-06 ***
+## ethnicityNative American                       0.07172 .  
+## educationCégep                                 0.00653 ** 
+## educationCertificate/Diploma                   0.00411 ** 
+## educationGraduate School                       0.66079    
+## educationHigh School/Lower                     0.52881    
+## educationOther                                 0.21811    
+## occupation_statusStudent                       0.00021 ***
+## occupation_statusUnemployed                    0.20447    
+## genderMale                                     0.37932    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 5.01 on 1489 degrees of freedom
+##   (22387 observations deleted due to missingness)
+## Multiple R-squared:  0.0991,	Adjusted R-squared:  0.0846 
+## F-statistic: 6.82 on 24 and 1489 DF,  p-value: <2e-16
+```
+
+```r
 confint(lm2)
 ```
 
+```
+##                                                   2.5 %   97.5 %
+## (Intercept)                                   21.650270 29.33297
+## WalkScore                                     -0.076033  0.04498
+## DiningandDrinkingScore                        -0.057117  0.03433
+## TransitScore                                  -0.004503  0.02976
+## GroceryScore                                  -0.002134  0.04142
+## factor(ville)Chicago                           0.564906  2.81506
+## factor(ville)Détroit                           0.505154  3.19145
+## factor(ville)Montréal                         -1.234501  3.15512
+## factor(ville)New-York                         -0.025412  2.24215
+## factor(ville)Philadelphie                      1.646008  4.11129
+## factor(ville)Toronto                          -0.654368  2.04358
+## factor(ville)Vancouver                        -1.099758  2.13089
+## languageFren/Span                             -0.595845  4.33169
+## marital_statusRelationship/Married/Common-Law -3.369899  3.00882
+## marital_statusSingle                          -3.804461  2.54854
+## ethnicityArab/Indian/Jewish/Mixed/Other       -2.326233 -0.93191
+## ethnicityNative American                      -2.806268  0.11882
+## educationCégep                                 0.305753  1.87904
+## educationCertificate/Diploma                   0.400794  2.12409
+## educationGraduate School                      -0.540302  0.85179
+## educationHigh School/Lower                    -0.600352  1.16841
+## educationOther                                -1.327694  5.81264
+## occupation_statusStudent                      -2.560407 -0.78954
+## occupation_statusUnemployed                   -0.247396  1.15497
+## genderMale                                    -0.299949  0.78746
+```
+
+```r
+table(ibiccs_clean$education)
+```
+
+```
+## 
+##       Baccalaureate               Cégep Certificate/Diploma 
+##                8638                3197                2559 
+##     Graduate School   High School/Lower               Other 
+##                6655                2559                 212
+```
+
+# TO DO: LOOP REGRESSIONS
+Select associations we are keeping
+Read mediation package information
+Figure out how you want to run model for next week
+BMI & KEY variable scatterplot and regression line
+
+## Junk Code
 ```
 usda_zip <- dplyr::full_join(USDA, USA_ZIP, by = "CensusTract")
 
