@@ -277,20 +277,6 @@ ibiccs_clean <- ibiccs_clean %>%
     q47 == "Noir(e) / Africain(e) / Afro-Américain(e)" ~ "African American"
   ))
 table(ibiccs_clean$q47, ibiccs_clean$ethnicity)
-
-Chicago <- filter(ibiccs_clean, ville == "Chicago")
-
-Detroit <- filter(ibiccs_clean, ville == "Détroit")
-
-NewYork <- filter(ibiccs_clean, ville == "New-York")
-
-Philadelphia <- filter(ibiccs_clean, ville == "Philadelphie")
-
-Montreal <- filter(ibiccs_clean, ville == "Montréal")
-
-Toronto <- filter(ibiccs_clean, ville == "Toronto")
-
-Vancouver <- filter(ibiccs_clean, ville == "Vancouver")
 ```
 
 # Recode Country Born
@@ -419,14 +405,6 @@ city_CAN <- rbind(Montreal, Toronto, Vancouver)
 ```{r}
 vars <- c('language', 'ville', 'gender', 'health', 'common_transportation', 'physically_active', 'day_per_week_motor_vehicle', 'day_per_week_public_transit', 'day_per_week_walking', 'day_per_week_bike', 'q42', 'marital_status', 'children_household', 'ethnicity', 'q48', 'motor_vehicle_access', 'education', 'occupation_status', 'household_income', 'bmi', 'bmi_category', 'WalkScore', 'WalkScoreLabel', 'TransitScore', 'TransitScoreLabel', 'BikeScore', 'BikeScoreLabel', 'DiningandDrinkingScore', 'GroceryScore')
 CreateTableOne(vars = vars, strata = "ville", data = ibiccs_clean)
-
-CreateTableOne(vars = vars, data = Chicago)
-CreateTableOne(vars = vars, data = Detroit)
-CreateTableOne(vars = vars, data = NewYork)
-CreateTableOne(vars = vars, data = Philadelphia)
-CreateTableOne(vars = vars, data = Montreal)
-CreateTableOne(vars = vars, data = Toronto)
-CreateTableOne(vars = vars, data = Vancouver)
 ```
 
 # Fix this Code - Breaks Session
@@ -499,7 +477,7 @@ plot(hist_diningdrinkingscore_city)
 
 # Linear Regression
 ```{r}
-explanatory <- c("DiningandDrinkingScore", "WalkScore", "TransitScore")
+explanatory <- c('language', 'ville', 'gender', 'health', 'common_transportation', 'physically_active', 'day_per_week_motor_vehicle', 'day_per_week_public_transit', 'day_per_week_walking', 'day_per_week_bike', 'q42', 'marital_status', 'children_household', 'ethnicity', 'q48', 'motor_vehicle_access', 'education', 'occupation_status', 'household_income', 'bmi_category', 'WalkScore', 'TransitScore', 'BikeScore', 'DiningandDrinkingScore', 'GroceryScore')
 dependent <- "bmi"
 ibiccs_clean %>%
   finalfit.lm(dependent, explanatory)
