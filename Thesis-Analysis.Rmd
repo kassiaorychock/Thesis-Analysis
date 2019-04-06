@@ -477,11 +477,12 @@ plot(hist_diningdrinkingscore_city)
 
 # Linear Regression
 ```{r}
-explanatory <- c('language', 'ville', 'gender', 'health', 'common_transportation', 'physically_active', 'day_per_week_motor_vehicle', 'day_per_week_public_transit', 'day_per_week_walking', 'day_per_week_bike', 'q42', 'marital_status', 'children_household', 'ethnicity', 'q48', 'motor_vehicle_access', 'education', 'occupation_status', 'household_income', 'bmi_category', 'WalkScore', 'TransitScore', 'BikeScore', 'DiningandDrinkingScore', 'GroceryScore')
+explanatory <- c('language', 'ville', 'gender', 'health', 'physically_active', 'q42', 'marital_status', 'ethnicity', 'q48', 'motor_vehicle_access', 'occupation_status', 'bmi_category', 'WalkScore', 'TransitScore', 'BikeScore', 'DiningandDrinkingScore', 'GroceryScore')
 dependent <- "bmi"
 ibiccs_clean %>%
   finalfit.lm(dependent, explanatory)
-
+# non-numeric argument to bianry operator:
+# common_transportation, day_per_week_motor_vehicle, day_per_week_public_transit, day_per_week_walking, day_per_week_bike, children_household, education, household_income
 ```
 
 # Linear Regression
