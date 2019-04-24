@@ -87,8 +87,7 @@ ibiccs_clean <- ibiccs_clean %>%
     q2 == "Très bon" ~ "Excellent",
     q2 == "Bon" ~ "Good",
     q2 == "Moyen" ~ "Poor",
-    q2 == "Mauvais" ~ "Poor",
-    q2 == "Ne sais pas/Refuse de répondre" ~ "NA"
+    q2 == "Mauvais" ~ "Poor"
   ))
 table(ibiccs_clean$q2, ibiccs_clean$health)
 ```
@@ -106,8 +105,7 @@ ibiccs_clean <- ibiccs_clean %>%
     q13 == "Autre (précisez:)" ~ "Other",
     q13 == "Transport en commun" ~ "Public Transportation",
     q13 == "Vélo en libre-service" ~ "Bicycle",
-    q13 == "Vélo personnel" ~ "Bicycle", 
-    TRUE ~ 'NA'
+    q13 == "Vélo personnel" ~ "Bicycle"
   ))
 table(ibiccs_clean$q13, ibiccs_clean$common_transportation)
 ```
@@ -117,8 +115,6 @@ table(ibiccs_clean$q13, ibiccs_clean$common_transportation)
 table(ibiccs_clean$q14)
 ibiccs_clean <- ibiccs_clean %>%
   mutate(physically_active = case_when(
-    q14 == "Ne sais pas/Ne s'applique pas" ~ "NA",
-    q14 == "Refuse de répondre " ~ "NA",
     q14 == "Oui" ~ "Yes",
     q14 == "Non" ~ "No"
   ))
@@ -152,9 +148,7 @@ ibiccs_clean <- ibiccs_clean %>%
     q21 == 99 ~ NA_real_
   ))
 
-summary(ibiccs_clean$day_per_week_motor_vehicle)
-typeof(ibiccs_clean$day_per_week_motor_vehicle)
-
+table(ibiccs_clean$day_per_week_motor_vehicle)
 ```
 
 # Recode Days Per Week Spent Travelling via Public Transport
@@ -238,7 +232,6 @@ ibiccs_clean <- ibiccs_clean %>%
     q44 == "Divorcé(e)" ~ "Divorced/Separated/Widowed",
     q44 == "En couple" ~ "Relationship/Married/Common-Law",
     q44 == "Marié(e)/Conjoint de fait" ~ "Relationship/Married/Common-Law",
-    q44 == "Refuse de répondre" ~ "Refuse",
     q44 == "Séparé(e)" ~ "Divorced/Separated/Widowed",
     q44 == "Veuf(ve)" ~ "Divorced/Separated/Widowed"
   ))
@@ -273,16 +266,16 @@ summary(ibiccs_clean$q46b)
 table(ibiccs_clean$q47)
 ibiccs_clean <- ibiccs_clean %>%
   mutate(ethnicity = case_when(
-    q47 == "Amérindien des États-Unis / Autochtone d'Amérique" ~ "Native American",
-    q47 == "Arabe (Moyen-Orient, Afrique du Nord)" ~ "Arab/Indian/Jewish/Mixed/Other",
-    q47 == "Asiatique / insulaire du Pacifique" ~ "Asian",
-    q47 == "Autre" ~ "Arab/Indian/Jewish/Mixed/Other",
-    q47 == "Blanc(che) / Caucasien" ~ "Causcasian",
-    q47 == "Hispanique / Latino / Espagnol(e)" ~ "Hispanic",
-    q47 == "Indien / Pakistanais" ~ "Arab/Indian/Jewish/Mixed/Other",
-    q47 == "Jewish" ~ "Arab/Indian/Jewish/Mixed/Other",
-    q47 == "Mixed / Mixed race / Bi-racial" ~ "Arab/Indian/Jewish/Mixed/Other",
-    q47 == "Noir(e) / Africain(e) / Afro-Américain(e)" ~ "African American"
+    q47 == "Amérindien des États-Unis/Autochtone d'Amérique" ~ "Native American",
+    q47 == "Arabe (Moyen-Orient, Afrique du Nord)" ~ "Other",
+    q47 == "Asiatique/insulaire du Pacifique" ~ "Asian",
+    q47 == "Autre" ~ "Other",
+    q47 == "Blanc(che)/Caucasien" ~ "Causcasian",
+    q47 == "Hispanique/Latino / Espagnol(e)" ~ "Hispanic",
+    q47 == "Indien/Pakistanais" ~ "Other",
+    q47 == "Jewish" ~ "Other",
+    q47 == "Mixed/Mixed race/Bi-racial" ~ "Other",
+    q47 == "Noir(e)/Africain(e)/Afro-Américain(e)" ~ "African American"
   ))
 table(ibiccs_clean$q47, ibiccs_clean$ethnicity)
 ```
@@ -309,7 +302,6 @@ table(ibiccs_clean$q50)
 
 ibiccs_clean <- ibiccs_clean %>%
   mutate(motor_vehicle_access = case_when(
-    q50 == "Ne sais pas/Ne s'applique pas" ~ "NA",
     q50 == "Non" ~ "No",
     q50 == "Oui" ~ "Yes"
   ))
@@ -361,34 +353,13 @@ ibiccs_clean <- ibiccs_clean %>%
     q53 == "Entre 75000 $ and 99999 $ par année" ~ "$75000-$99999",
     q53 == "Entre 100000 $ and 149999 $ par année" ~ "$100000-149999",
     q53 == "Entre 150000 $ and 199999 $ par année" ~ "$150000+",
-    q53 == "Plus de 200000 $ par année" ~ "$150000+",
-    q53 == "Refuse de répondre" ~ "Refuse"
+    q53 == "Plus de 200000 $ par année" ~ "$150000+"
   ))
 table(ibiccs_clean$q53, ibiccs_clean$household_income)
 ```
 
-# Filtering Out Cities
+# Filtering Out Variables in Clean Data & Filtering Cities
 ```{r}
-Boston <- filter(ibiccs_clean, ville == "Boston")
-
-Chicago <- filter(ibiccs_clean, ville == "Chicago")
-
-Detroit <- filter(ibiccs_clean, ville == "Détroit")
-
-NewYork <- filter(ibiccs_clean, ville == "New-York")
-
-Philadelphia <- filter(ibiccs_clean, ville == "Philadelphie")
-
-Montreal <- filter(ibiccs_clean, ville == "Montréal")
-
-Toronto <- filter(ibiccs_clean, ville == "Toronto")
-
-Vancouver <- filter(ibiccs_clean, ville == "Vancouver")
-```
-
-# Filtering Out Variables in Clean Data
-```{r}
-#Add the prepost variable
 vars_clean <- c('language', 'ville', 'gender', 'health', 'common_transportation', 'physically_active', 'day_per_week_motor_vehicle', 'day_per_week_public_transit', 'day_per_week_walking', 'day_per_week_bike', 'q42', 'marital_status', 'children_household', 'ethnicity', 'country_born', 'motor_vehicle_access', 'education', 'occupation_status', 'household_income', 'bmi', 'bmi_category', 'WalkScore', 'WalkScoreLabel', 'TransitScore', 'TransitScoreLabel', 'BikeScore', 'BikeScoreLabel', 'DiningandDrinkingScore', 'GroceryScore')
 
 ibiccs <- dplyr::select(ibiccs_clean, vars_clean)
@@ -486,26 +457,40 @@ plot(hist_diningdrinkingscore_city)
 # Linear Regression
 ```{r}
 explanatory <- c('language', 'ville', 'gender', 'health', 'physically_active', 'q42', 'marital_status', 'country_born', 'motor_vehicle_access', 'occupation_status', 'bmi_category', 'WalkScore', 'TransitScore', 'BikeScore', 'DiningandDrinkingScore', 'GroceryScore', 'day_per_week_motor_vehicle', 'day_per_week_public_transit', 'day_per_week_walking', 'day_per_week_bike', 'children_household')
-explanatory <- c("ethnicity")
 dependent <- "bmi"
 ibiccs %>%
   finalfit.lm(dependent, explanatory, na.rm = TRUE)
-# non-numeric argument to binary operator:
-# common_transportation, education, household_income, ethnicity
+
+# Regressions for variables that won't run in explanatory
+educ_reg <- lm(bmi ~ factor(education), data = ibiccs)
+summary(educ_reg)
+confint(educ_reg)
+
+tran_reg <- lm(bmi ~ factor(common_transportation), data = ibiccs)
+summary(tran_reg)
+confint(tran_reg)
+
+income_reg <- lm(bmi ~ factor(household_income), data = ibiccs)
+summary(income_reg)
+confint(income_reg)
+
+eth_reg <- lm(bmi ~ factor(ethnicity), data = ibiccs)
+summary(eth_reg)
+confint(eth_reg)
 
 ```
 
 # Linear Regression
 ```{r}
-lm1 <- lm(bmi ~ WalkScore + DiningandDrinkingScore + GroceryScore + factor(ville), data = ibiccs_clean)
+lm1 <- lm(bmi ~ WalkScore + DiningandDrinkingScore + GroceryScore + factor(ville), data = ibiccs)
 summary(lm1)
 confint(lm1)
 
-lm2 <- lm(bmi ~ WalkScore + DiningandDrinkingScore + GroceryScore + factor(ville) + education + occupation_status + household_income, data = ibiccs_clean)
+lm2 <- lm(bmi ~ WalkScore + DiningandDrinkingScore + GroceryScore + factor(ville) + education + occupation_status + household_income, data = ibiccs)
 summary(lm2)
 confint(lm2)
 
-lm3 <- lm(bmi ~ WalkScore + DiningandDrinkingScore + GroceryScore + factor(ville) + education + occupation_status + household_income + language + gender + marital_status + ethnicity, data = ibiccs_clean)
+lm3 <- lm(bmi ~ WalkScore + DiningandDrinkingScore + GroceryScore + factor(ville) + education + occupation_status + household_income + language + gender + marital_status + ethnicity, data = ibiccs)
 summary(lm3)
 confint(lm3)
 ```
@@ -518,21 +503,40 @@ ggplot(ibiccs, aes(x = bmi, y = WalkScore)) +
   facet_wrap(~ ville)
 ```
 
+# Complete cases 
+```{r}
+# Individual Level Analysis
+ibiccs_cc <- ibiccs %>% 
+              drop_na("bmi", "GroceryScore", "WalkScore")
+```
+We remove missing data for all variables. We go from 23901 observations to 20922 observations. 
+
 # Causal Mediation
 ```{r}
-# How can we measure income, eduaction and occuaption together to make SES?
-# Individual Level Analysis
-med.fit <- glmer(ses ~ WalkScore + DiningandDrinkingScore + GroceryScore + #covariates 
-  (1 | ville), family = binomial(link = "logit"), data = ibiccs_clean) 
+med.fit <- glm(GroceryScore ~ WalkScore, family = gaussian(link = "identity"), data = ibiccs_cc) 
+summary(med.fit)
 
-out.fit <- glmer(bmi ~ WalkScore + DiningandDrinkingScore + GroceryScore * ses + #covariates
-  + (1 + ses | ville, family = binomial(link = "logit"), 
-  + data = ibiccs)
+out.fit <- glm(bmi ~ WalkScore + GroceryScore, family = gaussian(link = "identity"), data = ibiccs_cc)
+summary(out.fit)
 
-med.out <- mediate(med.fit, out.fit, treat = "WalkScore + DiningandDrinkingScore + GroceryScore", 
-  + mediator = "ses", sims = 100) 
+med.out <- mediate(med.fit, out.fit, treat = "WalkScore", mediator = "GroceryScore", sims = 100) 
 summary(med.out)
 ```
+
+Interpretation: 
+
+
+### List of next steps
+- Finish interpretation
+- Run separate model with Dining and Drinking Score (and interpret that model)
+- Add in covariates and rerun the 2 models (GroceryScore and Dining and Drinking Score)
+- Add in the city level model with glmer and interpretation
+
+
+- Income stratified model
+    - Rerun the model for categories of income
+    - Create a new dataframe with only on level of income
+    
 
 ```
 # Area-Level Analysis
