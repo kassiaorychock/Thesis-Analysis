@@ -22,6 +22,8 @@ library(tidyverse)
 library(car)
 library(foreign)
 library(Hmisc)
+library(knitr)
+library(dplyr)
 library(survival)
 library(finalfit)
 library(tableone)
@@ -266,16 +268,18 @@ summary(ibiccs_clean$q46b)
 table(ibiccs_clean$q47)
 ibiccs_clean <- ibiccs_clean %>%
   mutate(ethnicity = case_when(
-    q47 == "Amérindien des États-Unis/Autochtone d'Amérique" ~ "Native American",
+    q47 == "Amérindien des États-Unis / Autochtone d'Amérique" ~ "Native American",
     q47 == "Arabe (Moyen-Orient, Afrique du Nord)" ~ "Other",
-    q47 == "Asiatique/insulaire du Pacifique" ~ "Asian",
+    q47 == "Asiatique / insulaire du Pacifique" ~ "Asian",
     q47 == "Autre" ~ "Other",
-    q47 == "Blanc(che)/Caucasien" ~ "Causcasian",
-    q47 == "Hispanique/Latino / Espagnol(e)" ~ "Hispanic",
-    q47 == "Indien/Pakistanais" ~ "Other",
+    q47 == "Blanc(che) / Caucasien" ~ "Causcasian",
+    q47 == "Hispanique / Latino / Espagnol(e)" ~ "Hispanic",
+    q47 == "Indien / Pakistanais" ~ "Other",
     q47 == "Jewish" ~ "Other",
-    q47 == "Mixed/Mixed race/Bi-racial" ~ "Other",
-    q47 == "Noir(e)/Africain(e)/Afro-Américain(e)" ~ "African American"
+    q47 == "Mixed / Mixed race / Bi-racial" ~ "Other",
+    q47 == "Noir(e) / Africain(e) / Afro-Américain(e)" ~ "African American",
+    q47 == "Je préfère ne pas répondre" ~ "Refuse",
+    TRUE ~ "NA"
   ))
 table(ibiccs_clean$q47, ibiccs_clean$ethnicity)
 ```
@@ -358,6 +362,18 @@ ibiccs_clean <- ibiccs_clean %>%
 table(ibiccs_clean$q53, ibiccs_clean$household_income)
 ```
 
+# Filtering Out Cities
+```{r}
+Boston <- filter(ibiccs_clean, ville == "Boston")
+Chicago <- filter(ibiccs_clean, ville == "Chicago")
+Detroit <- filter(ibiccs_clean, ville == "Détroit")
+NewYork <- filter(ibiccs_clean, ville == "New-York")
+Philadelphia <- filter(ibiccs_clean, ville == "Philadelphie")
+Montreal <- filter(ibiccs_clean, ville == "Montréal")
+Toronto <- filter(ibiccs_clean, ville == "Toronto")
+Vancouver <- filter(ibiccs_clean, ville == "Vancouver")
+```
+
 # Filtering Out Variables in Clean Data & Filtering Cities
 ```{r}
 vars_clean <- c('language', 'ville', 'gender', 'health', 'common_transportation', 'physically_active', 'day_per_week_motor_vehicle', 'day_per_week_public_transit', 'day_per_week_walking', 'day_per_week_bike', 'q42', 'marital_status', 'children_household', 'ethnicity', 'country_born', 'motor_vehicle_access', 'education', 'occupation_status', 'household_income', 'bmi', 'bmi_category', 'WalkScore', 'WalkScoreLabel', 'TransitScore', 'TransitScoreLabel', 'BikeScore', 'BikeScoreLabel', 'DiningandDrinkingScore', 'GroceryScore')
@@ -371,6 +387,7 @@ Philadelphia <- dplyr::select(Philadelphia, vars_clean)
 Montreal <- dplyr::select(Montreal, vars_clean)
 Toronto <- dplyr::select(Toronto, vars_clean)
 Vancouver <- dplyr::select(Vancouver, vars_clean)
+city <- rbind(Philadelphia, NewYork, Detroit, Chicago, Boston, Montreal, Toronto, Vancouver)
 ```
 
 # Binding by Country
@@ -474,11 +491,12 @@ income_reg <- lm(bmi ~ factor(household_income), data = ibiccs)
 summary(income_reg)
 confint(income_reg)
 
-eth_reg <- lm(bmi ~ factor(ethnicity), data = ibiccs)
-summary(eth_reg)
-confint(eth_reg)
-
+ethn_reg <- lm(bmi ~ factor(ethnicity), data = ibiccs)
+summary(ethn_reg)
+confint(ethn_reg)
 ```
+Interpretation: What covariates are we keeping?
+
 
 # Linear Regression
 ```{r}
@@ -507,7 +525,7 @@ ggplot(ibiccs, aes(x = bmi, y = WalkScore)) +
 ```{r}
 # Individual Level Analysis
 ibiccs_cc <- ibiccs %>% 
-              drop_na("bmi", "GroceryScore", "WalkScore")
+              drop_na("bmi", "GroceryScore", "WalkScore", "DiningandDrinkingScore")
 ```
 We remove missing data for all variables. We go from 23901 observations to 20922 observations. 
 
@@ -522,9 +540,19 @@ summary(out.fit)
 med.out <- mediate(med.fit, out.fit, treat = "WalkScore", mediator = "GroceryScore", sims = 100) 
 summary(med.out)
 ```
-
 Interpretation: 
 
+```{r}
+med.fit <- glm(DiningandDrinkingScore ~ WalkScore, family = gaussian(link = "identity"), data = ibiccs_cc) 
+summary(med.fit)
+
+out.fit <- glm(bmi ~ WalkScore + DiningandDrinkingScore, family = gaussian(link = "identity"), data = ibiccs_cc)
+summary(out.fit)
+
+med.out <- mediate(med.fit, out.fit, treat = "WalkScore", mediator = "DiningandDrinkingScore", sims = 100) 
+summary(med.out)
+```
+Interpretation: 
 
 ### List of next steps
 - Finish interpretation
@@ -535,7 +563,7 @@ Interpretation:
 
 - Income stratified model
     - Rerun the model for categories of income
-    - Create a new dataframe with only on level of income
+    - Create a new dataframe with only one level of income
     
 
 ```
@@ -552,12 +580,6 @@ summary(med.out)
 Fix IPAQ
 Fix explanatory not reading everything
 Find prepost 
-
-# TO DO: LOOP REGRESSIONS
-Select associations we are keeping
-Read mediation package information
-Figure out how you want to run model for next week
-BMI & KEY variable scatterplot and regression line
 
 ## Junk Code
 ```
