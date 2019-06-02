@@ -126,8 +126,85 @@ table(ibiccs_clean$q14, ibiccs_clean$physically_active)
 # Recode Type of Physical Activity 
 ```{r}
 # Code into Sedentary, Walking, Moderate, Vigorous Activity
-table(ibiccs_clean$q15)
-summary(ibiccs_clean$q18)
+table(ibiccs_clean$q18)
+  ibiccs_clean <- ibiccs_clean %>%
+    mutate(pa_level = case_when(
+      q15 == 1 ~ "Low",
+      q15 == 2 ~ "Moderate",
+      q15 == 3 ~ "Low",
+      q15 == 4 ~ "Moderate",
+      q15 == 5 ~ "Vigorous",
+      q15 == 6 ~ "Moderate",
+      q15 == 7 ~ "Moderate",
+      q15 == 8 ~ "Low",
+      q15 == 9 ~ "Low",
+      q15 == 10 ~ "Vigorous",
+      q15 == 11 ~ "Vigorous",
+      q15 == 12 ~ "Moderate",
+      q15 == 13 ~ "Low",
+      q15 == 14 ~ "Vigorous",
+      q15 == 15 ~ "Vigorous",
+      q15 == 16 ~ "Sedentary",
+      q15 == 17 ~ "Low",
+      q15 == 18 ~ "Moderate",
+      q15 == 19 ~ "Low",
+      q15 == 20 ~ "Moderate",
+      q15 == 21 ~ "Moderate",
+      q15 == 22 ~ "Vigorous",
+      q15 == 23 ~ "Vigorous",
+      q15 == 24 ~ "Low",
+      q15 == 25 ~ "Low",
+      q15 == 26 ~ "Low",
+      q15 == 27 ~ "Moderate",
+      q15 == 28 ~ "Vigorous",
+      q15 == 29 ~ "Vigorous",
+      q15 == 30 ~ "Vigorous",
+      q15 == 31 ~ "Low",
+      q15 == 32 ~ "Moderate",
+      q15 == 33 ~ "Moderate",
+      q15 == 34 ~ "Moderate",
+      q15 == 35 ~ "Moderate",
+      q15 == 36 ~ "Moderate",
+      q15 == 37 ~ "Vigorous",
+      q15 == 38 ~ "Vigorous",
+      q15 == 39 ~ "Vigorous",
+      q15 == 40 ~ "Vigorous",
+      q15 == 41 ~ "Vigorous",
+      q15 == 42 ~ "Moderate",
+      q15 == 43 ~ "Moderate",
+      q15 == 44 ~ "Vigorous",
+      q15 == 45 ~ "Low",
+      q15 == 46 ~ "Moderate",
+      q15 == 47 ~ "Moderate",
+      q15 == 48 ~ "Vigorous",
+      q15 == 49 ~ "Moderate",
+      q15 == 50 ~ "Moderate",
+      q15 == 51 ~ "Vigorous",
+      q15 == 52 ~ "Vigorous",
+      q15 == 53 ~ "Vigorous",
+      q15 == 54 ~ "Moderate",
+      q15 == 55 ~ "Low",
+      q15 == 56 ~ "Vigorous",
+      q15 == 57 ~ "Moderate",
+      q15 == 58 ~ "Vigorous",
+      q15 == 59 ~ "Moderate",
+      q15 == 60 ~ "Vigorous",
+      q15 == 61 ~ "Vigorous",
+      q15 == 62 ~ "Vigorous",
+      q15 == 63 ~ "Vigorous",
+      q15 == 64 ~ "Moderate",
+      q15 == 65 ~ "Moderate",
+      q15 == 66 ~ "Vigorous",
+      q15 == 67 ~ "Vigorous",
+      q15 == 68 ~ "Low",
+      q15 == 69 ~ "Moderate",
+      q15 == 96 ~ "NA",
+      q15 == 97 ~ "Sedentary",
+      q15 == 98 ~ "NA",
+      q15 == 99 ~ "NA",
+      TRUE ~ "NA"
+    ))
+table(ibiccs_clean$q15, ibiccs_clean$pa_level)
 ```
 
 # Recode Days Per Week Spent Travelling via Car
@@ -376,7 +453,7 @@ Vancouver <- filter(ibiccs_clean, ville == "Vancouver")
 
 # Filtering Out Variables in Clean Data & Filtering Cities
 ```{r}
-vars_clean <- c('language', 'ville', 'gender', 'health', 'common_transportation', 'physically_active', 'day_per_week_motor_vehicle', 'day_per_week_public_transit', 'day_per_week_walking', 'day_per_week_bike', 'q42', 'marital_status', 'children_household', 'ethnicity', 'country_born', 'motor_vehicle_access', 'education', 'occupation_status', 'household_income', 'bmi', 'bmi_category', 'WalkScore', 'WalkScoreLabel', 'TransitScore', 'TransitScoreLabel', 'BikeScore', 'BikeScoreLabel', 'DiningandDrinkingScore', 'GroceryScore')
+vars_clean <- c('language', 'ville', 'gender', 'health', 'common_transportation', 'physically_active', 'pa_level', 'day_per_week_motor_vehicle', 'day_per_week_public_transit', 'day_per_week_walking', 'day_per_week_bike', 'q42', 'marital_status', 'children_household', 'ethnicity', 'country_born', 'motor_vehicle_access', 'education', 'occupation_status', 'household_income', 'bmi', 'bmi_category', 'WalkScore', 'WalkScoreLabel', 'TransitScore', 'TransitScoreLabel', 'BikeScore', 'BikeScoreLabel', 'DiningandDrinkingScore', 'GroceryScore')
 
 ibiccs <- dplyr::select(ibiccs_clean, vars_clean)
 Boston <- dplyr::select(Boston, vars_clean)
@@ -399,7 +476,7 @@ city_CAN <- rbind(Montreal, Toronto, Vancouver)
 
 #Tables for Each City and Combined
 ```{r}
-vars <- c('language', 'ville', 'gender', 'health', 'common_transportation', 'physically_active', 'day_per_week_motor_vehicle', 'day_per_week_public_transit', 'day_per_week_walking', 'day_per_week_bike', 'q42', 'marital_status', 'children_household', 'ethnicity', 'country_born', 'motor_vehicle_access', 'education', 'occupation_status', 'household_income', 'bmi', 'bmi_category', 'WalkScore', 'WalkScoreLabel', 'TransitScore', 'TransitScoreLabel', 'BikeScore', 'BikeScoreLabel', 'DiningandDrinkingScore', 'GroceryScore')
+vars <- c('language', 'ville', 'gender', 'health', 'common_transportation', 'physically_active', 'pa_level', 'day_per_week_motor_vehicle', 'day_per_week_public_transit', 'day_per_week_walking', 'day_per_week_bike', 'q42', 'marital_status', 'children_household', 'ethnicity', 'country_born', 'motor_vehicle_access', 'education', 'occupation_status', 'household_income', 'bmi', 'bmi_category', 'WalkScore', 'WalkScoreLabel', 'TransitScore', 'TransitScoreLabel', 'BikeScore', 'BikeScoreLabel', 'DiningandDrinkingScore', 'GroceryScore')
 CreateTableOne(vars = vars, strata = "ville", data = ibiccs)
 ```
 
@@ -494,9 +571,13 @@ confint(income_reg)
 ethn_reg <- lm(bmi ~ factor(ethnicity), data = ibiccs)
 summary(ethn_reg)
 confint(ethn_reg)
+
+pa_lvl_reg <- lm(bmi ~ factor(pa_level), data = ibiccs)
+summary(pa_lvl_reg)
+confint(pa_lvl_reg)
 ```
 Interpretation: What covariates are we keeping?
-
+'language', 'ville', 'gender', 'health', 'physically_active', 'q42', 'marital_status', 'country_born', 'motor_vehicle_access', 'occupation_status', 'bmi_category', 'WalkScore', 'TransitScore', 'BikeScore', 'DiningandDrinkingScore', 'GroceryScore', 'day_per_week_motor_vehicle', 'day_per_week_public_transit', 'day_per_week_walking', 'day_per_week_bike', 'children_household'
 
 # Linear Regression
 ```{r}
@@ -523,43 +604,71 @@ ggplot(ibiccs, aes(x = bmi, y = WalkScore)) +
 
 # Complete cases 
 ```{r}
-# Individual Level Analysis
 ibiccs_cc <- ibiccs %>% 
               drop_na("bmi", "GroceryScore", "WalkScore", "DiningandDrinkingScore")
 ```
 We remove missing data for all variables. We go from 23901 observations to 20922 observations. 
 
-# Causal Mediation
+# Causal Mediation: Individual Level
+# GroceryScore
 ```{r}
 med.fit <- glm(GroceryScore ~ WalkScore, family = gaussian(link = "identity"), data = ibiccs_cc) 
 summary(med.fit)
 
-out.fit <- glm(bmi ~ WalkScore + GroceryScore, family = gaussian(link = "identity"), data = ibiccs_cc)
+out.fit <- glm(bmi ~ WalkScore * GroceryScore, family = gaussian(link = "identity"), data = ibiccs_cc)
 summary(out.fit)
 
 med.out <- mediate(med.fit, out.fit, treat = "WalkScore", mediator = "GroceryScore", sims = 100) 
 summary(med.out)
 ```
 Interpretation: 
+The estimated mediation, direct, and total effects are all significantly different from zero. The results suggest that the WalkScore increases the value of the individual-level mediator (GroceryScore), which in turn decreases the value of the outcome (bmi).
 
+# DiningandDrinkingScore
 ```{r}
 med.fit <- glm(DiningandDrinkingScore ~ WalkScore, family = gaussian(link = "identity"), data = ibiccs_cc) 
 summary(med.fit)
 
-out.fit <- glm(bmi ~ WalkScore + DiningandDrinkingScore, family = gaussian(link = "identity"), data = ibiccs_cc)
+out.fit <- glm(bmi ~ WalkScore * DiningandDrinkingScore, family = gaussian(link = "identity"), data = ibiccs_cc)
 summary(out.fit)
 
 med.out <- mediate(med.fit, out.fit, treat = "WalkScore", mediator = "DiningandDrinkingScore", sims = 100) 
 summary(med.out)
 ```
 Interpretation: 
+The direct and total effects are all significantly different from zero
+
+# GroceryScore and covariates
+```{r}
+med.fit <- glm(GroceryScore ~ WalkScore + language + ville + gender + health + physically_active + q42 + marital_status + country_born + motor_vehicle_access + occupation_status + bmi_category + TransitScore + BikeScore + day_per_week_motor_vehicle + day_per_week_public_transit + day_per_week_walking + day_per_week_bike + children_household + common_transportation + ethnicity, family = gaussian(link = "identity"), data = ibiccs_cc) 
+summary(med.fit)
+
+out.fit <- glm(bmi ~ WalkScore * GroceryScore + language + ville + gender + health + physically_active + q42 + marital_status + country_born + motor_vehicle_access + occupation_status + bmi_category + TransitScore + BikeScore + day_per_week_motor_vehicle + day_per_week_public_transit + day_per_week_walking + day_per_week_bike + children_household + common_transportation + ethnicity, family = gaussian(link = "identity"), data = ibiccs_cc)
+summary(out.fit)
+
+med.out <- mediate(med.fit, out.fit, treat = "WalkScore", mediator = "GroceryScore", sims = 100) 
+summary(med.out)
+```
+Interpretation: *pa_level* not working
+The estimated mediation, direct, and total effects are all non-significantly different from zero. The results suggest that the WalkScore decreases the value of the individual-level mediator (GroceryScore), which in turn increases the value of the outcome (bmi).
+
+
+# DiningandDrinkingScore and covariates
+```{r}
+med.fit <- glm(DiningandDrinkingScore ~ WalkScore + language + ville + gender + health + physically_active + q42 + marital_status + country_born + motor_vehicle_access + occupation_status + bmi_category + TransitScore + BikeScore + day_per_week_motor_vehicle + day_per_week_public_transit + day_per_week_walking + day_per_week_bike + children_household + common_transportation + ethnicity, family = gaussian(link = "identity"), data = ibiccs_cc) 
+summary(med.fit)
+
+out.fit <- glm(bmi ~ WalkScore * DiningandDrinkingScore + language + ville + gender + health + physically_active + q42 + marital_status + country_born + motor_vehicle_access + occupation_status + bmi_category + TransitScore + BikeScore + day_per_week_motor_vehicle + day_per_week_public_transit + day_per_week_walking + day_per_week_bike + children_household + common_transportation + ethnicity, family = gaussian(link = "identity"), data = ibiccs_cc)
+summary(out.fit)
+
+med.out <- mediate(med.fit, out.fit, treat = "WalkScore", mediator = "DiningandDrinkingScore", sims = 100) 
+summary(med.out)
+```
+Interpretation: *pa_level* not working
+The direct are significantly different from zero. The estimated mediation and total effects are not signficantly different from zero.
 
 ### List of next steps
-- Finish interpretation
-- Run separate model with Dining and Drinking Score (and interpret that model)
-- Add in covariates and rerun the 2 models (GroceryScore and Dining and Drinking Score)
 - Add in the city level model with glmer and interpretation
-
 
 - Income stratified model
     - Rerun the model for categories of income
@@ -576,41 +685,3 @@ med.out <- mediate(med.fit, out.fit, treat = "free", mediator = "smorale",
   + control.value = 3, treat.value = 4, sims = 100) 
 summary(med.out)
 ```
-# TO DO: 
-Fix IPAQ
-Fix explanatory not reading everything
-Find prepost 
-
-## Junk Code
-```
-usda_zip <- dplyr::full_join(USDA, USA_ZIP, by = "CensusTract")
-
-usda_zip_food <- usda_zip %>%
-                    group_by(zip) %>%
-                        summarize(
-                          food = mean(foodvariable)
-                        )
-```
-
-```
-library(plyr)
-city$zip <- as.numeric(city$RTA_zip)
-USA_ZIP$CensusTract <- as.numeric(USA_ZIP$tract)
-```
-
-```
-library(plyr)
-city$CensusTract <- as.numeric(city$zip)
-```
-
-
-```
-city_zip <- dplyr::left_join(city, usda_zip, by = "zip")
-table(city_zip$ville)
-
-summary(city$WalkScore)
-summary(city$DiningandDrinkingScore)
-summary(city$GroceryScore)
-summary(city$TransitScore)
-```
-
