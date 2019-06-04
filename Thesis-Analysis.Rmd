@@ -609,7 +609,7 @@ ibiccs_cc <- ibiccs %>%
 ```
 We remove missing data for all variables. We go from 23901 observations to 20922 observations. 
 
-# Causal Mediation: Individual Level
+# Causal Mediation
 # GroceryScore
 ```{r}
 med.fit <- glm(GroceryScore ~ WalkScore, family = gaussian(link = "identity"), data = ibiccs_cc) 
@@ -637,19 +637,38 @@ summary(med.out)
 ```
 Interpretation: 
 The direct and total effects are all significantly different from zero
-Why is DiningandDrinkingScore not effective?
+Why is DiningandDrinkingScore not significant, but GroceryScore is?
 
 # GroceryScore and covariates
-Step 1 
-Same as above but add Ville
+Step 1: Add Ville
+```{r}
+med.fit <- glm(GroceryScore ~ WalkScore + ville, family = gaussian(link = "identity"), data = ibiccs_cc) 
+summary(med.fit)
 
-Step 2
-Add everything but Transitscore and Bikescore
+out.fit <- glm(bmi ~ WalkScore * GroceryScore + ville, family = gaussian(link = "identity"), data = ibiccs_cc)
+summary(out.fit)
 
-Step 3
-Everything including transit score and bikescore
+med.out <- mediate(med.fit, out.fit, treat = "WalkScore", mediator = "GroceryScore", sims = 100) 
+summary(med.out)
+```
+Interpretation:
+The estimated mediation, direct, and total effects are all significantly different from zero. The results suggest that the WalkScore increases the value of the individual-level mediator (GroceryScore), which in turn decreases the value of the outcome (bmi).
 
+Step 2: Add covariates except TransitScore and BikeScore 
+```{r}
+med.fit <- glm(GroceryScore ~ WalkScore + language + ville + gender + health + physically_active + q42 + marital_status + country_born + motor_vehicle_access + occupation_status + day_per_week_motor_vehicle + day_per_week_public_transit + day_per_week_walking + day_per_week_bike + children_household + common_transportation + ethnicity, family = gaussian(link = "identity"), data = ibiccs_cc) 
+summary(med.fit)
 
+out.fit <- glm(bmi ~ WalkScore * GroceryScore + language + ville + gender + health + physically_active + q42 + marital_status + country_born + motor_vehicle_access + occupation_status + day_per_week_motor_vehicle + day_per_week_public_transit + day_per_week_walking + day_per_week_bike + children_household + common_transportation + ethnicity, family = gaussian(link = "identity"), data = ibiccs_cc)
+summary(out.fit)
+
+med.out <- mediate(med.fit, out.fit, treat = "WalkScore", mediator = "GroceryScore", sims = 100) 
+summary(med.out)
+```
+Interpretation: 
+The estimated mediation and total effects are all significantly different from zero; direct is not significantly different from zero.
+
+Step 3: Add all covariates
 ```{r}
 med.fit <- glm(GroceryScore ~ WalkScore + language + ville + gender + health + physically_active + q42 + marital_status + country_born + motor_vehicle_access + occupation_status  + TransitScore + BikeScore + day_per_week_motor_vehicle + day_per_week_public_transit + day_per_week_walking + day_per_week_bike + children_household + common_transportation + ethnicity, family = gaussian(link = "identity"), data = ibiccs_cc) 
 summary(med.fit)
@@ -660,13 +679,40 @@ summary(out.fit)
 med.out <- mediate(med.fit, out.fit, treat = "WalkScore", mediator = "GroceryScore", sims = 100) 
 summary(med.out)
 ```
-Interpretation: *pa_level* not working
-The estimated mediation, direct, and total effects are all non-significantly different from zero. The results suggest that the WalkScore decreases the value of the individual-level mediator (GroceryScore), which in turn increases the value of the outcome (bmi).
-
+Interpretation:
+The estimated mediation is significantly different from zero; direct and total effects are not significantly different from zero. 
 
 # DiningandDrinkingScore and covariates
+Step 1: Add ville
 ```{r}
-med.fit <- glm(DiningandDrinkingScore ~ WalkScore + language + ville + gender + health + physically_active + q42 + marital_status + country_born + motor_vehicle_access + occupation_status + bmi_category + TransitScore + BikeScore + day_per_week_motor_vehicle + day_per_week_public_transit + day_per_week_walking + day_per_week_bike + children_household + common_transportation + ethnicity, family = gaussian(link = "identity"), data = ibiccs_cc) 
+med.fit <- glm(DiningandDrinkingScore ~ WalkScore + ville, family = gaussian(link = "identity"), data = ibiccs_cc) 
+summary(med.fit)
+
+out.fit <- glm(bmi ~ WalkScore * DiningandDrinkingScore + ville, family = gaussian(link = "identity"), data = ibiccs_cc)
+summary(out.fit)
+
+med.out <- mediate(med.fit, out.fit, treat = "WalkScore", mediator = "DiningandDrinkingScore", sims = 100) 
+summary(med.out)
+```
+Interpretation:
+Direct effects are significantly different from zero; estimated mediation and total effects are not significantly different from zero. 
+
+Step 2: Add covarites except TransitScore and Bike Score
+```{r}
+med.fit <- glm(DiningandDrinkingScore ~ WalkScore + language + ville + gender + health + physically_active + q42 + marital_status + country_born + motor_vehicle_access + occupation_status + day_per_week_motor_vehicle + day_per_week_public_transit + day_per_week_walking + day_per_week_bike + children_household + common_transportation + ethnicity, family = gaussian(link = "identity"), data = ibiccs_cc) 
+summary(med.fit)
+
+out.fit <- glm(bmi ~ WalkScore * DiningandDrinkingScore + language + ville + gender + health + physically_active + q42 + marital_status + country_born + motor_vehicle_access + occupation_status + day_per_week_motor_vehicle + day_per_week_public_transit + day_per_week_walking + day_per_week_bike + children_household + common_transportation + ethnicity, family = gaussian(link = "identity"), data = ibiccs_cc)
+summary(out.fit)
+
+med.out <- mediate(med.fit, out.fit, treat = "WalkScore", mediator = "DiningandDrinkingScore", sims = 100) 
+summary(med.out)
+```
+Interpretation: 
+
+Step 3: Add all covariates
+```{r}
+med.fit <- glm(DiningandDrinkingScore ~ WalkScore + language + ville + gender + health + physically_active + q42 + marital_status + country_born + motor_vehicle_access + occupation_status + TransitScore + BikeScore + day_per_week_motor_vehicle + day_per_week_public_transit + day_per_week_walking + day_per_week_bike + children_household + common_transportation + ethnicity, family = gaussian(link = "identity"), data = ibiccs_cc) 
 summary(med.fit)
 
 out.fit <- glm(bmi ~ WalkScore * DiningandDrinkingScore + language + ville + gender + health + physically_active + q42 + marital_status + country_born + motor_vehicle_access + occupation_status + bmi_category + TransitScore + BikeScore + day_per_week_motor_vehicle + day_per_week_public_transit + day_per_week_walking + day_per_week_bike + children_household + common_transportation + ethnicity, family = gaussian(link = "identity"), data = ibiccs_cc)
@@ -675,7 +721,7 @@ summary(out.fit)
 med.out <- mediate(med.fit, out.fit, treat = "WalkScore", mediator = "DiningandDrinkingScore", sims = 100) 
 summary(med.out)
 ```
-Interpretation: *pa_level* not working
+Interpretation:
 The direct are significantly different from zero. The estimated mediation and total effects are not signficantly different from zero.
 
 ### List of next steps
