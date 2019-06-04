@@ -637,13 +637,24 @@ summary(med.out)
 ```
 Interpretation: 
 The direct and total effects are all significantly different from zero
+Why is DiningandDrinkingScore not effective?
 
 # GroceryScore and covariates
+Step 1 
+Same as above but add Ville
+
+Step 2
+Add everything but Transitscore and Bikescore
+
+Step 3
+Everything including transit score and bikescore
+
+
 ```{r}
-med.fit <- glm(GroceryScore ~ WalkScore + language + ville + gender + health + physically_active + q42 + marital_status + country_born + motor_vehicle_access + occupation_status + bmi_category + TransitScore + BikeScore + day_per_week_motor_vehicle + day_per_week_public_transit + day_per_week_walking + day_per_week_bike + children_household + common_transportation + ethnicity, family = gaussian(link = "identity"), data = ibiccs_cc) 
+med.fit <- glm(GroceryScore ~ WalkScore + language + ville + gender + health + physically_active + q42 + marital_status + country_born + motor_vehicle_access + occupation_status  + TransitScore + BikeScore + day_per_week_motor_vehicle + day_per_week_public_transit + day_per_week_walking + day_per_week_bike + children_household + common_transportation + ethnicity, family = gaussian(link = "identity"), data = ibiccs_cc) 
 summary(med.fit)
 
-out.fit <- glm(bmi ~ WalkScore * GroceryScore + language + ville + gender + health + physically_active + q42 + marital_status + country_born + motor_vehicle_access + occupation_status + bmi_category + TransitScore + BikeScore + day_per_week_motor_vehicle + day_per_week_public_transit + day_per_week_walking + day_per_week_bike + children_household + common_transportation + ethnicity, family = gaussian(link = "identity"), data = ibiccs_cc)
+out.fit <- glm(bmi ~ WalkScore * GroceryScore + language + ville + gender + health + physically_active + q42 + marital_status + country_born + motor_vehicle_access + occupation_status  + TransitScore + BikeScore + day_per_week_motor_vehicle + day_per_week_public_transit + day_per_week_walking + day_per_week_bike + children_household + common_transportation + ethnicity, family = gaussian(link = "identity"), data = ibiccs_cc)
 summary(out.fit)
 
 med.out <- mediate(med.fit, out.fit, treat = "WalkScore", mediator = "GroceryScore", sims = 100) 
