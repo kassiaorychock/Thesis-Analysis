@@ -623,6 +623,9 @@ summary(med.out)
 ```
 Interpretation: 
 The estimated mediation, direct, and total effects are all significantly different from zero. The results suggest that the WalkScore increases the value of the individual-level mediator (GroceryScore), which in turn decreases the value of the outcome (bmi).
+Total: 1-unit change in WalkScore results in a .01 increase in BMI when GroceryScore is included.
+ADE: 1-unit change in WalkScore results in a .02 decrease in BMI when GroceryScore is fixed.
+ACME: 1-unit change in GroceryScore results in .03 increase in BMI when WalkScore is fixed.
 
 # DiningandDrinkingScore
 ```{r}
@@ -636,11 +639,13 @@ med.out <- mediate(med.fit, out.fit, treat = "WalkScore", mediator = "DiningandD
 summary(med.out)
 ```
 Interpretation: 
-The direct and total effects are all significantly different from zero
-Why is DiningandDrinkingScore not significant, but GroceryScore is?
+The direct and total effects are all significantly different from zero; the estimated mediation is not significantly different from zero. 
+Total: 1-unit change in WalkScore results in a .03 increase in BMI when DiningandDrinkingScore is included.
+ADE: 1-unit change in WalkScore results in a .03 increase in BMI when DiningandDrinkingScore is fixed.
+ACME: 1-unit change in DiningandDrinkingScore results in .0005 decrease in BMI when WalkScore is fixed.
 
-# GroceryScore and covariates
-Step 1: Add Ville
+## GroceryScore and covariates
+# Step 1: Add Ville
 ```{r}
 med.fit <- glm(GroceryScore ~ WalkScore + ville, family = gaussian(link = "identity"), data = ibiccs_cc) 
 summary(med.fit)
@@ -654,7 +659,7 @@ summary(med.out)
 Interpretation:
 The estimated mediation, direct, and total effects are all significantly different from zero. The results suggest that the WalkScore increases the value of the individual-level mediator (GroceryScore), which in turn decreases the value of the outcome (bmi).
 
-Step 2: Add covariates except TransitScore and BikeScore 
+# Step 2: Add all covariates *Focus*
 ```{r}
 med.fit <- glm(GroceryScore ~ WalkScore + language + ville + gender + health + physically_active + q42 + marital_status + country_born + motor_vehicle_access + occupation_status + day_per_week_motor_vehicle + day_per_week_public_transit + day_per_week_walking + day_per_week_bike + children_household + common_transportation + ethnicity, family = gaussian(link = "identity"), data = ibiccs_cc) 
 summary(med.fit)
@@ -665,25 +670,14 @@ summary(out.fit)
 med.out <- mediate(med.fit, out.fit, treat = "WalkScore", mediator = "GroceryScore", sims = 100) 
 summary(med.out)
 ```
-Interpretation: 
-The estimated mediation and total effects are all significantly different from zero; direct is not significantly different from zero.
-
-Step 3: Add all covariates
-```{r}
-med.fit <- glm(GroceryScore ~ WalkScore + language + ville + gender + health + physically_active + q42 + marital_status + country_born + motor_vehicle_access + occupation_status  + TransitScore + BikeScore + day_per_week_motor_vehicle + day_per_week_public_transit + day_per_week_walking + day_per_week_bike + children_household + common_transportation + ethnicity, family = gaussian(link = "identity"), data = ibiccs_cc) 
-summary(med.fit)
-
-out.fit <- glm(bmi ~ WalkScore * GroceryScore + language + ville + gender + health + physically_active + q42 + marital_status + country_born + motor_vehicle_access + occupation_status  + TransitScore + BikeScore + day_per_week_motor_vehicle + day_per_week_public_transit + day_per_week_walking + day_per_week_bike + children_household + common_transportation + ethnicity, family = gaussian(link = "identity"), data = ibiccs_cc)
-summary(out.fit)
-
-med.out <- mediate(med.fit, out.fit, treat = "WalkScore", mediator = "GroceryScore", sims = 100) 
-summary(med.out)
-```
 Interpretation:
 The estimated mediation is significantly different from zero; direct and total effects are not significantly different from zero. 
+Total: 1-unit change in WalkScore results in a .01 increase in BMI when GroceryScore is included.
+ADE: 1-unit change in WalkScore results in a .007 decrease in BMI when GroceryScore is fixed.
+ACME: 1-unit change in GroceryScore results in .02 increase in BMI when WalkScore is fixed.
 
-# DiningandDrinkingScore and covariates
-Step 1: Add ville
+## DiningandDrinkingScore and covariates
+# Step 1: Add ville
 ```{r}
 med.fit <- glm(DiningandDrinkingScore ~ WalkScore + ville, family = gaussian(link = "identity"), data = ibiccs_cc) 
 summary(med.fit)
@@ -697,22 +691,9 @@ summary(med.out)
 Interpretation:
 Direct effects are significantly different from zero; estimated mediation and total effects are not significantly different from zero. 
 
-Step 2: Add covarites except TransitScore and Bike Score
+# Step 2: Add all covariates *Focus*
 ```{r}
 med.fit <- glm(DiningandDrinkingScore ~ WalkScore + language + ville + gender + health + physically_active + q42 + marital_status + country_born + motor_vehicle_access + occupation_status + day_per_week_motor_vehicle + day_per_week_public_transit + day_per_week_walking + day_per_week_bike + children_household + common_transportation + ethnicity, family = gaussian(link = "identity"), data = ibiccs_cc) 
-summary(med.fit)
-
-out.fit <- glm(bmi ~ WalkScore * DiningandDrinkingScore + language + ville + gender + health + physically_active + q42 + marital_status + country_born + motor_vehicle_access + occupation_status + day_per_week_motor_vehicle + day_per_week_public_transit + day_per_week_walking + day_per_week_bike + children_household + common_transportation + ethnicity, family = gaussian(link = "identity"), data = ibiccs_cc)
-summary(out.fit)
-
-med.out <- mediate(med.fit, out.fit, treat = "WalkScore", mediator = "DiningandDrinkingScore", sims = 100) 
-summary(med.out)
-```
-Interpretation: 
-
-Step 3: Add all covariates
-```{r}
-med.fit <- glm(DiningandDrinkingScore ~ WalkScore + language + ville + gender + health + physically_active + q42 + marital_status + country_born + motor_vehicle_access + occupation_status + TransitScore + BikeScore + day_per_week_motor_vehicle + day_per_week_public_transit + day_per_week_walking + day_per_week_bike + children_household + common_transportation + ethnicity, family = gaussian(link = "identity"), data = ibiccs_cc) 
 summary(med.fit)
 
 out.fit <- glm(bmi ~ WalkScore * DiningandDrinkingScore + language + ville + gender + health + physically_active + q42 + marital_status + country_born + motor_vehicle_access + occupation_status + bmi_category + TransitScore + BikeScore + day_per_week_motor_vehicle + day_per_week_public_transit + day_per_week_walking + day_per_week_bike + children_household + common_transportation + ethnicity, family = gaussian(link = "identity"), data = ibiccs_cc)
@@ -722,11 +703,13 @@ med.out <- mediate(med.fit, out.fit, treat = "WalkScore", mediator = "DiningandD
 summary(med.out)
 ```
 Interpretation:
-The direct are significantly different from zero. The estimated mediation and total effects are not signficantly different from zero.
+The estimated mediation, direct and total effects are not signficantly different from zero.
+Total: 1-unit change in WalkScore results in a .003 increase in BMI when DiningandDrinkingScore is included.
+ADE: 1-unit change in WalkScore results in a .007 increase in BMI when DiningandDrinkingScore is fixed.
+ACME: 1-unit change in DiningandDrinkingScore results in .004 decrease in BMI when WalkScore is fixed.
 
 ### List of next steps
 - Add in the city level model with glmer and interpretation
-
 - Income stratified model
     - Rerun the model for categories of income
     - Create a new dataframe with only one level of income

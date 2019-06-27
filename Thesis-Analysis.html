@@ -4130,16 +4130,16 @@ summary(med.out)</code></pre>
 ## Quasi-Bayesian Confidence Intervals
 ## 
 ##                           Estimate 95% CI Lower 95% CI Upper p-value    
-## ACME (control)            0.030623     0.024340         0.04  &lt;2e-16 ***
-## ACME (treated)            0.030363     0.024056         0.04  &lt;2e-16 ***
-## ADE (control)            -0.019849    -0.027582        -0.01  &lt;2e-16 ***
-## ADE (treated)            -0.020108    -0.027808        -0.01  &lt;2e-16 ***
-## Total Effect              0.010514     0.000759         0.02    0.04 *  
-## Prop. Mediated (control)  2.800896     1.568191        23.98    0.04 *  
-## Prop. Mediated (treated)  2.775008     1.550157        23.83    0.04 *  
-## ACME (average)            0.030493     0.024198         0.04  &lt;2e-16 ***
-## ADE (average)            -0.019978    -0.027695        -0.01  &lt;2e-16 ***
-## Prop. Mediated (average)  2.787952     1.559174        23.90    0.04 *  
+## ACME (control)             0.02994      0.02441         0.04  &lt;2e-16 ***
+## ACME (treated)             0.02969      0.02421         0.04  &lt;2e-16 ***
+## ADE (control)             -0.01997     -0.02801        -0.01  &lt;2e-16 ***
+## ADE (treated)             -0.02022     -0.02820        -0.01  &lt;2e-16 ***
+## Total Effect               0.00972     -0.00117         0.02     0.1 .  
+## Prop. Mediated (control)   2.94481    -14.96198        16.07     0.1 .  
+## Prop. Mediated (treated)   2.91841    -14.85881        15.96     0.1 .  
+## ACME (average)             0.02982      0.02431         0.04  &lt;2e-16 ***
+## ADE (average)             -0.02009     -0.02810        -0.01  &lt;2e-16 ***
+## Prop. Mediated (average)   2.93161    -14.91039        16.02     0.1 .  
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
@@ -4147,7 +4147,7 @@ summary(med.out)</code></pre>
 ## 
 ## 
 ## Simulations: 100</code></pre>
-<p>Interpretation: The estimated mediation, direct, and total effects are all significantly different from zero. The results suggest that the WalkScore increases the value of the individual-level mediator (GroceryScore), which in turn decreases the value of the outcome (bmi).</p>
+<p>Interpretation: The estimated mediation, direct, and total effects are all significantly different from zero. The results suggest that the WalkScore increases the value of the individual-level mediator (GroceryScore), which in turn decreases the value of the outcome (bmi). Total: 1-unit change in WalkScore results in a .01 increase in BMI when GroceryScore is included. ADE: 1-unit change in WalkScore results in a .02 decrease in BMI when GroceryScore is fixed. ACME: 1-unit change in GroceryScore results in .03 increase in BMI when WalkScore is fixed.</p>
 </div>
 <div id="dininganddrinkingscore" class="section level1">
 <h1>DiningandDrinkingScore</h1>
@@ -4216,16 +4216,16 @@ summary(med.out)</code></pre>
 ## Quasi-Bayesian Confidence Intervals
 ## 
 ##                            Estimate 95% CI Lower 95% CI Upper p-value    
-## ACME (control)            0.0003326   -0.0119602         0.01    0.96    
-## ACME (treated)           -0.0001597   -0.0123978         0.01    0.90    
-## ADE (control)             0.0385601    0.0283590         0.05  &lt;2e-16 ***
-## ADE (treated)             0.0380679    0.0278735         0.05  &lt;2e-16 ***
-## Total Effect              0.0384005    0.0271725         0.05  &lt;2e-16 ***
-## Prop. Mediated (control) -0.0030083   -0.4113886         0.28    0.96    
-## Prop. Mediated (treated) -0.0161943   -0.4258784         0.27    0.90    
-## ACME (average)            0.0000864   -0.0121782         0.01    0.92    
-## ADE (average)             0.0383140    0.0281162         0.05  &lt;2e-16 ***
-## Prop. Mediated (average) -0.0096013   -0.4186335         0.28    0.92    
+## ACME (control)            0.0000362   -0.0106657         0.01    0.96    
+## ACME (treated)           -0.0004473   -0.0111299         0.01    0.98    
+## ADE (control)             0.0377034    0.0233393         0.05  &lt;2e-16 ***
+## ADE (treated)             0.0372199    0.0228660         0.05  &lt;2e-16 ***
+## Total Effect              0.0372562    0.0262919         0.05  &lt;2e-16 ***
+## Prop. Mediated (control)  0.0070137   -0.3078577         0.27    0.96    
+## Prop. Mediated (treated) -0.0050439   -0.3213533         0.26    0.98    
+## ACME (average)           -0.0002055   -0.0108978         0.01    1.00    
+## ADE (average)             0.0374617    0.0231027         0.05  &lt;2e-16 ***
+## Prop. Mediated (average)  0.0009849   -0.3146055         0.26    1.00    
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
@@ -4233,11 +4233,13 @@ summary(med.out)</code></pre>
 ## 
 ## 
 ## Simulations: 100</code></pre>
-<p>Interpretation: The direct and total effects are all significantly different from zero Why is DiningandDrinkingScore not significant, but GroceryScore is?</p>
+<p>Interpretation: The direct and total effects are all significantly different from zero; the estimated mediation is not significantly different from zero. Total: 1-unit change in WalkScore results in a .03 increase in BMI when DiningandDrinkingScore is included. ADE: 1-unit change in WalkScore results in a .03 increase in BMI when DiningandDrinkingScore is fixed. ACME: 1-unit change in DiningandDrinkingScore results in .0005 decrease in BMI when WalkScore is fixed.</p>
+<div id="groceryscore-and-covariates" class="section level2">
+<h2>GroceryScore and covariates</h2>
 </div>
-<div id="groceryscore-and-covariates" class="section level1">
-<h1>GroceryScore and covariates</h1>
-<p>Step 1: Add Ville</p>
+</div>
+<div id="step-1-add-ville" class="section level1">
+<h1>Step 1: Add Ville</h1>
 <pre class="r"><code>med.fit &lt;- glm(GroceryScore ~ WalkScore + ville, family = gaussian(link = &quot;identity&quot;), data = ibiccs_cc) 
 summary(med.fit)</code></pre>
 <pre><code>## 
@@ -4312,16 +4314,16 @@ summary(med.out)</code></pre>
 ## Quasi-Bayesian Confidence Intervals
 ## 
 ##                          Estimate 95% CI Lower 95% CI Upper p-value    
-## ACME (control)            0.03383      0.02566         0.04  &lt;2e-16 ***
-## ACME (treated)            0.03356      0.02545         0.04  &lt;2e-16 ***
-## ADE (control)            -0.01590     -0.02602        -0.01  &lt;2e-16 ***
-## ADE (treated)            -0.01617     -0.02623        -0.01  &lt;2e-16 ***
-## Total Effect              0.01766      0.00621         0.03  &lt;2e-16 ***
-## Prop. Mediated (control)  1.95118      1.16641         4.76  &lt;2e-16 ***
-## Prop. Mediated (treated)  1.93660      1.15463         4.74  &lt;2e-16 ***
-## ACME (average)            0.03370      0.02555         0.04  &lt;2e-16 ***
-## ADE (average)            -0.01604     -0.02613        -0.01  &lt;2e-16 ***
-## Prop. Mediated (average)  1.94389      1.16052         4.75  &lt;2e-16 ***
+## ACME (control)            0.03312      0.02609         0.04  &lt;2e-16 ***
+## ACME (treated)            0.03286      0.02592         0.04  &lt;2e-16 ***
+## ADE (control)            -0.01617     -0.02438        -0.01  &lt;2e-16 ***
+## ADE (treated)            -0.01643     -0.02461        -0.01  &lt;2e-16 ***
+## Total Effect              0.01669      0.00595         0.03  &lt;2e-16 ***
+## Prop. Mediated (control)  1.99972      1.21123         4.51  &lt;2e-16 ***
+## Prop. Mediated (treated)  1.98429      1.19861         4.49  &lt;2e-16 ***
+## ACME (average)            0.03299      0.02601         0.04  &lt;2e-16 ***
+## ADE (average)            -0.01630     -0.02450        -0.01  &lt;2e-16 ***
+## Prop. Mediated (average)  1.99201      1.20492         4.50  &lt;2e-16 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
@@ -4330,7 +4332,9 @@ summary(med.out)</code></pre>
 ## 
 ## Simulations: 100</code></pre>
 <p>Interpretation: The estimated mediation, direct, and total effects are all significantly different from zero. The results suggest that the WalkScore increases the value of the individual-level mediator (GroceryScore), which in turn decreases the value of the outcome (bmi).</p>
-<p>Step 2: Add covariates except TransitScore and BikeScore</p>
+</div>
+<div id="step-2-add-all-covariates-focus" class="section level1">
+<h1>Step 2: Add all covariates <em>Focus</em></h1>
 <pre class="r"><code>med.fit &lt;- glm(GroceryScore ~ WalkScore + language + ville + gender + health + physically_active + q42 + marital_status + country_born + motor_vehicle_access + occupation_status + day_per_week_motor_vehicle + day_per_week_public_transit + day_per_week_walking + day_per_week_bike + children_household + common_transportation + ethnicity, family = gaussian(link = &quot;identity&quot;), data = ibiccs_cc) 
 summary(med.fit)</code></pre>
 <pre><code>## 
@@ -4545,260 +4549,17 @@ summary(med.out)</code></pre>
 ## 
 ## Quasi-Bayesian Confidence Intervals
 ## 
-##                          Estimate 95% CI Lower 95% CI Upper p-value    
-## ACME (control)            0.02063      0.01272         0.03  &lt;2e-16 ***
-## ACME (treated)            0.02050      0.01264         0.03  &lt;2e-16 ***
-## ADE (control)            -0.00783     -0.01721         0.00    0.14    
-## ADE (treated)            -0.00796     -0.01726         0.00    0.12    
-## Total Effect              0.01267     -0.00115         0.02    0.08 .  
-## Prop. Mediated (control)  1.62819     -3.30366         7.25    0.08 .  
-## Prop. Mediated (treated)  1.61619     -3.30718         7.23    0.08 .  
-## ACME (average)            0.02057      0.01268         0.03  &lt;2e-16 ***
-## ADE (average)            -0.00790     -0.01724         0.00    0.14    
-## Prop. Mediated (average)  1.62219     -3.30542         7.24    0.08 .  
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
-## Sample Size Used: 12353 
-## 
-## 
-## Simulations: 100</code></pre>
-<p>Interpretation: The estimated mediation and total effects are all significantly different from zero; direct is not significantly different from zero.</p>
-<p>Step 3: Add all covariates</p>
-<pre class="r"><code>med.fit &lt;- glm(GroceryScore ~ WalkScore + language + ville + gender + health + physically_active + q42 + marital_status + country_born + motor_vehicle_access + occupation_status  + TransitScore + BikeScore + day_per_week_motor_vehicle + day_per_week_public_transit + day_per_week_walking + day_per_week_bike + children_household + common_transportation + ethnicity, family = gaussian(link = &quot;identity&quot;), data = ibiccs_cc) 
-summary(med.fit)</code></pre>
-<pre><code>## 
-## Call:
-## glm(formula = GroceryScore ~ WalkScore + language + ville + gender + 
-##     health + physically_active + q42 + marital_status + country_born + 
-##     motor_vehicle_access + occupation_status + TransitScore + 
-##     BikeScore + day_per_week_motor_vehicle + day_per_week_public_transit + 
-##     day_per_week_walking + day_per_week_bike + children_household + 
-##     common_transportation + ethnicity, family = gaussian(link = &quot;identity&quot;), 
-##     data = ibiccs_cc)
-## 
-## Deviance Residuals: 
-##    Min      1Q  Median      3Q     Max  
-## -62.40   -4.05    0.09    5.62   64.84  
-## 
-## Coefficients:
-##                                             Estimate Std. Error t value
-## (Intercept)                                -6.632597   1.588157   -4.18
-## WalkScore                                   1.110760   0.007086  156.74
-## languageFren/Span                           0.584948   0.714686    0.82
-## villeChicago                               -5.380617   0.487371  -11.04
-## villeDétroit                                4.196836   0.633890    6.62
-## villeMontréal                               7.930232   0.948765    8.36
-## villeNew-York                              -1.267806   0.510735   -2.48
-## villePhiladelphie                           0.853816   0.608634    1.40
-## villeToronto                                2.119614   0.737044    2.88
-## villeVancouver                              4.098219   0.758443    5.40
-## genderMale                                  0.083870   0.244968    0.34
-## healthGood                                  0.834116   0.273906    3.05
-## healthPoor                                  1.363802   0.457137    2.98
-## physically_activeYes                       -0.748357   0.346826   -2.16
-## q42                                        -0.000238   0.011192   -0.02
-## marital_statusSingle                        0.246855   0.279627    0.88
-## country_bornOther                          -0.746232   0.456634   -1.63
-## country_bornUnited States                  -1.130964   0.591909   -1.91
-## motor_vehicle_accessYes                     0.460884   0.344258    1.34
-## occupation_statusStudent                    1.125768   0.483601    2.33
-## occupation_statusUnemployed                 0.324915   0.360634    0.90
-## TransitScore                                0.064803   0.006531    9.92
-## BikeScore                                  -0.003840   0.004139   -0.93
-## day_per_week_motor_vehicle                  0.158587   0.068549    2.31
-## day_per_week_public_transit                 0.024587   0.077918    0.32
-## day_per_week_walking                       -0.156314   0.059436   -2.63
-## day_per_week_bike                           0.132271   0.091737    1.44
-## children_household                          0.550693   0.172717    3.19
-## common_transportationCar                   -0.305133   0.672080   -0.45
-## common_transportationOther                 -0.283857   1.482016   -0.19
-## common_transportationPublic Transportation -0.652017   0.659273   -0.99
-## common_transportationWalking               -0.668477   0.651594   -1.03
-## ethnicityAsian                             -3.565779   0.653006   -5.46
-## ethnicityCauscasian                        -4.030776   0.546980   -7.37
-## ethnicityHispanic                          -2.125323   0.833714   -2.55
-## ethnicityNative American                   -0.911422   2.245290   -0.41
-## ethnicityOther                             -4.077029   0.875936   -4.65
-## ethnicityRefuse                            -1.211280   1.106926   -1.09
-##                                            Pr(&gt;|t|)    
-## (Intercept)                                 3.0e-05 ***
-## WalkScore                                   &lt; 2e-16 ***
-## languageFren/Span                            0.4131    
-## villeChicago                                &lt; 2e-16 ***
-## villeDétroit                                3.7e-11 ***
-## villeMontréal                               &lt; 2e-16 ***
-## villeNew-York                                0.0131 *  
-## villePhiladelphie                            0.1607    
-## villeToronto                                 0.0040 ** 
-## villeVancouver                              6.7e-08 ***
-## genderMale                                   0.7321    
-## healthGood                                   0.0023 ** 
-## healthPoor                                   0.0029 ** 
-## physically_activeYes                         0.0310 *  
-## q42                                          0.9830    
-## marital_statusSingle                         0.3774    
-## country_bornOther                            0.1022    
-## country_bornUnited States                    0.0561 .  
-## motor_vehicle_accessYes                      0.1807    
-## occupation_statusStudent                     0.0199 *  
-## occupation_statusUnemployed                  0.3676    
-## TransitScore                                &lt; 2e-16 ***
-## BikeScore                                    0.3536    
-## day_per_week_motor_vehicle                   0.0207 *  
-## day_per_week_public_transit                  0.7523    
-## day_per_week_walking                         0.0086 ** 
-## day_per_week_bike                            0.1494    
-## children_household                           0.0014 ** 
-## common_transportationCar                     0.6498    
-## common_transportationOther                   0.8481    
-## common_transportationPublic Transportation   0.3227    
-## common_transportationWalking                 0.3050    
-## ethnicityAsian                              4.8e-08 ***
-## ethnicityCauscasian                         1.8e-13 ***
-## ethnicityHispanic                            0.0108 *  
-## ethnicityNative American                     0.6848    
-## ethnicityOther                              3.3e-06 ***
-## ethnicityRefuse                              0.2739    
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
-## (Dispersion parameter for gaussian family taken to be 170.3)
-## 
-##     Null deviance: 10553218  on 12352  degrees of freedom
-## Residual deviance:  2097777  on 12315  degrees of freedom
-##   (8569 observations deleted due to missingness)
-## AIC: 98564
-## 
-## Number of Fisher Scoring iterations: 2</code></pre>
-<pre class="r"><code>out.fit &lt;- glm(bmi ~ WalkScore * GroceryScore + language + ville + gender + health + physically_active + q42 + marital_status + country_born + motor_vehicle_access + occupation_status  + TransitScore + BikeScore + day_per_week_motor_vehicle + day_per_week_public_transit + day_per_week_walking + day_per_week_bike + children_household + common_transportation + ethnicity, family = gaussian(link = &quot;identity&quot;), data = ibiccs_cc)
-summary(out.fit)</code></pre>
-<pre><code>## 
-## Call:
-## glm(formula = bmi ~ WalkScore * GroceryScore + language + ville + 
-##     gender + health + physically_active + q42 + marital_status + 
-##     country_born + motor_vehicle_access + occupation_status + 
-##     TransitScore + BikeScore + day_per_week_motor_vehicle + day_per_week_public_transit + 
-##     day_per_week_walking + day_per_week_bike + children_household + 
-##     common_transportation + ethnicity, family = gaussian(link = &quot;identity&quot;), 
-##     data = ibiccs_cc)
-## 
-## Deviance Residuals: 
-##     Min       1Q   Median       3Q      Max  
-## -12.053   -2.896   -0.596    2.124   17.189  
-## 
-## Coefficients:
-##                                              Estimate Std. Error t value
-## (Intercept)                                23.5112064  0.5259169   44.71
-## WalkScore                                  -0.0086853  0.0051747   -1.68
-## GroceryScore                                0.0181320  0.0043113    4.21
-## languageFren/Span                           0.5016042  0.2296307    2.18
-## villeChicago                                0.2928703  0.1582019    1.85
-## villeDétroit                                0.1606820  0.2040507    0.79
-## villeMontréal                              -0.6749114  0.3060639   -2.21
-## villeNew-York                              -0.0806658  0.1655189   -0.49
-## villePhiladelphie                           0.4270869  0.1956503    2.18
-## villeToronto                               -0.3738072  0.2371966   -1.58
-## villeVancouver                             -0.9665742  0.2444198   -3.95
-## genderMale                                  1.3035174  0.0787183   16.56
-## healthGood                                  1.9666398  0.0880358   22.34
-## healthPoor                                  3.5017522  0.1469333   23.83
-## physically_activeYes                       -0.3965493  0.1114511   -3.56
-## q42                                         0.0571417  0.0035962   15.89
-## marital_statusSingle                        0.1948074  0.0898433    2.17
-## country_bornOther                          -0.6872626  0.1467254   -4.68
-## country_bornUnited States                  -0.2198345  0.1902027   -1.16
-## motor_vehicle_accessYes                    -0.2053663  0.1107217   -1.85
-## occupation_statusStudent                   -0.2880397  0.1555590   -1.85
-## occupation_statusUnemployed                -0.2585496  0.1158926   -2.23
-## TransitScore                                0.0026618  0.0021089    1.26
-## BikeScore                                  -0.0000792  0.0013362   -0.06
-## day_per_week_motor_vehicle                  0.0600260  0.0220474    2.72
-## day_per_week_public_transit                -0.0308890  0.0250356   -1.23
-## day_per_week_walking                       -0.0628047  0.0191077   -3.29
-## day_per_week_bike                          -0.0397169  0.0294790   -1.35
-## children_household                          0.3319243  0.0555198    5.98
-## common_transportationCar                    0.5703021  0.2160053    2.64
-## common_transportationOther                  0.3029933  0.4761648    0.64
-## common_transportationPublic Transportation  0.5511273  0.2118285    2.60
-## common_transportationWalking                0.1484408  0.2094103    0.71
-## ethnicityAsian                             -2.9066945  0.2101892  -13.83
-## ethnicityCauscasian                        -1.4940900  0.1762966   -8.47
-## ethnicityHispanic                          -0.6711374  0.2680646   -2.50
-## ethnicityNative American                   -1.5024156  0.7216085   -2.08
-## ethnicityOther                             -1.5451352  0.2817466   -5.48
-## ethnicityRefuse                            -2.1158945  0.3557577   -5.95
-## WalkScore:GroceryScore                     -0.0001129  0.0000563   -2.01
-##                                            Pr(&gt;|t|)    
-## (Intercept)                                 &lt; 2e-16 ***
-## WalkScore                                   0.09329 .  
-## GroceryScore                                2.6e-05 ***
-## languageFren/Span                           0.02895 *  
-## villeChicago                                0.06416 .  
-## villeDétroit                                0.43103    
-## villeMontréal                               0.02746 *  
-## villeNew-York                               0.62602    
-## villePhiladelphie                           0.02906 *  
-## villeToronto                                0.11507    
-## villeVancouver                              7.7e-05 ***
-## genderMale                                  &lt; 2e-16 ***
-## healthGood                                  &lt; 2e-16 ***
-## healthPoor                                  &lt; 2e-16 ***
-## physically_activeYes                        0.00038 ***
-## q42                                         &lt; 2e-16 ***
-## marital_statusSingle                        0.03015 *  
-## country_bornOther                           2.8e-06 ***
-## country_bornUnited States                   0.24779    
-## motor_vehicle_accessYes                     0.06365 .  
-## occupation_statusStudent                    0.06410 .  
-## occupation_statusUnemployed                 0.02570 *  
-## TransitScore                                0.20691    
-## BikeScore                                   0.95276    
-## day_per_week_motor_vehicle                  0.00649 ** 
-## day_per_week_public_transit                 0.21730    
-## day_per_week_walking                        0.00102 ** 
-## day_per_week_bike                           0.17791    
-## children_household                          2.3e-09 ***
-## common_transportationCar                    0.00830 ** 
-## common_transportationOther                  0.52458    
-## common_transportationPublic Transportation  0.00929 ** 
-## common_transportationWalking                0.47843    
-## ethnicityAsian                              &lt; 2e-16 ***
-## ethnicityCauscasian                         &lt; 2e-16 ***
-## ethnicityHispanic                           0.01231 *  
-## ethnicityNative American                    0.03736 *  
-## ethnicityOther                              4.2e-08 ***
-## ethnicityRefuse                             2.8e-09 ***
-## WalkScore:GroceryScore                      0.04491 *  
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
-## (Dispersion parameter for gaussian family taken to be 17.58)
-## 
-##     Null deviance: 263336  on 12352  degrees of freedom
-## Residual deviance: 216505  on 12313  degrees of freedom
-##   (8569 observations deleted due to missingness)
-## AIC: 70514
-## 
-## Number of Fisher Scoring iterations: 2</code></pre>
-<pre class="r"><code>med.out &lt;- mediate(med.fit, out.fit, treat = &quot;WalkScore&quot;, mediator = &quot;GroceryScore&quot;, sims = 100) 
-summary(med.out)</code></pre>
-<pre><code>## 
-## Causal Mediation Analysis 
-## 
-## Quasi-Bayesian Confidence Intervals
-## 
 ##                           Estimate 95% CI Lower 95% CI Upper p-value    
-## ACME (control)             0.02018      0.01125         0.03  &lt;2e-16 ***
-## ACME (treated)             0.02006      0.01118         0.03  &lt;2e-16 ***
-## ADE (control)             -0.00885     -0.01814         0.00    0.08 .  
-## ADE (treated)             -0.00897     -0.01817         0.00    0.08 .  
-## Total Effect               0.01121     -0.00103         0.02    0.10 .  
-## Prop. Mediated (control)   1.72542    -10.18034        10.16    0.10 .  
-## Prop. Mediated (treated)   1.71342    -10.15525        10.13    0.10 .  
-## ACME (average)             0.02012      0.01122         0.03  &lt;2e-16 ***
-## ADE (average)             -0.00891     -0.01816         0.00    0.08 .  
-## Prop. Mediated (average)   1.71942    -10.16779        10.15    0.10 .  
+## ACME (control)             0.02126      0.01181         0.03  &lt;2e-16 ***
+## ACME (treated)             0.02113      0.01181         0.03  &lt;2e-16 ***
+## ADE (control)             -0.00889     -0.01987         0.00    0.10 .  
+## ADE (treated)             -0.00902     -0.01989         0.00    0.08 .  
+## Total Effect               0.01224     -0.00321         0.03    0.18    
+## Prop. Mediated (control)   1.49492    -41.54352         6.76    0.18    
+## Prop. Mediated (treated)   1.48514    -41.48822         6.74    0.18    
+## ACME (average)             0.02120      0.01181         0.03  &lt;2e-16 ***
+## ADE (average)             -0.00895     -0.01988         0.00    0.08 .  
+## Prop. Mediated (average)   1.49003    -41.51587         6.75    0.18    
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
@@ -4806,11 +4567,13 @@ summary(med.out)</code></pre>
 ## 
 ## 
 ## Simulations: 100</code></pre>
-<p>Interpretation: The estimated mediation is significantly different from zero; direct and total effects are not significantly different from zero.</p>
+<p>Interpretation: The estimated mediation is significantly different from zero; direct and total effects are not significantly different from zero. Total: 1-unit change in WalkScore results in a .01 increase in BMI when GroceryScore is included. ADE: 1-unit change in WalkScore results in a .007 decrease in BMI when GroceryScore is fixed. ACME: 1-unit change in GroceryScore results in .02 increase in BMI when WalkScore is fixed.</p>
+<div id="dininganddrinkingscore-and-covariates" class="section level2">
+<h2>DiningandDrinkingScore and covariates</h2>
 </div>
-<div id="dininganddrinkingscore-and-covariates" class="section level1">
-<h1>DiningandDrinkingScore and covariates</h1>
-<p>Step 1: Add ville</p>
+</div>
+<div id="step-1-add-ville-1" class="section level1">
+<h1>Step 1: Add ville</h1>
 <pre class="r"><code>med.fit &lt;- glm(DiningandDrinkingScore ~ WalkScore + ville, family = gaussian(link = &quot;identity&quot;), data = ibiccs_cc) 
 summary(med.fit)</code></pre>
 <pre><code>## 
@@ -4897,16 +4660,16 @@ summary(med.out)</code></pre>
 ## Quasi-Bayesian Confidence Intervals
 ## 
 ##                          Estimate 95% CI Lower 95% CI Upper p-value    
-## ACME (control)           -0.00201     -0.01271         0.01    0.80    
-## ACME (treated)           -0.00256     -0.01327         0.01    0.74    
-## ADE (control)             0.05374      0.04117         0.07  &lt;2e-16 ***
-## ADE (treated)             0.05319      0.04070         0.06  &lt;2e-16 ***
-## Total Effect              0.05118      0.03811         0.06  &lt;2e-16 ***
-## Prop. Mediated (control) -0.03981     -0.30862         0.18    0.80    
-## Prop. Mediated (treated) -0.05023     -0.32007         0.17    0.74    
-## ACME (average)           -0.00228     -0.01299         0.01    0.80    
-## ADE (average)             0.05347      0.04093         0.06  &lt;2e-16 ***
-## Prop. Mediated (average) -0.04502     -0.31435         0.18    0.80    
+## ACME (control)           -0.00195     -0.01250         0.01    0.74    
+## ACME (treated)           -0.00249     -0.01302         0.01    0.66    
+## ADE (control)             0.05310      0.03985         0.06  &lt;2e-16 ***
+## ADE (treated)             0.05256      0.03942         0.06  &lt;2e-16 ***
+## Total Effect              0.05061      0.03793         0.06  &lt;2e-16 ***
+## Prop. Mediated (control) -0.04108     -0.30904         0.14    0.74    
+## Prop. Mediated (treated) -0.05139     -0.32020         0.13    0.66    
+## ACME (average)           -0.00222     -0.01276         0.01    0.68    
+## ADE (average)             0.05283      0.03963         0.06  &lt;2e-16 ***
+## Prop. Mediated (average) -0.04623     -0.31462         0.14    0.68    
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
@@ -4915,7 +4678,9 @@ summary(med.out)</code></pre>
 ## 
 ## Simulations: 100</code></pre>
 <p>Interpretation: Direct effects are significantly different from zero; estimated mediation and total effects are not significantly different from zero.</p>
-<p>Step 2: Add covarites except TransitScore and Bike Score</p>
+</div>
+<div id="step-2-add-all-covariates-focus-1" class="section level1">
+<h1>Step 2: Add all covariates <em>Focus</em></h1>
 <pre class="r"><code>med.fit &lt;- glm(DiningandDrinkingScore ~ WalkScore + language + ville + gender + health + physically_active + q42 + marital_status + country_born + motor_vehicle_access + occupation_status + day_per_week_motor_vehicle + day_per_week_public_transit + day_per_week_walking + day_per_week_bike + children_household + common_transportation + ethnicity, family = gaussian(link = &quot;identity&quot;), data = ibiccs_cc) 
 summary(med.fit)</code></pre>
 <pre><code>## 
@@ -5016,245 +4781,6 @@ summary(med.fit)</code></pre>
 ## Residual deviance:  417852  on 12317  degrees of freedom
 ##   (8569 observations deleted due to missingness)
 ## AIC: 78628
-## 
-## Number of Fisher Scoring iterations: 2</code></pre>
-<pre class="r"><code>out.fit &lt;- glm(bmi ~ WalkScore * DiningandDrinkingScore + language + ville + gender + health + physically_active + q42 + marital_status + country_born + motor_vehicle_access + occupation_status + day_per_week_motor_vehicle + day_per_week_public_transit + day_per_week_walking + day_per_week_bike + children_household + common_transportation + ethnicity, family = gaussian(link = &quot;identity&quot;), data = ibiccs_cc)
-summary(out.fit)</code></pre>
-<pre><code>## 
-## Call:
-## glm(formula = bmi ~ WalkScore * DiningandDrinkingScore + language + 
-##     ville + gender + health + physically_active + q42 + marital_status + 
-##     country_born + motor_vehicle_access + occupation_status + 
-##     day_per_week_motor_vehicle + day_per_week_public_transit + 
-##     day_per_week_walking + day_per_week_bike + children_household + 
-##     common_transportation + ethnicity, family = gaussian(link = &quot;identity&quot;), 
-##     data = ibiccs_cc)
-## 
-## Deviance Residuals: 
-##     Min       1Q   Median       3Q      Max  
-## -11.936   -2.908   -0.597    2.126   17.001  
-## 
-## Coefficients:
-##                                              Estimate Std. Error t value
-## (Intercept)                                23.2773829  0.4839527   48.10
-## WalkScore                                   0.0241705  0.0083495    2.89
-## DiningandDrinkingScore                      0.0028862  0.0069566    0.41
-## languageFren/Span                           0.4950323  0.2295852    2.16
-## villeChicago                                0.2728060  0.1554089    1.76
-## villeDétroit                                0.3146192  0.2040191    1.54
-## villeMontréal                              -0.8060228  0.2739345   -2.94
-## villeNew-York                              -0.0433918  0.1640155   -0.26
-## villePhiladelphie                           0.4611599  0.1959322    2.35
-## villeToronto                               -0.4268215  0.2238600   -1.91
-## villeVancouver                             -1.0016284  0.2346585   -4.27
-## genderMale                                  1.3045808  0.0786976   16.58
-## healthGood                                  1.9709859  0.0880186   22.39
-## healthPoor                                  3.5110984  0.1469355   23.90
-## physically_activeYes                       -0.4040024  0.1114467   -3.63
-## q42                                         0.0567364  0.0036008   15.76
-## marital_statusSingle                        0.1952174  0.0898267    2.17
-## country_bornOther                          -0.6911484  0.1467167   -4.71
-## country_bornUnited States                  -0.2286831  0.1901938   -1.20
-## motor_vehicle_accessYes                    -0.2122766  0.1107648   -1.92
-## occupation_statusStudent                   -0.2919528  0.1555863   -1.88
-## occupation_statusUnemployed                -0.2616060  0.1159222   -2.26
-## day_per_week_motor_vehicle                  0.0596012  0.0220525    2.70
-## day_per_week_public_transit                -0.0303257  0.0250265   -1.21
-## day_per_week_walking                       -0.0628231  0.0191148   -3.29
-## day_per_week_bike                          -0.0402835  0.0294845   -1.37
-## children_household                          0.3323432  0.0555366    5.98
-## common_transportationCar                    0.5511113  0.2160384    2.55
-## common_transportationOther                  0.3190038  0.4762506    0.67
-## common_transportationPublic Transportation  0.5473930  0.2118603    2.58
-## common_transportationWalking                0.1462324  0.2093152    0.70
-## ethnicityAsian                             -2.8737795  0.2112435  -13.60
-## ethnicityCauscasian                        -1.4624155  0.1772365   -8.25
-## ethnicityHispanic                          -0.6317175  0.2686037   -2.35
-## ethnicityNative American                   -1.3945591  0.7223978   -1.93
-## ethnicityOther                             -1.5259623  0.2823106   -5.41
-## ethnicityRefuse                            -2.0699543  0.3561232   -5.81
-## WalkScore:DiningandDrinkingScore           -0.0002508  0.0000619   -4.05
-##                                            Pr(&gt;|t|)    
-## (Intercept)                                 &lt; 2e-16 ***
-## WalkScore                                   0.00380 ** 
-## DiningandDrinkingScore                      0.67823    
-## languageFren/Span                           0.03109 *  
-## villeChicago                                0.07921 .  
-## villeDétroit                                0.12307    
-## villeMontréal                               0.00326 ** 
-## villeNew-York                               0.79135    
-## villePhiladelphie                           0.01860 *  
-## villeToronto                                0.05659 .  
-## villeVancouver                              2.0e-05 ***
-## genderMale                                  &lt; 2e-16 ***
-## healthGood                                  &lt; 2e-16 ***
-## healthPoor                                  &lt; 2e-16 ***
-## physically_activeYes                        0.00029 ***
-## q42                                         &lt; 2e-16 ***
-## marital_statusSingle                        0.02978 *  
-## country_bornOther                           2.5e-06 ***
-## country_bornUnited States                   0.22924    
-## motor_vehicle_accessYes                     0.05533 .  
-## occupation_statusStudent                    0.06061 .  
-## occupation_statusUnemployed                 0.02404 *  
-## day_per_week_motor_vehicle                  0.00689 ** 
-## day_per_week_public_transit                 0.22563    
-## day_per_week_walking                        0.00102 ** 
-## day_per_week_bike                           0.17188    
-## children_household                          2.2e-09 ***
-## common_transportationCar                    0.01075 *  
-## common_transportationOther                  0.50298    
-## common_transportationPublic Transportation  0.00978 ** 
-## common_transportationWalking                0.48480    
-## ethnicityAsian                              &lt; 2e-16 ***
-## ethnicityCauscasian                         &lt; 2e-16 ***
-## ethnicityHispanic                           0.01870 *  
-## ethnicityNative American                    0.05357 .  
-## ethnicityOther                              6.6e-08 ***
-## ethnicityRefuse                             6.3e-09 ***
-## WalkScore:DiningandDrinkingScore            5.1e-05 ***
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
-## (Dispersion parameter for gaussian family taken to be 17.59)
-## 
-##     Null deviance: 263336  on 12352  degrees of freedom
-## Residual deviance: 216608  on 12315  degrees of freedom
-##   (8569 observations deleted due to missingness)
-## AIC: 70516
-## 
-## Number of Fisher Scoring iterations: 2</code></pre>
-<pre class="r"><code>med.out &lt;- mediate(med.fit, out.fit, treat = &quot;WalkScore&quot;, mediator = &quot;DiningandDrinkingScore&quot;, sims = 100) 
-summary(med.out)</code></pre>
-<pre><code>## 
-## Causal Mediation Analysis 
-## 
-## Quasi-Bayesian Confidence Intervals
-## 
-##                          Estimate 95% CI Lower 95% CI Upper p-value    
-## ACME (control)            0.00266     -0.01110         0.01     0.6    
-## ACME (treated)            0.00241     -0.01124         0.01     0.6    
-## ADE (control)             0.02371      0.00805         0.04  &lt;2e-16 ***
-## ADE (treated)             0.02346      0.00791         0.04  &lt;2e-16 ***
-## Total Effect              0.02612      0.01127         0.04  &lt;2e-16 ***
-## Prop. Mediated (control)  0.09848     -0.66944         0.55     0.6    
-## Prop. Mediated (treated)  0.08869     -0.67859         0.54     0.6    
-## ACME (average)            0.00253     -0.01117         0.01     0.6    
-## ADE (average)             0.02359      0.00798         0.04  &lt;2e-16 ***
-## Prop. Mediated (average)  0.09359     -0.67401         0.54     0.6    
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
-## Sample Size Used: 12353 
-## 
-## 
-## Simulations: 100</code></pre>
-<p>Interpretation:</p>
-<p>Step 3: Add all covariates</p>
-<pre class="r"><code>med.fit &lt;- glm(DiningandDrinkingScore ~ WalkScore + language + ville + gender + health + physically_active + q42 + marital_status + country_born + motor_vehicle_access + occupation_status + TransitScore + BikeScore + day_per_week_motor_vehicle + day_per_week_public_transit + day_per_week_walking + day_per_week_bike + children_household + common_transportation + ethnicity, family = gaussian(link = &quot;identity&quot;), data = ibiccs_cc) 
-summary(med.fit)</code></pre>
-<pre><code>## 
-## Call:
-## glm(formula = DiningandDrinkingScore ~ WalkScore + language + 
-##     ville + gender + health + physically_active + q42 + marital_status + 
-##     country_born + motor_vehicle_access + occupation_status + 
-##     TransitScore + BikeScore + day_per_week_motor_vehicle + day_per_week_public_transit + 
-##     day_per_week_walking + day_per_week_bike + children_household + 
-##     common_transportation + ethnicity, family = gaussian(link = &quot;identity&quot;), 
-##     data = ibiccs_cc)
-## 
-## Deviance Residuals: 
-##    Min      1Q  Median      3Q     Max  
-## -43.40   -2.26   -0.29    1.98   49.71  
-## 
-## Coefficients:
-##                                            Estimate Std. Error t value
-## (Intercept)                                -0.42377    0.70848   -0.60
-## WalkScore                                   0.99191    0.00316  313.77
-## languageFren/Span                          -0.18542    0.31882   -0.58
-## villeChicago                                2.47147    0.21742   11.37
-## villeDétroit                                4.39685    0.28278   15.55
-## villeMontréal                               0.40716    0.42325    0.96
-## villeNew-York                               0.23231    0.22784    1.02
-## villePhiladelphie                           1.47566    0.27151    5.43
-## villeToronto                                2.16911    0.32880    6.60
-## villeVancouver                              2.17307    0.33834    6.42
-## genderMale                                 -0.05032    0.10928   -0.46
-## healthGood                                 -0.10548    0.12219   -0.86
-## healthPoor                                  0.27352    0.20393    1.34
-## physically_activeYes                        0.02158    0.15472    0.14
-## q42                                        -0.02505    0.00499   -5.02
-## marital_statusSingle                       -0.19690    0.12474   -1.58
-## country_bornOther                           0.51798    0.20371    2.54
-## country_bornUnited States                   0.34378    0.26405    1.30
-## motor_vehicle_accessYes                    -0.12310    0.15357   -0.80
-## occupation_statusStudent                   -0.03987    0.21574   -0.18
-## occupation_statusUnemployed                 0.05228    0.16088    0.32
-## TransitScore                               -0.00743    0.00291   -2.55
-## BikeScore                                   0.00366    0.00185    1.98
-## day_per_week_motor_vehicle                 -0.02675    0.03058   -0.87
-## day_per_week_public_transit                -0.01925    0.03476   -0.55
-## day_per_week_walking                       -0.01008    0.02651   -0.38
-## day_per_week_bike                          -0.00824    0.04092   -0.20
-## children_household                         -0.26788    0.07705   -3.48
-## common_transportationCar                    0.00763    0.29982    0.03
-## common_transportationOther                 -0.15551    0.66113   -0.24
-## common_transportationPublic Transportation  0.35670    0.29410    1.21
-## common_transportationWalking               -0.03116    0.29068   -0.11
-## ethnicityAsian                              2.64656    0.29131    9.09
-## ethnicityCauscasian                         2.37796    0.24401    9.75
-## ethnicityHispanic                           1.90867    0.37192    5.13
-## ethnicityNative American                    3.45953    1.00163    3.45
-## ethnicityOther                              2.65089    0.39076    6.78
-## ethnicityRefuse                             1.60572    0.49380    3.25
-##                                            Pr(&gt;|t|)    
-## (Intercept)                                 0.54976    
-## WalkScore                                   &lt; 2e-16 ***
-## languageFren/Span                           0.56087    
-## villeChicago                                &lt; 2e-16 ***
-## villeDétroit                                &lt; 2e-16 ***
-## villeMontréal                               0.33608    
-## villeNew-York                               0.30793    
-## villePhiladelphie                           5.6e-08 ***
-## villeToronto                                4.4e-11 ***
-## villeVancouver                              1.4e-10 ***
-## genderMale                                  0.64522    
-## healthGood                                  0.38801    
-## healthPoor                                  0.17987    
-## physically_activeYes                        0.88908    
-## q42                                         5.3e-07 ***
-## marital_statusSingle                        0.11449    
-## country_bornOther                           0.01101 *  
-## country_bornUnited States                   0.19297    
-## motor_vehicle_accessYes                     0.42283    
-## occupation_statusStudent                    0.85337    
-## occupation_statusUnemployed                 0.74522    
-## TransitScore                                0.01075 *  
-## BikeScore                                   0.04745 *  
-## day_per_week_motor_vehicle                  0.38176    
-## day_per_week_public_transit                 0.57980    
-## day_per_week_walking                        0.70373    
-## day_per_week_bike                           0.84047    
-## children_household                          0.00051 ***
-## common_transportationCar                    0.97970    
-## common_transportationOther                  0.81404    
-## common_transportationPublic Transportation  0.22522    
-## common_transportationWalking                0.91463    
-## ethnicityAsian                              &lt; 2e-16 ***
-## ethnicityCauscasian                         &lt; 2e-16 ***
-## ethnicityHispanic                           2.9e-07 ***
-## ethnicityNative American                    0.00055 ***
-## ethnicityOther                              1.2e-11 ***
-## ethnicityRefuse                             0.00115 ** 
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
-## (Dispersion parameter for gaussian family taken to be 33.9)
-## 
-##     Null deviance: 7490659  on 12352  degrees of freedom
-## Residual deviance:  417477  on 12315  degrees of freedom
-##   (8569 observations deleted due to missingness)
-## AIC: 78621
 ## 
 ## Number of Fisher Scoring iterations: 2</code></pre>
 <pre class="r"><code>out.fit &lt;- glm(bmi ~ WalkScore * DiningandDrinkingScore + language + ville + gender + health + physically_active + q42 + marital_status + country_born + motor_vehicle_access + occupation_status + bmi_category + TransitScore + BikeScore + day_per_week_motor_vehicle + day_per_week_public_transit + day_per_week_walking + day_per_week_bike + children_household + common_transportation + ethnicity, family = gaussian(link = &quot;identity&quot;), data = ibiccs_cc)
@@ -5380,17 +4906,17 @@ summary(med.out)</code></pre>
 ## 
 ## Quasi-Bayesian Confidence Intervals
 ## 
-##                            Estimate 95% CI Lower 95% CI Upper p-value  
-## ACME (control)            -0.003592    -0.008872         0.00    0.14  
-## ACME (treated)            -0.003630    -0.008913         0.00    0.12  
-## ADE (control)              0.006984     0.000555         0.01    0.02 *
-## ADE (treated)              0.006946     0.000545         0.01    0.02 *
-## Total Effect               0.003354    -0.001840         0.01    0.28  
-## Prop. Mediated (control)  -0.671238   -12.029384         8.79    0.42  
-## Prop. Mediated (treated)  -0.681370   -12.036475         8.80    0.40  
-## ACME (average)            -0.003611    -0.008893         0.00    0.12  
-## ADE (average)              0.006965     0.000550         0.01    0.02 *
-## Prop. Mediated (average)  -0.676304   -12.032930         8.80    0.40  
+##                           Estimate 95% CI Lower 95% CI Upper p-value  
+## ACME (control)            -0.00366     -0.00922         0.00    0.32  
+## ACME (treated)            -0.00370     -0.00922         0.00    0.30  
+## ADE (control)              0.00736      0.00117         0.01    0.02 *
+## ADE (treated)              0.00732      0.00115         0.01    0.02 *
+## Total Effect               0.00366     -0.00362         0.01    0.26  
+## Prop. Mediated (control)  -0.65933    -17.73563         9.51    0.58  
+## Prop. Mediated (treated)  -0.66970    -17.79063         9.51    0.56  
+## ACME (average)            -0.00368     -0.00922         0.00    0.30  
+## ADE (average)              0.00734      0.00116         0.01    0.02 *
+## Prop. Mediated (average)  -0.66452    -17.76313         9.51    0.56  
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
@@ -5398,11 +4924,11 @@ summary(med.out)</code></pre>
 ## 
 ## 
 ## Simulations: 100</code></pre>
-<p>Interpretation: The direct are significantly different from zero. The estimated mediation and total effects are not signficantly different from zero.</p>
+<p>Interpretation: The estimated mediation, direct and total effects are not signficantly different from zero. Total: 1-unit change in WalkScore results in a .003 increase in BMI when DiningandDrinkingScore is included. ADE: 1-unit change in WalkScore results in a .007 increase in BMI when DiningandDrinkingScore is fixed. ACME: 1-unit change in DiningandDrinkingScore results in .004 decrease in BMI when WalkScore is fixed.</p>
 <div id="list-of-next-steps" class="section level3">
 <h3>List of next steps</h3>
 <ul>
-<li><p>Add in the city level model with glmer and interpretation</p></li>
+<li>Add in the city level model with glmer and interpretation</li>
 <li>Income stratified model
 <ul>
 <li>Rerun the model for categories of income</li>
