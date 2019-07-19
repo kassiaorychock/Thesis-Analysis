@@ -619,10 +619,10 @@ med.out <- mediate(med.fit, out.fit, treat = "WalkScore", mediator = "GrocerySco
 summary(med.out)
 ```
 Interpretation:
-Total: 1-unit change in WalkScore results in a .01 (-0.002-0.02) increase in BMI when GroceryScore is included.
-ADE: 1-unit change in WalkScore results in a .008 (-0.01-0.00) decrease in BMI when GroceryScore is fixed.
-ACME: 1-unit change in GroceryScore results in .01 (0.01-0.03) increase in BMI when WalkScore is fixed.
-Prop. 1.53 (-5.14-16.61)
+Total: 1-unit change in WalkScore results in a .01 (-0.004-0.03) increase in BMI when GroceryScore is included.
+ADE: 1-unit change in WalkScore results in a .009 (-0.01-0.00) decrease in BMI when GroceryScore is fixed.
+ACME: 1-unit change in GroceryScore results in .02 (0.01-0.03) increase in BMI when WalkScore is fixed.
+Prop. 1.72 (-3.71-7.85)
 
 ## DiningandDrinkingScore
 ```{r}
@@ -648,10 +648,10 @@ med.out <- mediate(med.fit, out.fit, treat = "WalkScore", mediator = "DiningandD
 summary(med.out)
 ```
 Interpretation:
-Total: 1-unit change in WalkScore results in a .02 (0.01-0.04) increase in BMI when DiningandDrinkingScore is included.
-ADE: 1-unit change in WalkScore results in a .02 (0.005-0.04) increase in BMI when DiningandDrinkingScore is fixed.
+Total: 1-unit change in WalkScore results in a .02 (0.006-0.04) increase in BMI when DiningandDrinkingScore is included.
+ADE: 1-unit change in WalkScore results in a .02 (0.008-0.04) increase in BMI when DiningandDrinkingScore is fixed.
 ACME: 1-unit change in DiningandDrinkingScore results in .001 (-0.01-0.01) increase in BMI when WalkScore is fixed.
-Prop: 0.06 (-0.72-0.63)
+Prop: 0.07 (-0.65-0.55)
 
 ### List of next steps
 - Add in the city level model with glmer and interpretation
@@ -659,8 +659,6 @@ Prop: 0.06 (-0.72-0.63)
     - Rerun the model for categories of income
     - Create a new dataframe with only one level of income
     
-
-```
 # Area-Level Analysis
 med.fit <- lm(smorale ~ free + #area-covariates, data = school)
 
