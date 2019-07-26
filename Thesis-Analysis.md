@@ -1653,6 +1653,15 @@ table(ibiccs_clean$bmi, ibiccs_clean$bmi_category)
 ##   40.49             0     1     0          0           0
 ```
 
+```r
+summary(ibiccs_clean$bmi)
+```
+
+```
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+##    17.5    22.1    24.9    25.6    28.2    40.5    2741
+```
+
 # Recode Language
 
 ```r
@@ -1733,23 +1742,23 @@ table(ibiccs_clean$q2)
 ibiccs_clean <- ibiccs_clean %>%
   mutate(health = case_when(
     q2 == "Excellent" ~ "Excellent",
-    q2 == "Très bon" ~ "Excellent",
+    q2 == "Très bon" ~ "Very Good",
     q2 == "Bon" ~ "Good",
-    q2 == "Moyen" ~ "Poor",
-    q2 == "Mauvais" ~ "Poor"
+    q2 == "Moyen" ~ "Poor/Fair",
+    q2 == "Mauvais" ~ "Poor/Fair"
   ))
 table(ibiccs_clean$q2, ibiccs_clean$health)
 ```
 
 ```
 ##                                 
-##                                  Excellent Good Poor
-##   Bon                                    0 6725    0
-##   Excellent                           4803    0    0
-##   Mauvais                                0    0  489
-##   Moyen                                  0    0 2104
-##   Ne sais pas/Refuse de répondre         0    0    0
-##   Très bon                            9741    0    0
+##                                  Excellent Good Poor/Fair Very Good
+##   Bon                                    0 6725         0         0
+##   Excellent                           4803    0         0         0
+##   Mauvais                                0    0       489         0
+##   Moyen                                  0    0      2104         0
+##   Ne sais pas/Refuse de répondre         0    0         0         0
+##   Très bon                               0    0         0      9741
 ```
 
 # Recode Transportation
@@ -2370,60 +2379,86 @@ table(ibiccs_clean$q47)
 ```r
 ibiccs_clean <- ibiccs_clean %>%
   mutate(ethnicity = case_when(
-    q47 == "Amérindien des États-Unis / Autochtone d'Amérique" ~ "Native American",
+    q47 == "Amérindien des États-Unis / Autochtone d'Amérique" ~ "Native American/Indigenous",
     q47 == "Arabe (Moyen-Orient, Afrique du Nord)" ~ "Other",
     q47 == "Asiatique / insulaire du Pacifique" ~ "Asian",
     q47 == "Autre" ~ "Other",
-    q47 == "Blanc(che) / Caucasien" ~ "Causcasian",
+    q47 == "Blanc(che) / Caucasien" ~ "Caucasian",
     q47 == "Hispanique / Latino / Espagnol(e)" ~ "Hispanic",
     q47 == "Indien / Pakistanais" ~ "Other",
     q47 == "Jewish" ~ "Other",
     q47 == "Mixed / Mixed race / Bi-racial" ~ "Other",
-    q47 == "Noir(e) / Africain(e) / Afro-Américain(e)" ~ "African American"
+    q47 == "Noir(e) / Africain(e) / Afro-Américain(e)" ~ "African American/Canadian"
   ))
 table(ibiccs_clean$q47, ibiccs_clean$ethnicity)
 ```
 
 ```
 ##                                                    
-##                                                     African American Asian
-##   Amérindien des États-Unis / Autochtone d'Amérique                0     0
-##   Arabe (Moyen-Orient, Afrique du Nord)                            0     0
-##   Asiatique / insulaire du Pacifique                               0  2661
-##   Autre                                                            0     0
-##   Blanc(che) / Caucasien                                           0     0
-##   Hispanique / Latino / Espagnol(e)                                0     0
-##   Indien / Pakistanais                                             0     0
-##   Je préfère ne pas répondre                                       0     0
-##   Jewish                                                           0     0
-##   Mixed / Mixed race / Bi-racial                                   0     0
-##   Noir(e) / Africain(e) / Afro-Américain(e)                     1654     0
+##                                                     African American/Canadian
+##   Amérindien des États-Unis / Autochtone d'Amérique                         0
+##   Arabe (Moyen-Orient, Afrique du Nord)                                     0
+##   Asiatique / insulaire du Pacifique                                        0
+##   Autre                                                                     0
+##   Blanc(che) / Caucasien                                                    0
+##   Hispanique / Latino / Espagnol(e)                                         0
+##   Indien / Pakistanais                                                      0
+##   Je préfère ne pas répondre                                                0
+##   Jewish                                                                    0
+##   Mixed / Mixed race / Bi-racial                                            0
+##   Noir(e) / Africain(e) / Afro-Américain(e)                              1654
 ##                                                    
-##                                                     Causcasian Hispanic
-##   Amérindien des États-Unis / Autochtone d'Amérique          0        0
-##   Arabe (Moyen-Orient, Afrique du Nord)                      0        0
-##   Asiatique / insulaire du Pacifique                         0        0
-##   Autre                                                      0        0
-##   Blanc(che) / Caucasien                                 17154        0
-##   Hispanique / Latino / Espagnol(e)                          0      933
-##   Indien / Pakistanais                                       0        0
-##   Je préfère ne pas répondre                                 0        0
-##   Jewish                                                     0        0
-##   Mixed / Mixed race / Bi-racial                             0        0
-##   Noir(e) / Africain(e) / Afro-Américain(e)                  0        0
+##                                                     Asian Caucasian
+##   Amérindien des États-Unis / Autochtone d'Amérique     0         0
+##   Arabe (Moyen-Orient, Afrique du Nord)                 0         0
+##   Asiatique / insulaire du Pacifique                 2661         0
+##   Autre                                                 0         0
+##   Blanc(che) / Caucasien                                0     17154
+##   Hispanique / Latino / Espagnol(e)                     0         0
+##   Indien / Pakistanais                                  0         0
+##   Je préfère ne pas répondre                            0         0
+##   Jewish                                                0         0
+##   Mixed / Mixed race / Bi-racial                        0         0
+##   Noir(e) / Africain(e) / Afro-Américain(e)             0         0
 ##                                                    
-##                                                     Native American Other
-##   Amérindien des États-Unis / Autochtone d'Amérique              79     0
-##   Arabe (Moyen-Orient, Afrique du Nord)                           0   135
-##   Asiatique / insulaire du Pacifique                              0     0
-##   Autre                                                           0   129
-##   Blanc(che) / Caucasien                                          0     0
-##   Hispanique / Latino / Espagnol(e)                               0     0
-##   Indien / Pakistanais                                            0   330
-##   Je préfère ne pas répondre                                      0     0
-##   Jewish                                                          0    16
-##   Mixed / Mixed race / Bi-racial                                  0   171
-##   Noir(e) / Africain(e) / Afro-Américain(e)                       0     0
+##                                                     Hispanic
+##   Amérindien des États-Unis / Autochtone d'Amérique        0
+##   Arabe (Moyen-Orient, Afrique du Nord)                    0
+##   Asiatique / insulaire du Pacifique                       0
+##   Autre                                                    0
+##   Blanc(che) / Caucasien                                   0
+##   Hispanique / Latino / Espagnol(e)                      933
+##   Indien / Pakistanais                                     0
+##   Je préfère ne pas répondre                               0
+##   Jewish                                                   0
+##   Mixed / Mixed race / Bi-racial                           0
+##   Noir(e) / Africain(e) / Afro-Américain(e)                0
+##                                                    
+##                                                     Native American/Indigenous
+##   Amérindien des États-Unis / Autochtone d'Amérique                         79
+##   Arabe (Moyen-Orient, Afrique du Nord)                                      0
+##   Asiatique / insulaire du Pacifique                                         0
+##   Autre                                                                      0
+##   Blanc(che) / Caucasien                                                     0
+##   Hispanique / Latino / Espagnol(e)                                          0
+##   Indien / Pakistanais                                                       0
+##   Je préfère ne pas répondre                                                 0
+##   Jewish                                                                     0
+##   Mixed / Mixed race / Bi-racial                                             0
+##   Noir(e) / Africain(e) / Afro-Américain(e)                                  0
+##                                                    
+##                                                     Other
+##   Amérindien des États-Unis / Autochtone d'Amérique     0
+##   Arabe (Moyen-Orient, Afrique du Nord)               135
+##   Asiatique / insulaire du Pacifique                    0
+##   Autre                                               129
+##   Blanc(che) / Caucasien                                0
+##   Hispanique / Latino / Espagnol(e)                     0
+##   Indien / Pakistanais                                330
+##   Je préfère ne pas répondre                            0
+##   Jewish                                               16
+##   Mixed / Mixed race / Bi-racial                      171
+##   Noir(e) / Africain(e) / Afro-Américain(e)             0
 ```
 
 # Recode Country Born
@@ -2747,13 +2782,13 @@ table(ibiccs_clean$q53)
 ```r
 ibiccs_clean <- ibiccs_clean %>%
   mutate(household_income = case_when(
-    q53 == "Moins de 10000 $ par année" ~ "$0-$19999",
-    q53 == "Entre 10000 $ and 19999 $ par année" ~ "$0-$19999",
-    q53 == "Entre 20000 $ and 34999 $ par année" ~ "$20000-$49999",
-    q53 == "Entre 35000 $ and 49999 $ par année" ~ "$20000-$49999",
-    q53 == "Entre 50000 $ and 74999 $ par année" ~ "$50000-$74999",
-    q53 == "Entre 75000 $ and 99999 $ par année" ~ "$75000-$99999",
-    q53 == "Entre 100000 $ and 149999 $ par année" ~ "$100000-149999",
+    q53 == "Moins de 10000 $ par année" ~ "$0-$49999",
+    q53 == "Entre 10000 $ and 19999 $ par année" ~ "$0-$49999",
+    q53 == "Entre 20000 $ and 34999 $ par année" ~ "$0-$49999",
+    q53 == "Entre 35000 $ and 49999 $ par année" ~ "$0-$49999",
+    q53 == "Entre 50000 $ and 74999 $ par année" ~ "$50000-$99999",
+    q53 == "Entre 75000 $ and 99999 $ par année" ~ "$50000-$99999",
+    q53 == "Entre 100000 $ and 149999 $ par année" ~ "$100000-$149999",
     q53 == "Entre 150000 $ and 199999 $ par année" ~ "$150000+",
     q53 == "Plus de 200000 $ par année" ~ "$150000+",
     q53 == "Refuse de répondre" ~ "Missing"
@@ -2763,37 +2798,25 @@ table(ibiccs_clean$q53, ibiccs_clean$household_income)
 
 ```
 ##                                        
-##                                         $0-$19999 $100000-149999 $150000+
-##   Entre 10000 $ and 19999 $ par année        1084              0        0
-##   Entre 100000 $ and 149999 $ par année         0           3490        0
-##   Entre 150000 $ and 199999 $ par année         0              0     1296
-##   Entre 20000 $ and 34999 $ par année           0              0        0
-##   Entre 35000 $ and 49999 $ par année           0              0        0
-##   Entre 50000 $ and 74999 $ par année           0              0        0
-##   Entre 75000 $ and 99999 $ par année           0              0        0
-##   Moins de 10000 $ par année                 1366              0        0
-##   Plus de 200000 $ par année                    0              0     1104
-##   Refuse de répondre                            0              0        0
+##                                         $0-$49999 $100000-$149999 $150000+
+##   Entre 10000 $ and 19999 $ par année        1084               0        0
+##   Entre 100000 $ and 149999 $ par année         0            3490        0
+##   Entre 150000 $ and 199999 $ par année         0               0     1296
+##   Entre 20000 $ and 34999 $ par année        2061               0        0
+##   Entre 35000 $ and 49999 $ par année        2700               0        0
+##   Entre 50000 $ and 74999 $ par année           0               0        0
+##   Entre 75000 $ and 99999 $ par année           0               0        0
+##   Moins de 10000 $ par année                 1366               0        0
+##   Plus de 200000 $ par année                    0               0     1104
+##   Refuse de répondre                            0               0        0
 ##                                        
-##                                         $20000-$49999 $50000-$74999
-##   Entre 10000 $ and 19999 $ par année               0             0
-##   Entre 100000 $ and 149999 $ par année             0             0
-##   Entre 150000 $ and 199999 $ par année             0             0
-##   Entre 20000 $ and 34999 $ par année            2061             0
-##   Entre 35000 $ and 49999 $ par année            2700             0
-##   Entre 50000 $ and 74999 $ par année               0          4396
-##   Entre 75000 $ and 99999 $ par année               0             0
-##   Moins de 10000 $ par année                        0             0
-##   Plus de 200000 $ par année                        0             0
-##   Refuse de répondre                                0             0
-##                                        
-##                                         $75000-$99999 Missing
+##                                         $50000-$99999 Missing
 ##   Entre 10000 $ and 19999 $ par année               0       0
 ##   Entre 100000 $ and 149999 $ par année             0       0
 ##   Entre 150000 $ and 199999 $ par année             0       0
 ##   Entre 20000 $ and 34999 $ par année               0       0
 ##   Entre 35000 $ and 49999 $ par année               0       0
-##   Entre 50000 $ and 74999 $ par année               0       0
+##   Entre 50000 $ and 74999 $ par année            4396       0
 ##   Entre 75000 $ and 99999 $ par année            3425       0
 ##   Moins de 10000 $ par année                        0       0
 ##   Plus de 200000 $ par année                        0       0
@@ -2853,9 +2876,10 @@ CreateTableOne(vars = vars, strata = "ville", data = ibiccs)
 ##      Vancouver                                 0 (  0.0)      0 (  0.0) 
 ##   gender = Male (%)                          694 ( 35.1)   1628 ( 39.9) 
 ##   health (%)                                                            
-##      Excellent                              1285 ( 65.2)   2559 ( 62.8) 
+##      Excellent                               467 ( 23.7)    832 ( 20.4) 
 ##      Good                                    521 ( 26.4)   1105 ( 27.1) 
-##      Poor                                    166 (  8.4)    412 ( 10.1) 
+##      Poor/Fair                               166 (  8.4)    412 ( 10.1) 
+##      Very Good                               818 ( 41.5)   1727 ( 42.4) 
 ##   common_transportation (%)                                             
 ##      Bicycle                                 104 (  5.3)    170 (  4.2) 
 ##      Car                                     685 ( 34.7)   1803 ( 44.3) 
@@ -2877,11 +2901,11 @@ CreateTableOne(vars = vars, strata = "ville", data = ibiccs)
 ##   marital_status = Single (%)               1025 ( 57.8)   1844 ( 50.5) 
 ##   children_household (mean (SD))            0.25 (0.62)    0.37 (0.77)  
 ##   ethnicity (%)                                                         
-##      African American                        110 (  5.7)    449 ( 11.2) 
+##      African American/Canadian               110 (  5.7)    449 ( 11.2) 
 ##      Asian                                   218 ( 11.3)    313 (  7.8) 
-##      Causcasian                             1480 ( 76.6)   2863 ( 71.5) 
+##      Caucasian                              1480 ( 76.6)   2863 ( 71.5) 
 ##      Hispanic                                 67 (  3.5)    300 (  7.5) 
-##      Native American                           7 (  0.4)      8 (  0.2) 
+##      Native American/Indigenous                7 (  0.4)      8 (  0.2) 
 ##      Other                                    49 (  2.5)     72 (  1.8) 
 ##   country_born (%)                                                      
 ##      Canada                                   21 (  1.1)     31 (  0.8) 
@@ -2899,12 +2923,10 @@ CreateTableOne(vars = vars, strata = "ville", data = ibiccs)
 ##      Student                                 272 ( 13.9)    271 (  6.7) 
 ##      Unemployed                              249 ( 12.7)    622 ( 15.3) 
 ##   household_income (%)                                                  
-##      $0-$19999                               210 ( 10.6)    436 ( 10.7) 
-##      $100000-149999                          304 ( 15.4)    617 ( 15.1) 
+##      $0-$49999                               599 ( 30.3)   1248 ( 30.6) 
+##      $100000-$149999                         304 ( 15.4)    617 ( 15.1) 
 ##      $150000+                                232 ( 11.7)    438 ( 10.7) 
-##      $20000-$49999                           389 ( 19.7)    812 ( 19.9) 
-##      $50000-$74999                           342 ( 17.3)    799 ( 19.6) 
-##      $75000-$99999                           275 ( 13.9)    604 ( 14.8) 
+##      $50000-$99999                           617 ( 31.2)   1403 ( 34.3) 
 ##      Missing                                 225 ( 11.4)    379 (  9.3) 
 ##   bmi (mean (SD))                          25.06 (4.59)   25.89 (4.86)  
 ##   bmi_category (%)                                                      
@@ -2952,9 +2974,10 @@ CreateTableOne(vars = vars, strata = "ville", data = ibiccs)
 ##      Vancouver                                 0 (  0.0)      0 (  0.0) 
 ##   gender = Male (%)                         1134 ( 36.9)   1159 ( 43.3) 
 ##   health (%)                                                            
-##      Excellent                              1758 ( 57.2)   1501 ( 56.1) 
+##      Excellent                               566 ( 18.4)    454 ( 17.0) 
 ##      Good                                    928 ( 30.2)    791 ( 29.6) 
-##      Poor                                    390 ( 12.7)    383 ( 14.3) 
+##      Poor/Fair                               390 ( 12.7)    383 ( 14.3) 
+##      Very Good                              1192 ( 38.8)   1047 ( 39.1) 
 ##   common_transportation (%)                                             
 ##      Bicycle                                  75 (  2.5)    207 (  7.8) 
 ##      Car                                    2718 ( 89.2)    914 ( 34.3) 
@@ -2976,11 +2999,11 @@ CreateTableOne(vars = vars, strata = "ville", data = ibiccs)
 ##   marital_status = Single (%)                988 ( 36.6)    906 ( 40.5) 
 ##   children_household (mean (SD))            0.60 (0.92)    0.31 (0.68)  
 ##   ethnicity (%)                                                         
-##      African American                        361 ( 11.9)     52 (  2.0) 
+##      African American/Canadian               361 ( 11.9)     52 (  2.0) 
 ##      Asian                                   123 (  4.1)    104 (  4.0) 
-##      Causcasian                             2422 ( 80.0)   2301 ( 88.1) 
+##      Caucasian                              2422 ( 80.0)   2301 ( 88.1) 
 ##      Hispanic                                 44 (  1.5)     50 (  1.9) 
-##      Native American                          15 (  0.5)      8 (  0.3) 
+##      Native American/Indigenous               15 (  0.5)      8 (  0.3) 
 ##      Other                                    61 (  2.0)     97 (  3.7) 
 ##   country_born (%)                                                      
 ##      Canada                                   38 (  1.2)   2144 ( 80.1) 
@@ -2998,12 +3021,10 @@ CreateTableOne(vars = vars, strata = "ville", data = ibiccs)
 ##      Student                                 243 (  7.9)    141 (  5.3) 
 ##      Unemployed                              663 ( 21.7)    769 ( 28.9) 
 ##   household_income (%)                                                  
-##      $0-$19999                               412 ( 13.4)    286 ( 10.7) 
-##      $100000-149999                          443 ( 14.4)    271 ( 10.1) 
+##      $0-$49999                              1078 ( 35.0)   1017 ( 38.0) 
+##      $100000-$149999                         443 ( 14.4)    271 ( 10.1) 
 ##      $150000+                                193 (  6.3)    148 (  5.5) 
-##      $20000-$49999                           666 ( 21.6)    731 ( 27.3) 
-##      $50000-$74999                           536 ( 17.4)    523 ( 19.5) 
-##      $75000-$99999                           461 ( 15.0)    365 ( 13.6) 
+##      $50000-$99999                           997 ( 32.4)    888 ( 33.2) 
 ##      Missing                                 366 ( 11.9)    354 ( 13.2) 
 ##   bmi (mean (SD))                          26.75 (5.11)   25.88 (4.65)  
 ##   bmi_category (%)                                                      
@@ -3051,9 +3072,10 @@ CreateTableOne(vars = vars, strata = "ville", data = ibiccs)
 ##      Vancouver                                0 (  0.0)       0 (  0.0) 
 ##   gender = Male (%)                        1593 ( 41.7)     536 ( 36.3) 
 ##   health (%)                                                            
-##      Excellent                             2537 ( 66.4)     928 ( 62.9) 
+##      Excellent                              909 ( 23.8)     297 ( 20.1) 
 ##      Good                                   986 ( 25.8)     404 ( 27.4) 
-##      Poor                                   295 (  7.7)     144 (  9.8) 
+##      Poor/Fair                              295 (  7.7)     144 (  9.8) 
+##      Very Good                             1628 ( 42.6)     631 ( 42.8) 
 ##   common_transportation (%)                                             
 ##      Bicycle                                184 (  4.8)      87 (  5.9) 
 ##      Car                                    360 (  9.4)     606 ( 41.1) 
@@ -3075,11 +3097,11 @@ CreateTableOne(vars = vars, strata = "ville", data = ibiccs)
 ##   marital_status = Single (%)              1879 ( 54.7)     729 ( 55.6) 
 ##   children_household (mean (SD))           0.33 (0.70)     0.38 (0.77)  
 ##   ethnicity (%)                                                         
-##      African American                       336 (  9.0)     231 ( 15.9) 
+##      African American/Canadian              336 (  9.0)     231 ( 15.9) 
 ##      Asian                                  483 ( 13.0)     128 (  8.8) 
-##      Causcasian                            2493 ( 66.9)     999 ( 68.6) 
+##      Caucasian                             2493 ( 66.9)     999 ( 68.6) 
 ##      Hispanic                               317 (  8.5)      60 (  4.1) 
-##      Native American                          9 (  0.2)       0 (  0.0) 
+##      Native American/Indigenous               9 (  0.2)       0 (  0.0) 
 ##      Other                                   90 (  2.4)      38 (  2.6) 
 ##   country_born (%)                                                      
 ##      Canada                                  50 (  1.3)       7 (  0.5) 
@@ -3097,12 +3119,10 @@ CreateTableOne(vars = vars, strata = "ville", data = ibiccs)
 ##      Student                                270 (  7.1)     172 ( 11.7) 
 ##      Unemployed                             574 ( 15.2)     251 ( 17.1) 
 ##   household_income (%)                                                  
-##      $0-$19999                              397 ( 10.4)     227 ( 15.4) 
-##      $100000-149999                         631 ( 16.5)     182 ( 12.3) 
+##      $0-$49999                             1002 ( 26.2)     562 ( 38.0) 
+##      $100000-$149999                        631 ( 16.5)     182 ( 12.3) 
 ##      $150000+                               598 ( 15.6)     124 (  8.4) 
-##      $20000-$49999                          605 ( 15.8)     335 ( 22.7) 
-##      $50000-$74999                          611 ( 16.0)     301 ( 20.4) 
-##      $75000-$99999                          545 ( 14.3)     182 ( 12.3) 
+##      $50000-$99999                         1156 ( 30.2)     483 ( 32.7) 
 ##      Missing                                437 ( 11.4)     127 (  8.6) 
 ##   bmi (mean (SD))                         25.05 (4.52)    26.02 (4.97)  
 ##   bmi_category (%)                                                      
@@ -3150,9 +3170,10 @@ CreateTableOne(vars = vars, strata = "ville", data = ibiccs)
 ##      Vancouver                                0 (  0.0)   2518 (100.0) 
 ##   gender = Male (%)                        1984 ( 46.5)   1131 ( 44.9) 
 ##   health (%)                                                           
-##      Excellent                             2572 ( 60.4)   1404 ( 55.9) 
+##      Excellent                              811 ( 19.1)    467 ( 18.6) 
 ##      Good                                  1220 ( 28.7)    770 ( 30.6) 
-##      Poor                                   464 ( 10.9)    339 ( 13.5) 
+##      Poor/Fair                              464 ( 10.9)    339 ( 13.5) 
+##      Very Good                             1761 ( 41.4)    937 ( 37.3) 
 ##   common_transportation (%)                                            
 ##      Bicycle                                231 (  5.4)    119 (  4.7) 
 ##      Car                                   1665 ( 39.2)   1245 ( 49.5) 
@@ -3174,11 +3195,11 @@ CreateTableOne(vars = vars, strata = "ville", data = ibiccs)
 ##   marital_status = Single (%)              1345 ( 37.6)    736 ( 34.4) 
 ##   children_household (mean (SD))           0.31 (0.68)    0.36 (0.72)  
 ##   ethnicity (%)                                                        
-##      African American                        96 (  2.3)     19 (  0.8) 
+##      African American/Canadian               96 (  2.3)     19 (  0.8) 
 ##      Asian                                  572 ( 14.0)    720 ( 29.9) 
-##      Causcasian                            3065 ( 74.8)   1531 ( 63.6) 
+##      Caucasian                             3065 ( 74.8)   1531 ( 63.6) 
 ##      Hispanic                                71 (  1.7)     24 (  1.0) 
-##      Native American                         14 (  0.3)     18 (  0.7) 
+##      Native American/Indigenous              14 (  0.3)     18 (  0.7) 
 ##      Other                                  279 (  6.8)     95 (  3.9) 
 ##   country_born (%)                                                     
 ##      Canada                                3058 ( 71.7)   1822 ( 72.4) 
@@ -3196,12 +3217,10 @@ CreateTableOne(vars = vars, strata = "ville", data = ibiccs)
 ##      Student                                134 (  3.2)     83 (  3.3) 
 ##      Unemployed                            1040 ( 24.6)    679 ( 27.3) 
 ##   household_income (%)                                                 
-##      $0-$19999                              301 (  7.1)    181 (  7.2) 
-##      $100000-149999                         673 ( 15.8)    369 ( 14.7) 
+##      $0-$49999                             1069 ( 25.1)    636 ( 25.3) 
+##      $100000-$149999                        673 ( 15.8)    369 ( 14.7) 
 ##      $150000+                               463 ( 10.9)    204 (  8.1) 
-##      $20000-$49999                          768 ( 18.0)    455 ( 18.1) 
-##      $50000-$74999                          780 ( 18.3)    504 ( 20.0) 
-##      $75000-$99999                          619 ( 14.5)    374 ( 14.9) 
+##      $50000-$99999                         1399 ( 32.8)    878 ( 34.9) 
 ##      Missing                                660 ( 15.5)    431 ( 17.1) 
 ##   bmi (mean (SD))                         25.60 (4.46)   24.87 (4.27)  
 ##   bmi_category (%)                                                     
@@ -3251,7 +3270,8 @@ CreateTableOne(vars = vars, strata = "ville", data = ibiccs)
 ##   health (%)                              <0.001     
 ##      Excellent                                       
 ##      Good                                            
-##      Poor                                            
+##      Poor/Fair                                       
+##      Very Good                                       
 ##   common_transportation (%)               <0.001     
 ##      Bicycle                                         
 ##      Car                                             
@@ -3273,11 +3293,11 @@ CreateTableOne(vars = vars, strata = "ville", data = ibiccs)
 ##   marital_status = Single (%)             <0.001     
 ##   children_household (mean (SD))          <0.001     
 ##   ethnicity (%)                           <0.001     
-##      African American                                
+##      African American/Canadian                       
 ##      Asian                                           
-##      Causcasian                                      
+##      Caucasian                                       
 ##      Hispanic                                        
-##      Native American                                 
+##      Native American/Indigenous                      
 ##      Other                                           
 ##   country_born (%)                        <0.001     
 ##      Canada                                          
@@ -3295,12 +3315,10 @@ CreateTableOne(vars = vars, strata = "ville", data = ibiccs)
 ##      Student                                         
 ##      Unemployed                                      
 ##   household_income (%)                    <0.001     
-##      $0-$19999                                       
-##      $100000-149999                                  
+##      $0-$49999                                       
+##      $100000-$149999                                 
 ##      $150000+                                        
-##      $20000-$49999                                   
-##      $50000-$74999                                   
-##      $75000-$99999                                   
+##      $50000-$99999                                   
 ##      Missing                                         
 ##   bmi (mean (SD))                         <0.001     
 ##   bmi_category (%)                        <0.001     
@@ -3358,9 +3376,10 @@ CreateTableOne(vars = vars, data = ibiccs)
 ##      Vancouver                             2518 (10.5) 
 ##   gender = Male (%)                        9859 (41.2) 
 ##   health (%)                                           
-##      Excellent                            14544 (61.0) 
+##      Excellent                             4803 (20.1) 
 ##      Good                                  6725 (28.2) 
-##      Poor                                  2593 (10.9) 
+##      Poor/Fair                             2593 (10.9) 
+##      Very Good                             9741 (40.8) 
 ##   common_transportation (%)                            
 ##      Bicycle                               1177 ( 4.9) 
 ##      Car                                   9996 (42.0) 
@@ -3382,11 +3401,11 @@ CreateTableOne(vars = vars, data = ibiccs)
 ##   marital_status = Single (%)              9452 (45.4) 
 ##   children_household (mean (SD))           0.36 (0.75) 
 ##   ethnicity (%)                                        
-##      African American                      1654 ( 7.1) 
+##      African American/Canadian             1654 ( 7.1) 
 ##      Asian                                 2661 (11.4) 
-##      Causcasian                           17154 (73.7) 
+##      Caucasian                            17154 (73.7) 
 ##      Hispanic                               933 ( 4.0) 
-##      Native American                         79 ( 0.3) 
+##      Native American/Indigenous              79 ( 0.3) 
 ##      Other                                  781 ( 3.4) 
 ##   country_born (%)                                     
 ##      Canada                                7171 (30.0) 
@@ -3404,12 +3423,10 @@ CreateTableOne(vars = vars, data = ibiccs)
 ##      Student                               1586 ( 6.7) 
 ##      Unemployed                            4847 (20.4) 
 ##   household_income (%)                                 
-##      $0-$19999                             2450 (10.3) 
-##      $100000-149999                        3490 (14.6) 
+##      $0-$49999                             7211 (30.2) 
+##      $100000-$149999                       3490 (14.6) 
 ##      $150000+                              2400 (10.0) 
-##      $20000-$49999                         4761 (19.9) 
-##      $50000-$74999                         4396 (18.4) 
-##      $75000-$99999                         3425 (14.3) 
+##      $50000-$99999                         7821 (32.7) 
 ##      Missing                               2979 (12.5) 
 ##   bmi (mean (SD))                         25.64 (4.70) 
 ##   bmi_category (%)                                     
@@ -3570,40 +3587,41 @@ ibiccs %>%
 
 ```
 ##                 Dependent: bmi                                  Mean (sd)
-## 25                    language                         English 25.6 (4.7)
-## 26                                                   Fren/Span 26.0 (4.8)
-## 38                       ville                          Boston 25.1 (4.6)
-## 39                                                     Chicago 25.9 (4.9)
-## 40                                                     Détroit 26.7 (5.1)
-## 41                                                    Montréal 25.9 (4.7)
-## 42                                                    New-York 25.0 (4.5)
-## 43                                                Philadelphie 26.0 (5.0)
-## 44                                                     Toronto 25.6 (4.5)
-## 45                                                   Vancouver 24.9 (4.3)
+## 26                    language                         English 25.6 (4.7)
+## 27                                                   Fren/Span 26.0 (4.8)
+## 39                       ville                          Boston 25.1 (4.6)
+## 40                                                     Chicago 25.9 (4.9)
+## 41                                                     Détroit 26.7 (5.1)
+## 42                                                    Montréal 25.9 (4.7)
+## 43                                                    New-York 25.0 (4.5)
+## 44                                                Philadelphie 26.0 (5.0)
+## 45                                                     Toronto 25.6 (4.5)
+## 46                                                   Vancouver 24.9 (4.3)
 ## 19                      gender                          Female 25.0 (4.9)
 ## 20                                                        Male 26.4 (4.3)
-## 22                      health                       Excellent 24.7 (4.1)
+## 22                      health                       Excellent 24.0 (3.7)
 ## 23                                                        Good 26.8 (5.0)
-## 24                                                        Poor 28.4 (5.6)
-## 34           physically_active                              No 26.7 (5.3)
-## 35                                                         Yes 25.4 (4.5)
-## 36                         q42                         [18,94] 25.6 (4.7)
-## 27              marital_status Relationship/Married/Common-Law 25.8 (4.6)
-## 28                                                      Single 25.2 (4.8)
+## 24                                                   Poor/Fair 28.4 (5.6)
+## 25                                                   Very Good 25.1 (4.2)
+## 35           physically_active                              No 26.7 (5.3)
+## 36                                                         Yes 25.4 (4.5)
+## 37                         q42                         [18,94] 25.6 (4.7)
+## 28              marital_status Relationship/Married/Common-Law 25.8 (4.6)
+## 29                                                      Single 25.2 (4.8)
 ## 11                country_born                          Canada 25.7 (4.6)
 ## 12                                                       Other 24.8 (4.3)
 ## 13                                               United States 25.9 (4.9)
-## 29        motor_vehicle_access                              No 25.2 (4.8)
-## 30                                                         Yes 25.8 (4.7)
-## 31           occupation_status                        Employed 25.6 (4.6)
-## 32                                                     Student 24.2 (4.8)
-## 33                                                  Unemployed 26.4 (4.9)
+## 30        motor_vehicle_access                              No 25.2 (4.8)
+## 31                                                         Yes 25.8 (4.7)
+## 32           occupation_status                        Employed 25.6 (4.6)
+## 33                                                     Student 24.2 (4.8)
+## 34                                                  Unemployed 26.4 (4.9)
 ## 2                 bmi_category                   normal weight 22.2 (1.7)
 ## 3                                                        obese 33.6 (2.8)
 ## 4                                                   overweight 27.1 (1.4)
 ## 5                                                  underweight 18.1 (0.3)
-## 46                   WalkScore                         [0,100] 25.6 (4.7)
-## 37                TransitScore                          [1,80] 25.6 (4.7)
+## 47                   WalkScore                         [0,100] 25.6 (4.7)
+## 38                TransitScore                          [1,80] 25.6 (4.7)
 ## 1                    BikeScore                         [1,138] 25.6 (4.7)
 ## 18      DiningandDrinkingScore                         [0,100] 25.6 (4.7)
 ## 21                GroceryScore                         [0,100] 25.6 (4.7)
@@ -3617,52 +3635,53 @@ ibiccs %>%
 ## 10                                                           3 26.9 (5.2)
 ## 6                         <NA>                            <NA>       <NA>
 ##          Coefficient (univariable)     Coefficient (multivariable)
-## 25                               -                               -
-## 26    0.43 (0.18 to 0.69, p=0.001)  -0.11 (-0.31 to 0.08, p=0.249)
-## 38                               -                               -
-## 39    0.83 (0.57 to 1.10, p<0.001)   0.08 (-0.06 to 0.21, p=0.252)
-## 40    1.69 (1.41 to 1.97, p<0.001)   0.06 (-0.12 to 0.23, p=0.532)
-## 41    0.82 (0.53 to 1.11, p<0.001)   0.03 (-0.23 to 0.29, p=0.795)
-## 42  -0.01 (-0.28 to 0.26, p=0.937)  -0.11 (-0.25 to 0.03, p=0.127)
-## 43    0.96 (0.63 to 1.29, p<0.001)  -0.03 (-0.20 to 0.13, p=0.708)
-## 44    0.54 (0.28 to 0.81, p<0.001)  -0.01 (-0.21 to 0.19, p=0.939)
-## 45  -0.18 (-0.47 to 0.11, p=0.213) -0.21 (-0.42 to -0.01, p=0.043)
+## 26                               -                               -
+## 27    0.43 (0.18 to 0.69, p=0.001)  -0.11 (-0.31 to 0.08, p=0.252)
+## 39                               -                               -
+## 40    0.83 (0.57 to 1.10, p<0.001)   0.07 (-0.06 to 0.21, p=0.273)
+## 41    1.69 (1.41 to 1.97, p<0.001)   0.06 (-0.12 to 0.23, p=0.529)
+## 42    0.82 (0.53 to 1.11, p<0.001)   0.03 (-0.23 to 0.29, p=0.843)
+## 43  -0.01 (-0.28 to 0.26, p=0.937)  -0.11 (-0.25 to 0.03, p=0.129)
+## 44    0.96 (0.63 to 1.29, p<0.001)  -0.04 (-0.20 to 0.13, p=0.678)
+## 45    0.54 (0.28 to 0.81, p<0.001)  -0.01 (-0.21 to 0.19, p=0.901)
+## 46  -0.18 (-0.47 to 0.11, p=0.213) -0.22 (-0.43 to -0.01, p=0.037)
 ## 19                               -                               -
 ## 20    1.39 (1.26 to 1.52, p<0.001)    0.26 (0.19 to 0.33, p<0.001)
 ## 22                               -                               -
-## 23    2.05 (1.91 to 2.19, p<0.001)    0.29 (0.21 to 0.36, p<0.001)
-## 24    3.66 (3.45 to 3.87, p<0.001)    0.53 (0.40 to 0.66, p<0.001)
-## 34                               -                               -
-## 35 -1.27 (-1.44 to -1.10, p<0.001)  -0.04 (-0.13 to 0.06, p=0.448)
-## 36    0.06 (0.05 to 0.06, p<0.001)    0.01 (0.01 to 0.01, p<0.001)
-## 27                               -                               -
-## 28 -0.57 (-0.71 to -0.44, p<0.001)   0.02 (-0.05 to 0.10, p=0.560)
+## 23    2.78 (2.60 to 2.95, p<0.001)    0.39 (0.29 to 0.49, p<0.001)
+## 24    4.38 (4.15 to 4.62, p<0.001)    0.64 (0.49 to 0.78, p<0.001)
+## 25    1.08 (0.91 to 1.24, p<0.001)    0.14 (0.06 to 0.23, p=0.001)
+## 35                               -                               -
+## 36 -1.27 (-1.44 to -1.10, p<0.001)  -0.03 (-0.13 to 0.06, p=0.520)
+## 37    0.06 (0.05 to 0.06, p<0.001)    0.01 (0.01 to 0.01, p<0.001)
+## 28                               -                               -
+## 29 -0.57 (-0.71 to -0.44, p<0.001)   0.02 (-0.05 to 0.10, p=0.577)
 ## 11                               -                               -
 ## 12 -0.91 (-1.11 to -0.71, p<0.001) -0.17 (-0.29 to -0.05, p=0.006)
-## 13    0.18 (0.04 to 0.33, p=0.012)   0.02 (-0.14 to 0.18, p=0.839)
-## 29                               -                               -
-## 30    0.63 (0.48 to 0.77, p<0.001)  -0.03 (-0.12 to 0.07, p=0.594)
-## 31                               -                               -
-## 32 -1.32 (-1.57 to -1.06, p<0.001)   0.01 (-0.12 to 0.14, p=0.908)
-## 33    0.90 (0.74 to 1.06, p<0.001)  -0.06 (-0.16 to 0.03, p=0.205)
+## 13    0.18 (0.04 to 0.33, p=0.012)   0.02 (-0.15 to 0.18, p=0.846)
+## 30                               -                               -
+## 31    0.63 (0.48 to 0.77, p<0.001)  -0.02 (-0.12 to 0.07, p=0.607)
+## 32                               -                               -
+## 33 -1.32 (-1.57 to -1.06, p<0.001)   0.01 (-0.12 to 0.14, p=0.909)
+## 34    0.90 (0.74 to 1.06, p<0.001)  -0.06 (-0.16 to 0.03, p=0.205)
 ## 2                                -                               -
-## 3  11.44 (11.37 to 11.51, p<0.001) 11.14 (11.04 to 11.23, p<0.001)
-## 4     4.89 (4.83 to 4.95, p<0.001)    4.69 (4.61 to 4.77, p<0.001)
-## 5  -4.11 (-4.30 to -3.92, p<0.001) -3.99 (-4.24 to -3.75, p<0.001)
-## 46 -0.02 (-0.02 to -0.02, p<0.001)   0.00 (-0.00 to 0.01, p=0.456)
-## 37    0.01 (0.00 to 0.01, p<0.001)   0.00 (-0.00 to 0.00, p=0.587)
-## 1     0.00 (0.00 to 0.00, p=0.035)  -0.00 (-0.00 to 0.00, p=0.099)
-## 18 -0.02 (-0.02 to -0.02, p<0.001) -0.01 (-0.01 to -0.00, p=0.047)
-## 21 -0.01 (-0.01 to -0.01, p<0.001)   0.00 (-0.00 to 0.00, p=0.259)
-## 15    0.21 (0.19 to 0.24, p<0.001)   0.01 (-0.00 to 0.03, p=0.136)
-## 16 -0.18 (-0.21 to -0.15, p<0.001)   0.01 (-0.01 to 0.02, p=0.421)
-## 17 -0.25 (-0.27 to -0.22, p<0.001) -0.02 (-0.03 to -0.00, p=0.042)
-## 14 -0.15 (-0.19 to -0.10, p<0.001)  -0.01 (-0.03 to 0.01, p=0.262)
+## 3  11.44 (11.37 to 11.51, p<0.001) 11.12 (11.03 to 11.22, p<0.001)
+## 4     4.89 (4.83 to 4.95, p<0.001)    4.68 (4.60 to 4.76, p<0.001)
+## 5  -4.11 (-4.30 to -3.92, p<0.001) -3.99 (-4.23 to -3.74, p<0.001)
+## 47 -0.02 (-0.02 to -0.02, p<0.001)   0.00 (-0.00 to 0.01, p=0.458)
+## 38    0.01 (0.00 to 0.01, p<0.001)   0.00 (-0.00 to 0.00, p=0.585)
+## 1     0.00 (0.00 to 0.00, p=0.035)  -0.00 (-0.00 to 0.00, p=0.100)
+## 18 -0.02 (-0.02 to -0.02, p<0.001)  -0.01 (-0.01 to 0.00, p=0.050)
+## 21 -0.01 (-0.01 to -0.01, p<0.001)   0.00 (-0.00 to 0.00, p=0.264)
+## 15    0.21 (0.19 to 0.24, p<0.001)   0.01 (-0.00 to 0.03, p=0.138)
+## 16 -0.18 (-0.21 to -0.15, p<0.001)   0.01 (-0.01 to 0.02, p=0.479)
+## 17 -0.25 (-0.27 to -0.22, p<0.001) -0.02 (-0.03 to -0.00, p=0.047)
+## 14 -0.15 (-0.19 to -0.10, p<0.001)  -0.01 (-0.03 to 0.01, p=0.365)
 ## 7                                -                               -
 ## 8                                -                               -
 ## 9                                -                               -
 ## 10                               -                               -
-## 6     0.36 (0.27 to 0.44, p<0.001)    0.08 (0.04 to 0.13, p<0.001)
+## 6     0.36 (0.27 to 0.44, p<0.001)    0.09 (0.04 to 0.13, p<0.001)
 ```
 
 ```r
@@ -3776,32 +3795,28 @@ summary(income_reg)
 ## 
 ## Residuals:
 ##    Min     1Q Median     3Q    Max 
-## -8.774 -3.478 -0.798  2.612 15.506 
+## -8.541 -3.490 -0.801  2.610 15.506 
 ## 
 ## Coefficients:
-##                                        Estimate Std. Error t value
-## (Intercept)                              26.334      0.106  249.52
-## factor(household_income)$100000-149999   -0.706      0.134   -5.28
-## factor(household_income)$150000+         -0.992      0.144   -6.87
-## factor(household_income)$20000-$49999    -0.431      0.128   -3.37
-## factor(household_income)$50000-$74999    -0.697      0.129   -5.40
-## factor(household_income)$75000-$99999    -0.692      0.135   -5.15
-## factor(household_income)Missing          -1.470      0.144  -10.24
-##                                        Pr(>|t|)    
-## (Intercept)                             < 2e-16 ***
-## factor(household_income)$100000-149999  1.3e-07 ***
-## factor(household_income)$150000+        6.5e-12 ***
-## factor(household_income)$20000-$49999   0.00076 ***
-## factor(household_income)$50000-$74999   6.9e-08 ***
-## factor(household_income)$75000-$99999   2.7e-07 ***
-## factor(household_income)Missing         < 2e-16 ***
+##                                         Estimate Std. Error t value
+## (Intercept)                              26.0414     0.0597  435.99
+## factor(household_income)$100000-$149999  -0.4132     0.1016   -4.07
+## factor(household_income)$150000+         -0.6987     0.1151   -6.07
+## factor(household_income)$50000-$99999    -0.4018     0.0815   -4.93
+## factor(household_income)Missing          -1.1772     0.1143  -10.30
+##                                         Pr(>|t|)    
+## (Intercept)                              < 2e-16 ***
+## factor(household_income)$100000-$149999  4.7e-05 ***
+## factor(household_income)$150000+         1.3e-09 ***
+## factor(household_income)$50000-$99999    8.4e-07 ***
+## factor(household_income)Missing          < 2e-16 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 4.69 on 21153 degrees of freedom
+## Residual standard error: 4.69 on 21155 degrees of freedom
 ##   (2741 observations deleted due to missingness)
-## Multiple R-squared:  0.00606,	Adjusted R-squared:  0.00578 
-## F-statistic: 21.5 on 6 and 21153 DF,  p-value: <2e-16
+## Multiple R-squared:  0.00553,	Adjusted R-squared:  0.00534 
+## F-statistic: 29.4 on 4 and 21155 DF,  p-value: <2e-16
 ```
 
 ```r
@@ -3809,14 +3824,12 @@ confint(income_reg)
 ```
 
 ```
-##                                          2.5 %  97.5 %
-## (Intercept)                            26.1275 26.5412
-## factor(household_income)$100000-149999 -0.9682 -0.4440
-## factor(household_income)$150000+       -1.2744 -0.7087
-## factor(household_income)$20000-$49999  -0.6817 -0.1800
-## factor(household_income)$50000-$74999  -0.9496 -0.4435
-## factor(household_income)$75000-$99999  -0.9561 -0.4287
-## factor(household_income)Missing        -1.7516 -1.1886
+##                                           2.5 %  97.5 %
+## (Intercept)                             25.9244 26.1585
+## factor(household_income)$100000-$149999 -0.6123 -0.2141
+## factor(household_income)$150000+        -0.9244 -0.4730
+## factor(household_income)$50000-$99999   -0.5616 -0.2420
+## factor(household_income)Missing         -1.4012 -0.9532
 ```
 
 ```r
@@ -3834,13 +3847,20 @@ summary(ethn_reg)
 ## -10.008  -3.398  -0.758   2.542  16.259 
 ## 
 ## Coefficients:
-##                                  Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)                        27.748      0.127  218.21  < 2e-16 ***
-## factor(ethnicity)Asian             -4.067      0.158  -25.76  < 2e-16 ***
-## factor(ethnicity)Causcasian        -1.970      0.132  -14.87  < 2e-16 ***
-## factor(ethnicity)Hispanic          -1.539      0.212   -7.26  4.1e-13 ***
-## factor(ethnicity)Native American   -2.131      0.606   -3.52  0.00044 ***
-## factor(ethnicity)Other             -2.458      0.217  -11.32  < 2e-16 ***
+##                                             Estimate Std. Error t value
+## (Intercept)                                   27.748      0.127  218.21
+## factor(ethnicity)Asian                        -4.067      0.158  -25.76
+## factor(ethnicity)Caucasian                    -1.970      0.132  -14.87
+## factor(ethnicity)Hispanic                     -1.539      0.212   -7.26
+## factor(ethnicity)Native American/Indigenous   -2.131      0.606   -3.52
+## factor(ethnicity)Other                        -2.458      0.217  -11.32
+##                                             Pr(>|t|)    
+## (Intercept)                                  < 2e-16 ***
+## factor(ethnicity)Asian                       < 2e-16 ***
+## factor(ethnicity)Caucasian                   < 2e-16 ***
+## factor(ethnicity)Hispanic                    4.1e-13 ***
+## factor(ethnicity)Native American/Indigenous  0.00044 ***
+## factor(ethnicity)Other                       < 2e-16 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
@@ -3855,13 +3875,13 @@ confint(ethn_reg)
 ```
 
 ```
-##                                   2.5 %  97.5 %
-## (Intercept)                      27.498 27.9968
-## factor(ethnicity)Asian           -4.376 -3.7575
-## factor(ethnicity)Causcasian      -2.230 -1.7103
-## factor(ethnicity)Hispanic        -1.955 -1.1232
-## factor(ethnicity)Native American -3.319 -0.9437
-## factor(ethnicity)Other           -2.883 -2.0325
+##                                              2.5 %  97.5 %
+## (Intercept)                                 27.498 27.9968
+## factor(ethnicity)Asian                      -4.376 -3.7575
+## factor(ethnicity)Caucasian                  -2.230 -1.7103
+## factor(ethnicity)Hispanic                   -1.955 -1.1232
+## factor(ethnicity)Native American/Indigenous -3.319 -0.9437
+## factor(ethnicity)Other                      -2.883 -2.0325
 ```
 
 ```r
@@ -3981,40 +4001,38 @@ summary(lm2)
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -10.663  -3.326  -0.722   2.529  16.727 
+## -10.778  -3.325  -0.713   2.529  16.596 
 ## 
 ## Coefficients:
-##                                Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)                    26.23098    0.22717  115.47  < 2e-16 ***
-## WalkScore                      -0.01010    0.00750   -1.35  0.17847    
-## DiningandDrinkingScore         -0.01151    0.00575   -2.00  0.04538 *  
-## GroceryScore                    0.01158    0.00263    4.40  1.1e-05 ***
-## factor(ville)Chicago            0.66696    0.13556    4.92  8.7e-07 ***
-## factor(ville)Détroit            0.79914    0.17164    4.66  3.2e-06 ***
-## factor(ville)Montréal           0.16908    0.14867    1.14  0.25545    
-## factor(ville)New-York          -0.07562    0.13766   -0.55  0.58280    
-## factor(ville)Philadelphie       0.75699    0.16953    4.47  8.0e-06 ***
-## factor(ville)Toronto            0.04395    0.13656    0.32  0.74758    
-## factor(ville)Vancouver         -0.72049    0.15111   -4.77  1.9e-06 ***
-## educationCégep                  1.19239    0.10428   11.43  < 2e-16 ***
-## educationCertificate/Diploma    1.20683    0.11517   10.48  < 2e-16 ***
-## educationGraduate School       -0.15232    0.07949   -1.92  0.05535 .  
-## educationHigh School/Lower      1.34033    0.11986   11.18  < 2e-16 ***
-## occupation_statusStudent       -1.73627    0.13597  -12.77  < 2e-16 ***
-## occupation_statusUnemployed     0.61166    0.08442    7.25  4.5e-13 ***
-## household_income$100000-149999 -0.25347    0.13877   -1.83  0.06778 .  
-## household_income$150000+       -0.32919    0.15084   -2.18  0.02909 *  
-## household_income$20000-$49999  -0.32761    0.12850   -2.55  0.01080 *  
-## household_income$50000-$74999  -0.46056    0.13210   -3.49  0.00049 ***
-## household_income$75000-$99999  -0.35564    0.13839   -2.57  0.01018 *  
-## household_incomeMissing        -1.11840    0.14647   -7.64  2.3e-14 ***
+##                                 Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)                     25.99174    0.20607  126.13  < 2e-16 ***
+## WalkScore                       -0.00983    0.00750   -1.31    0.190    
+## DiningandDrinkingScore          -0.01174    0.00575   -2.04    0.041 *  
+## GroceryScore                     0.01157    0.00263    4.40  1.1e-05 ***
+## factor(ville)Chicago             0.66853    0.13557    4.93  8.2e-07 ***
+## factor(ville)Détroit             0.80563    0.17164    4.69  2.7e-06 ***
+## factor(ville)Montréal            0.15903    0.14864    1.07    0.285    
+## factor(ville)New-York           -0.06918    0.13766   -0.50    0.615    
+## factor(ville)Philadelphie        0.75884    0.16953    4.48  7.6e-06 ***
+## factor(ville)Toronto             0.04029    0.13657    0.30    0.768    
+## factor(ville)Vancouver          -0.72432    0.15113   -4.79  1.7e-06 ***
+## educationCégep                   1.19719    0.10425   11.48  < 2e-16 ***
+## educationCertificate/Diploma     1.21253    0.11504   10.54  < 2e-16 ***
+## educationGraduate School        -0.15236    0.07950   -1.92    0.055 .  
+## educationHigh School/Lower       1.35470    0.11961   11.33  < 2e-16 ***
+## occupation_statusStudent        -1.69600    0.13499  -12.56  < 2e-16 ***
+## occupation_statusUnemployed      0.62974    0.08410    7.49  7.3e-14 ***
+## household_income$100000-$149999 -0.02180    0.10440   -0.21    0.835    
+## household_income$150000+        -0.09668    0.11962   -0.81    0.419    
+## household_income$50000-$99999   -0.18349    0.08341   -2.20    0.028 *  
+## household_incomeMissing         -0.89151    0.11609   -7.68  1.7e-14 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 4.58 on 20673 degrees of freedom
+## Residual standard error: 4.58 on 20675 degrees of freedom
 ##   (3205 observations deleted due to missingness)
-## Multiple R-squared:  0.0514,	Adjusted R-squared:  0.0504 
-## F-statistic:   51 on 22 and 20673 DF,  p-value: <2e-16
+## Multiple R-squared:  0.0511,	Adjusted R-squared:  0.0502 
+## F-statistic: 55.7 on 20 and 20675 DF,  p-value: <2e-16
 ```
 
 ```r
@@ -4022,30 +4040,28 @@ confint(lm2)
 ```
 
 ```
-##                                    2.5 %    97.5 %
-## (Intercept)                    25.785712 26.676251
-## WalkScore                      -0.024806  0.004612
-## DiningandDrinkingScore         -0.022787 -0.000237
-## GroceryScore                    0.006425  0.016739
-## factor(ville)Chicago            0.401249  0.932665
-## factor(ville)Détroit            0.462718  1.135564
-## factor(ville)Montréal          -0.122336  0.460491
-## factor(ville)New-York          -0.345455  0.194213
-## factor(ville)Philadelphie       0.424699  1.089280
-## factor(ville)Toronto           -0.223718  0.311618
-## factor(ville)Vancouver         -1.016686 -0.424293
-## educationCégep                  0.987993  1.396787
-## educationCertificate/Diploma    0.981093  1.432563
-## educationGraduate School       -0.308129  0.003484
-## educationHigh School/Lower      1.105401  1.575259
-## occupation_statusStudent       -2.002792 -1.469752
-## occupation_statusUnemployed     0.446196  0.777125
-## household_income$100000-149999 -0.525481  0.018533
-## household_income$150000+       -0.624846 -0.033528
-## household_income$20000-$49999  -0.579480 -0.075731
-## household_income$50000-$74999  -0.719495 -0.201624
-## household_income$75000-$99999  -0.626895 -0.084393
-## household_incomeMissing        -1.405490 -0.831303
+##                                     2.5 %     97.5 %
+## (Intercept)                     25.587840 26.3956476
+## WalkScore                       -0.024533  0.0048823
+## DiningandDrinkingScore          -0.023016 -0.0004666
+## GroceryScore                     0.006414  0.0167289
+## factor(ville)Chicago             0.402795  0.9342657
+## factor(ville)Détroit             0.469209  1.1420588
+## factor(ville)Montréal           -0.132327  0.4503827
+## factor(ville)New-York           -0.339011  0.2006416
+## factor(ville)Philadelphie        0.426545  1.0911267
+## factor(ville)Toronto            -0.227395  0.3079706
+## factor(ville)Vancouver          -1.020539 -0.4280943
+## educationCégep                   0.992850  1.4015378
+## educationCertificate/Diploma     0.987049  1.4380132
+## educationGraduate School        -0.308187  0.0034599
+## educationHigh School/Lower       1.120256  1.5891351
+## occupation_statusStudent        -1.960597 -1.4314060
+## occupation_statusUnemployed      0.464902  0.7945871
+## household_income$100000-$149999 -0.226420  0.1828271
+## household_income$150000+        -0.331150  0.1377965
+## household_income$50000-$99999   -0.346984 -0.0199879
+## household_incomeMissing         -1.119041 -0.6639695
 ```
 
 ```r
@@ -4062,48 +4078,76 @@ summary(lm3)
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -11.030  -3.131  -0.825   2.356  17.164 
+## -11.126  -3.141  -0.821   2.360  17.148 
 ## 
 ## Coefficients:
-##                                Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)                    27.49212    0.27798   98.90  < 2e-16 ***
-## WalkScore                      -0.01670    0.00793   -2.11  0.03520 *  
-## DiningandDrinkingScore         -0.00297    0.00609   -0.49  0.62572    
-## GroceryScore                    0.01113    0.00275    4.05  5.2e-05 ***
-## factor(ville)Chicago            0.49300    0.14094    3.50  0.00047 ***
-## factor(ville)Détroit            0.61796    0.18022    3.43  0.00061 ***
-## factor(ville)Montréal           0.02231    0.19880    0.11  0.91063    
-## factor(ville)New-York          -0.14696    0.14258   -1.03  0.30271    
-## factor(ville)Philadelphie       0.57563    0.17593    3.27  0.00107 ** 
-## factor(ville)Toronto            0.07911    0.14440    0.55  0.58382    
-## factor(ville)Vancouver         -0.49904    0.16155   -3.09  0.00201 ** 
-## educationCégep                  0.95310    0.11195    8.51  < 2e-16 ***
-## educationCertificate/Diploma    0.98742    0.12373    7.98  1.5e-15 ***
-## educationGraduate School       -0.17659    0.08250   -2.14  0.03233 *  
-## educationHigh School/Lower      0.97029    0.13012    7.46  9.2e-14 ***
-## occupation_statusStudent       -1.27105    0.13969   -9.10  < 2e-16 ***
-## occupation_statusUnemployed     0.54807    0.09247    5.93  3.1e-09 ***
-## household_income$100000-149999 -0.41862    0.15053   -2.78  0.00543 ** 
-## household_income$150000+       -0.53504    0.16369   -3.27  0.00108 ** 
-## household_income$20000-$49999  -0.27682    0.13835   -2.00  0.04542 *  
-## household_income$50000-$74999  -0.45072    0.14156   -3.18  0.00146 ** 
-## household_income$75000-$99999  -0.39196    0.14898   -2.63  0.00852 ** 
-## household_incomeMissing        -0.93286    0.16100   -5.79  7.0e-09 ***
-## languageFren/Span               0.04694    0.20379    0.23  0.81784    
-## genderMale                      1.45223    0.06860   21.17  < 2e-16 ***
-## marital_statusSingle           -0.33939    0.07660   -4.43  9.5e-06 ***
-## ethnicityAsian                 -3.22416    0.17423  -18.51  < 2e-16 ***
-## ethnicityCauscasian            -1.66174    0.14734  -11.28  < 2e-16 ***
-## ethnicityHispanic              -1.22352    0.22453   -5.45  5.1e-08 ***
-## ethnicityNative American       -1.73280    0.64279   -2.70  0.00703 ** 
-## ethnicityOther                 -2.01699    0.23343   -8.64  < 2e-16 ***
+##                                     Estimate Std. Error t value Pr(>|t|)
+## (Intercept)                         27.30407    0.26097  104.63  < 2e-16
+## WalkScore                           -0.01643    0.00793   -2.07  0.03834
+## DiningandDrinkingScore              -0.00320    0.00609   -0.53  0.59949
+## GroceryScore                         0.01110    0.00275    4.03  5.5e-05
+## factor(ville)Chicago                 0.49302    0.14094    3.50  0.00047
+## factor(ville)Détroit                 0.62159    0.18022    3.45  0.00056
+## factor(ville)Montréal                0.01985    0.19880    0.10  0.92045
+## factor(ville)New-York               -0.14329    0.14257   -1.01  0.31490
+## factor(ville)Philadelphie            0.57673    0.17592    3.28  0.00105
+## factor(ville)Toronto                 0.07630    0.14441    0.53  0.59723
+## factor(ville)Vancouver              -0.50180    0.16154   -3.11  0.00190
+## educationCégep                       0.95751    0.11192    8.56  < 2e-16
+## educationCertificate/Diploma         0.99254    0.12359    8.03  1.0e-15
+## educationGraduate School            -0.17618    0.08251   -2.14  0.03275
+## educationHigh School/Lower           0.98075    0.12989    7.55  4.6e-14
+## occupation_statusStudent            -1.23730    0.13869   -8.92  < 2e-16
+## occupation_statusUnemployed          0.56095    0.09220    6.08  1.2e-09
+## household_income$100000-$149999     -0.22411    0.11350   -1.97  0.04834
+## household_income$150000+            -0.33973    0.12982   -2.62  0.00888
+## household_income$50000-$99999       -0.23013    0.09011   -2.55  0.01067
+## household_incomeMissing             -0.74197    0.12889   -5.76  8.7e-09
+## languageFren/Span                    0.03894    0.20376    0.19  0.84846
+## genderMale                           1.45267    0.06859   21.18  < 2e-16
+## marital_statusSingle                -0.34171    0.07605   -4.49  7.0e-06
+## ethnicityAsian                      -3.23678    0.17403  -18.60  < 2e-16
+## ethnicityCaucasian                  -1.67354    0.14714  -11.37  < 2e-16
+## ethnicityHispanic                   -1.22842    0.22453   -5.47  4.5e-08
+## ethnicityNative American/Indigenous -1.73431    0.64279   -2.70  0.00698
+## ethnicityOther                      -2.02624    0.23340   -8.68  < 2e-16
+##                                        
+## (Intercept)                         ***
+## WalkScore                           *  
+## DiningandDrinkingScore                 
+## GroceryScore                        ***
+## factor(ville)Chicago                ***
+## factor(ville)Détroit                ***
+## factor(ville)Montréal                  
+## factor(ville)New-York                  
+## factor(ville)Philadelphie           ** 
+## factor(ville)Toronto                   
+## factor(ville)Vancouver              ** 
+## educationCégep                      ***
+## educationCertificate/Diploma        ***
+## educationGraduate School            *  
+## educationHigh School/Lower          ***
+## occupation_statusStudent            ***
+## occupation_statusUnemployed         ***
+## household_income$100000-$149999     *  
+## household_income$150000+            ** 
+## household_income$50000-$99999       *  
+## household_incomeMissing             ***
+## languageFren/Span                      
+## genderMale                          ***
+## marital_statusSingle                ***
+## ethnicityAsian                      ***
+## ethnicityCaucasian                  ***
+## ethnicityHispanic                   ***
+## ethnicityNative American/Indigenous ** 
+## ethnicityOther                      ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 4.47 on 17818 degrees of freedom
+## Residual standard error: 4.47 on 17820 degrees of freedom
 ##   (6052 observations deleted due to missingness)
-## Multiple R-squared:  0.0929,	Adjusted R-squared:  0.0914 
-## F-statistic: 60.9 on 30 and 17818 DF,  p-value: <2e-16
+## Multiple R-squared:  0.0927,	Adjusted R-squared:  0.0913 
+## F-statistic:   65 on 28 and 17820 DF,  p-value: <2e-16
 ```
 
 ```r
@@ -4111,38 +4155,36 @@ confint(lm3)
 ```
 
 ```
-##                                    2.5 %    97.5 %
-## (Intercept)                    26.947261 28.036987
-## WalkScore                      -0.032249 -0.001159
-## DiningandDrinkingScore         -0.014916  0.008972
-## GroceryScore                    0.005737  0.016523
-## factor(ville)Chicago            0.216752  0.769251
-## factor(ville)Détroit            0.264712  0.971210
-## factor(ville)Montréal          -0.367358  0.411988
-## factor(ville)New-York          -0.426434  0.132520
-## factor(ville)Philadelphie       0.230797  0.920473
-## factor(ville)Toronto           -0.203937  0.362149
-## factor(ville)Vancouver         -0.815690 -0.182399
-## educationCégep                  0.733668  1.172525
-## educationCertificate/Diploma    0.744894  1.229940
-## educationGraduate School       -0.338306 -0.014880
-## educationHigh School/Lower      0.715256  1.225332
-## occupation_statusStudent       -1.544851 -0.997252
-## occupation_statusUnemployed     0.366822  0.729316
-## household_income$100000-149999 -0.713665 -0.123567
-## household_income$150000+       -0.855899 -0.214190
-## household_income$20000-$49999  -0.548000 -0.005642
-## household_income$50000-$74999  -0.728186 -0.173253
-## household_income$75000-$99999  -0.683976 -0.099936
-## household_incomeMissing        -1.248439 -0.617283
-## languageFren/Span              -0.352507  0.446380
-## genderMale                      1.317777  1.586692
-## marital_statusSingle           -0.489532 -0.189245
-## ethnicityAsian                 -3.565662 -2.882651
-## ethnicityCauscasian            -1.950547 -1.372938
-## ethnicityHispanic              -1.663618 -0.783430
-## ethnicityNative American       -2.992721 -0.472877
-## ethnicityOther                 -2.474537 -1.559442
+##                                         2.5 %     97.5 %
+## (Intercept)                         26.792544 27.8155918
+## WalkScore                           -0.031970 -0.0008823
+## DiningandDrinkingScore              -0.015142  0.0087429
+## GroceryScore                         0.005707  0.0164928
+## factor(ville)Chicago                 0.216752  0.7692812
+## factor(ville)Détroit                 0.268343  0.9748362
+## factor(ville)Montréal               -0.369811  0.4095176
+## factor(ville)New-York               -0.422745  0.1361683
+## factor(ville)Philadelphie            0.231905  0.9215589
+## factor(ville)Toronto                -0.206745  0.3593518
+## factor(ville)Vancouver              -0.818441 -0.1851673
+## educationCégep                       0.738128  1.1768826
+## educationCertificate/Diploma         0.750296  1.2347745
+## educationGraduate School            -0.337902 -0.0144561
+## educationHigh School/Lower           0.726141  1.2353511
+## occupation_statusStudent            -1.509155 -0.9654525
+## occupation_statusUnemployed          0.380220  0.7416748
+## household_income$100000-$149999     -0.446582 -0.0016357
+## household_income$150000+            -0.594179 -0.0852755
+## household_income$50000-$99999       -0.406762 -0.0534958
+## household_incomeMissing             -0.994620 -0.4893275
+## languageFren/Span                   -0.360446  0.4383183
+## genderMale                           1.318228  1.5871178
+## marital_statusSingle                -0.490772 -0.1926575
+## ethnicityAsian                      -3.577904 -2.8956639
+## ethnicityCaucasian                  -1.961941 -1.3851394
+## ethnicityHispanic                   -1.668516 -0.7883207
+## ethnicityNative American/Indigenous -2.994243 -0.4743765
+## ethnicityOther                      -2.483733 -1.5687506
 ```
 
 # Scatter Plots for BMI & Variables
@@ -4243,16 +4285,16 @@ summary(med.out)
 ## Quasi-Bayesian Confidence Intervals
 ## 
 ##                            Estimate 95% CI Lower 95% CI Upper p-value    
-## ACME (control)             0.030430     0.023467         0.04  <2e-16 ***
-## ACME (treated)             0.030176     0.023289         0.04  <2e-16 ***
-## ADE (control)             -0.020106    -0.027154        -0.01  <2e-16 ***
-## ADE (treated)             -0.020361    -0.027354        -0.01  <2e-16 ***
-## Total Effect               0.010069    -0.000585         0.02     0.1 .  
-## Prop. Mediated (control)   3.010521   -25.158066        26.27     0.1 .  
-## Prop. Mediated (treated)   2.984668   -24.982657        26.10     0.1 .  
-## ACME (average)             0.030303     0.023379         0.04  <2e-16 ***
-## ADE (average)             -0.020234    -0.027254        -0.01  <2e-16 ***
-## Prop. Mediated (average)   2.997595   -25.070361        26.19     0.1 .  
+## ACME (control)             0.030642     0.024053         0.04  <2e-16 ***
+## ACME (treated)             0.030384     0.023891         0.04  <2e-16 ***
+## ADE (control)             -0.019793    -0.027124        -0.01  <2e-16 ***
+## ADE (treated)             -0.020050    -0.027333        -0.01  <2e-16 ***
+## Total Effect               0.010592    -0.000704         0.02    0.08 .  
+## Prop. Mediated (control)   2.795328   -18.285333        12.23    0.08 .  
+## Prop. Mediated (treated)   2.771285   -18.166853        12.15    0.08 .  
+## ACME (average)             0.030513     0.023972         0.04  <2e-16 ***
+## ADE (average)             -0.019921    -0.027228        -0.01  <2e-16 ***
+## Prop. Mediated (average)   2.783306   -18.226093        12.19    0.08 .  
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
@@ -4265,223 +4307,209 @@ summary(med.out)
 # Step 2: Add all covariates *Focus*
 
 ```r
-med.fit <- glm(GroceryScore ~ WalkScore + language + ville + gender + health + physically_active + q42 + marital_status + country_born + motor_vehicle_access + day_per_week_motor_vehicle + day_per_week_public_transit + day_per_week_walking + day_per_week_bike + children_household + common_transportation + ethnicity + pa_level, family = gaussian(link = "identity"), data = ibiccs_cc) 
+med.fit <- glm(GroceryScore ~ WalkScore + ville + gender + health + physically_active + q42 + marital_status + day_per_week_motor_vehicle + day_per_week_public_transit + day_per_week_walking + day_per_week_bike + children_household + common_transportation + ethnicity + pa_level, family = gaussian(link = "identity"), data = ibiccs_cc) 
 summary(med.fit)
 ```
 
 ```
 ## 
 ## Call:
-## glm(formula = GroceryScore ~ WalkScore + language + ville + gender + 
-##     health + physically_active + q42 + marital_status + country_born + 
-##     motor_vehicle_access + day_per_week_motor_vehicle + day_per_week_public_transit + 
-##     day_per_week_walking + day_per_week_bike + children_household + 
-##     common_transportation + ethnicity + pa_level, family = gaussian(link = "identity"), 
-##     data = ibiccs_cc)
+## glm(formula = GroceryScore ~ WalkScore + ville + gender + health + 
+##     physically_active + q42 + marital_status + day_per_week_motor_vehicle + 
+##     day_per_week_public_transit + day_per_week_walking + day_per_week_bike + 
+##     children_household + common_transportation + ethnicity + 
+##     pa_level, family = gaussian(link = "identity"), data = ibiccs_cc)
 ## 
 ## Deviance Residuals: 
 ##    Min      1Q  Median      3Q     Max  
-## -62.40   -4.19    0.00    5.81   64.86  
+## -62.42   -4.19   -0.03    5.77   64.91  
 ## 
 ## Coefficients:
 ##                                            Estimate Std. Error t value
-## (Intercept)                                -0.83116    1.69687   -0.49
-## WalkScore                                   1.10940    0.00716  155.03
-## languageFren/Span                           0.52649    0.72621    0.72
-## villeChicago                               -5.29509    0.48610  -10.89
-## villeDétroit                                4.23361    0.63247    6.69
-## villeMontréal                               3.86228    0.86734    4.45
-## villeNew-York                              -1.41316    0.51061   -2.77
-## villePhiladelphie                           0.68530    0.61588    1.11
-## villeToronto                                0.40173    0.70575    0.57
-## villeVancouver                              1.98580    0.74018    2.68
-## genderMale                                  0.04961    0.25044    0.20
-## healthGood                                  0.79472    0.27959    2.84
-## healthPoor                                  1.36752    0.46281    2.95
-## physically_activeYes                       -1.59521    0.88648   -1.80
-## q42                                        -0.00290    0.01056   -0.28
-## marital_statusSingle                        0.38977    0.28258    1.38
-## country_bornOther                          -0.90594    0.46551   -1.95
-## country_bornUnited States                  -1.25923    0.60215   -2.09
-## motor_vehicle_accessYes                     0.52836    0.34914    1.51
-## day_per_week_motor_vehicle                  0.16606    0.06927    2.40
-## day_per_week_public_transit                 0.03186    0.07874    0.40
-## day_per_week_walking                       -0.16480    0.06034   -2.73
-## day_per_week_bike                           0.11690    0.09301    1.26
-## children_household                          0.60429    0.17544    3.44
-## common_transportationCar                   -0.21353    0.68109   -0.31
-## common_transportationOther                 -0.02027    1.50221   -0.01
-## common_transportationPublic Transportation -0.55466    0.66833   -0.83
-## common_transportationWalking               -0.83252    0.65881   -1.26
-## ethnicityAsian                             -3.66591    0.65739   -5.58
-## ethnicityCauscasian                        -4.15832    0.54919   -7.57
-## ethnicityHispanic                          -2.06389    0.83904   -2.46
-## ethnicityNative American                   -0.87895    2.26222   -0.39
-## ethnicityOther                             -4.26548    0.88124   -4.84
-## pa_levelModerate                            0.22798    0.49888    0.46
-## pa_levelNA                                 -0.76374    0.94677   -0.81
-## pa_levelSedentary                           1.76058    3.55312    0.50
-## pa_levelVigorous                           -0.28435    0.51037   -0.56
+## (Intercept)                                -2.03606    1.60125   -1.27
+## WalkScore                                   1.10960    0.00714  155.42
+## villeChicago                               -5.26472    0.48525  -10.85
+## villeDétroit                                4.20804    0.63107    6.67
+## villeMontréal                               5.19837    0.54304    9.57
+## villeNew-York                              -1.47891    0.50618   -2.92
+## villePhiladelphie                           0.66852    0.61399    1.09
+## villeToronto                                1.35832    0.50924    2.67
+## villeVancouver                              2.93633    0.56379    5.21
+## genderMale                                  0.05285    0.24984    0.21
+## healthGood                                  1.03684    0.35356    2.93
+## healthPoor/Fair                             1.58766    0.51120    3.11
+## healthVery Good                             0.35585    0.31514    1.13
+## physically_activeYes                       -1.53172    0.88539   -1.73
+## q42                                        -0.00381    0.01050   -0.36
+## marital_statusSingle                        0.30554    0.27847    1.10
+## day_per_week_motor_vehicle                  0.19731    0.06642    2.97
+## day_per_week_public_transit                 0.01767    0.07817    0.23
+## day_per_week_walking                       -0.16560    0.06017   -2.75
+## day_per_week_bike                           0.13071    0.09290    1.41
+## children_household                          0.60600    0.17497    3.46
+## common_transportationCar                   -0.20703    0.67860   -0.31
+## common_transportationOther                 -0.11057    1.49468   -0.07
+## common_transportationPublic Transportation -0.56948    0.66703   -0.85
+## common_transportationWalking               -0.89135    0.65753   -1.36
+## ethnicityAsian                             -3.65495    0.64422   -5.67
+## ethnicityCaucasian                         -4.03778    0.54736   -7.38
+## ethnicityHispanic                          -2.00917    0.83280   -2.41
+## ethnicityNative American/Indigenous        -0.67417    2.25998   -0.30
+## ethnicityOther                             -4.25760    0.87012   -4.89
+## pa_levelModerate                            0.21310    0.49775    0.43
+## pa_levelNA                                 -0.74982    0.94585   -0.79
+## pa_levelSedentary                           1.65715    3.55151    0.47
+## pa_levelVigorous                           -0.27657    0.50931   -0.54
 ##                                            Pr(>|t|)    
-## (Intercept)                                 0.62427    
+## (Intercept)                                 0.20356    
 ## WalkScore                                   < 2e-16 ***
-## languageFren/Span                           0.46847    
 ## villeChicago                                < 2e-16 ***
-## villeDétroit                                2.3e-11 ***
-## villeMontréal                               8.5e-06 ***
-## villeNew-York                               0.00566 ** 
-## villePhiladelphie                           0.26585    
-## villeToronto                                0.56922    
-## villeVancouver                              0.00731 ** 
-## genderMale                                  0.84298    
-## healthGood                                  0.00448 ** 
-## healthPoor                                  0.00313 ** 
-## physically_activeYes                        0.07197 .  
-## q42                                         0.78325    
-## marital_statusSingle                        0.16782    
-## country_bornOther                           0.05167 .  
-## country_bornUnited States                   0.03653 *  
-## motor_vehicle_accessYes                     0.13022    
-## day_per_week_motor_vehicle                  0.01653 *  
-## day_per_week_public_transit                 0.68578    
-## day_per_week_walking                        0.00632 ** 
-## day_per_week_bike                           0.20882    
-## children_household                          0.00057 ***
-## common_transportationCar                    0.75389    
-## common_transportationOther                  0.98924    
-## common_transportationPublic Transportation  0.40660    
-## common_transportationWalking                0.20637    
-## ethnicityAsian                              2.5e-08 ***
-## ethnicityCauscasian                         3.9e-14 ***
-## ethnicityHispanic                           0.01391 *  
-## ethnicityNative American                    0.69763    
-## ethnicityOther                              1.3e-06 ***
-## pa_levelModerate                            0.64770    
-## pa_levelNA                                  0.41987    
-## pa_levelSedentary                           0.62025    
-## pa_levelVigorous                            0.57744    
+## villeDétroit                                2.7e-11 ***
+## villeMontréal                               < 2e-16 ***
+## villeNew-York                               0.00349 ** 
+## villePhiladelphie                           0.27626    
+## villeToronto                                0.00766 ** 
+## villeVancouver                              1.9e-07 ***
+## genderMale                                  0.83247    
+## healthGood                                  0.00337 ** 
+## healthPoor/Fair                             0.00190 ** 
+## healthVery Good                             0.25884    
+## physically_activeYes                        0.08366 .  
+## q42                                         0.71712    
+## marital_statusSingle                        0.27258    
+## day_per_week_motor_vehicle                  0.00298 ** 
+## day_per_week_public_transit                 0.82119    
+## day_per_week_walking                        0.00593 ** 
+## day_per_week_bike                           0.15945    
+## children_household                          0.00054 ***
+## common_transportationCar                    0.76031    
+## common_transportationOther                  0.94103    
+## common_transportationPublic Transportation  0.39325    
+## common_transportationWalking                0.17525    
+## ethnicityAsian                              1.4e-08 ***
+## ethnicityCaucasian                          1.7e-13 ***
+## ethnicityHispanic                           0.01586 *  
+## ethnicityNative American/Indigenous         0.76547    
+## ethnicityOther                              1.0e-06 ***
+## pa_levelModerate                            0.66856    
+## pa_levelNA                                  0.42794    
+## pa_levelSedentary                           0.64079    
+## pa_levelVigorous                            0.58712    
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## (Dispersion parameter for gaussian family taken to be 173)
+## (Dispersion parameter for gaussian family taken to be 172.8)
 ## 
-##     Null deviance: 10492284  on 12196  degrees of freedom
-## Residual deviance:  2103365  on 12160  degrees of freedom
-##   (8725 observations deleted due to missingness)
-## AIC: 97505
+##     Null deviance: 10515687  on 12231  degrees of freedom
+## Residual deviance:  2108402  on 12198  degrees of freedom
+##   (8690 observations deleted due to missingness)
+## AIC: 97773
 ## 
 ## Number of Fisher Scoring iterations: 2
 ```
 
 ```r
-out.fit <- glm(bmi ~ WalkScore * GroceryScore + language + ville + gender + health + physically_active + q42 + marital_status + country_born + motor_vehicle_access + day_per_week_motor_vehicle + day_per_week_public_transit + day_per_week_walking + day_per_week_bike + children_household + common_transportation + ethnicity + pa_level, family = gaussian(link = "identity"), data = ibiccs_cc)
+out.fit <- glm(bmi ~ WalkScore * GroceryScore + ville + gender + health + physically_active + q42 + marital_status + day_per_week_motor_vehicle + day_per_week_public_transit + day_per_week_walking + day_per_week_bike + children_household + common_transportation + ethnicity + pa_level, family = gaussian(link = "identity"), data = ibiccs_cc)
 summary(out.fit)
 ```
 
 ```
 ## 
 ## Call:
-## glm(formula = bmi ~ WalkScore * GroceryScore + language + ville + 
-##     gender + health + physically_active + q42 + marital_status + 
-##     country_born + motor_vehicle_access + day_per_week_motor_vehicle + 
+## glm(formula = bmi ~ WalkScore * GroceryScore + ville + gender + 
+##     health + physically_active + q42 + marital_status + day_per_week_motor_vehicle + 
 ##     day_per_week_public_transit + day_per_week_walking + day_per_week_bike + 
 ##     children_household + common_transportation + ethnicity + 
 ##     pa_level, family = gaussian(link = "identity"), data = ibiccs_cc)
 ## 
 ## Deviance Residuals: 
 ##     Min       1Q   Median       3Q      Max  
-## -12.021   -2.873   -0.602    2.146   16.948  
+## -11.972   -2.855   -0.608    2.141   17.593  
 ## 
 ## Coefficients:
 ##                                              Estimate Std. Error t value
-## (Intercept)                                23.3191397  0.5547991   42.03
-## WalkScore                                  -0.0094247  0.0051696   -1.82
-## GroceryScore                                0.0180647  0.0042925    4.21
-## languageFren/Span                           0.5137846  0.2315048    2.22
-## villeChicago                                0.3312108  0.1568371    2.11
-## villeDétroit                                0.1864992  0.2020907    0.92
-## villeMontréal                              -0.8868575  0.2769396   -3.20
-## villeNew-York                              -0.0695219  0.1640044   -0.42
-## villePhiladelphie                           0.4434373  0.1964315    2.26
-## villeToronto                               -0.4463161  0.2254151   -1.98
-## villeVancouver                             -1.0359852  0.2364088   -4.38
-## genderMale                                  1.3578592  0.0798521   17.00
-## healthGood                                  1.9245393  0.0891541   21.59
-## healthPoor                                  3.4133694  0.1475932   23.13
-## physically_activeYes                       -0.1786247  0.2826223   -0.63
-## q42                                         0.0523295  0.0033658   15.55
-## marital_statusSingle                        0.1794233  0.0900905    1.99
-## country_bornOther                          -0.7122731  0.1484137   -4.80
-## country_bornUnited States                  -0.2500897  0.1919827   -1.30
-## motor_vehicle_accessYes                    -0.1857094  0.1114181   -1.67
-## day_per_week_motor_vehicle                  0.0684509  0.0221055    3.10
-## day_per_week_public_transit                -0.0194369  0.0251003   -0.77
-## day_per_week_walking                       -0.0679699  0.0192463   -3.53
-## day_per_week_bike                          -0.0422229  0.0296510   -1.42
-## children_household                          0.3240516  0.0559586    5.79
-## common_transportationCar                    0.5923222  0.2171838    2.73
-## common_transportationOther                  0.3741558  0.4788680    0.78
-## common_transportationPublic Transportation  0.5505171  0.2130532    2.58
-## common_transportationWalking                0.1363804  0.2100912    0.65
-## ethnicityAsian                             -2.8861691  0.2099893  -13.74
-## ethnicityCauscasian                        -1.4682342  0.1757179   -8.36
-## ethnicityHispanic                          -0.6648122  0.2676684   -2.48
-## ethnicityNative American                   -1.5334660  0.7213795   -2.13
-## ethnicityOther                             -1.5433628  0.2812855   -5.49
-## pa_levelModerate                            0.4093980  0.1590288    2.57
-## pa_levelNA                                  0.4741350  0.3018110    1.57
-## pa_levelSedentary                           1.4277091  1.1326838    1.26
-## pa_levelVigorous                            0.0133552  0.1626979    0.08
-## WalkScore:GroceryScore                     -0.0001037  0.0000561   -1.85
+## (Intercept)                                22.2641750  0.5246506   42.44
+## WalkScore                                  -0.0095479  0.0051525   -1.85
+## GroceryScore                                0.0171813  0.0042736    4.02
+## villeChicago                                0.3211243  0.1562272    2.06
+## villeDétroit                                0.2195619  0.2012180    1.09
+## villeMontréal                              -0.4138707  0.1737665   -2.38
+## villeNew-York                              -0.0277660  0.1623542   -0.17
+## villePhiladelphie                           0.4169788  0.1954018    2.13
+## villeToronto                               -0.2999863  0.1625453   -1.85
+## villeVancouver                             -0.8963295  0.1799889   -4.98
+## genderMale                                  1.3503195  0.0794868   16.99
+## healthGood                                  2.5916722  0.1125020   23.04
+## healthPoor/Fair                             4.0801239  0.1626854   25.08
+## healthVery Good                             0.9746545  0.1002516    9.72
+## physically_activeYes                       -0.1342122  0.2816550   -0.48
+## q42                                         0.0517281  0.0033411   15.48
+## marital_statusSingle                        0.2120547  0.0885805    2.39
+## day_per_week_motor_vehicle                  0.0598396  0.0211683    2.83
+## day_per_week_public_transit                -0.0226448  0.0248632   -0.91
+## day_per_week_walking                       -0.0664917  0.0191535   -3.47
+## day_per_week_bike                          -0.0289107  0.0295544   -0.98
+## children_household                          0.3285687  0.0556898    5.90
+## common_transportationCar                    0.5233395  0.2159322    2.42
+## common_transportationOther                  0.3525731  0.4754329    0.74
+## common_transportationPublic Transportation  0.5139321  0.2121792    2.42
+## common_transportationWalking                0.1158420  0.2092267    0.55
+## ethnicityAsian                             -3.0633145  0.2053521  -14.92
+## ethnicityCaucasian                         -1.4440697  0.1747277   -8.26
+## ethnicityHispanic                          -0.7734630  0.2650995   -2.92
+## ethnicityNative American/Indigenous        -1.4654113  0.7190937   -2.04
+## ethnicityOther                             -1.6945561  0.2771437   -6.11
+## pa_levelModerate                            0.3856558  0.1583209    2.44
+## pa_levelNA                                  0.4683318  0.3008611    1.56
+## pa_levelSedentary                           1.3108716  1.1297077    1.16
+## pa_levelVigorous                            0.0363756  0.1620093    0.22
+## WalkScore:GroceryScore                     -0.0000906  0.0000558   -1.62
 ##                                            Pr(>|t|)    
 ## (Intercept)                                 < 2e-16 ***
-## WalkScore                                   0.06831 .  
-## GroceryScore                                2.6e-05 ***
-## languageFren/Span                           0.02648 *  
-## villeChicago                                0.03472 *  
-## villeDétroit                                0.35610    
-## villeMontréal                               0.00137 ** 
-## villeNew-York                               0.67164    
-## villePhiladelphie                           0.02400 *  
-## villeToronto                                0.04773 *  
-## villeVancouver                              1.2e-05 ***
+## WalkScore                                   0.06390 .  
+## GroceryScore                                5.8e-05 ***
+## villeChicago                                0.03985 *  
+## villeDétroit                                0.27522    
+## villeMontréal                               0.01725 *  
+## villeNew-York                               0.86421    
+## villePhiladelphie                           0.03287 *  
+## villeToronto                                0.06498 .  
+## villeVancouver                              6.4e-07 ***
 ## genderMale                                  < 2e-16 ***
 ## healthGood                                  < 2e-16 ***
-## healthPoor                                  < 2e-16 ***
-## physically_activeYes                        0.52738    
+## healthPoor/Fair                             < 2e-16 ***
+## healthVery Good                             < 2e-16 ***
+## physically_activeYes                        0.63372    
 ## q42                                         < 2e-16 ***
-## marital_statusSingle                        0.04644 *  
-## country_bornOther                           1.6e-06 ***
-## country_bornUnited States                   0.19271    
-## motor_vehicle_accessYes                     0.09558 .  
-## day_per_week_motor_vehicle                  0.00196 ** 
-## day_per_week_public_transit                 0.43873    
-## day_per_week_walking                        0.00041 ***
-## day_per_week_bike                           0.15447    
-## children_household                          7.2e-09 ***
-## common_transportationCar                    0.00639 ** 
-## common_transportationOther                  0.43462    
-## common_transportationPublic Transportation  0.00978 ** 
-## common_transportationWalking                0.51625    
+## marital_statusSingle                        0.01668 *  
+## day_per_week_motor_vehicle                  0.00471 ** 
+## day_per_week_public_transit                 0.36243    
+## day_per_week_walking                        0.00052 ***
+## day_per_week_bike                           0.32798    
+## children_household                          3.7e-09 ***
+## common_transportationCar                    0.01538 *  
+## common_transportationOther                  0.45835    
+## common_transportationPublic Transportation  0.01544 *  
+## common_transportationWalking                0.57982    
 ## ethnicityAsian                              < 2e-16 ***
-## ethnicityCauscasian                         < 2e-16 ***
-## ethnicityHispanic                           0.01302 *  
-## ethnicityNative American                    0.03354 *  
-## ethnicityOther                              4.2e-08 ***
-## pa_levelModerate                            0.01005 *  
-## pa_levelNA                                  0.11622    
-## pa_levelSedentary                           0.20753    
-## pa_levelVigorous                            0.93458    
-## WalkScore:GroceryScore                      0.06438 .  
+## ethnicityCaucasian                          < 2e-16 ***
+## ethnicityHispanic                           0.00353 ** 
+## ethnicityNative American/Indigenous         0.04159 *  
+## ethnicityOther                              1.0e-09 ***
+## pa_levelModerate                            0.01487 *  
+## pa_levelNA                                  0.11958    
+## pa_levelSedentary                           0.24592    
+## pa_levelVigorous                            0.82235    
+## WalkScore:GroceryScore                      0.10479    
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## (Dispersion parameter for gaussian family taken to be 17.58)
+## (Dispersion parameter for gaussian family taken to be 17.49)
 ## 
-##     Null deviance: 260297  on 12196  degrees of freedom
-## Residual deviance: 213692  on 12158  degrees of freedom
-##   (8725 observations deleted due to missingness)
-## AIC: 69618
+##     Null deviance: 260861  on 12231  degrees of freedom
+## Residual deviance: 213274  on 12196  degrees of freedom
+##   (8690 observations deleted due to missingness)
+## AIC: 69752
 ## 
 ## Number of Fisher Scoring iterations: 2
 ```
@@ -4497,30 +4525,25 @@ summary(med.out)
 ## 
 ## Quasi-Bayesian Confidence Intervals
 ## 
-##                          Estimate 95% CI Lower 95% CI Upper p-value    
-## ACME (control)            0.02040      0.01310         0.03  <2e-16 ***
-## ACME (treated)            0.02029      0.01301         0.03  <2e-16 ***
-## ADE (control)            -0.00950     -0.02083         0.00    0.08 .  
-## ADE (treated)            -0.00961     -0.02085         0.00    0.08 .  
-## Total Effect              0.01079     -0.00249         0.02    0.10 .  
-## Prop. Mediated (control)  1.69299     -3.74237         9.23    0.10 .  
-## Prop. Mediated (treated)  1.68300     -3.74611         9.20    0.10 .  
-## ACME (average)            0.02034      0.01306         0.03  <2e-16 ***
-## ADE (average)            -0.00956     -0.02084         0.00    0.08 .  
-## Prop. Mediated (average)  1.68800     -3.74424         9.21    0.10 .  
+##                            Estimate 95% CI Lower 95% CI Upper p-value    
+## ACME (control)             0.019647     0.010292         0.03  <2e-16 ***
+## ACME (treated)             0.019543     0.010252         0.03  <2e-16 ***
+## ADE (control)             -0.009019    -0.019350         0.00     0.1 .  
+## ADE (treated)             -0.009123    -0.019406         0.00     0.1 .  
+## Total Effect               0.010524    -0.000496         0.02     0.1 .  
+## Prop. Mediated (control)   1.839111   -14.386155         9.62     0.1 .  
+## Prop. Mediated (treated)   1.829637   -14.375169         9.60     0.1 .  
+## ACME (average)             0.019595     0.010272         0.03  <2e-16 ***
+## ADE (average)             -0.009071    -0.019378         0.00     0.1 .  
+## Prop. Mediated (average)   1.834374   -14.380662         9.61     0.1 .  
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Sample Size Used: 12197 
+## Sample Size Used: 12232 
 ## 
 ## 
 ## Simulations: 100
 ```
-Interpretation:
-Total: 1-unit change in WalkScore results in a .01 (-0.002-0.02) increase in BMI when GroceryScore is included.
-ADE: 1-unit change in WalkScore results in a .008 (-0.01-0.00) decrease in BMI when GroceryScore is fixed.
-ACME: 1-unit change in GroceryScore results in .01 (0.01-0.03) increase in BMI when WalkScore is fixed.
-Prop. 1.53 (-5.14-16.61)
 
 ## DiningandDrinkingScore
 
@@ -4604,17 +4627,17 @@ summary(med.out)
 ## 
 ## Quasi-Bayesian Confidence Intervals
 ## 
-##                          Estimate 95% CI Lower 95% CI Upper p-value    
-## ACME (control)           -0.00135     -0.01049         0.01    0.82    
-## ACME (treated)           -0.00183     -0.01095         0.01    0.72    
-## ADE (control)             0.03888      0.02809         0.05  <2e-16 ***
-## ADE (treated)             0.03840      0.02764         0.05  <2e-16 ***
-## Total Effect              0.03705      0.02519         0.05  <2e-16 ***
-## Prop. Mediated (control) -0.05054     -0.33631         0.24    0.82    
-## Prop. Mediated (treated) -0.06271     -0.34985         0.23    0.72    
-## ACME (average)           -0.00159     -0.01072         0.01    0.80    
-## ADE (average)             0.03864      0.02786         0.05  <2e-16 ***
-## Prop. Mediated (average) -0.05662     -0.34308         0.23    0.80    
+##                            Estimate 95% CI Lower 95% CI Upper p-value    
+## ACME (control)           -0.0000726   -0.0104160         0.01    0.94    
+## ACME (treated)           -0.0005639   -0.0109000         0.01    0.92    
+## ADE (control)             0.0388383    0.0268987         0.05  <2e-16 ***
+## ADE (treated)             0.0383470    0.0264799         0.05  <2e-16 ***
+## Total Effect              0.0382744    0.0278223         0.05  <2e-16 ***
+## Prop. Mediated (control)  0.0037320   -0.2975757         0.23    0.94    
+## Prop. Mediated (treated) -0.0085381   -0.3119972         0.22    0.92    
+## ACME (average)           -0.0003183   -0.0106580         0.01    0.96    
+## ADE (average)             0.0385927    0.0266893         0.05  <2e-16 ***
+## Prop. Mediated (average) -0.0024031   -0.3047864         0.23    0.96    
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
@@ -4627,223 +4650,210 @@ summary(med.out)
 # Step 2: Add all covariates *Focus*
 
 ```r
-med.fit <- glm(DiningandDrinkingScore ~ WalkScore + language + ville + gender + health + physically_active + q42 + marital_status + country_born + motor_vehicle_access + day_per_week_motor_vehicle + day_per_week_public_transit + day_per_week_walking + day_per_week_bike + children_household + common_transportation + ethnicity + pa_level, family = gaussian(link = "identity"), data = ibiccs_cc) 
+med.fit <- glm(DiningandDrinkingScore ~ WalkScore + ville + gender + health + physically_active + q42 + marital_status + day_per_week_motor_vehicle + day_per_week_public_transit + day_per_week_walking + day_per_week_bike + children_household + common_transportation + ethnicity + pa_level, family = gaussian(link = "identity"), data = ibiccs_cc) 
 summary(med.fit)
 ```
 
 ```
 ## 
 ## Call:
-## glm(formula = DiningandDrinkingScore ~ WalkScore + language + 
-##     ville + gender + health + physically_active + q42 + marital_status + 
-##     country_born + motor_vehicle_access + day_per_week_motor_vehicle + 
+## glm(formula = DiningandDrinkingScore ~ WalkScore + ville + gender + 
+##     health + physically_active + q42 + marital_status + day_per_week_motor_vehicle + 
 ##     day_per_week_public_transit + day_per_week_walking + day_per_week_bike + 
 ##     children_household + common_transportation + ethnicity + 
 ##     pa_level, family = gaussian(link = "identity"), data = ibiccs_cc)
 ## 
 ## Deviance Residuals: 
 ##    Min      1Q  Median      3Q     Max  
-## -43.50   -2.21   -0.30    1.95   49.61  
+## -43.69   -2.20   -0.30    1.94   49.51  
 ## 
 ## Coefficients:
-##                                              Estimate Std. Error t value
-## (Intercept)                                -0.5681252  0.7534515   -0.75
-## WalkScore                                   0.9912688  0.0031774  311.97
-## languageFren/Span                          -0.1913343  0.3224545   -0.59
-## villeChicago                                2.3984145  0.2158418   11.11
-## villeDétroit                                4.4515687  0.2808315   15.85
-## villeMontréal                               0.7766596  0.3851200    2.02
-## villeNew-York                               0.1899650  0.2267253    0.84
-## villePhiladelphie                           1.4963460  0.2734644    5.47
-## villeToronto                                2.2075027  0.3133720    7.04
-## villeVancouver                              2.3605790  0.3286608    7.18
-## genderMale                                 -0.0586268  0.1112016   -0.53
-## healthGood                                 -0.1100700  0.1241459   -0.89
-## healthPoor                                  0.2849588  0.2055012    1.39
-## physically_activeYes                        0.0657661  0.3936218    0.17
-## q42                                        -0.0244272  0.0046880   -5.21
-## marital_statusSingle                       -0.2057297  0.1254734   -1.64
-## country_bornOther                           0.4942633  0.2067005    2.39
-## country_bornUnited States                   0.3355305  0.2673710    1.25
-## motor_vehicle_accessYes                    -0.1336524  0.1550265   -0.86
-## day_per_week_motor_vehicle                 -0.0302666  0.0307576   -0.98
-## day_per_week_public_transit                -0.0239664  0.0349610   -0.69
-## day_per_week_walking                       -0.0087843  0.0267916   -0.33
-## day_per_week_bike                          -0.0000455  0.0412973    0.00
-## children_household                         -0.2981038  0.0779004   -3.83
-## common_transportationCar                    0.0051376  0.3024209    0.02
-## common_transportationOther                 -0.1442109  0.6670207   -0.22
-## common_transportationPublic Transportation  0.3597250  0.2967540    1.21
-## common_transportationWalking                0.0206402  0.2925292    0.07
-## ethnicityAsian                              2.6952138  0.2918957    9.23
-## ethnicityCauscasian                         2.4306722  0.2438549    9.97
-## ethnicityHispanic                           1.9397236  0.3725570    5.21
-## ethnicityNative American                    3.4877792  1.0044836    3.47
-## ethnicityOther                              2.7113451  0.3912916    6.93
-## pa_levelModerate                           -0.0820467  0.2215171   -0.37
-## pa_levelNA                                 -0.0062139  0.4203902   -0.01
-## pa_levelSedentary                          -0.5839433  1.5776758   -0.37
-## pa_levelVigorous                            0.0180157  0.2266157    0.08
+##                                            Estimate Std. Error t value
+## (Intercept)                                -0.03762    0.71122   -0.05
+## WalkScore                                   0.99074    0.00317  312.44
+## villeChicago                                2.38884    0.21553   11.08
+## villeDétroit                                4.43658    0.28030   15.83
+## villeMontréal                               0.41079    0.24120    1.70
+## villeNew-York                               0.19733    0.22483    0.88
+## villePhiladelphie                           1.49760    0.27272    5.49
+## villeToronto                                1.97616    0.22619    8.74
+## villeVancouver                              2.12289    0.25042    8.48
+## genderMale                                 -0.06918    0.11097   -0.62
+## healthGood                                 -0.26165    0.15704   -1.67
+## healthPoor/Fair                             0.14426    0.22706    0.64
+## healthVery Good                            -0.22549    0.13997   -1.61
+## physically_activeYes                        0.02698    0.39326    0.07
+## q42                                        -0.02362    0.00467   -5.06
+## marital_statusSingle                       -0.19618    0.12369   -1.59
+## day_per_week_motor_vehicle                 -0.03979    0.02950   -1.35
+## day_per_week_public_transit                -0.01697    0.03472   -0.49
+## day_per_week_walking                       -0.00712    0.02673   -0.27
+## day_per_week_bike                          -0.00800    0.04126   -0.19
+## children_household                         -0.30141    0.07772   -3.88
+## common_transportationCar                   -0.00204    0.30141   -0.01
+## common_transportationOther                 -0.16017    0.66389   -0.24
+## common_transportationPublic Transportation  0.34185    0.29627    1.15
+## common_transportationWalking                0.02380    0.29206    0.08
+## ethnicityAsian                              2.74359    0.28614    9.59
+## ethnicityCaucasian                          2.36625    0.24312    9.73
+## ethnicityHispanic                           1.96747    0.36990    5.32
+## ethnicityNative American/Indigenous         3.37670    1.00381    3.36
+## ethnicityOther                              2.76221    0.38648    7.15
+## pa_levelModerate                           -0.09570    0.22108   -0.43
+## pa_levelNA                                 -0.02652    0.42012   -0.06
+## pa_levelSedentary                          -0.55193    1.57747   -0.35
+## pa_levelVigorous                           -0.00288    0.22622   -0.01
 ##                                            Pr(>|t|)    
-## (Intercept)                                 0.45085    
+## (Intercept)                                 0.95782    
 ## WalkScore                                   < 2e-16 ***
-## languageFren/Span                           0.55295    
 ## villeChicago                                < 2e-16 ***
 ## villeDétroit                                < 2e-16 ***
-## villeMontréal                               0.04375 *  
-## villeNew-York                               0.40212    
-## villePhiladelphie                           4.5e-08 ***
-## villeToronto                                2.0e-12 ***
-## villeVancouver                              7.2e-13 ***
-## genderMale                                  0.59806    
-## healthGood                                  0.37530    
-## healthPoor                                  0.16557    
-## physically_activeYes                        0.86731    
-## q42                                         1.9e-07 ***
-## marital_statusSingle                        0.10111    
-## country_bornOther                           0.01681 *  
-## country_bornUnited States                   0.20953    
-## motor_vehicle_accessYes                     0.38864    
-## day_per_week_motor_vehicle                  0.32512    
-## day_per_week_public_transit                 0.49303    
-## day_per_week_walking                        0.74301    
-## day_per_week_bike                           0.99912    
-## children_household                          0.00013 ***
-## common_transportationCar                    0.98645    
-## common_transportationOther                  0.82883    
-## common_transportationPublic Transportation  0.22546    
-## common_transportationWalking                0.94375    
+## villeMontréal                               0.08857 .  
+## villeNew-York                               0.38013    
+## villePhiladelphie                           4.1e-08 ***
+## villeToronto                                < 2e-16 ***
+## villeVancouver                              < 2e-16 ***
+## genderMale                                  0.53303    
+## healthGood                                  0.09572 .  
+## healthPoor/Fair                             0.52523    
+## healthVery Good                             0.10722    
+## physically_activeYes                        0.94531    
+## q42                                         4.2e-07 ***
+## marital_statusSingle                        0.11274    
+## day_per_week_motor_vehicle                  0.17749    
+## day_per_week_public_transit                 0.62504    
+## day_per_week_walking                        0.78987    
+## day_per_week_bike                           0.84624    
+## children_household                          0.00011 ***
+## common_transportationCar                    0.99461    
+## common_transportationOther                  0.80936    
+## common_transportationPublic Transportation  0.24859    
+## common_transportationWalking                0.93505    
 ## ethnicityAsian                              < 2e-16 ***
-## ethnicityCauscasian                         < 2e-16 ***
-## ethnicityHispanic                           2.0e-07 ***
-## ethnicityNative American                    0.00052 ***
-## ethnicityOther                              4.4e-12 ***
-## pa_levelModerate                            0.71110    
-## pa_levelNA                                  0.98821    
-## pa_levelSedentary                           0.71129    
-## pa_levelVigorous                            0.93664    
+## ethnicityCaucasian                          < 2e-16 ***
+## ethnicityHispanic                           1.1e-07 ***
+## ethnicityNative American/Indigenous         0.00077 ***
+## ethnicityOther                              9.4e-13 ***
+## pa_levelModerate                            0.66510    
+## pa_levelNA                                  0.94967    
+## pa_levelSedentary                           0.72643    
+## pa_levelVigorous                            0.98985    
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## (Dispersion parameter for gaussian family taken to be 34.1)
 ## 
-##     Null deviance: 7433914  on 12196  degrees of freedom
-## Residual deviance:  414696  on 12160  degrees of freedom
-##   (8725 observations deleted due to missingness)
-## AIC: 77701
+##     Null deviance: 7447212  on 12231  degrees of freedom
+## Residual deviance:  415956  on 12198  degrees of freedom
+##   (8690 observations deleted due to missingness)
+## AIC: 77919
 ## 
 ## Number of Fisher Scoring iterations: 2
 ```
 
 ```r
-out.fit <- glm(bmi ~ WalkScore * DiningandDrinkingScore + language + ville + gender + health + physically_active + q42 + marital_status + country_born + motor_vehicle_access + day_per_week_motor_vehicle + day_per_week_public_transit + day_per_week_walking + day_per_week_bike + children_household + common_transportation + ethnicity + pa_level, family = gaussian(link = "identity"), data = ibiccs_cc)
+out.fit <- glm(bmi ~ WalkScore * DiningandDrinkingScore + ville + gender + health + physically_active + q42 + marital_status + day_per_week_motor_vehicle + day_per_week_public_transit + day_per_week_walking + day_per_week_bike + children_household + common_transportation + ethnicity + pa_level, family = gaussian(link = "identity"), data = ibiccs_cc)
 summary(out.fit)
 ```
 
 ```
 ## 
 ## Call:
-## glm(formula = bmi ~ WalkScore * DiningandDrinkingScore + language + 
-##     ville + gender + health + physically_active + q42 + marital_status + 
-##     country_born + motor_vehicle_access + day_per_week_motor_vehicle + 
-##     day_per_week_public_transit + day_per_week_walking + day_per_week_bike + 
-##     children_household + common_transportation + ethnicity + 
-##     pa_level, family = gaussian(link = "identity"), data = ibiccs_cc)
+## glm(formula = bmi ~ WalkScore * DiningandDrinkingScore + ville + 
+##     gender + health + physically_active + q42 + marital_status + 
+##     day_per_week_motor_vehicle + day_per_week_public_transit + 
+##     day_per_week_walking + day_per_week_bike + children_household + 
+##     common_transportation + ethnicity + pa_level, family = gaussian(link = "identity"), 
+##     data = ibiccs_cc)
 ## 
 ## Deviance Residuals: 
 ##     Min       1Q   Median       3Q      Max  
-## -11.898   -2.883   -0.592    2.130   16.783  
+## -11.849   -2.858   -0.615    2.134   17.638  
 ## 
 ## Coefficients:
 ##                                              Estimate Std. Error t value
-## (Intercept)                                22.9109104  0.5658994   40.49
-## WalkScore                                   0.0237793  0.0083836    2.84
-## DiningandDrinkingScore                      0.0015908  0.0069773    0.23
-## languageFren/Span                           0.5094204  0.2315748    2.20
-## villeChicago                                0.3009267  0.1558585    1.93
-## villeDétroit                                0.3392861  0.2048101    1.66
-## villeMontréal                              -0.8509818  0.2767794   -3.07
-## villeNew-York                              -0.0326460  0.1645332   -0.20
-## villePhiladelphie                           0.4813549  0.1967661    2.45
-## villeToronto                               -0.4296363  0.2256387   -1.90
-## villeVancouver                             -0.9914874  0.2365836   -4.19
-## genderMale                                  1.3603790  0.0798659   17.03
-## healthGood                                  1.9303521  0.0891523   21.65
-## healthPoor                                  3.4214110  0.1476242   23.18
-## physically_activeYes                       -0.1906646  0.2826593   -0.67
-## q42                                         0.0518751  0.0033710   15.39
-## marital_statusSingle                        0.1785874  0.0901224    1.98
-## country_bornOther                          -0.7145189  0.1484658   -4.81
-## country_bornUnited States                  -0.2587111  0.1920047   -1.35
-## motor_vehicle_accessYes                    -0.1937965  0.1114894   -1.74
-## day_per_week_motor_vehicle                  0.0674272  0.0221199    3.05
-## day_per_week_public_transit                -0.0194068  0.0251056   -0.77
-## day_per_week_walking                       -0.0675785  0.0192598   -3.51
-## day_per_week_bike                          -0.0423570  0.0296599   -1.43
-## children_household                          0.3240158  0.0559998    5.79
-## common_transportationCar                    0.5748366  0.2172655    2.65
-## common_transportationOther                  0.3858491  0.4789971    0.81
-## common_transportationPublic Transportation  0.5463178  0.2131051    2.56
-## common_transportationWalking                0.1423784  0.2101714    0.68
-## ethnicityAsian                             -2.8523680  0.2112361  -13.50
-## ethnicityCauscasian                        -1.4388145  0.1770523   -8.13
-## ethnicityHispanic                          -0.6304872  0.2683062   -2.35
-## ethnicityNative American                   -1.4352216  0.7223243   -1.99
-## ethnicityOther                             -1.5222190  0.2820840   -5.40
-## pa_levelModerate                            0.4099694  0.1590663    2.58
-## pa_levelNA                                  0.4720301  0.3018820    1.56
-## pa_levelSedentary                           1.4411182  1.1329073    1.27
-## pa_levelVigorous                            0.0168277  0.1627471    0.10
-## WalkScore:DiningandDrinkingScore           -0.0002328  0.0000621   -3.75
+## (Intercept)                                21.8651080  0.5359572   40.80
+## WalkScore                                   0.0229981  0.0083463    2.76
+## DiningandDrinkingScore                      0.0007473  0.0069495    0.11
+## villeChicago                                0.2888759  0.1552512    1.86
+## villeDétroit                                0.3682405  0.2039568    1.81
+## villeMontréal                              -0.3728092  0.1732538   -2.15
+## villeNew-York                               0.0082895  0.1629227    0.05
+## villePhiladelphie                           0.4537656  0.1957420    2.32
+## villeToronto                               -0.2763245  0.1627472   -1.70
+## villeVancouver                             -0.8465175  0.1800289   -4.70
+## genderMale                                  1.3527104  0.0795035   17.01
+## healthGood                                  2.5954334  0.1125264   23.07
+## healthPoor/Fair                             4.0865021  0.1627307   25.11
+## healthVery Good                             0.9714643  0.1003007    9.69
+## physically_activeYes                       -0.1476019  0.2817011   -0.52
+## q42                                         0.0512740  0.0033462   15.32
+## marital_statusSingle                        0.2120541  0.0886119    2.39
+## day_per_week_motor_vehicle                  0.0585527  0.0211893    2.76
+## day_per_week_public_transit                -0.0223937  0.0248697   -0.90
+## day_per_week_walking                       -0.0661093  0.0191688   -3.45
+## day_per_week_bike                          -0.0290911  0.0295651   -0.98
+## children_household                          0.3283574  0.0557367    5.89
+## common_transportationCar                    0.5054851  0.2160252    2.34
+## common_transportationOther                  0.3630890  0.4755799    0.76
+## common_transportationPublic Transportation  0.5089534  0.2122360    2.40
+## common_transportationWalking                0.1204584  0.2093123    0.58
+## ethnicityAsian                             -3.0315261  0.2066587  -14.67
+## ethnicityCaucasian                         -1.4173581  0.1760292   -8.05
+## ethnicityHispanic                          -0.7402349  0.2657609   -2.79
+## ethnicityNative American/Indigenous        -1.3705358  0.7200274   -1.90
+## ethnicityOther                             -1.6746712  0.2779898   -6.02
+## pa_levelModerate                            0.3862290  0.1583640    2.44
+## pa_levelNA                                  0.4654172  0.3009417    1.55
+## pa_levelSedentary                           1.3225545  1.1299697    1.17
+## pa_levelVigorous                            0.0392605  0.1620632    0.24
+## WalkScore:DiningandDrinkingScore           -0.0002147  0.0000618   -3.47
 ##                                            Pr(>|t|)    
 ## (Intercept)                                 < 2e-16 ***
-## WalkScore                                   0.00457 ** 
-## DiningandDrinkingScore                      0.81965    
-## languageFren/Span                           0.02784 *  
-## villeChicago                                0.05353 .  
-## villeDétroit                                0.09763 .  
-## villeMontréal                               0.00211 ** 
-## villeNew-York                               0.84272    
-## villePhiladelphie                           0.01445 *  
-## villeToronto                                0.05692 .  
-## villeVancouver                              2.8e-05 ***
+## WalkScore                                   0.00587 ** 
+## DiningandDrinkingScore                      0.91436    
+## villeChicago                                0.06281 .  
+## villeDétroit                                0.07102 .  
+## villeMontréal                               0.03143 *  
+## villeNew-York                               0.95942    
+## villePhiladelphie                           0.02046 *  
+## villeToronto                                0.08956 .  
+## villeVancouver                              2.6e-06 ***
 ## genderMale                                  < 2e-16 ***
 ## healthGood                                  < 2e-16 ***
-## healthPoor                                  < 2e-16 ***
-## physically_activeYes                        0.49998    
+## healthPoor/Fair                             < 2e-16 ***
+## healthVery Good                             < 2e-16 ***
+## physically_activeYes                        0.60031    
 ## q42                                         < 2e-16 ***
-## marital_statusSingle                        0.04755 *  
-## country_bornOther                           1.5e-06 ***
-## country_bornUnited States                   0.17787    
-## motor_vehicle_accessYes                     0.08219 .  
-## day_per_week_motor_vehicle                  0.00231 ** 
-## day_per_week_public_transit                 0.43953    
-## day_per_week_walking                        0.00045 ***
-## day_per_week_bike                           0.15329    
-## children_household                          7.4e-09 ***
-## common_transportationCar                    0.00816 ** 
-## common_transportationOther                  0.42053    
-## common_transportationPublic Transportation  0.01037 *  
-## common_transportationWalking                0.49814    
+## marital_statusSingle                        0.01672 *  
+## day_per_week_motor_vehicle                  0.00573 ** 
+## day_per_week_public_transit                 0.36790    
+## day_per_week_walking                        0.00056 ***
+## day_per_week_bike                           0.32515    
+## children_household                          3.9e-09 ***
+## common_transportationCar                    0.01930 *  
+## common_transportationOther                  0.44520    
+## common_transportationPublic Transportation  0.01650 *  
+## common_transportationWalking                0.56497    
 ## ethnicityAsian                              < 2e-16 ***
-## ethnicityCauscasian                         4.8e-16 ***
-## ethnicityHispanic                           0.01880 *  
-## ethnicityNative American                    0.04695 *  
-## ethnicityOther                              6.9e-08 ***
-## pa_levelModerate                            0.00997 ** 
-## pa_levelNA                                  0.11793    
-## pa_levelSedentary                           0.20338    
-## pa_levelVigorous                            0.91765    
-## WalkScore:DiningandDrinkingScore            0.00018 ***
+## ethnicityCaucasian                          8.9e-16 ***
+## ethnicityHispanic                           0.00536 ** 
+## ethnicityNative American/Indigenous         0.05701 .  
+## ethnicityOther                              1.7e-09 ***
+## pa_levelModerate                            0.01475 *  
+## pa_levelNA                                  0.12200    
+## pa_levelSedentary                           0.24185    
+## pa_levelVigorous                            0.80859    
+## WalkScore:DiningandDrinkingScore            0.00051 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## (Dispersion parameter for gaussian family taken to be 17.58)
+## (Dispersion parameter for gaussian family taken to be 17.5)
 ## 
-##     Null deviance: 260297  on 12196  degrees of freedom
-## Residual deviance: 213793  on 12158  degrees of freedom
-##   (8725 observations deleted due to missingness)
-## AIC: 69624
+##     Null deviance: 260861  on 12231  degrees of freedom
+## Residual deviance: 213389  on 12196  degrees of freedom
+##   (8690 observations deleted due to missingness)
+## AIC: 69759
 ## 
 ## Number of Fisher Scoring iterations: 2
 ```
@@ -4860,29 +4870,25 @@ summary(med.out)
 ## Quasi-Bayesian Confidence Intervals
 ## 
 ##                          Estimate 95% CI Lower 95% CI Upper p-value    
-## ACME (control)            0.00203     -0.01039         0.01    0.80    
-## ACME (treated)            0.00180     -0.01060         0.01    0.80    
-## ADE (control)             0.02294      0.00936         0.04    0.02 *  
-## ADE (treated)             0.02271      0.00922         0.04    0.02 *  
-## Total Effect              0.02474      0.01183         0.04  <2e-16 ***
-## Prop. Mediated (control)  0.09695     -0.52342         0.58    0.80    
-## Prop. Mediated (treated)  0.08716     -0.53319         0.57    0.80    
-## ACME (average)            0.00191     -0.01049         0.01    0.80    
-## ADE (average)             0.02282      0.00929         0.04    0.02 *  
-## Prop. Mediated (average)  0.09206     -0.52831         0.58    0.80    
+## ACME (control)            0.00180     -0.00866         0.01    0.76    
+## ACME (treated)            0.00159     -0.00877         0.01    0.78    
+## ADE (control)             0.02029      0.00451         0.03  <2e-16 ***
+## ADE (treated)             0.02009      0.00438         0.03  <2e-16 ***
+## Total Effect              0.02188      0.01005         0.03  <2e-16 ***
+## Prop. Mediated (control)  0.05441     -0.53984         0.74    0.76    
+## Prop. Mediated (treated)  0.04386     -0.54968         0.73    0.78    
+## ACME (average)            0.00169     -0.00871         0.01    0.76    
+## ADE (average)             0.02019      0.00444         0.03  <2e-16 ***
+## Prop. Mediated (average)  0.04913     -0.54476         0.73    0.76    
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Sample Size Used: 12197 
+## Sample Size Used: 12232 
 ## 
 ## 
 ## Simulations: 100
 ```
-Interpretation:
-Total: 1-unit change in WalkScore results in a .02 (0.01-0.04) increase in BMI when DiningandDrinkingScore is included.
-ADE: 1-unit change in WalkScore results in a .02 (0.005-0.04) increase in BMI when DiningandDrinkingScore is fixed.
-ACME: 1-unit change in DiningandDrinkingScore results in .001 (-0.01-0.01) increase in BMI when WalkScore is fixed.
-Prop: 0.06 (-0.72-0.63)
+
 
 ### List of next steps
 - Add in the city level model with glmer and interpretation
@@ -4890,8 +4896,6 @@ Prop: 0.06 (-0.72-0.63)
     - Rerun the model for categories of income
     - Create a new dataframe with only one level of income
     
-
-```
 # Area-Level Analysis
 med.fit <- lm(smorale ~ free + #area-covariates, data = school)
 

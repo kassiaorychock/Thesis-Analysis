@@ -53,6 +53,8 @@ ibiccs_clean <- ibiccs_readin %>%
 	))
 
 table(ibiccs_clean$bmi, ibiccs_clean$bmi_category)
+
+summary(ibiccs_clean$bmi)
 ```
 
 # Recode Language
@@ -86,10 +88,10 @@ table(ibiccs_clean$q2)
 ibiccs_clean <- ibiccs_clean %>%
   mutate(health = case_when(
     q2 == "Excellent" ~ "Excellent",
-    q2 == "Très bon" ~ "Excellent",
+    q2 == "Très bon" ~ "Very Good",
     q2 == "Bon" ~ "Good",
-    q2 == "Moyen" ~ "Poor",
-    q2 == "Mauvais" ~ "Poor"
+    q2 == "Moyen" ~ "Poor/Fair",
+    q2 == "Mauvais" ~ "Poor/Fair"
   ))
 table(ibiccs_clean$q2, ibiccs_clean$health)
 ```
@@ -342,16 +344,16 @@ summary(ibiccs_clean$q46b)
 table(ibiccs_clean$q47)
 ibiccs_clean <- ibiccs_clean %>%
   mutate(ethnicity = case_when(
-    q47 == "Amérindien des États-Unis / Autochtone d'Amérique" ~ "Native American",
+    q47 == "Amérindien des États-Unis / Autochtone d'Amérique" ~ "Native American/Indigenous",
     q47 == "Arabe (Moyen-Orient, Afrique du Nord)" ~ "Other",
     q47 == "Asiatique / insulaire du Pacifique" ~ "Asian",
     q47 == "Autre" ~ "Other",
-    q47 == "Blanc(che) / Caucasien" ~ "Causcasian",
+    q47 == "Blanc(che) / Caucasien" ~ "Caucasian",
     q47 == "Hispanique / Latino / Espagnol(e)" ~ "Hispanic",
     q47 == "Indien / Pakistanais" ~ "Other",
     q47 == "Jewish" ~ "Other",
     q47 == "Mixed / Mixed race / Bi-racial" ~ "Other",
-    q47 == "Noir(e) / Africain(e) / Afro-Américain(e)" ~ "African American"
+    q47 == "Noir(e) / Africain(e) / Afro-Américain(e)" ~ "African American/Canadian"
   ))
 table(ibiccs_clean$q47, ibiccs_clean$ethnicity)
 ```
@@ -419,13 +421,13 @@ table(ibiccs_clean$Q52_occupational_status_category, ibiccs_clean$occupation_sta
 table(ibiccs_clean$q53)
 ibiccs_clean <- ibiccs_clean %>%
   mutate(household_income = case_when(
-    q53 == "Moins de 10000 $ par année" ~ "$0-$19999",
-    q53 == "Entre 10000 $ and 19999 $ par année" ~ "$0-$19999",
-    q53 == "Entre 20000 $ and 34999 $ par année" ~ "$20000-$49999",
-    q53 == "Entre 35000 $ and 49999 $ par année" ~ "$20000-$49999",
-    q53 == "Entre 50000 $ and 74999 $ par année" ~ "$50000-$74999",
-    q53 == "Entre 75000 $ and 99999 $ par année" ~ "$75000-$99999",
-    q53 == "Entre 100000 $ and 149999 $ par année" ~ "$100000-149999",
+    q53 == "Moins de 10000 $ par année" ~ "$0-$49999",
+    q53 == "Entre 10000 $ and 19999 $ par année" ~ "$0-$49999",
+    q53 == "Entre 20000 $ and 34999 $ par année" ~ "$0-$49999",
+    q53 == "Entre 35000 $ and 49999 $ par année" ~ "$0-$49999",
+    q53 == "Entre 50000 $ and 74999 $ par année" ~ "$50000-$99999",
+    q53 == "Entre 75000 $ and 99999 $ par année" ~ "$50000-$99999",
+    q53 == "Entre 100000 $ and 149999 $ par année" ~ "$100000-$149999",
     q53 == "Entre 150000 $ and 199999 $ par année" ~ "$150000+",
     q53 == "Plus de 200000 $ par année" ~ "$150000+",
     q53 == "Refuse de répondre" ~ "Missing"
@@ -609,20 +611,15 @@ summary(med.out)
 
 # Step 2: Add all covariates *Focus*
 ```{r}
-med.fit <- glm(GroceryScore ~ WalkScore + language + ville + gender + health + physically_active + q42 + marital_status + country_born + motor_vehicle_access + day_per_week_motor_vehicle + day_per_week_public_transit + day_per_week_walking + day_per_week_bike + children_household + common_transportation + ethnicity + pa_level, family = gaussian(link = "identity"), data = ibiccs_cc) 
+med.fit <- glm(GroceryScore ~ WalkScore + ville + gender + health + physically_active + q42 + marital_status + day_per_week_motor_vehicle + day_per_week_public_transit + day_per_week_walking + day_per_week_bike + children_household + common_transportation + ethnicity + pa_level, family = gaussian(link = "identity"), data = ibiccs_cc) 
 summary(med.fit)
 
-out.fit <- glm(bmi ~ WalkScore * GroceryScore + language + ville + gender + health + physically_active + q42 + marital_status + country_born + motor_vehicle_access + day_per_week_motor_vehicle + day_per_week_public_transit + day_per_week_walking + day_per_week_bike + children_household + common_transportation + ethnicity + pa_level, family = gaussian(link = "identity"), data = ibiccs_cc)
+out.fit <- glm(bmi ~ WalkScore * GroceryScore + ville + gender + health + physically_active + q42 + marital_status + day_per_week_motor_vehicle + day_per_week_public_transit + day_per_week_walking + day_per_week_bike + children_household + common_transportation + ethnicity + pa_level, family = gaussian(link = "identity"), data = ibiccs_cc)
 summary(out.fit)
 
 med.out <- mediate(med.fit, out.fit, treat = "WalkScore", mediator = "GroceryScore", sims = 100) 
 summary(med.out)
 ```
-Interpretation:
-Total: 1-unit change in WalkScore results in a .01 (-0.004-0.03) increase in BMI when GroceryScore is included.
-ADE: 1-unit change in WalkScore results in a .009 (-0.01-0.00) decrease in BMI when GroceryScore is fixed.
-ACME: 1-unit change in GroceryScore results in .02 (0.01-0.03) increase in BMI when WalkScore is fixed.
-Prop. 1.72 (-3.71-7.85)
 
 ## DiningandDrinkingScore
 ```{r}
@@ -638,20 +635,16 @@ summary(med.out)
 
 # Step 2: Add all covariates *Focus*
 ```{r}
-med.fit <- glm(DiningandDrinkingScore ~ WalkScore + language + ville + gender + health + physically_active + q42 + marital_status + country_born + motor_vehicle_access + day_per_week_motor_vehicle + day_per_week_public_transit + day_per_week_walking + day_per_week_bike + children_household + common_transportation + ethnicity + pa_level, family = gaussian(link = "identity"), data = ibiccs_cc) 
+med.fit <- glm(DiningandDrinkingScore ~ WalkScore + ville + gender + health + physically_active + q42 + marital_status + day_per_week_motor_vehicle + day_per_week_public_transit + day_per_week_walking + day_per_week_bike + children_household + common_transportation + ethnicity + pa_level, family = gaussian(link = "identity"), data = ibiccs_cc) 
 summary(med.fit)
 
-out.fit <- glm(bmi ~ WalkScore * DiningandDrinkingScore + language + ville + gender + health + physically_active + q42 + marital_status + country_born + motor_vehicle_access + day_per_week_motor_vehicle + day_per_week_public_transit + day_per_week_walking + day_per_week_bike + children_household + common_transportation + ethnicity + pa_level, family = gaussian(link = "identity"), data = ibiccs_cc)
+out.fit <- glm(bmi ~ WalkScore * DiningandDrinkingScore + ville + gender + health + physically_active + q42 + marital_status + day_per_week_motor_vehicle + day_per_week_public_transit + day_per_week_walking + day_per_week_bike + children_household + common_transportation + ethnicity + pa_level, family = gaussian(link = "identity"), data = ibiccs_cc)
 summary(out.fit)
 
 med.out <- mediate(med.fit, out.fit, treat = "WalkScore", mediator = "DiningandDrinkingScore", sims = 100) 
 summary(med.out)
 ```
-Interpretation:
-Total: 1-unit change in WalkScore results in a .02 (0.006-0.04) increase in BMI when DiningandDrinkingScore is included.
-ADE: 1-unit change in WalkScore results in a .02 (0.008-0.04) increase in BMI when DiningandDrinkingScore is fixed.
-ACME: 1-unit change in DiningandDrinkingScore results in .001 (-0.01-0.01) increase in BMI when WalkScore is fixed.
-Prop: 0.07 (-0.65-0.55)
+
 
 ### List of next steps
 - Add in the city level model with glmer and interpretation
