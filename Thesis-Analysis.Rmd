@@ -3,9 +3,9 @@ title: "ThesisAnalysis"
 author: "Kassia Orychock"
 date: '2019-01-31'
 output:
-  pdf_document: default
   html_document:
     keep_md: yes
+  pdf_document: default
 ---
 
 ```{r, echo = FALSE, warning = FALSE}
@@ -334,11 +334,6 @@ ibiccs_clean <- ibiccs_clean %>%
 table(ibiccs_clean$q45, ibiccs_clean$children_household)
 ```
 
-# Recode Months in Current Home?
-```{r}
-summary(ibiccs_clean$q46b)
-```
-
 # Recode Ethnicity
 ```{r}
 table(ibiccs_clean$q47)
@@ -537,7 +532,7 @@ plot(hist_diningdrinkingscore_city)
 
 # Linear Regression
 ```{r}
-explanatory <- c('language', 'ville', 'gender', 'health', 'physically_active', 'q42', 'marital_status', 'country_born', 'motor_vehicle_access', 'occupation_status', 'bmi_category', 'WalkScore', 'TransitScore', 'BikeScore', 'DiningandDrinkingScore', 'GroceryScore', 'day_per_week_motor_vehicle', 'day_per_week_public_transit', 'day_per_week_walking', 'day_per_week_bike', 'children_household')
+explanatory <- c('language', 'ville', 'gender', 'health', 'physically_active', 'q42', 'marital_status', 'country_born', 'motor_vehicle_access', 'occupation_status', 'bmi_category', 'WalkScore', 'DiningandDrinkingScore', 'GroceryScore', 'day_per_week_motor_vehicle', 'day_per_week_public_transit', 'day_per_week_walking', 'day_per_week_bike', 'children_household')
 dependent <- "bmi"
 ibiccs %>%
   finalfit.lm(dependent, explanatory, na.rm = TRUE)
@@ -563,8 +558,8 @@ pa_lvl_reg <- lm(bmi ~ factor(pa_level), data = ibiccs)
 summary(pa_lvl_reg)
 confint(pa_lvl_reg)
 ```
-Interpretation: What covariates are we keeping?
-'language', 'ville', 'gender', 'health', 'physically_active', 'q42', 'marital_status', 'country_born', 'motor_vehicle_access', 'occupation_status', 'bmi_category', 'WalkScore', 'DiningandDrinkingScore', 'GroceryScore', 'day_per_week_motor_vehicle', 'day_per_week_public_transit', 'day_per_week_walking', 'day_per_week_bike', 'children_household', 'education', 'common_transportation', 'household_income', 'ethnicity', 'pa_level'
+Retained:
+'ville', 'gender', 'health', 'q42', 'day_per_week_motor_vehicle', 'day_per_week_walking', 'children_household', 'common_transportation', 'ethnicity', 'pa_level'
 
 # Linear Regression
 ```{r}
@@ -611,10 +606,10 @@ summary(med.out)
 
 # Step 2: Add all covariates *Focus*
 ```{r}
-med.fit <- glm(GroceryScore ~ WalkScore + ville + gender + health + physically_active + q42 + marital_status + day_per_week_motor_vehicle + day_per_week_public_transit + day_per_week_walking + day_per_week_bike + children_household + common_transportation + ethnicity + pa_level, family = gaussian(link = "identity"), data = ibiccs_cc) 
+med.fit <- glm(GroceryScore ~ WalkScore + ville + gender + health + q42 + day_per_week_motor_vehicle + day_per_week_walking + children_household + common_transportation + ethnicity + pa_level, family = gaussian(link = "identity"), data = ibiccs_cc) 
 summary(med.fit)
 
-out.fit <- glm(bmi ~ WalkScore * GroceryScore + ville + gender + health + physically_active + q42 + marital_status + day_per_week_motor_vehicle + day_per_week_public_transit + day_per_week_walking + day_per_week_bike + children_household + common_transportation + ethnicity + pa_level, family = gaussian(link = "identity"), data = ibiccs_cc)
+out.fit <- glm(bmi ~ WalkScore * GroceryScore + ville + gender + health + q42 + day_per_week_motor_vehicle + day_per_week_walking + children_household + common_transportation + ethnicity + pa_level, family = gaussian(link = "identity"), data = ibiccs_cc)
 summary(out.fit)
 
 med.out <- mediate(med.fit, out.fit, treat = "WalkScore", mediator = "GroceryScore", sims = 100) 
@@ -635,10 +630,10 @@ summary(med.out)
 
 # Step 2: Add all covariates *Focus*
 ```{r}
-med.fit <- glm(DiningandDrinkingScore ~ WalkScore + ville + gender + health + physically_active + q42 + marital_status + day_per_week_motor_vehicle + day_per_week_public_transit + day_per_week_walking + day_per_week_bike + children_household + common_transportation + ethnicity + pa_level, family = gaussian(link = "identity"), data = ibiccs_cc) 
+med.fit <- glm(DiningandDrinkingScore ~ WalkScore + ville + gender + health + q42 + day_per_week_motor_vehicle + day_per_week_walking + children_household + common_transportation + ethnicity + pa_level, family = gaussian(link = "identity"), data = ibiccs_cc) 
 summary(med.fit)
 
-out.fit <- glm(bmi ~ WalkScore * DiningandDrinkingScore + ville + gender + health + physically_active + q42 + marital_status + day_per_week_motor_vehicle + day_per_week_public_transit + day_per_week_walking + day_per_week_bike + children_household + common_transportation + ethnicity + pa_level, family = gaussian(link = "identity"), data = ibiccs_cc)
+out.fit <- glm(bmi ~ WalkScore * DiningandDrinkingScore + ville + gender + health + q42 + day_per_week_motor_vehicle + day_per_week_walking + children_household + common_transportation + ethnicity + pa_level, family = gaussian(link = "identity"), data = ibiccs_cc)
 summary(out.fit)
 
 med.out <- mediate(med.fit, out.fit, treat = "WalkScore", mediator = "DiningandDrinkingScore", sims = 100) 
